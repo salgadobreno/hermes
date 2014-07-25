@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.avixy</groupId>
+    <artifactId>qrt-bootloader-tool</artifactId>
+    <name>com.avixy.qrt.bootloader-tool</name>
+
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>
+    
+    <organization>
+        <!-- Used as the 'Vendor' for JNLP generation -->
+        <name>Avixy</name>
+    </organization>
+
+    <properties>
+        <slf4j.version>1.6.1</slf4j.version>
+    </properties>
+
+    <build>
+
+        <finalName>qrt-bootloader-tool</finalName>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <mainClass>br.com.avixy.qrtoken.gui.MainApp</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+            </plugin>
+            <plugin>
+                <groupId>com.soebes.maven.plugins.dmg</groupId>
+                <artifactId>doxygen-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <configuration>
+                    <projectName>${project.artifactId}</projectName>
+                    <projectNumber>${project.version}</projectNumber>
+                    <optimizeOutputJava>true</optimizeOutputJava>
+                    <extractAll>false</extractAll>
+                    <extractStatic>true</extractStatic>
+                    <recursive>true</recursive>
+                    <umlLook>false</umlLook>
+                    <generateLatex>false</generateLatex>
+                    <generateHtml>true</generateHtml>
+                    <outputDirectory>${basedir}/target/doc</outputDirectory>
+                    <javadocAutobrief>true</javadocAutobrief>
+                    <exclude>${basedir}/src/test</exclude>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.glxn</groupId>
+            <artifactId>qrgen</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- Apache Commons -->
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
