@@ -1,0 +1,10 @@
+digraph "C:/Users/I7/IdeaProjects/qrt-interface-sw/src/main/java/com/avixy/qrtoken/negocio" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="FreeSans"];
+  edge [ labelfontsize="10", labelfontname="FreeSans"];
+  subgraph clusterdir_a2a9eb623d92a15ee6cd69e317a29e44 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="qrtoken" fontname="FreeSans", fontsize="10", URL="dir_a2a9eb623d92a15ee6cd69e317a29e44.html"]
+  dir_aa552b972fa6e77422e9167be4ca259d [shape=box, label="negocio", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_aa552b972fa6e77422e9167be4ca259d.html"];
+  }
+}

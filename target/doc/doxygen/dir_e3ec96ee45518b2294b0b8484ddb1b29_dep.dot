@@ -1,0 +1,14 @@
+digraph "C:/Users/I7/IdeaProjects/qrt-interface-sw/src/main" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="FreeSans"];
+  edge [ labelfontsize="10", labelfontname="FreeSans"];
+  subgraph clusterdir_950fd61918d0c3dc3098201175978982 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="FreeSans", fontsize="10", URL="dir_950fd61918d0c3dc3098201175978982.html"]
+  subgraph clusterdir_e3ec96ee45518b2294b0b8484ddb1b29 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_e3ec96ee45518b2294b0b8484ddb1b29.html"];
+    dir_e3ec96ee45518b2294b0b8484ddb1b29 [shape=plaintext label="main"];
+    dir_b6981248969007109617684d93f97ef5 [shape=box label="java" color="red" fillcolor="white" style="filled" URL="dir_b6981248969007109617684d93f97ef5.html"];
+  }
+  }
+}
