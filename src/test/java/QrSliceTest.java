@@ -2,6 +2,8 @@ import com.avixy.qrtoken.negocio.QrSlice;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -29,5 +31,13 @@ public class QrSliceTest {
         // should right-pad the result
         QrSlice slice = new QrSlice(header, dados, 11);
         assertEquals(slice.getDados().charAt(10), '0');
+    }
+
+    @Test
+    public void testLosslessBytes(){
+        // data in should == bytes out
+        byte[] someChars = {40,50,60,70,30,20,21,45};
+        QrSlice slice = new QrSlice(Arrays.copyOfRange(someChars, 0, 4), Arrays.copyOfRange(someChars, 4, someChars.length), someChars.length);
+        assertArrayEquals(someChars, slice.getDados().getBytes());
     }
 }
