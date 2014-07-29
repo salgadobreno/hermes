@@ -3,6 +3,8 @@ package com.avixy.qrtoken.negocio;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 
+import java.util.Arrays;
+
 /**
  * A non-instantiable class that wraps and applies business rules concerning QR Code messages
  *
@@ -22,13 +24,13 @@ public class QrCodePolicy {
 
     /**
      * Creates a list of <code>QrSlice</code> for a given <code>content</code>, <code>Version</code>, <code>ErrorCorrectionLevel</code>
-     * @param content       String representation of the full content to be made into one or more QR Code messages
+     * @param content       byte array of the full content to be made into one or more QR Code messages
      * @param version       QR Code <code>Version</code> to be used in the QR(s)
      * @param ecLevel       <code>ErrorCorrectionLevel</code> to be used in the QR(s)
      * @return              A list of QrSlices
      */
-    public static QrSlice[] getQrsFor(String content, Version version, ErrorCorrectionLevel ecLevel) {
-        QrSetup setup = new QrSetup(version, ecLevel, content.length());
+    public static QrSlice[] getQrsFor(byte[] content, Version version, ErrorCorrectionLevel ecLevel) {
+        QrSetup setup = new QrSetup(version, ecLevel, content.length);
 
         int qtdDeQrs = setup.getQrQuantityFor(getHeaderSize());
         int usableBytes = setup.getUsableBytesFor(getHeaderSize());
@@ -38,11 +40,11 @@ public class QrCodePolicy {
         for (int i = 0; i < slices.length; i++) {
             boolean last = i == (slices.length - 1);
             if (last) {
-                String data = content.substring(usableBytes * i);
-                slices[i] = new QrSlice(calcHeader(qtdDeQrs, i, data.length()).getBytes(), data.getBytes(), availableCodewordsForSetup);
+                byte[] data = Arrays.copyOfRange(content, usableBytes * i, content.length);
+                slices[i] = new QrSlice(calcHeader(qtdDeQrs, i, data.length).getBytes(), data, availableCodewordsForSetup);
             } else {
-                String data = content.substring(usableBytes * i, usableBytes * (i + 1));
-                slices[i] = new QrSlice(calcHeader(qtdDeQrs, i, data.length()).getBytes(), data.getBytes(), availableCodewordsForSetup);
+                byte[] data = Arrays.copyOfRange(content, usableBytes * i, usableBytes * (i + 1));
+                slices[i] = new QrSlice(calcHeader(qtdDeQrs, i, data.length).getBytes(), data, availableCodewordsForSetup);
             }
         }
 

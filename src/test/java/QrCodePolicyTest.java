@@ -31,6 +31,6 @@ public class QrCodePolicyTest {
         String content = "blablabla";
 
         QrSetup setup = new QrSetup(version, errorCorrectionLevel, content.length());
-        assertEquals(setup.getQrQuantityFor(QrCodePolicy.getHeaderSize()), QrCodePolicy.getQrsFor(content, version, errorCorrectionLevel).length);
+        assertEquals(setup.getQrQuantityFor(QrCodePolicy.getHeaderSize()), QrCodePolicy.getQrsFor(content.getBytes(), version, errorCorrectionLevel).length);
     }
 }

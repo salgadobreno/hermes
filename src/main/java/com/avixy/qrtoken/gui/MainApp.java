@@ -23,7 +23,7 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(root);
 
-        stage.setTitle("Avixy QR Player");
+        stage.setTitle("Hermes - Avixy QR Player");
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.setScene(scene);

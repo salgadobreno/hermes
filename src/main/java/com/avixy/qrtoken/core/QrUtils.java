@@ -18,7 +18,7 @@ public class QrUtils {
      *
      * @param dados
      * @param ecLevel
-     * @return
+     * @return A ByteArrayInputStream of the QR Code image.
      */
     public static InputStream generate(String dados, ErrorCorrectionLevel ecLevel){
         QRCode qrCode = QRCode.from(dados).withCharset("ISO-8859-1");

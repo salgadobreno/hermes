@@ -1,7 +1,7 @@
 var classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController =
 [
     [ "gerarQr", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#a51271d3a4f6a9dc3f6c2d07d97de8e22", null ],
-    [ "getContent", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#a75b56ec8e8d01dc32c516a56f6c15f69", null ],
+    [ "getContent", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#a7f81b2346994dbf7837f53f08e63b84b", null ],
     [ "getECLevel", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#a7b5bf9857e18e6b4e7a456ec71b4f835", null ],
     [ "getSetup", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#af8e3dd87023dbe62e29b05dea999ab4b", null ],
     [ "getVersion", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html#a80824bbc7c1519820f738c450b074946", null ],

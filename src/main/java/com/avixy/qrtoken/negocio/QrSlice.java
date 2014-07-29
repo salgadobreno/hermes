@@ -2,6 +2,8 @@ package com.avixy.qrtoken.negocio;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.nio.charset.Charset;
+
 /**
  * Represents a slice of data to be sent in a QR Code
  *
@@ -11,9 +13,9 @@ import org.apache.commons.lang.StringUtils;
  * @since 08/07/2014
  */
 public class QrSlice {
-    private byte[] header;
     private byte[] dados;
     private int length;
+    Charset CHARSET = Charset.forName("ISO-8859-1");
 
     /**
      * Creates a new QrSlice.
@@ -26,9 +28,11 @@ public class QrSlice {
      */
     public QrSlice(byte[] header, byte[] dados, int length) {
         if (header.length + dados.length > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
-        this.header = header;
-        this.dados = dados;
         this.length = length;
+        this.dados = new byte[header.length + dados.length];
+
+        System.arraycopy(header, 0, this.dados, 0, header.length);
+        System.arraycopy(dados, 0, this.dados, header.length, dados.length);
     }
 
     /**
@@ -37,7 +41,6 @@ public class QrSlice {
      * @return A new String with the <code>header</code> + <code>dados</code>, padded to the right with zeroes
      */
     public String getDados(){
-        String str = new String(header).concat(new String(dados));
-        return StringUtils.rightPad(str, length, '0');
+        return StringUtils.rightPad(new String(dados, CHARSET), length, '0');
     }
 }

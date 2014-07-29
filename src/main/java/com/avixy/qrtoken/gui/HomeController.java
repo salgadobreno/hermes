@@ -30,10 +30,9 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -41,6 +40,7 @@ import java.util.concurrent.Callable;
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class HomeController {
+    private Charset CHARSET = Charset.forName("ISO-8859-1");
 
     @FXML
     private VBox qrDisplayVBox;
@@ -56,6 +56,8 @@ public class HomeController {
     private TextField tTimerField;
     @FXML
     private TextField tPrimeiroQrField;
+    @FXML
+    private TitledPane manualInputTitledPane;
 
     @FXML
     private Label quantidadeQrsLabel;
@@ -83,6 +85,7 @@ public class HomeController {
 
     Timer timer;
     Boolean timerRunning = false;
+    File fileToLoad;
 
     Stage zoomStage;
 
@@ -98,6 +101,15 @@ public class HomeController {
         bytesPorEcLabel.textProperty().bind(bytesPorEcFormat);
         quantidadeQrsLabel.textProperty().bind(quantidadeQrsFormat);
 
+        manualInputTitledPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean previousValue, Boolean newValue) {
+                if (newValue) {
+                    fileToLoad = null;
+                    resetQrDisplay();
+                }
+            }
+        });
         capacidadeProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -133,9 +145,12 @@ public class HomeController {
             }
         }, contentField.textProperty(), qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
-        // Setar os níveis de QR no combo
-        Integer[] levels = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-        ObservableList<Integer> list = FXCollections.observableList(Arrays.asList(levels));
+        // Setar os niveis de QR no combo
+        List<Integer> levels = new ArrayList<Integer>();
+        for (int i = 1; i <= 40; i++) {
+            levels.add(i);
+        }
+        ObservableList<Integer> list = FXCollections.observableList(levels);
         qrVersionField.setItems(list);
 
         correctionLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -173,19 +188,16 @@ public class HomeController {
     }
 
     public void gerarQr() {
-        if (contentField.getLength() > 0) {
+        if (getContent().length < 1){ qrView.setImage(null); return; }
+        byte[] content = getContent();
+        QrSlice[] qrs = QrCodePolicy.getQrsFor(content, getVersion(), getECLevel());
 
-            QrSlice[] qrs = QrCodePolicy.getQrsFor(getContent(), getVersion(), getECLevel());
+        QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
+//        System.out.println("-> " + currQr.getDados());
+//        System.out.println("--- length: " + currQr.getDados().length());
+        Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
 
-            QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
-            //System.out.println("-> " + currQr.getDados());
-            //System.out.println("--- length: " + currQr.getDados().length());
-            Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
-
-            qrView.setImage(image);
-        } else {
-            qrView.setImage(null);
-        }
+        qrView.setImage(image);
     }
 
     public void resetQrDisplay() {
@@ -235,8 +247,19 @@ public class HomeController {
         return Version.getVersionForNumber(qrVersionField.getValue());
     }
 
-    public String getContent() {
-        return contentField.getText();
+    public byte[] getContent() {
+        if (fileToLoad != null) {
+            try {
+                byte[] x =  Files.readAllBytes(fileToLoad.toPath());
+                return Files.readAllBytes(fileToLoad.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "".getBytes();
+            }
+        } else {
+            String text = contentField.getText() == null ? "" : contentField.getText();
+            return text.getBytes(CHARSET);
+        }
     }
 
     public ErrorCorrectionLevel getECLevel() {
@@ -278,13 +301,16 @@ public class HomeController {
     public void loadFile() throws IOException {
         Window window = qrView.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
+
+        manualInputTitledPane.setExpanded(false);
+
         fileChooser.setTitle("Importar conteúdo de arquivo");
-        File file = fileChooser.showOpenDialog(window);
-        contentField.setText(new String(Files.readAllBytes(file.toPath())));
+        fileToLoad = fileChooser.showOpenDialog(window);
+
         gerarQr();
     }
 
     public QrSetup getSetup(){
-        return new QrSetup(getVersion(), getECLevel(), getContent().length());
+        return new QrSetup(getVersion(), getECLevel(), getContent().length);
     }
 }

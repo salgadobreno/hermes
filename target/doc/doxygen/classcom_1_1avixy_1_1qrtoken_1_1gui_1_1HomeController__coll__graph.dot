@@ -8,6 +8,6 @@ digraph "com.avixy.qrtoken.gui.HomeController"
   Node2 [label="Stage",height=0.2,width=0.4,color="grey75"];
   Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" capacidadeFormat\nbytesPorDadosFormat\nbytesPorEcFormat\nquantidadeQrsFormat" ,fontname="FreeSans"];
   Node3 [label="StringExpression",height=0.2,width=0.4,color="grey75"];
-  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" timer" ,fontname="FreeSans"];
-  Node4 [label="Timer",height=0.2,width=0.4,color="grey75"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fileToLoad" ,fontname="FreeSans"];
+  Node4 [label="File",height=0.2,width=0.4,color="grey75"];
 }

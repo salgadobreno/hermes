@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.avixy.qrtoken.gui.HomeController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.HomeController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -27,8 +27,7 @@
                         <Bloom />
                      </effect></Separator>
                   <Button layoutX="382.0" layoutY="137.0" mnemonicParsing="false" onAction="#gerarQr" text="Ver" />
-                  <TextArea fx:id="contentField" layoutX="24.0" layoutY="142.0" prefHeight="205.0" prefWidth="190.0" promptText="Ctrl+V" wrapText="true" />
-                  <Label layoutX="24.0" layoutY="117.0" text="Content" />
+                  <Label layoutX="14.0" layoutY="117.0" text="Content" />
                   <Label layoutX="221.0" layoutY="117.0" text="QR Version" />
                   <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="598.0" layoutY="139.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                   <Label layoutX="544.0" layoutY="204.0" rotate="-90.0" text="Err Correction level" />
@@ -79,7 +78,20 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="156.0" layoutY="113.0" mnemonicParsing="false" onAction="#loadFile" text="Arquivo" />
+                  <Accordion layoutX="14.0" layoutY="161.0" prefHeight="177.0" prefWidth="202.0">
+                    <panes>
+                      <TitledPane fx:id="manualInputTitledPane" expanded="false" prefHeight="188.0" prefWidth="202.0" text="Input manual">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="146.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea fx:id="contentField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="152.0" prefWidth="196.0" promptText="Ctrl+V" wrapText="true" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+                  <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="14.0" layoutY="136.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="20.0" prefWidth="202.0" text="Carregar arquivo" />
                   <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
                </children>
             </Pane>
