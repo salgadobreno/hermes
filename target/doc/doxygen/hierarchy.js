@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "com.avixy.qrtoken.gui.BootloaderController", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1BootloaderController.html", null ],
     [ "com.avixy.qrtoken.gui.HomeController", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html", null ],
     [ "com.avixy.qrtoken.negocio.qrcode.QrCodePolicy", "classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrCodePolicy.html", null ],
     [ "com.avixy.qrtoken.negocio.qrcode.QrSetup", "classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html", null ],

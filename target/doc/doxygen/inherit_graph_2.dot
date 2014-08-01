@@ -4,7 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
   node [fontname="FreeSans",fontsize="10",shape=record];
   rankdir="LR";
-  Node1 [label="Application",height=0.2,width=0.4,color="grey75"];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node2 [label="com.avixy.qrtoken.gui.MainApp",height=0.2,width=0.4,color="black",URL="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1MainApp.html",tooltip="Created on 08/07/2014. "];
+  Node1 [label="com.avixy.qrtoken.gui.Home\lController",height=0.2,width=0.4,color="black",URL="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html",tooltip="Created by I7 on 01/08/2014. "];
 }

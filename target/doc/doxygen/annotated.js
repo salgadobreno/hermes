@@ -7,7 +7,8 @@ var annotated =
             [ "QrUtils", "classcom_1_1avixy_1_1qrtoken_1_1core_1_1QrUtils.html", "classcom_1_1avixy_1_1qrtoken_1_1core_1_1QrUtils" ]
           ] ],
           [ "gui", null, [
-            [ "HomeController", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController" ],
+            [ "BootloaderController", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1BootloaderController.html", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1BootloaderController" ],
+            [ "HomeController", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1HomeController.html", null ],
             [ "MainApp", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1MainApp.html", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1MainApp" ]
           ] ],
           [ "negocio", null, [

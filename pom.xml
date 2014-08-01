@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.avixy</groupId>
-    <artifactId>qrt-bootloader-tool</artifactId>
+    <artifactId>hermes-qrt-interface-sw</artifactId>
     <name>com.avixy.qrt.hermes-qrt-interface-sw</name>
 
     <packaging>jar</packaging>
@@ -18,10 +18,16 @@
     <properties>
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>extfx</id>
+            <url>file://${project.basedir}/extfx</url>
+        </repository>
+    </repositories>
 
     <build>
 
-        <finalName>qrt-bootloader-tool</finalName>
+        <finalName>hermes-qrt-interface-sw</finalName>
 
         <plugins>
 
@@ -80,6 +86,12 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>extfx</groupId>
+            <artifactId>extfx</artifactId>
+            <version>0.3</version>
         </dependency>
     </dependencies>
 </project>

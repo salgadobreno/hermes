@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "qrt-bootloader-tool", "index.html", [
+  [ "hermes-qrt-interface-sw", "index.html", [
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
