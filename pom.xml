@@ -5,7 +5,7 @@
 
     <groupId>com.avixy</groupId>
     <artifactId>qrt-bootloader-tool</artifactId>
-    <name>com.avixy.qrt.bootloader-tool</name>
+    <name>com.avixy.qrt.hermes-qrt-interface-sw</name>
 
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
