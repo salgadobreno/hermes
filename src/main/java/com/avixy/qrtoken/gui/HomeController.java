@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.negocio.QrCodePolicy;
-import com.avixy.qrtoken.negocio.QrSetup;
-import com.avixy.qrtoken.negocio.QrSlice;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.qrcode.QrSlice;
 import com.avixy.qrtoken.core.QrUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
@@ -41,6 +41,8 @@ import java.util.concurrent.Callable;
  */
 public class HomeController {
     private Charset CHARSET = Charset.forName("ISO-8859-1");
+
+    private QrCodePolicy policy = new QrCodePolicy();
 
     @FXML
     private VBox qrDisplayVBox;
@@ -120,28 +122,28 @@ public class HomeController {
         bytesPorEcProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return QrCodePolicy.ecBytesFor(getSetup());
+                return getSetup().getEcBytes();
             }
         }, qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
         bytesPorDadosProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return QrCodePolicy.usableBytesFor(getSetup());
+                return getSetup().getUsableBytes();
             }
         }, qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
         bytesPHeaderProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return QrCodePolicy.getHeaderSize();
+                return policy.getHeaderSize();
             }
         }));
 
         quantidadeQrsProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return QrCodePolicy.qrQtyFor(getSetup());
+                return getSetup().getQrQuantity();
             }
         }, contentField.textProperty(), qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
@@ -190,7 +192,7 @@ public class HomeController {
     public void gerarQr() {
         if (getContent().length < 1){ qrView.setImage(null); return; }
         byte[] content = getContent();
-        QrSlice[] qrs = QrCodePolicy.getQrsFor(content, getVersion(), getECLevel());
+        QrSlice[] qrs = policy.getQrsFor(getSetup());
 
         QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
 //        System.out.println("-> " + currQr.getDados());
@@ -311,6 +313,6 @@ public class HomeController {
     }
 
     public QrSetup getSetup(){
-        return new QrSetup(getVersion(), getECLevel(), getContent().length);
+        return new QrSetup(policy, getVersion(), getECLevel(), getContent());
     }
 }

@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio;
+package com.avixy.qrtoken.negocio.qrcode;
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
@@ -18,48 +18,49 @@ public class QrSetup {
 
     private ErrorCorrectionLevel ecLevel;
 
-    private Integer contentSize;
+    private byte[] content;
+
+    private QrCodePolicy policy;
 
     /**
      * @param version
      * @param ecLevel
-     * @param contentSize
+     * @param content
      */
-    public QrSetup(Version version, ErrorCorrectionLevel ecLevel, int contentSize) {
+    public QrSetup(QrCodePolicy policy, Version version, ErrorCorrectionLevel ecLevel, byte[] content) {
         this.version = version;
         this.ecLevel = ecLevel;
-        this.contentSize = contentSize;
+        this.content = content;
+        this.policy = policy;
     }
 
     /**
-     * @param headerSize
      * @return The number of QR Codes it'll take to send a message in this setup given a header of
      * <code>headerSize</code>
      */
-    public int getQrQuantityFor(int headerSize){
-        Double div = Math.ceil(contentSize.doubleValue() / getUsableBytesFor(headerSize));
+    public int getQrQuantity(){
+        Double div = Math.ceil(((Integer)content.length).doubleValue() / getUsableBytes());
         return div.intValue();
     }
 
     /**
-     * @param headerSize
-     * @return The number of bytes that can be used for data in this setup given a header of <code>headerSize</code>
+     * @return The number of bytes that can be used for data in this setup
      */
-    public int getUsableBytesFor(int headerSize){
-        return getAvailableBytes() - headerSize;
+    public int getUsableBytes(){
+        return getAvailableBytes() - policy.getHeaderSize();
     }
 
     /**
      * @return The number of data bytes available for use in this setup
      */
     public int getAvailableBytes(){
-        return version.getTotalCodewords() - getErrorCorrectionBytes() - getBytesForModeAndCharCount();
+        return version.getTotalCodewords() - getEcBytes() - getBytesForModeAndCharCount();
     }
 
     /**
      * @return The number of bytes reserved for Error Correction in this setup
      */
-    public int getErrorCorrectionBytes(){
+    public int getEcBytes(){
         return version.getECBlocksForLevel(ecLevel).getTotalECCodewords();
     }
 
@@ -68,6 +69,22 @@ public class QrSetup {
      */
     public int getTotalBytes() {
         return version.getTotalCodewords();
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public ErrorCorrectionLevel getEcLevel() {
+        return ecLevel;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public Integer getContentLength() {
+        return content.length;
     }
 
     private int getBytesForModeAndCharCount(){

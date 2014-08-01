@@ -10,7 +10,7 @@ digraph "C:/Users/I7/IdeaProjects/qrt-interface-sw/src/main/java/com/avixy/qrtok
     dir_a2a9eb623d92a15ee6cd69e317a29e44 [shape=plaintext label="qrtoken"];
     dir_5ad74f4542541773649d05c28ec891a1 [shape=box label="core" color="black" fillcolor="white" style="filled" URL="dir_5ad74f4542541773649d05c28ec891a1.html"];
     dir_60323ebb148294664b74b97304067b99 [shape=box label="gui" color="black" fillcolor="white" style="filled" URL="dir_60323ebb148294664b74b97304067b99.html"];
-    dir_aa552b972fa6e77422e9167be4ca259d [shape=box label="negocio" color="black" fillcolor="white" style="filled" URL="dir_aa552b972fa6e77422e9167be4ca259d.html"];
+    dir_aa552b972fa6e77422e9167be4ca259d [shape=box label="negocio" color="red" fillcolor="white" style="filled" URL="dir_aa552b972fa6e77422e9167be4ca259d.html"];
   }
   }
 }

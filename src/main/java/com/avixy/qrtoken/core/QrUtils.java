@@ -20,7 +20,7 @@ public class QrUtils {
      * @param ecLevel
      * @return A ByteArrayInputStream of the QR Code image.
      */
-    public static InputStream generate(String dados, ErrorCorrectionLevel ecLevel){
+public static InputStream generate(String dados, ErrorCorrectionLevel ecLevel){
         QRCode qrCode = QRCode.from(dados).withCharset("ISO-8859-1");
         qrCode.withSize(500, 500).to(ImageType.PNG);
         qrCode.withErrorCorrection(ecLevel);

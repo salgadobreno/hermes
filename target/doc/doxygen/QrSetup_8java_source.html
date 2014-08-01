@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>qrt-bootloader-tool: C:/Users/I7/IdeaProjects/qrt-interface-sw/src/main/java/com/avixy/qrtoken/negocio/QrSetup.java Source File</title>
+<title>qrt-bootloader-tool: C:/Users/I7/IdeaProjects/qrt-interface-sw/src/main/java/com/avixy/qrtoken/negocio/qrcode/QrSetup.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,73 +66,93 @@ $(document).ready(function(){initNavTree('QrSetup_8java_source.html','');});
 <div class="title">QrSetup.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>com.avixy.qrtoken.negocio;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>com.avixy.qrtoken.negocio.qrcode;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> com.google.zxing.qrcode.decoder.Version;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html">   15</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html">QrSetup</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html">   15</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html">QrSetup</a> {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">private</span> Version version;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span> ErrorCorrectionLevel ecLevel;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span> Integer contentSize;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span> byte[] content;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#ae301c3fee1ebfc2a939d541130a532d7">   28</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#ae301c3fee1ebfc2a939d541130a532d7">QrSetup</a>(Version version, ErrorCorrectionLevel ecLevel, <span class="keywordtype">int</span> contentSize) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        this.version = version;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        this.ecLevel = ecLevel;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        this.contentSize = contentSize;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a68c2ed54d6112f7f308192418a52186d">   39</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a68c2ed54d6112f7f308192418a52186d">getQrQuantityFor</a>(<span class="keywordtype">int</span> headerSize){</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        Double div = Math.ceil(contentSize.doubleValue() / <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a50edc86cb9ad9b2ba0fb1aff6396bb48">getUsableBytesFor</a>(headerSize));</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> div.intValue();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a50edc86cb9ad9b2ba0fb1aff6396bb48">   48</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a50edc86cb9ad9b2ba0fb1aff6396bb48">getUsableBytesFor</a>(<span class="keywordtype">int</span> headerSize){</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a92ea08cb86ccfaa6aa94487ff603d677">getAvailableBytes</a>() - headerSize;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a92ea08cb86ccfaa6aa94487ff603d677">   55</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a92ea08cb86ccfaa6aa94487ff603d677">getAvailableBytes</a>(){</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> version.getTotalCodewords() - <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#adff831ccb9efbb21a29b89bde5b1afda">getErrorCorrectionBytes</a>() - getBytesForModeAndCharCount();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#adff831ccb9efbb21a29b89bde5b1afda">   62</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#adff831ccb9efbb21a29b89bde5b1afda">getErrorCorrectionBytes</a>(){</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> version.getECBlocksForLevel(ecLevel).getTotalECCodewords();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a3eb25d7f657d59736c2e1e529a2140a2">   69</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a3eb25d7f657d59736c2e1e529a2140a2">getTotalBytes</a>() {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">return</span> version.getTotalCodewords();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span> getBytesForModeAndCharCount(){</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// Ver ISO/IEC 18004:2000 Table 2</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// 4 bits são para indicação de modo</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// 8 ou 16 bits pra indicação de length</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">// +4 bits são completados com terminator(0000), omitido ou abreviado se não houver espaço.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">int</span> versionNumber = version.getVersionNumber();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> (versionNumber &lt; 10){</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">return</span> 3;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrCodePolicy.html">QrCodePolicy</a> policy;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a4fe1bbfba16c9972d266c6b8654f2df4">   30</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a4fe1bbfba16c9972d266c6b8654f2df4">QrSetup</a>(<a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrCodePolicy.html">QrCodePolicy</a> policy, Version version, ErrorCorrectionLevel ecLevel, byte[] content) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        this.version = version;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        this.ecLevel = ecLevel;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        this.content = content;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        this.policy = policy;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a855010d1bbe86457bd33a6d3994adf19">   41</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a855010d1bbe86457bd33a6d3994adf19">getQrQuantity</a>(){</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        Double div = Math.ceil(((Integer)content.length).doubleValue() / <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a1389ec744a80fe0d312400b434abbba4">getUsableBytes</a>());</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> div.intValue();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a1389ec744a80fe0d312400b434abbba4">   49</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a1389ec744a80fe0d312400b434abbba4">getUsableBytes</a>(){</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a71ec423356efd0d04bb28aec8a9a67fa">getAvailableBytes</a>() - policy.getHeaderSize();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a71ec423356efd0d04bb28aec8a9a67fa">   56</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a71ec423356efd0d04bb28aec8a9a67fa">getAvailableBytes</a>(){</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> version.getTotalCodewords() - <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#af1078bb95b17306f90fc8cf830519ac2">getEcBytes</a>() - getBytesForModeAndCharCount();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#af1078bb95b17306f90fc8cf830519ac2">   63</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#af1078bb95b17306f90fc8cf830519ac2">getEcBytes</a>(){</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span> version.getECBlocksForLevel(ecLevel).getTotalECCodewords();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a41051623e06cd61c01dfceeb31c5adc0">   70</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a41051623e06cd61c01dfceeb31c5adc0">getTotalBytes</a>() {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> version.getTotalCodewords();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">public</span> Version getVersion() {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> version;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">public</span> ErrorCorrectionLevel getEcLevel() {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> ecLevel;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">public</span> byte[] getContent() {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">return</span> content;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_adff831ccb9efbb21a29b89bde5b1afda"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#adff831ccb9efbb21a29b89bde5b1afda">com.avixy.qrtoken.negocio.QrSetup.getErrorCorrectionBytes</a></div><div class="ttdeci">int getErrorCorrectionBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00062">QrSetup.java:62</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_a68c2ed54d6112f7f308192418a52186d"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a68c2ed54d6112f7f308192418a52186d">com.avixy.qrtoken.negocio.QrSetup.getQrQuantityFor</a></div><div class="ttdeci">int getQrQuantityFor(int headerSize)</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00039">QrSetup.java:39</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html">com.avixy.qrtoken.negocio.QrSetup</a></div><div class="ttdoc">Encapsulates a Version, ErrorCorrectionLevel and content length and provides utility methods related ...</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00015">QrSetup.java:15</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_a3eb25d7f657d59736c2e1e529a2140a2"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a3eb25d7f657d59736c2e1e529a2140a2">com.avixy.qrtoken.negocio.QrSetup.getTotalBytes</a></div><div class="ttdeci">int getTotalBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00069">QrSetup.java:69</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_ae301c3fee1ebfc2a939d541130a532d7"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#ae301c3fee1ebfc2a939d541130a532d7">com.avixy.qrtoken.negocio.QrSetup.QrSetup</a></div><div class="ttdeci">QrSetup(Version version, ErrorCorrectionLevel ecLevel, int contentSize)</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00028">QrSetup.java:28</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_a50edc86cb9ad9b2ba0fb1aff6396bb48"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a50edc86cb9ad9b2ba0fb1aff6396bb48">com.avixy.qrtoken.negocio.QrSetup.getUsableBytesFor</a></div><div class="ttdeci">int getUsableBytesFor(int headerSize)</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00048">QrSetup.java:48</a></div></div>
-<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup_html_a92ea08cb86ccfaa6aa94487ff603d677"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1QrSetup.html#a92ea08cb86ccfaa6aa94487ff603d677">com.avixy.qrtoken.negocio.QrSetup.getAvailableBytes</a></div><div class="ttdeci">int getAvailableBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00055">QrSetup.java:55</a></div></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">public</span> Integer getContentLength() {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">return</span> content.length;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span> getBytesForModeAndCharCount(){</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// Ver ISO/IEC 18004:2000 Table 2</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">// 4 bits são para indicação de modo</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="comment">// 8 ou 16 bits pra indicação de length</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment">// +4 bits são completados com terminator(0000), omitido ou abreviado se não houver espaço.</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">int</span> versionNumber = version.getVersionNumber();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">if</span> (versionNumber &lt; 10){</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> 3;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_a41051623e06cd61c01dfceeb31c5adc0"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a41051623e06cd61c01dfceeb31c5adc0">com.avixy.qrtoken.negocio.qrcode.QrSetup.getTotalBytes</a></div><div class="ttdeci">int getTotalBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00070">QrSetup.java:70</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_a71ec423356efd0d04bb28aec8a9a67fa"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a71ec423356efd0d04bb28aec8a9a67fa">com.avixy.qrtoken.negocio.qrcode.QrSetup.getAvailableBytes</a></div><div class="ttdeci">int getAvailableBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00056">QrSetup.java:56</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_a855010d1bbe86457bd33a6d3994adf19"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a855010d1bbe86457bd33a6d3994adf19">com.avixy.qrtoken.negocio.qrcode.QrSetup.getQrQuantity</a></div><div class="ttdeci">int getQrQuantity()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00041">QrSetup.java:41</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_af1078bb95b17306f90fc8cf830519ac2"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#af1078bb95b17306f90fc8cf830519ac2">com.avixy.qrtoken.negocio.qrcode.QrSetup.getEcBytes</a></div><div class="ttdeci">int getEcBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00063">QrSetup.java:63</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html">com.avixy.qrtoken.negocio.qrcode.QrSetup</a></div><div class="ttdoc">Encapsulates a Version, ErrorCorrectionLevel and content length and provides utility methods related ...</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00015">QrSetup.java:15</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_a1389ec744a80fe0d312400b434abbba4"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a1389ec744a80fe0d312400b434abbba4">com.avixy.qrtoken.negocio.qrcode.QrSetup.getUsableBytes</a></div><div class="ttdeci">int getUsableBytes()</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00049">QrSetup.java:49</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrCodePolicy_html"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrCodePolicy.html">com.avixy.qrtoken.negocio.qrcode.QrCodePolicy</a></div><div class="ttdoc">A non-instantiable class that wraps and applies business rules concerning QR Code messages...</div><div class="ttdef"><b>Definition:</b> <a href="QrCodePolicy_8java_source.html#l00014">QrCodePolicy.java:14</a></div></div>
+<div class="ttc" id="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup_html_a4fe1bbfba16c9972d266c6b8654f2df4"><div class="ttname"><a href="classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1qrcode_1_1QrSetup.html#a4fe1bbfba16c9972d266c6b8654f2df4">com.avixy.qrtoken.negocio.qrcode.QrSetup.QrSetup</a></div><div class="ttdeci">QrSetup(QrCodePolicy policy, Version version, ErrorCorrectionLevel ecLevel, byte[] content)</div><div class="ttdef"><b>Definition:</b> <a href="QrSetup_8java_source.html#l00030">QrSetup.java:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e6bb53534ac0e427887cf7a94c0c004e.html">C:</a></li><li class="navelem"><a class="el" href="dir_8ceffd4ee35c3518d4e8bdc7e638efe8.html">Users</a></li><li class="navelem"><a class="el" href="dir_2bd5426949c4fa1ebf51a4339d9bd9fd.html">I7</a></li><li class="navelem"><a class="el" href="dir_4f6f11d912917d61ea9a33ce34d11fcc.html">IdeaProjects</a></li><li class="navelem"><a class="el" href="dir_c220df348dd77fa336b64786a5be3aa8.html">qrt-interface-sw</a></li><li class="navelem"><a class="el" href="dir_950fd61918d0c3dc3098201175978982.html">src</a></li><li class="navelem"><a class="el" href="dir_e3ec96ee45518b2294b0b8484ddb1b29.html">main</a></li><li class="navelem"><a class="el" href="dir_b6981248969007109617684d93f97ef5.html">java</a></li><li class="navelem"><a class="el" href="dir_7e4683e6625eff022cd1de01b40b6a1b.html">com</a></li><li class="navelem"><a class="el" href="dir_4b764f18459778ad2fbdd00138a465f5.html">avixy</a></li><li class="navelem"><a class="el" href="dir_a2a9eb623d92a15ee6cd69e317a29e44.html">qrtoken</a></li><li class="navelem"><a class="el" href="dir_aa552b972fa6e77422e9167be4ca259d.html">negocio</a></li><li class="navelem"><b>QrSetup.java</b></li>
-    <li class="footer">Generated on Tue Jul 29 2014 14:21:48 for qrt-bootloader-tool by
+    <li class="navelem"><a class="el" href="dir_e6bb53534ac0e427887cf7a94c0c004e.html">C:</a></li><li class="navelem"><a class="el" href="dir_8ceffd4ee35c3518d4e8bdc7e638efe8.html">Users</a></li><li class="navelem"><a class="el" href="dir_2bd5426949c4fa1ebf51a4339d9bd9fd.html">I7</a></li><li class="navelem"><a class="el" href="dir_4f6f11d912917d61ea9a33ce34d11fcc.html">IdeaProjects</a></li><li class="navelem"><a class="el" href="dir_c220df348dd77fa336b64786a5be3aa8.html">qrt-interface-sw</a></li><li class="navelem"><a class="el" href="dir_950fd61918d0c3dc3098201175978982.html">src</a></li><li class="navelem"><a class="el" href="dir_e3ec96ee45518b2294b0b8484ddb1b29.html">main</a></li><li class="navelem"><a class="el" href="dir_b6981248969007109617684d93f97ef5.html">java</a></li><li class="navelem"><a class="el" href="dir_7e4683e6625eff022cd1de01b40b6a1b.html">com</a></li><li class="navelem"><a class="el" href="dir_4b764f18459778ad2fbdd00138a465f5.html">avixy</a></li><li class="navelem"><a class="el" href="dir_a2a9eb623d92a15ee6cd69e317a29e44.html">qrtoken</a></li><li class="navelem"><a class="el" href="dir_aa552b972fa6e77422e9167be4ca259d.html">negocio</a></li><li class="navelem"><a class="el" href="dir_3c481035c45a3594876b4e19d15a90ea.html">qrcode</a></li><li class="navelem"><b>QrSetup.java</b></li>
+    <li class="footer">Generated on Fri Aug 1 2014 10:13:37 for qrt-bootloader-tool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

@@ -1,5 +1,5 @@
-import com.avixy.qrtoken.negocio.QrCodePolicy;
-import com.avixy.qrtoken.negocio.QrSetup;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import org.junit.Assert;
@@ -13,6 +13,18 @@ import static org.junit.Assert.*;
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrCodePolicyTest {
+    QrCodePolicy policy = new QrCodePolicy(){
+        @Override
+        public int getHeaderSize(){
+            return 3;
+        }
+
+        @Override
+        public byte[] calcHeader(QrSetup setup, int index) {
+            return "111".getBytes();
+        }
+    };
+    QrSetup setup = new QrSetup(policy, Version.getVersionForNumber(4), ErrorCorrectionLevel.L, "mensagem".getBytes());
 
     @Test @Ignore
     public void testCalcHeader() throws Exception {
@@ -21,16 +33,11 @@ public class QrCodePolicyTest {
 
     @Test
     public void testGetHeaderSize() throws Exception {
-        Assert.assertEquals(QrCodePolicy.getHeaderSize(), QrCodePolicy.getHeaderSize());
+        Assert.assertEquals(policy.getHeaderSize(), policy.calcHeader(setup, 1).length);
     }
 
     @Test
     public void testGetQrsFor() throws Exception {
-        Version version = Version.getVersionForNumber(1);
-        ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.L;
-        String content = "blablabla";
-
-        QrSetup setup = new QrSetup(version, errorCorrectionLevel, content.length());
-        assertEquals(setup.getQrQuantityFor(QrCodePolicy.getHeaderSize()), QrCodePolicy.getQrsFor(content.getBytes(), version, errorCorrectionLevel).length);
+        assertEquals(setup.getQrQuantity(), policy.getQrsFor(setup).length);
     }
 }
