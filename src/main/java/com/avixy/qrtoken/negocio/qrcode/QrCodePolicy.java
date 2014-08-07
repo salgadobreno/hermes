@@ -1,70 +1,74 @@
 package com.avixy.qrtoken.negocio.qrcode;
 
+import com.avixy.qrtoken.core.QrUtils;
+import com.avixy.qrtoken.negocio.servico.Service;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
+import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
 /**
- * A non-instantiable class that wraps and applies business rules concerning QR Code messages
+ * Class that wraps and applies business rules concerning QR Code messages and Services
  *
  * Created on 08/07/2014.
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrCodePolicy {
-    // Header
-    // !u!0010000255
-    // !U!0050000233
-    //    xxx <- numero de qrs
-    //       xxx <- indice do qr
-    //          xxxx <- numero de bytes a serem lidos
-    public static String MOCK_HEADER = "!u!0010010255";
+    public static int HEADER_SIZE = 3;
     static Charset CHARSET = Charset.forName("ISO-8859-1");
 
-    /**
-     * Creates a list of <code>QrSlice</code> for a given <code>setup</code>
-     * @param setup
-     * @return              A list of QrSlices
-     */
-    public QrSlice[] getQrsFor(QrSetup setup) {
-        int qtdDeQrs = setup.getQrQuantity();
-        int usableBytes = setup.getUsableBytes();
-        int availableCodewordsForSetup = setup.getAvailableBytes();
-        byte[] content = setup.getContent();
-
-        QrSlice[] slices = new QrSlice[qtdDeQrs];
-        for (int i = 0; i < slices.length; i++) {
-            boolean last = i == (slices.length - 1);
-            byte[] header;
-            byte[] data;
-            if (last) {
-                data = Arrays.copyOfRange(content, usableBytes * i, content.length);
-                header = calcHeader(setup, i);
-                slices[i] = new QrSlice(ArrayUtils.addAll(header, data), availableCodewordsForSetup);
-            } else {
-                data = Arrays.copyOfRange(content, usableBytes * i, usableBytes * (i + 1));
-                header = calcHeader(setup, i);
-                slices[i] = new QrSlice(ArrayUtils.addAll(header, data), availableCodewordsForSetup);
-            }
-        }
-
-        return slices;
-    }
+    public QrCodePolicy() {}
 
     /**
      * @return      The basic size of a QR Token Header
      */
     public int getHeaderSize(){
-        return MOCK_HEADER.length();
+        return HEADER_SIZE;
     }
 
-    /**
-     * Generates a header for a QR Code
-     * @param index         Index of the QR Code in the message
-     * @return              A <code>String</code> representation of the resulting QR Token header
-     */
-    public byte[] calcHeader(QrSetup setup, int index){
-        return String.format("!U!%03d%03d%04d", setup.getQrQuantity(), index, setup.getContentLength()).getBytes(CHARSET);
+    public InputStream getQr(Service service, QrSetup setup) {
+        byte[] data = service.exec();
+        byte[] header = getHeader(service);
+        QrTokenCode tokenCode = new QrTokenCode(header, data, setup.getAvailableBytes());
+
+        return QrUtils.generate(tokenCode.getDados(), setup.getEcLevel());
     }
 
+    public byte[] getHeader(Service service) {
+        byte[] header = new byte[getHeaderSize()];
+        // byte[0] e byte[1] == 0 por default
+        header[2] = service.getServiceCode();
+        return header;
+    }
+
+    private class QrTokenCode {
+        private byte[] dados;
+        private int length;
+        Charset CHARSET = Charset.forName("ISO-8859-1");
+
+        /**
+         * Creates a new QrSlice.
+         *
+         * @param dados full content of the QrSlice in bytes
+         * @param length full length for the data in the slice. <code>length</code> can't be smaller than the combined size
+         *               of <code>header</code> and <code>dados</code> otherwise it will throw an
+         *               <code>IllegalArgumentException</code>
+         */
+        public QrTokenCode(byte[] header, byte[] dados, int length) {
+            if (dados.length > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
+            this.dados = ArrayUtils.addAll(header, dados);
+            this.length = length;
+        }
+
+        /**
+         * Returns the full data in the QR Slice
+         *
+         * @return A new String with <code>dados</code> padded to the right with zeros
+         */
+        public String getDados(){
+            return StringUtils.rightPad(new String(dados, CHARSET), length, '0');
+        }
+
+    }
 }

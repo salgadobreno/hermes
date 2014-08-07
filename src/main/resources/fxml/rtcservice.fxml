@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import extfx.scene.control.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="299.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.services.RtcServiceController">
+   <children>
+      <Label layoutX="18.0" layoutY="189.0" text="Chave Simetrica p/ HMAC:" />
+      <TextField layoutX="15.0" layoutY="206.0" />
+      <ComboBox layoutX="101.0" layoutY="87.0" prefWidth="150.0" />
+      <Separator layoutX="14.0" layoutY="174.0" prefHeight="0.0" prefWidth="137.0" />
+      <DatePicker fx:id="dataDatePicker" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0" />
+      <TextField fx:id="horarioField" layoutX="101.0" layoutY="123.0" />
+      <Label layoutX="14.0" layoutY="127.0" text="Horário" />
+      <Label layoutX="14.0" layoutY="91.0" text="Fuso horário" />
+      <Label layoutX="14.0" layoutY="56.0" text="Data" />
+      <Label layoutX="14.0" layoutY="19.0" text="Atualizar RTC - Avixy com HMAC" />
+   </children>
+</fx:root>

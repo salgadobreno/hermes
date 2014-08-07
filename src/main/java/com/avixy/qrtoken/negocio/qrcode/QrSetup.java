@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
+import net.glxn.qrgen.QRCode;
 
 /**
  * Encapsulates a <code>Version</code>, <code>ErrorCorrectionLevel</code> and content <code>length</code> and provides
@@ -18,37 +19,15 @@ public class QrSetup {
 
     private ErrorCorrectionLevel ecLevel;
 
-    private byte[] content;
-
-    private QrCodePolicy policy;
-
     /**
      * @param version
      * @param ecLevel
-     * @param content
      */
-    public QrSetup(QrCodePolicy policy, Version version, ErrorCorrectionLevel ecLevel, byte[] content) {
+    public QrSetup(Version version, ErrorCorrectionLevel ecLevel) {
         this.version = version;
         this.ecLevel = ecLevel;
-        this.content = content;
-        this.policy = policy;
     }
 
-    /**
-     * @return The number of QR Codes it'll take to send a message in this setup given a header of
-     * <code>headerSize</code>
-     */
-    public int getQrQuantity(){
-        Double div = Math.ceil(((Integer)content.length).doubleValue() / getUsableBytes());
-        return div.intValue();
-    }
-
-    /**
-     * @return The number of bytes that can be used for data in this setup
-     */
-    public int getUsableBytes(){
-        return getAvailableBytes() - policy.getHeaderSize();
-    }
 
     /**
      * @return The number of data bytes available for use in this setup
@@ -77,14 +56,6 @@ public class QrSetup {
 
     public ErrorCorrectionLevel getEcLevel() {
         return ecLevel;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public Integer getContentLength() {
-        return content.length;
     }
 
     private int getBytesForModeAndCharCount(){

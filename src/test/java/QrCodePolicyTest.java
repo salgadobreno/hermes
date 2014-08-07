@@ -1,5 +1,7 @@
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.RtcService;
+import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import org.junit.Assert;
@@ -20,11 +22,11 @@ public class QrCodePolicyTest {
         }
 
         @Override
-        public byte[] calcHeader(QrSetup setup, int index) {
+        public byte[] getHeader(Service service) {
             return "111".getBytes();
         }
     };
-    QrSetup setup = new QrSetup(policy, Version.getVersionForNumber(4), ErrorCorrectionLevel.L, "mensagem".getBytes());
+    QrSetup setup = new QrSetup(Version.getVersionForNumber(4), ErrorCorrectionLevel.L);
 
     @Test @Ignore
     public void testCalcHeader() throws Exception {
@@ -33,11 +35,7 @@ public class QrCodePolicyTest {
 
     @Test
     public void testGetHeaderSize() throws Exception {
-        Assert.assertEquals(policy.getHeaderSize(), policy.calcHeader(setup, 1).length);
+        Assert.assertEquals(policy.getHeaderSize(), policy.getHeader(new RtcService()));
     }
 
-    @Test
-    public void testGetQrsFor() throws Exception {
-        assertEquals(setup.getQrQuantity(), policy.getQrsFor(setup).length);
-    }
 }

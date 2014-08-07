@@ -1,3 +1,5 @@
+/*
+
 package com.avixy.qrtoken.gui;
 
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
@@ -35,10 +37,14 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.Callable;
 
+
+*/
 /**
  * Created on 08/07/2014.
  * @author Breno Salgado <breno.salgado@axivy.com>
- */
+ *//*
+
+
 public class BootloaderController {
     private Charset CHARSET = Charset.forName("ISO-8859-1");
 
@@ -245,10 +251,6 @@ public class BootloaderController {
         }
     }
 
-    public Version getVersion(){
-        return Version.getVersionForNumber(qrVersionField.getValue());
-    }
-
     public byte[] getContent() {
         if (fileToLoad != null) {
             try {
@@ -262,11 +264,6 @@ public class BootloaderController {
             String text = contentField.getText() == null ? "" : contentField.getText();
             return text.getBytes(CHARSET);
         }
-    }
-
-    public ErrorCorrectionLevel getECLevel() {
-        Integer errorCorrectionLevel = ((Double) correctionLevelSlider.getValue()).intValue();
-        return ErrorCorrectionLevel.values()[errorCorrectionLevel];
     }
 
     public void zoomInAndPlayQrs() {
@@ -313,6 +310,17 @@ public class BootloaderController {
     }
 
     public QrSetup getSetup(){
-        return new QrSetup(policy, getVersion(), getECLevel(), getContent());
+        return new QrSetup(getVersion(), getECLevel());
+    }
+
+    private Version getVersion() {
+        return Version.getVersionForNumber(qrVersionField.getValue());
+    }
+
+    public ErrorCorrectionLevel getECLevel() {
+        Integer errorCorrectionLevel = ((Double) correctionLevelSlider.getValue()).intValue();
+        return ErrorCorrectionLevel.values()[errorCorrectionLevel];
     }
 }
+*/
+
