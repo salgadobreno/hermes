@@ -58,7 +58,7 @@
             </AnchorPane>
             <AnchorPane layoutX="110.0" layoutY="410.0" prefHeight="28.0" prefWidth="48.0">
                <children>
-                  <Button defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="48.0" text="Exec" />
+                  <Button defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="48.0" text="Exec" onAction="#gerarQr" />
                </children>
             </AnchorPane>
       </children>

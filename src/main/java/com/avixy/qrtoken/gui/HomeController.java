@@ -1,9 +1,9 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.gui.services.RtcServiceController;
+import com.avixy.qrtoken.gui.services.RtcServiceComponent;
+import com.avixy.qrtoken.gui.services.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.RtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
@@ -13,7 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -31,9 +34,7 @@ public class HomeController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
 
-    Object serviceController;
-
-    Service service = new RtcService();
+    ServiceComponent serviceController;
 
     QrCodePolicy policy = new QrCodePolicy();
 
@@ -48,50 +49,59 @@ public class HomeController {
     @FXML private ComboBox<String> serviceComboBox;
     @FXML private TabPane serviceTabPane;
 
-    List<String> tabs = new ArrayList<>();
-    Map<String, String> servicesMap = new HashMap<>(); // TODO: service component
-
-    // Properties
+    // Map of the tabs and services
+    Map<String, Map<String, ServiceComponent>> servicesMap = new HashMap<>();
+    List<String> servicesNames = new ArrayList<>();
 
     /**
      * initializes common fields
      */
     public void initialize(){
-        tabs.add("RTC");
-        tabs.add("Chaves");
+        Map<String, ServiceComponent> rtcServicesMap = new HashMap<>();
+        rtcServicesMap.put(new RtcServiceComponent().getServiceName(), new RtcServiceComponent()); //TODO: improve this
+
+        final String[] tabs = {"RTC", "Chaves"};
+
+        servicesMap.put(tabs[0], rtcServicesMap);
         for (String tab : tabs) {
             serviceTabPane.getTabs().add(new Tab(tab));
         }
-        servicesMap.put("Atualizar RTC - Avixy com HMAC", RtcServiceController.getFxmlPath());
 
-        List<String> keyList = new ArrayList<>(servicesMap.keySet());
-        serviceComboBox.setItems(FXCollections.observableList(keyList));
+        serviceComboBox.setItems(FXCollections.observableList(new ArrayList<String>(rtcServicesMap.keySet())));
         // bind serviceComboBox to service
         serviceComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 System.out.println(newValue);
-                initService(servicesMap.get(newValue));
+                ServiceComponent component = null;
+                for (Map<String, ServiceComponent> serviceComponentMap : servicesMap.values()) {
+                    component = serviceComponentMap.get(newValue);
+                    if (component != null) { break; }
+                }
+                initService(component);
             }
         });
-
-        // Initialize services
     }
 
     /**
      * initializes a selected service
      */
-    private void initService(String fxml){
+    private void initService(ServiceComponent serviceComponent){
         // triggered when service combo is changed
         // recebe o serviço, carrega o 'partial' do serviço e seta o subcontroller
         try {
-            Node node = (Node) fxmlLoader.load(this.getClass().getResource(fxml).openStream());
+            // seta o controller p/ component
+            fxmlLoader.setController(serviceComponent); //TODO: nomes ambiguos
+
+            // carrega o node e adiciona na tab
+            Node node = (Node) fxmlLoader.load(this.getClass().getResource(serviceComponent.getFxmlPath()).openStream());
             Pane parent = new Pane();
-            parent.setTranslateY(30); // 30px p/ baixo por causa do combobox de serviço
+            parent.setTranslateY(30); // 30px p/ baixo por causa do combobox de serviço TODO: fix
             parent.setTranslateX(5);
             parent.getChildren().add(node);
-
             serviceTabPane.getTabs().get(0).setContent(parent);
+
+            //sub controller eh o component
             serviceController = fxmlLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,8 +112,7 @@ public class HomeController {
      * runs service/updates qr
      */
     public void gerarQr(){
-        Service service1 = ((RtcServiceController)serviceController).getService();
-        InputStream qrCode = policy.getQr(service, getSetup());
+        InputStream qrCode = policy.getQr(serviceController.getService(), getSetup());
         qrView.setImage(new Image(qrCode));
     }
 
@@ -115,7 +124,8 @@ public class HomeController {
     }
 
     private Version getVersion() {
-        return Version.getVersionForNumber(qrVersionField.getValue());
+        return Version.getVersionForNumber(6);
+//        return Version.getVersionForNumber(qrVersionField.getValue());
     }
 
     private ErrorCorrectionLevel getECLevel(){

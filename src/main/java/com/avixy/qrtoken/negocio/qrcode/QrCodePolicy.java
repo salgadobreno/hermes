@@ -28,7 +28,7 @@ public class QrCodePolicy {
     }
 
     public InputStream getQr(Service service, QrSetup setup) {
-        byte[] data = service.exec();
+        byte[] data = service.getData();
         byte[] header = getHeader(service);
         QrTokenCode tokenCode = new QrTokenCode(header, data, setup.getAvailableBytes());
 

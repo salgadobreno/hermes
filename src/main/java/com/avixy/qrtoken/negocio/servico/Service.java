@@ -10,10 +10,6 @@ public interface Service {
 
     public byte getServiceCode();
 
-    public boolean isPinAuthed();
-
-    public boolean isPukAuthed();
-
-    byte[] exec();
+    byte[] getData();
 
 }
