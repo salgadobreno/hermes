@@ -1,0 +1,40 @@
+
+
+     +------------------------+   +------------------------------------+   +---------------------------------------+
+     |      ((interface))     |   |            ((interface))           |   |           QrCodePolicy                |
+     |         Service        |   |          ServiceComponent          |   |---------------------------------------|
+     |------------------------|   |------------------------------------|   |getHeaderSize():int                    |
+     |getServiceName():String |   |getServiceName:String               |   |getQrs(Service service, QrSetup setup):|
+     |getServiceCode():int    |   |getFxmlPath():String                |   |QrTokenCode[]                          |
+     |isPinAuthed():boolean   |   |getService(boolean validate):Service|   |-getHeader(Service service):byte[]     |
+     |isPukAuthed():boolean   |   |                                c1FF|   +---------------------------------------+
+     |getData():byte[]        |   +------------------------------------+
+     |                    c1FF|
+     +------------------------+
+
+
+     +------------------------------------------------------+   +----------------------------------------+
+     |                        QrSetup                       |   |             QrTokenCode                |
+     |------------------------------------------------------|   |----------------------------------------|
+     |version:Version                                       |   |QrTokenCode(byte[] header, byte[] dados,|
+     |ecLevel:ErrorCorrectionLevel                          |   |int length)                             |
+     |------------------------------------------------------|   |getDados():String                       |
+     |QrSetup(Version version, ErrorCorrectionLevel ecLevel)|   |                                        |
+     |getAvailableBytes():int                               |   +----------------------------------------+
+     |getEcBytes():int                                      |
+     |getTotalBytes():int                                   |
+     |getUsableBytes():int                                  |
+     |getVersion():Version                                  |
+     |getEcLevel():ErrorCorrectionLevel                     |
+     |getQrQuantity():int                                   |
+     |                                                      |
+     +------------------------------------------------------+
+
+
+
+     +-------------------------------------------------------+
+     |                        QrUtils                        |
+     |-------------------------------------------------------|
+     |getQr(byte[] dados, ErrorCorrectionLevel ecLevel):Image|
+     |                                                       |
+     +-------------------------------------------------------+

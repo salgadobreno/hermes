@@ -3,9 +3,9 @@ package com.avixy.qrtoken.negocio.servico;
 import java.util.Date;
 
 /**
- * Created by I7 on 31/07/2014.
+ * Created on 31/07/2014
+ * @author I7
  */
-//parametros de serviço + aplicação de lógica de serviço
 public class HmacRtcService implements Service {
     private final int SERVICE_CODE = 50;
     private final String SERVICE_NAME = "Atualizar RTC - HMAC";
@@ -15,8 +15,8 @@ public class HmacRtcService implements Service {
     private int fusoHorario;
 
     private String key;
-
     //TODO: HMAC a parada
+    //TODO: TDD os serviços
 
     @Override
     public String getServiceName() {
@@ -24,7 +24,7 @@ public class HmacRtcService implements Service {
     }
 
     @Override
-    public byte getServiceCode() {
+    public int getServiceCode() {
         return SERVICE_CODE;
     }
 

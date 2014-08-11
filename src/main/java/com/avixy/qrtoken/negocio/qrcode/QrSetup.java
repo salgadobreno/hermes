@@ -2,13 +2,11 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
-import net.glxn.qrgen.QRCode;
 
 /**
- * Encapsulates a <code>Version</code>, <code>ErrorCorrectionLevel</code> and content <code>length</code> and provides
- * utility methods related to QR Code data calculations
+ * Encapsula uma configuração de QR, provê métodos util sobre um set-up de QR
  *
- * Assumes Byte encoding. See: QR Code specification ISO/IEC 18004:2000
+ * Assume-se encoding Byte. ver: QR Code specification ISO/IEC 18004:2000
  *
  * Created on 08/07/2014.
  * @author Breno Salgado <breno.salgado@axivy.com>
@@ -20,31 +18,30 @@ public class QrSetup {
     private ErrorCorrectionLevel ecLevel;
 
     /**
-     * @param version
-     * @param ecLevel
+     * @param version Versão de QR Code do setup
+     * @param ecLevel Nível de correção de erro
      */
     public QrSetup(Version version, ErrorCorrectionLevel ecLevel) {
         this.version = version;
         this.ecLevel = ecLevel;
     }
 
-
     /**
-     * @return The number of data bytes available for use in this setup
+     * @return O número de bytes disponível para inclusão de dados nesse setup
      */
     public int getAvailableBytes(){
         return version.getTotalCodewords() - getEcBytes() - getBytesForModeAndCharCount();
     }
 
     /**
-     * @return The number of bytes reserved for Error Correction in this setup
+     * @return O número de bytes reservados pra correção de erro nesse setup
      */
     public int getEcBytes(){
         return version.getECBlocksForLevel(ecLevel).getTotalECCodewords();
     }
 
     /**
-     * @return The total number of 8-bit codewords possible for a QR Code in this setup
+     * @return O número total de palavras-chave de 8 bits possível em um QR nesse setup
      */
     public int getTotalBytes() {
         return version.getTotalCodewords();

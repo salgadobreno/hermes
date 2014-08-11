@@ -112,8 +112,9 @@ public class HomeController {
      * runs service/updates qr
      */
     public void gerarQr(){
-        InputStream qrCode = policy.getQr(serviceController.getService(), getSetup());
-        qrView.setImage(new Image(qrCode));
+        //TODO: implementação com lista
+        QrCodePolicy.QrTokenCode qrCode = policy.getQrs(serviceController.getService(), getSetup()).get(0);
+        qrView.setImage(new Image(qrCode.image()));
     }
 
     /**

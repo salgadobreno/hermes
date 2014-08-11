@@ -13,6 +13,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: extfx:extfx:0.3" level="project" />
     <orderEntry type="library" name="Maven: net.glxn:qrgen:1.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.zxing:javase:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.zxing:core:3.0.0" level="project" />

@@ -1,22 +1,11 @@
 package com.avixy.qrtoken.gui.services;
 
-import com.avixy.qrtoken.core.extensions.MaskTextField;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import extfx.scene.control.DatePicker;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.control.IndexRange;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 
-import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

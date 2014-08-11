@@ -1,0 +1,145 @@
+***W.I.P.***
+
+                  +-------------------------------------+
+                  |  Software de Interface p/ QR token  |
+                  |  Especificação                      |
+                  +-------------------------------------+
+
+
+Sobre o documento:
+
+Especificação de Software para prover interfaceamento entre um QR Token e um
+desenvolvedor, cliente, testador do LEA ou usuário do QR Token.
+
+A pretensão desse spec é definir um software mínimo e correto com base no
+conhecimento atual sobre as necessidades de interface com o Avixy QR Token, para
+que seja expandido depois quando mais requisitos se apresentarem.
+
+
+Aplicação, tecnologia e arquitetura:
+
+
+Aplicação GUI executável a ser desenvolvida na linguagem Java no paradigma OO.
+
+  Rationale:
+  - A aplicação provavelmente será base para outras aplicações necessárias ao
+    Token como produto e também servirá para auxiliar o desenvolvimento e
+testes internamente.
+    - O paradigma da Orientação a Objetos facilita o desenvolvimento de
+      aplicações extensíveis, com baixo custo de manutenção/modificações e
+alta reutilização de código.
+  - A aplicação(ou derivadas dela) deve ser disponibilizada para clientes,
+    desenvolvedores, testadores do LEA e usuários no futuro.
+    - Em geral a única dependência para se rodar aplicações Java é ter o Java
+      instalado(e isso também pode ser contornado).
+    - Aplicações Java rodam em todos os sistemas operacionais da mesma forma,
+      facilitando a distribuição e mantenabilidade.
+    - Java é uma linguagem "padrão" e sua sintaxe é conhecida por quase todos os
+      desenvolvedores de SW, então é uma boa escolha para servir como material
+de referência para outros desenvolvedores.
+  - Java têm bibliotecas disponíveis para realização de quase todo tipo de
+    tarefa imaginável.
+
+
+Funções:
+  - Gerar códigos QR de acordo com os requisitos do Token.
+  - Executar as ações definidas no protocolo de serviços do Avixy QR Token.
+
+
+Fluxo de uso básico:
+
++-------------------+
+| Listagem de ações |
++--------+----------+
+         |
+         v
+  +---------------+
+  |Selecionar ação|
+  +-+-----------+-+
+  | |           |
+  | |   +----------------------+
+  | |   |Autenticar com PIN/PUK|
+  | |   +-----+-+--------------+
+  | |         | |
+  | +---+  +--+ |
+  |     |  |    |
+  |     v  v    |
+  |   +-+--++   |
+  |   |input|   |
+  |   +--+--+   |
+  |      |      |
+  v      v      |
++---------+     |
+|Exibir QR|<----+
++---------+
+
+
+Módulos e design de SW:
+
+  +-----------+  +---------+  +------+
+  | interface |  | negocio |  | core |
+  +-----------+  +---------+  +------+
+
+  - Módulo de interface: Código da GUI, código que controle a GUI.
+  - Módulo de lógica de negócios: Código que modele regras de
+    políticas/protocolos do QR Token, código que modele regras de clientes.
+  - Módulo 'core': Funções auxiliares, outros.
+
+  Rationale: Segundo análise das User Stories levantadas por nós até o momento
+mais as descrições de requisitos e ensaios definidos no MCT-3 identifiquei que a
+maioria destes fazem referência a, principalmente, executar as funcionalidades
+como estão definidas no Protocolo de Serviços, que serão feitas atrávez de QRs
+dinâmicos, com dois sub-cenários específicos:
+
+    - Funções que requerem PIN/PUK como forma de autenticação/autorização.
+    - Funções que envolvem transferir 'input' do usuário para o token(com ou sem
+      autenticação).
+
+A idéia é modelar o sistema de acordo com essa visão. As interfaces e classes no
+programa seriam genéricas e projetadas para serem extendidas, já prevendo a
+definição sobre necessidade de autenticação/autorização e permitindo a passagem
+de parâmetros quaisquer. O objetivo disto é ter facilidade na adição de serviços
+conforme necessário. Casos que não se encaixem nesse padrão poderiam ser
+tratados a parte.
+
+E.x.:
+
++---------------------------------------+
+|Servico                                |
++---------------------------------------+
+|setNome()                              |
+|isPinAuthed()                          |
+|isPukAuthed()                          |
+|getCodServico(String codServico)       |
+|setParams(String ... strs)             |
++---------------------------------------+
+Realiza a definição de um serviço
+
++----------------------------------+
+|QRGenerationPolicy                |
++----------------------------------+
+|geraStringValida(Servico servico) |
++----------------------------------+
+Recebe um serviço e formata os dados conforme protocolo do
+QR Token
+
++--------+
+|QRUtils |
++--------+
+|geraQR()|
++--------+
+Gera o QR code a partir dos dados
+
+
+Requisitos não funcionais:
+  - (MCT-3 Requisito III.2)
+  - Ser compatível com pelo menos uma das plataformas(MCT-3 Requisito IV.2):
+    - Microsoft Windows 2000 / XP ou versões superiores
+    - Linux kernel 2.4 ou versões superiores
+  - Possuir ou possibilitar configuração da interface gráfica para idioma
+    português do Brasil(MCT-3 Requisito V.3)
+  - Permitir a visualização da versão do software e o nome de seu
+    responsável(MCT-3 Requisito V.3)
+  - Possuir tópicos de ajuda em idioma português do Brasil(MCT-3 Requisito V.3)
+  - ...
+
