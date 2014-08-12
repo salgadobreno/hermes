@@ -1,31 +1,30 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.gui.services.RtcServiceComponent;
-import com.avixy.qrtoken.gui.services.ServiceComponent;
+import com.avixy.qrtoken.core.ServicoLoader;
+import com.avixy.qrtoken.gui.servicos.ServicoComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 04/08/2014.
@@ -35,7 +34,7 @@ public class HomeController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
 
-    ServiceComponent serviceController;
+    ServicoComponent serviceController;
 
     QrCodePolicy policy = new QrCodePolicy();
 
@@ -46,61 +45,76 @@ public class HomeController {
     @FXML private ComboBox<Integer> qrVersionField = new ComboBox<>();
     @FXML private ComboBox<String> selectServiceField = new ComboBox<>();
 
-    // Tab pane and services
-    @FXML private ComboBox<String> serviceComboBox;
-    @FXML private TabPane serviceTabPane;
+    // Tab pane and servicos
+//    @FXML private ComboBox<String> serviceComboBox;
+    @FXML private Accordion servicesAccordion = new Accordion();
 
-    // Map of the tabs and services
-    Map<String, Map<String, ServiceComponent>> servicesMap = new HashMap<>();
-    List<String> servicesNames = new ArrayList<>();
+    // Map of the tabs and servicos
+    Map<ServicoComponent.Category, List<Class<? extends ServicoComponent>>> serviceCategoryMap = ServicoLoader.getListServicos();
+    Map<String, ServicoComponent> serviceNameMap = new HashMap<>();
 
     /**
      * initializes common fields
      */
     public void initialize(){
-        Map<String, ServiceComponent> rtcServicesMap = new HashMap<>();
-        rtcServicesMap.put(new RtcServiceComponent().getServiceName(), new RtcServiceComponent()); //TODO: improve this
+        for (ServicoComponent.Category category : serviceCategoryMap.keySet()) {
+            // Add the tabs
+            Tab tab = new Tab(category.toString());
+            ListView<String> list = new ListView<>();
+            ObservableList<String> items = FXCollections.observableArrayList("1", "2", "3", "4");
+            list.setItems(items);
+            AnchorPane anchorPane = new AnchorPane();
+            anchorPane.getChildren().add(list);
 
-        final String[] tabs = {"RTC", "Chaves"};
-
-        servicesMap.put(tabs[0], rtcServicesMap);
-        for (String tab : tabs) {
-            serviceTabPane.getTabs().add(new Tab(tab));
+            TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
+            servicesAccordion.getPanes().add(titledPane);
+//            servicesAccordion.getTabs().add(tab);
         }
-
-        serviceComboBox.setItems(FXCollections.observableList(new ArrayList<String>(rtcServicesMap.keySet())));
-        // bind serviceComboBox to service
-        serviceComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        List<String> rtcs = Lists.transform(serviceCategoryMap.get(ServicoComponent.Category.RTC), new Function<Class<? extends ServicoComponent>, String>() {
+            @Nullable
             @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                System.out.println(newValue);
-                ServiceComponent component = null;
-                for (Map<String, ServiceComponent> serviceComponentMap : servicesMap.values()) {
-                    component = serviceComponentMap.get(newValue);
-                    if (component != null) { break; }
+            public String apply(@Nullable Class<? extends ServicoComponent> aClass) {
+                try {
+                    ServicoComponent servicoComponent = aClass.newInstance();
+                    serviceNameMap.put(servicoComponent.getServiceName(), servicoComponent);
+                    return servicoComponent.getServiceName();
+                } catch (Exception e) { //FIXME
+                    e.printStackTrace();
+                    return "Erro";
                 }
-                initService(component);
             }
         });
+//        serviceComboBox.setItems(FXCollections.observableList(rtcs));
+
+        // bind serviceComboBox to service
+//        serviceComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+//                System.out.println(newValue);
+//                ServicoComponent component = serviceNameMap.get(newValue);
+//                initService(component);
+//            }
+//        });
     }
 
     /**
      * initializes a selected service
      */
-    private void initService(ServiceComponent serviceComponent){
+    private void initService(ServicoComponent servicoComponent){
         // triggered when service combo is changed
         // recebe o serviço, carrega o 'partial' do serviço e seta o subcontroller
+
         try {
             // seta o controller p/ component
-            fxmlLoader.setController(serviceComponent); //TODO: nomes ambiguos
+            fxmlLoader.setController(servicoComponent); //TODO: nomes ambiguos
 
             // carrega o node e adiciona na tab
-            Node node = (Node) fxmlLoader.load(this.getClass().getResource(serviceComponent.getFxmlPath()).openStream());
+            Node node = (Node) fxmlLoader.load(this.getClass().getResource(servicoComponent.getFxmlPath()).openStream());
             Pane parent = new Pane();
             parent.setTranslateY(30); // 30px p/ baixo por causa do combobox de serviço TODO: fix
             parent.setTranslateX(5);
             parent.getChildren().add(node);
-            serviceTabPane.getTabs().get(0).setContent(parent);
+//            servicesAccordion.getTabs().get(0).setContent(parent);
 
             //sub controller eh o component
             serviceController = fxmlLoader.getController();

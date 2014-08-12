@@ -25,7 +25,7 @@
                <children>
                   <Separator layoutX="332.0" layoutY="134.0" opacity="0.5" orientation="VERTICAL" prefHeight="306.0" prefWidth="0.0" />
                   <Pane layoutX="14.0" layoutY="134.0" prefHeight="306.0" prefWidth="695.0" />
-                  <TabPane fx:id="serviceTabPane" layoutY="87.0" prefHeight="367.0" prefWidth="721.0" tabClosingPolicy="UNAVAILABLE" />
+                  <TabPane fx:id="servicesAccordion" layoutY="87.0" prefHeight="367.0" prefWidth="721.0" tabClosingPolicy="UNAVAILABLE" />
                   <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
                </children>
             </Pane>

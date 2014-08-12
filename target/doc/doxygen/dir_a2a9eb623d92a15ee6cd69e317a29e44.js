@@ -1,6 +1,0 @@
-var dir_a2a9eb623d92a15ee6cd69e317a29e44 =
-[
-    [ "core", "dir_5ad74f4542541773649d05c28ec891a1.html", "dir_5ad74f4542541773649d05c28ec891a1" ],
-    [ "gui", "dir_60323ebb148294664b74b97304067b99.html", "dir_60323ebb148294664b74b97304067b99" ],
-    [ "negocio", "dir_aa552b972fa6e77422e9167be4ca259d.html", "dir_aa552b972fa6e77422e9167be4ca259d" ]
-];
