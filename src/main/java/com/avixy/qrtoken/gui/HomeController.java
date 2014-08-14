@@ -1,11 +1,8 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.core.ServicoLoader;
-import com.avixy.qrtoken.gui.servicos.ServicoComponent;
+import com.avixy.qrtoken.gui.servicos.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import javafx.beans.value.ChangeListener;
@@ -13,17 +10,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,96 +25,92 @@ import java.util.*;
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class HomeController {
+    static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
-    private FXMLLoader fxmlLoader = new FXMLLoader();
-
-    ServicoComponent serviceController;
+    ServiceComponent serviceController;
 
     QrCodePolicy policy = new QrCodePolicy();
 
-    // Common fields
     @FXML private VBox qrDisplayVBox;
     @FXML private ImageView qrView;
     @FXML private Slider correctionLevelSlider;
     @FXML private ComboBox<Integer> qrVersionField = new ComboBox<>();
-    @FXML private ComboBox<String> selectServiceField = new ComboBox<>();
+    @FXML private AnchorPane content;
+    @FXML private Accordion servicesAccordion;
 
-    // Tab pane and servicos
-//    @FXML private ComboBox<String> serviceComboBox;
-    @FXML private Accordion servicesAccordion = new Accordion();
+    // Mapa de categorias e lista de componentes
+    private Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> serviceCategoryMap = com.avixy.qrtoken.core.ServiceLoader.getListServicos();
+    // Mapa do nome do serviço e instância do componente
+    private Map<String, ServiceComponent> serviceNameMap = new HashMap<>();
 
-    // Map of the tabs and servicos
-    Map<ServicoComponent.Category, List<Class<? extends ServicoComponent>>> serviceCategoryMap = ServicoLoader.getListServicos();
-    Map<String, ServicoComponent> serviceNameMap = new HashMap<>();
+    // Manter a lista de ListViews p/ limpar seleções
+    List<ListView> listViewList = new ArrayList<>();
+    ListView current;
 
-    /**
-     * initializes common fields
-     */
     public void initialize(){
-        for (ServicoComponent.Category category : serviceCategoryMap.keySet()) {
-            // Add the tabs
-            Tab tab = new Tab(category.toString());
-            ListView<String> list = new ListView<>();
-            ObservableList<String> items = FXCollections.observableArrayList("1", "2", "3", "4");
-            list.setItems(items);
-            AnchorPane anchorPane = new AnchorPane();
-            anchorPane.getChildren().add(list);
-
-            TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
-            servicesAccordion.getPanes().add(titledPane);
-//            servicesAccordion.getTabs().add(tab);
-        }
-        List<String> rtcs = Lists.transform(serviceCategoryMap.get(ServicoComponent.Category.RTC), new Function<Class<? extends ServicoComponent>, String>() {
-            @Nullable
-            @Override
-            public String apply(@Nullable Class<? extends ServicoComponent> aClass) {
+        // Carrega lista de serviços
+        for (ServiceComponent.Category category : serviceCategoryMap.keySet()) {
+            List<String> servicoForCategoryListNames = new ArrayList<>();
+            // Add the list of services
+            for (Class<? extends ServiceComponent> component : serviceCategoryMap.get(category)) {
                 try {
-                    ServicoComponent servicoComponent = aClass.newInstance();
-                    serviceNameMap.put(servicoComponent.getServiceName(), servicoComponent);
-                    return servicoComponent.getServiceName();
-                } catch (Exception e) { //FIXME
-                    e.printStackTrace();
-                    return "Erro";
+                    // store <serviceName, component>
+                    ServiceComponent serviceComponent = component.newInstance();
+                    servicoForCategoryListNames.add(serviceComponent.getServiceName());
+                    serviceNameMap.put(serviceComponent.getServiceName(), serviceComponent);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    log.error("Erro instanciando {}:", component.getClass(), e);
                 }
             }
-        });
-//        serviceComboBox.setItems(FXCollections.observableList(rtcs));
+            // Cria ListViews de serviços
+            AnchorPane anchorPane = new AnchorPane();
+            ListView<String> list = new ListView<>();
+            list.setId("listView");
+            ObservableList<String> items = FXCollections.observableList(servicoForCategoryListNames);
+            list.setItems(items);
+            anchorPane.getChildren().add(list);
+            // Adiciona o callback de seleção
+            list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                    if (newValue != null) {
+                        ServiceComponent component = serviceNameMap.get(newValue);
+                        serviceController = component;
+                        log.info("component = " + component);
+                        initService(component);
+                    }
+                }
+            });
+            listViewList.add(list);
 
-        // bind serviceComboBox to service
-//        serviceComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-//                System.out.println(newValue);
-//                ServicoComponent component = serviceNameMap.get(newValue);
-//                initService(component);
-//            }
-//        });
+            // Adiciona a categoria
+            TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
+            servicesAccordion.getPanes().add(titledPane);
+        }
+
     }
 
     /**
-     * initializes a selected service
+     * Triggered when a service is selected
+     * Loads the selected service
      */
-    private void initService(ServicoComponent servicoComponent){
-        // triggered when service combo is changed
-        // recebe o serviço, carrega o 'partial' do serviço e seta o subcontroller
+    private void initService(ServiceComponent serviceComponent){
+        resetQrView();
+        content.getChildren().clear();
+        content.getChildren().add(serviceComponent.getNode());
 
-        try {
-            // seta o controller p/ component
-            fxmlLoader.setController(servicoComponent); //TODO: nomes ambiguos
+        //limpar seleção das outras listas
+        current = (ListView) servicesAccordion.getExpandedPane().lookup("#listView");
 
-            // carrega o node e adiciona na tab
-            Node node = (Node) fxmlLoader.load(this.getClass().getResource(servicoComponent.getFxmlPath()).openStream());
-            Pane parent = new Pane();
-            parent.setTranslateY(30); // 30px p/ baixo por causa do combobox de serviço TODO: fix
-            parent.setTranslateX(5);
-            parent.getChildren().add(node);
-//            servicesAccordion.getTabs().get(0).setContent(parent);
-
-            //sub controller eh o component
-            serviceController = fxmlLoader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (ListView listView : listViewList) {
+            if (current != listView) {
+                listView.getSelectionModel().clearSelection();
+            }
         }
+    }
+
+    private void resetQrView() {
+        qrView.setImage(null);
     }
 
     /**
@@ -128,7 +118,7 @@ public class HomeController {
      */
     public void gerarQr(){
         //TODO: implementação com lista
-        QrCodePolicy.QrTokenCode qrCode = policy.getQrs(serviceController.getService(), getSetup()).get(0);
+        QrCodePolicy.QrTokenCode qrCode = policy.getQrs(serviceController.getService(), getSetup()).get(0); //FIXME
         qrView.setImage(new Image(qrCode.image()));
     }
 
@@ -140,6 +130,7 @@ public class HomeController {
     }
 
     private Version getVersion() {
+        //TODO
         return Version.getVersionForNumber(6);
 //        return Version.getVersionForNumber(qrVersionField.getValue());
     }

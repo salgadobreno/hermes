@@ -18,7 +18,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        String fxmlFile = "/fxml/index2.fxml";
+        String fxmlFile = "/fxml/index.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
 
         Scene scene = new Scene(root);

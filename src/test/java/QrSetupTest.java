@@ -1,6 +1,6 @@
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.Servico;
+import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class QrSetupTest {
         }
 
         @Override
-        public byte[] getHeader(Servico servico) {
+        public byte[] getHeader(Service service) {
             return "111".getBytes();
         }
     };

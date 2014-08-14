@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
-import com.avixy.qrtoken.negocio.servico.Servico;
+import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,15 +30,15 @@ public class QrCodePolicy {
     }
 
     /**
-     * @param servico
+     * @param service
      * @param setup
      * @return Um <code>List</code> de <code>QrTokenCode</code>. Não necessáriamente será mais de um, o container deve
      * se virar p/ tratar 0, 1 ou muitos QRs de retorno apropriadamente.
      */
-    public List<QrTokenCode> getQrs(Servico servico, QrSetup setup) {
+    public List<QrTokenCode> getQrs(Service service, QrSetup setup) {
         //TODO: implement multiple QRs
-        byte[] data = servico.getData();
-        byte[] header = getHeader(servico);
+        byte[] data = service.getData();
+        byte[] header = getHeader(service);
         QrTokenCode tokenCode = new QrTokenCode(header, data, setup);
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
         tokenCodeList.add(tokenCode);
@@ -47,14 +47,14 @@ public class QrCodePolicy {
     }
 
     /**
-     * @param servico
+     * @param service
      * @return Tripa de dados para o *header* pra esse <code>Service</code> dentro dessa política de QRs
      * <code>Policy</code>
      */
-    public byte[] getHeader(Servico servico) {
+    public byte[] getHeader(Service service) {
         byte[] header = new byte[getHeaderSize()];
         // byte[0] e byte[1] == 0 por default
-        header[2] = (byte) servico.getServiceCode();
+        header[2] = (byte) service.getServiceCode();
         return header;
     }
 

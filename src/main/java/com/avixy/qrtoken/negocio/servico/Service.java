@@ -4,11 +4,11 @@ package com.avixy.qrtoken.negocio.servico;
  * Created on 31/07/2014
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public interface Servico {
+public interface Service {
 
-    public String getServiceName();
+    String getServiceName();
 
-    public int getServiceCode();
+    int getServiceCode();
 
     /**
      *

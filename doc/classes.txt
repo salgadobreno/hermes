@@ -1,13 +1,13 @@
 
 
      +------------------------+   +------------------------------------+   +---------------------------------------+
-     |      ((interface))     |   |            ((interface))           |   |           QrCodePolicy                |
+     |      ((interface))     |   |            ((abstract))            |   |           QrCodePolicy                |
      |         Service        |   |          ServiceComponent          |   |---------------------------------------|
      |------------------------|   |------------------------------------|   |getHeaderSize():int                    |
-     |getServiceName():String |   |getServiceName:String               |   |getQrs(Service service, QrSetup setup):|
-     |getServiceCode():int    |   |getFxmlPath():String                |   |QrTokenCode[]                          |
+     |getServiceName():String |   |getServiceName():String             |   |getQrs(Service service, QrSetup setup):|
+     |getServiceCode():int    |   |getNode():Node                      |   |QrTokenCode[]                          |
      |isPinAuthed():boolean   |   |getService(boolean validate):Service|   |-getHeader(Service service):byte[]     |
-     |isPukAuthed():boolean   |   |                                c1FF|   +---------------------------------------+
+     |isPukAuthed():boolean   |   |                                cBLU|   +---------------------------------------+
      |getData():byte[]        |   +------------------------------------+
      |                    c1FF|
      +------------------------+
@@ -29,7 +29,6 @@
      |getQrQuantity():int                                   |
      |                                                      |
      +------------------------------------------------------+
-
 
 
      +-------------------------------------------------------+

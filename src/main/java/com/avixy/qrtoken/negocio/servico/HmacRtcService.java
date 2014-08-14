@@ -6,7 +6,7 @@ import java.util.Date;
  * Created on 31/07/2014
  * @author I7
  */
-public class HmacRtcServico implements Servico {
+public class HmacRtcService implements Service {
     private final int SERVICE_CODE = 50;
     private final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
