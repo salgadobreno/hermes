@@ -78,6 +78,20 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.6</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.6</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>net.glxn</groupId>
             <artifactId>qrgen</artifactId>
@@ -97,11 +111,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>extfx</groupId>-->
-            <!--<artifactId>extfx</artifactId>-->
-            <!--<version>0.3</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>extfx</groupId>
+            <artifactId>extfx</artifactId>
+            <version>0.3</version>
+        </dependency>
 
         <dependency>
             <groupId>org.reflections</groupId>
