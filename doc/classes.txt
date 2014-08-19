@@ -1,36 +1,36 @@
 
 
-     +------------------------+   +------------------------------------+   +---------------------------------------+
-     |      ((interface))     |   |            ((abstract))            |   |           QrCodePolicy                |
-     |         Service        |   |          ServiceComponent          |   |---------------------------------------|
-     |------------------------|   |------------------------------------|   |getHeaderSize():int                    |
-     |getServiceName():String |   |getServiceName():String             |   |getQrs(Service service, QrSetup setup):|
-     |getServiceCode():int    |   |getNode():Node                      |   |QrTokenCode[]                          |
-     |isPinAuthed():boolean   |   |getService(boolean validate):Service|   |-getHeader(Service service):byte[]     |
-     |isPukAuthed():boolean   |   |                                cBLU|   +---------------------------------------+
+     +------------------------+   +------------------------------------+    +----------------------------+
+     |      ((interface))     |   |            ((abstract))            |    |       ServiceLoader        |
+     |         Service        |   |          ServiceComponent          |    |----------------------------|
+     |------------------------|   |------------------------------------|    |-ServiceLoader()            |
+     |getServiceName():String |   |getServiceName():String             |    |getServiceComponentMap():Map|
+     |getServiceCode():int    |   |getNode():Node                      |    |                            |
+     |isPinAuthed():boolean   |   |getService(boolean validate):Service|    +----------------------------+
+     |isPukAuthed():boolean   |   |                                cBLU|
      |getData():byte[]        |   +------------------------------------+
      |                    c1FF|
      +------------------------+
 
 
-     +------------------------------------------------------+   +----------------------------------------+
-     |                        QrSetup                       |   |             QrTokenCode                |
-     |------------------------------------------------------|   |----------------------------------------|
-     |version:Version                                       |   |QrTokenCode(byte[] header, byte[] dados,|
-     |ecLevel:ErrorCorrectionLevel                          |   |int length)                             |
-     |------------------------------------------------------|   |getDados():String                       |
-     |QrSetup(Version version, ErrorCorrectionLevel ecLevel)|   |                                        |
-     |getAvailableBytes():int                               |   +----------------------------------------+
+     +------------------------------------------------------+     +---------------------------------------+
+     |                        QrSetup                       |     |           QrCodePolicy                |
+     |------------------------------------------------------|     |---------------------------------------|
+     |version:Version                                       |     |getHeaderSize():int                    |
+     |ecLevel:ErrorCorrectionLevel                          |     |getQrs(Service service, QrSetup setup):|
+     |------------------------------------------------------|     |QrTokenCode[]                          |
+     |QrSetup(Version version, ErrorCorrectionLevel ecLevel)|     |-getHeader(Service service):byte[]     |
+     |getAvailableBytes():int                               |     +---------------------------------------+
      |getEcBytes():int                                      |
      |getTotalBytes():int                                   |
-     |getUsableBytes():int                                  |
-     |getVersion():Version                                  |
-     |getEcLevel():ErrorCorrectionLevel                     |
-     |getQrQuantity():int                                   |
-     |                                                      |
-     +------------------------------------------------------+
-
-
+     |getUsableBytes():int                                  |    +----------------------------------------+
+     |getVersion():Version                                  |    |             QrTokenCode                |
+     |getEcLevel():ErrorCorrectionLevel                     |    |----------------------------------------|
+     |getQrQuantity():int                                   |    |QrTokenCode(byte[] header, byte[] dados,|
+     |                                                      |    |int length)                             |
+     +------------------------------------------------------+    |getDados():String                       |
+                                                                 |                                        |
+                                                                 +----------------------------------------+
      +-------------------------------------------------------+
      |                        QrUtils                        |
      |-------------------------------------------------------|
