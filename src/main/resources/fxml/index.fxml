@@ -1,53 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.HomeController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
+               <items>
+            <MenuItem mnemonicParsing="false" onAction="#gerirChaves" text="Chaves" />
+               </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
+        <Menu mnemonicParsing="false" text="Edit" />
+        <Menu mnemonicParsing="false" text="Help" />
       </menus>
     </MenuBar>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="122.0" prefWidth="900.0">
@@ -70,6 +38,7 @@
           <content>
             <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="479.0" prefWidth="670.0">
                      <children>
+                        <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="324.0" textFill="RED" />
                         <AnchorPane layoutX="345.0" prefHeight="479.0" prefWidth="311.0">
                            <children>
                               <VBox fx:id="qrDisplayVBox" layoutX="35.0" layoutY="34.0" prefHeight="145.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-border-style: dashed;">
@@ -89,7 +58,7 @@
                               </ImageView>
                               <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" text="o" />
                               <Label layoutX="195.0" layoutY="145.0" rotate="-90.0" text="Error Correction level" />
-                              <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="255.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                              <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="260.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                            </children>
                         </AnchorPane>
                       <AnchorPane fx:id="content" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="335.0" />

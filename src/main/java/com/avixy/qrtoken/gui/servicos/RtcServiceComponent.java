@@ -3,14 +3,22 @@ package com.avixy.qrtoken.gui.servicos;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.avixy.qrtoken.negocio.servico.ServiceCategory;
-import extfx.scene.control.DatePicker;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import jfxtras.labs.scene.control.CalendarTextField;
+import jfxtras.labs.scene.control.CalendarTimeTextField;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.spi.TimeZoneNameProvider;
 
 /**
  * Created on 07/08/2014
@@ -24,30 +32,40 @@ public class RtcServiceComponent extends ServiceComponent {
 
     private Node node;
 
-    @FXML private DatePicker dataDatePicker;
-    @FXML private TextField horarioField; //TODO: por uma mascara aqui
+    @FXML private CalendarTextField dataDatePicker;
+    @FXML private ComboBox<String> fusoBox;
+    @FXML private CalendarTimeTextField horarioField;
+    @FXML private TextField keyField;
 
     public RtcServiceComponent() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         fxmlLoader.setController(this);
+
         try {
             node = (Node) fxmlLoader.load();
         } catch (IOException e) {
-            getLogger().error("Missing FXML: ", e);
+            getLogger().error("FXML Error: ", e);
         }
+
+        ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
+        fusoBox.setItems(observableList);
+        fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
+        horarioField.setValue(Calendar.getInstance());
+        dataDatePicker.setValue(Calendar.getInstance());
     }
 
     @Override
     public Service getService(){
-        // geta a data
-        Calendar data = Calendar.getInstance();
-        // geta a hora
-        String hora = horarioField.getText();
-        String[] horaMinuto = hora.split(":");
-        data.set(Calendar.HOUR_OF_DAY, Integer.parseInt(horaMinuto[0]));
-        data.set(Calendar.MINUTE, Integer.parseInt(horaMinuto[1]));
+        // data
+        Calendar data = dataDatePicker.getValue();
+        // hora
+        Calendar hora = horarioField.getValue();
+        data.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
+        data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
-        service.setDate(data.getTime());
+        service.setKey(keyField.getText());
+        service.setData(data.getTime());
+        service.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
 
         return service;
     }

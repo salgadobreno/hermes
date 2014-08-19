@@ -1,6 +1,15 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created on 31/07/2014
@@ -11,12 +20,13 @@ public class HmacRtcService implements Service {
     private final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
     private Date data;
-
-    private int fusoHorario;
-
+    private TimeZone timeZone;
     private String key;
-    //TODO: HMAC a parada
-    //TODO: TDD os serviços
+
+    /** TODO:
+     *  HMAC
+     *  bitwise args
+     */
 
     @Override
     public String getServiceName() {
@@ -29,20 +39,33 @@ public class HmacRtcService implements Service {
     }
 
     @Override
-    public byte[] getData() {
-        String res = "" + getServiceCode() + "" + getServiceName() + "" + data.getTime();
-        return res.getBytes();
+    public byte[] getData() throws GeneralSecurityException {
+        //TODO: keys
+        byte[] msg = getMessage();
+        //apply hmac
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+        Mac sha1Mac = Mac.getInstance("HmacSHA1");
+        sha1Mac.init(secretKeySpec);
+        byte[] hmac = sha1Mac.doFinal(getMessage());
+
+        return ArrayUtils.addAll(msg, hmac);
     }
 
-    public void setDate(Date data) {
+    public byte[] getMessage(){
+        StringBuilder msg = new StringBuilder().append(data.getTime()).append(timeZone.getRawOffset());
+        return msg.toString().getBytes();
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public void setData(Date data) {
+        //FIXME: ambiguo com getData -_-
         this.data = data;
     }
 
-    public void setFusoHorario(int fusoHorario) {
-        this.fusoHorario = fusoHorario;
-    }
-
-    public void setKey(String key) {
+    public void setKey(String key){
         this.key = key;
     }
 }

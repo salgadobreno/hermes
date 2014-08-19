@@ -22,7 +22,7 @@ public class ServiceLoader {
      * @return Mapa dos subtipoes de <code>ServiceComponent</code>, mapeados por <code>ServiceComponent.Category</code>.
      * subtipos sem annotation de <code>ServiceCategory</code> são ignorados.
      */
-    public static Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> getListServicos(){
+    public static Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> getServiceComponentMap(){
         Set<Class<? extends ServiceComponent>> classes = reflections.getSubTypesOf(ServiceComponent.class);
         Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> categoryListMap = new LinkedHashMap<>();
 

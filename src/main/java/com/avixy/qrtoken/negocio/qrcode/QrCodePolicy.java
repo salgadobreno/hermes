@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,9 @@ public class QrCodePolicy {
      * @return Um <code>List</code> de <code>QrTokenCode</code>. Não necessáriamente será mais de um, o container deve
      * se virar p/ tratar 0, 1 ou muitos QRs de retorno apropriadamente.
      */
-    public List<QrTokenCode> getQrs(Service service, QrSetup setup) {
+    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException {
         //TODO: implement multiple QRs
+        // verifica se precisa de mais de 1 qr ...
         byte[] data = service.getData();
         byte[] header = getHeader(service);
         QrTokenCode tokenCode = new QrTokenCode(header, data, setup);

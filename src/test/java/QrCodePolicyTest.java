@@ -1,8 +1,10 @@
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
+import static junit.framework.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -29,9 +31,9 @@ public class QrCodePolicyTest {
         // TODO: implementar com o protocolo de serviços pronto.
     }
 
-//    @Test
-//    public void testGetHeaderSize() throws Exception {
-//        Assert.assertEquals(policy.getHeaderSize(), policy.getHeader(new RtcService()));
+//   @Test
+//   public void testGetHeaderSize() throws Exception {
+//        assertEquals(policy.getHeaderSize(), policy.getHeader(new HmacRtcService()).length);
 //    }
 
 }

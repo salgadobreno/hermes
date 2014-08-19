@@ -18,12 +18,12 @@
     <properties>
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>extfx</id>
-            <url>file://${project.basedir}/extfx</url>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>extfx</id>-->
+            <!--<url>file://${project.basedir}/extfx</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
     <build>
 
@@ -34,7 +34,6 @@
             <plugin>
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>2.0</version>
                 <configuration>
                     <mainClass>br.com.avixy.qrtoken.gui.MainApp</mainClass>
                 </configuration>
@@ -105,6 +104,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -112,9 +123,9 @@
         </dependency>
 
         <dependency>
-            <groupId>extfx</groupId>
-            <artifactId>extfx</artifactId>
-            <version>0.3</version>
+            <groupId>org.jfxtras</groupId>
+            <artifactId>jfxtras-labs</artifactId>
+            <version>2.2-r5</version>
         </dependency>
 
         <dependency>
