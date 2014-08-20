@@ -27,7 +27,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -172,26 +175,36 @@ public class HomeController {
         return ErrorCorrectionLevel.values()[ecLevel];
     }
 
-    public void gerirChaves() {
-        Parent root = qrView.getScene().getRoot();
-        Window window = qrView.getScene().getWindow();
+    public void gerirChaves() throws IOException {
+        // se chavesStage for nulo, pega o stage de ChavesStage
+        // -> mostra o chavesStage
+//        chavesStage = ChavesTableUtil.getStage();
+
+//        chavesStage.show();
+//        chavesStage.toFront();
+
+
         if (chavesStage == null) {
             chavesStage = new Stage(StageStyle.UTILITY);
         }
-        final VBox vBox = new VBox();
-        TableView tableView = new TableView();
-        chavesStage.setTitle("Gerência de chaves");
-        chavesStage.setResizable(false);
-        chavesStage.setScene(new Scene(vBox));
 
-        TableColumn<Map, String> column = new TableColumn<>("ID");
-        column.setcel
+        //carrega o fxml
+        //carrega a tabela
+        try {
+            String fxmlFile = "/fxml/chaves.fxml";
+            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            chavesStage.setResizable(false);
+            chavesStage.setScene(new Scene(parent));
+
+            TableView chaveTableView = (TableView) parent.lookup("#chavesTable");
+            ChavesTableUtil.setupTable(chaveTableView);
 
 
-
-
-
-        chavesStage.show();
-        chavesStage.toFront();
+            chavesStage.show();
+            chavesStage.toFront();
+        } catch (IOException e) {
+            log.error(e.toString(), e);
+        }
     }
+
 }
