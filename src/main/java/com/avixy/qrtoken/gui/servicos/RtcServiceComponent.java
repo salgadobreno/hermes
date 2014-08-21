@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos;
 
+import com.avixy.qrtoken.gui.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.avixy.qrtoken.negocio.servico.ServiceCategory;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import jfxtras.labs.scene.control.CalendarTextField;
 import jfxtras.labs.scene.control.CalendarTimeTextField;
 
@@ -22,7 +24,7 @@ import java.util.spi.TimeZoneNameProvider;
 
 /**
  * Created on 07/08/2014
- * @author I7
+ * @author Breno Salgado <breno@avixy.com>
  */
 @ServiceCategory(category = ServiceComponent.Category.RTC)
 public class RtcServiceComponent extends ServiceComponent {
@@ -35,7 +37,7 @@ public class RtcServiceComponent extends ServiceComponent {
     @FXML private CalendarTextField dataDatePicker;
     @FXML private ComboBox<String> fusoBox;
     @FXML private CalendarTimeTextField horarioField;
-    @FXML private TextField keyField;
+    @FXML private ComboBox<ChavesSingleton.Chave> keyField;
 
     public RtcServiceComponent() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
@@ -52,6 +54,19 @@ public class RtcServiceComponent extends ServiceComponent {
         fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
         horarioField.setValue(Calendar.getInstance());
         dataDatePicker.setValue(Calendar.getInstance());
+
+        keyField.setItems(ChavesSingleton.getObservableChaves());
+        keyField.setConverter(new StringConverter<ChavesSingleton.Chave>() {
+            @Override
+            public String toString(ChavesSingleton.Chave chave) {
+                return chave.getId() + " - " + chave.getAlgoritmo();
+            }
+
+            @Override
+            public ChavesSingleton.Chave fromString(String s) {
+                return new ChavesSingleton.Chave(null, null, null); //FIXME
+            }
+        });
     }
 
     @Override
@@ -63,7 +78,7 @@ public class RtcServiceComponent extends ServiceComponent {
         data.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
         data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
-        service.setKey(keyField.getText());
+        service.setKey(keyField.getValue().getValor());
         service.setData(data.getTime());
         service.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
 

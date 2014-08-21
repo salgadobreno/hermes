@@ -1,0 +1,112 @@
+package com.avixy.qrtoken.gui;
+
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created on 21/08/2014
+ *
+ * @author Breno Salgado <breno.salgado@avixy.com>
+ */
+public class ChavesSingleton {
+    private static final List<Chave> chaves = new ArrayList<>();
+    private static final ObservableList<Chave> observableChaves = FXCollections.observableList(chaves);
+    private static CSVReader reader;
+    private static CSVWriter writer;
+    private static final File csv = new File("chaves.csv");
+
+    static {
+        // le/cria arquivo de chaves
+        try {
+            if (!csv.exists())
+                csv.createNewFile();
+
+            // init reader
+            reader = new CSVReader(new FileReader(csv));
+            // monta List
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                observableChaves.add(new Chave(nextLine[0], nextLine[1], nextLine[2]));
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ChavesSingleton(){}
+
+    public static List<Chave> getChaves(){
+        return chaves;
+    }
+
+    public static ObservableList<Chave> getObservableChaves(){
+        return observableChaves;
+    }
+
+    public static void addChave(Chave chave){
+        observableChaves.add(chave);
+        saveCsv();
+    }
+
+    private static void saveCsv() {
+        // init writer
+        try {
+            writer = new CSVWriter(new FileWriter(csv));
+            for (Chave chave : chaves) {
+                String[] arr = {chave.getId(), chave.getAlgoritmo(), chave.getValor()};
+                writer.writeNext(arr);
+            }
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static class Chave {
+
+        private String id;
+        private String algoritmo;
+        private String valor;
+
+        public Chave(String id, String algoritmo, String valor) {
+            this.id = id;
+            this.algoritmo = algoritmo;
+            this.valor = valor;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String nome) {
+            this.id = nome;
+        }
+
+        public String getAlgoritmo() {
+            return algoritmo;
+        }
+
+        public void setAlgoritmo(String idade) {
+            this.algoritmo = idade;
+        }
+
+        public String getValor() {
+            return valor;
+        }
+
+        public void setValor(String email) {
+            this.valor = email;
+        }
+
+    }
+}

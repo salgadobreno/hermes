@@ -5,7 +5,6 @@ import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * Created on 04/08/2014.
@@ -67,7 +64,6 @@ public class HomeController {
     // Manter a lista de ListViews p/ limpar seleções
     List<ListView> listViewList = new ArrayList<>();
     ListView current;
-
 
     public void initialize(){
         // Carrega lista de serviços
@@ -178,27 +174,17 @@ public class HomeController {
     public void gerirChaves() throws IOException {
         // se chavesStage for nulo, pega o stage de ChavesStage
         // -> mostra o chavesStage
-//        chavesStage = ChavesTableUtil.getStage();
-
-//        chavesStage.show();
-//        chavesStage.toFront();
-
 
         if (chavesStage == null) {
             chavesStage = new Stage(StageStyle.UTILITY);
         }
 
         //carrega o fxml
-        //carrega a tabela
         try {
             String fxmlFile = "/fxml/chaves.fxml";
             Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
             chavesStage.setResizable(false);
             chavesStage.setScene(new Scene(parent));
-
-            TableView chaveTableView = (TableView) parent.lookup("#chavesTable");
-            ChavesTableUtil.setupTable(chaveTableView);
-
 
             chavesStage.show();
             chavesStage.toFront();

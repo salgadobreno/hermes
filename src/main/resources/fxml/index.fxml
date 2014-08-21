@@ -9,13 +9,10 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="Edit">
                <items>
             <MenuItem mnemonicParsing="false" onAction="#gerirChaves" text="Chaves" />
-               </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit" />
-        <Menu mnemonicParsing="false" text="Help" />
+               </items></Menu>
       </menus>
     </MenuBar>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="122.0" prefWidth="900.0">
@@ -46,17 +43,24 @@
                                     <ImageView fx:id="qrView" fitHeight="211.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </VBox>
-                              <ImageView fx:id="previousQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="35.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="previousQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="35.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/arrow-88-24.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="nextQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="210.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" rotate="180">
+                              <ImageView fx:id="nextQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="210.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" rotate="180" visible="false">
                                  <image>
                                     <Image url="@../images/arrow-88-24.png" />
                                  </image>
                               </ImageView>
-                              <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" text="o" />
+                              <Button layoutX="119.0" layoutY="265.0" mnemonicParsing="false">
+                                 <graphic>
+                                    <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/09_Expand-128.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                               <Label layoutX="195.0" layoutY="145.0" rotate="-90.0" text="Error Correction level" />
                               <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="260.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                            </children>
