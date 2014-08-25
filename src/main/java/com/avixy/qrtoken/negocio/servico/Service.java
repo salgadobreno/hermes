@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
+
 import java.security.GeneralSecurityException;
 
 /**
@@ -18,5 +20,8 @@ public interface Service {
      */
     byte[] getData() throws GeneralSecurityException;
 
-}
+    byte[] getMessage();
 
+    KeyPolicy getKeyPolicy();
+
+}

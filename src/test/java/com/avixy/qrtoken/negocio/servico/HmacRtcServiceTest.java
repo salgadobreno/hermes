@@ -19,6 +19,7 @@ public class HmacRtcServiceTest {
     int timeStamp = 50;
     String key = "chave";
     String data;
+    String msg;
 
     @Before
     public void setUp() throws Exception {
@@ -26,6 +27,7 @@ public class HmacRtcServiceTest {
         service.setTimeZone(TimeZone.getDefault());
         service.setKey(key);
         data = new String(service.getData(), CHARSET);
+        msg = new String(service.getMessage(), CHARSET);
     }
 
     @Test
@@ -37,9 +39,8 @@ public class HmacRtcServiceTest {
     @Test
     public void testParams() throws Exception {
         // timestamp, fuso horário
-
-        assertTrue(data.contains(String.valueOf(timeStamp)));
-        assertTrue(data.contains(String.valueOf(TimeZone.getDefault().getRawOffset())));
+        assertTrue(msg.contains(String.valueOf(timeStamp)));
+        assertTrue(msg.contains(String.valueOf(TimeZone.getDefault().getRawOffset())));
     }
 
     @Test
@@ -49,8 +50,6 @@ public class HmacRtcServiceTest {
         Mac sha1Mac = Mac.getInstance("HmacSHA1");
         sha1Mac.init(secretKeySpec);
         byte[] result = sha1Mac.doFinal(service.getMessage());
-        System.out.println(new String(service.getData(), CHARSET));
-        System.out.println(new String(result, CHARSET));
         assertTrue(new String(service.getData(), CHARSET).contains(new String(result, CHARSET)));
         // Asserções contra falso-negativos
         // wrong key

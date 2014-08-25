@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.gui;
 
+import com.avixy.qrtoken.core.HermesLogger;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -27,10 +29,8 @@ public class ChavesController {
 
     public void initialize(){
 
-        for (Provider provider: Security.getProviders()) {
-            for (String key: provider.stringPropertyNames()) {
-                algorythmList.add(key);
-            }
+        for (KeyPolicy.KeyType keyType : KeyPolicy.KeyType.values()) {
+            algorythmList.add(keyType.toString());
         }
 
         algoComboBox.setItems(FXCollections.observableList(algorythmList));
@@ -39,9 +39,10 @@ public class ChavesController {
     }
 
     public void save(){
+        HermesLogger.get().info("idField.getText() = " + idField.getText());
+        HermesLogger.get().info("algoComboBox.getValue() = " + algoComboBox.getValue());
+        HermesLogger.get().info("valorField.getText() = " + valorField.getText());
+
         ChavesSingleton.addChave(new ChavesSingleton.Chave(idField.getText(), algoComboBox.getValue(), valorField.getText()));
-        System.out.println("idField.getText() = " + idField.getText());
-        System.out.println("valorField.getText() = " + valorField.getText());
-        System.out.println("algoComboBox.getValue() = " + algoComboBox.getValue());
     }
 }

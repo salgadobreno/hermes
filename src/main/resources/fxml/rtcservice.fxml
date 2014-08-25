@@ -11,8 +11,8 @@
         <ComboBox fx:id="keyField" layoutX="18.0" layoutY="206.0" />
         <ComboBox fx:id="fusoBox" layoutX="101.0" layoutY="87.0" prefWidth="150.0" />
         <Separator layoutX="14.0" layoutY="174.0" prefHeight="0.0" prefWidth="137.0" />
-        <CalendarTextField fx:id="dataDatePicker" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0" />
-        <CalendarTimeTextField fx:id="horarioField" layoutX="101.0" layoutY="123.0" />
+        <CalendarTextField fx:id="dataDatePicker" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0"/>
+        <CalendarTimeTextField fx:id="horarioField" layoutX="101.0" layoutY="123.0"/>
         <Label layoutX="14.0" layoutY="127.0" text="Hora:" />
         <Label layoutX="14.0" layoutY="91.0" text="Fuso horário" />
         <Label layoutX="14.0" layoutY="56.0" text="Data" />

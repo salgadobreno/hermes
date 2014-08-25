@@ -2,6 +2,7 @@ package com.avixy.qrtoken.gui.servicos;
 
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.avixy.qrtoken.negocio.servico.ServiceCategory;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
@@ -37,6 +38,16 @@ public class TesteServiceComponent extends ServiceComponent {
             @Override
             public byte[] getData() {
                 return new byte[0];
+            }
+
+            @Override
+            public byte[] getMessage() {
+                return new byte[0];
+            }
+
+            @Override
+            public KeyPolicy getKeyPolicy() {
+                return null;
             }
         };
     }

@@ -21,6 +21,10 @@ import java.util.List;
 public class QrCodePolicy {
     public static int HEADER_SIZE = 3;
 
+    /** TODO:
+     * implement multiple QRs
+     */
+
     public QrCodePolicy() {}
 
     /**
@@ -37,7 +41,6 @@ public class QrCodePolicy {
      * se virar p/ tratar 0, 1 ou muitos QRs de retorno apropriadamente.
      */
     public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException {
-        //TODO: implement multiple QRs
         // verifica se precisa de mais de 1 qr ...
         byte[] data = service.getData();
         byte[] header = getHeader(service);

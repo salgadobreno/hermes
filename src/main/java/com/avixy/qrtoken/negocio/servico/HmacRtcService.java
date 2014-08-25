@@ -1,31 +1,27 @@
 package com.avixy.qrtoken.negocio.servico;
 
-import org.apache.commons.lang.ArrayUtils;
+import com.avixy.qrtoken.negocio.servico.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
  * Created on 31/07/2014
- * @author I7
+ * @author Breno Salgado
  */
 public class HmacRtcService implements Service {
+    private HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
     private final int SERVICE_CODE = 50;
     private final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
     private Date data;
     private TimeZone timeZone;
-    private String key;
 
     /** TODO:
-     *  HMAC
      *  bitwise args
+     * FIXME: setData(tempo) ambiguo com getData(dados) -_-
      */
 
     @Override
@@ -40,15 +36,13 @@ public class HmacRtcService implements Service {
 
     @Override
     public byte[] getData() throws GeneralSecurityException {
-        //TODO: keys
-        byte[] msg = getMessage();
         //apply hmac
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "HmacSHA1");
-        Mac sha1Mac = Mac.getInstance("HmacSHA1");
-        sha1Mac.init(secretKeySpec);
-        byte[] hmac = sha1Mac.doFinal(getMessage());
+        return hmacKeyPolicy.apply(getMessage());
+    }
 
-        return ArrayUtils.addAll(msg, hmac);
+    @Override
+    public KeyPolicy getKeyPolicy() {
+        return hmacKeyPolicy;
     }
 
     public byte[] getMessage(){
@@ -66,6 +60,6 @@ public class HmacRtcService implements Service {
     }
 
     public void setKey(String key){
-        this.key = key;
+        hmacKeyPolicy.setKey(key.getBytes());
     }
 }

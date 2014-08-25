@@ -2,7 +2,12 @@ package com.avixy.qrtoken.gui;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
+import com.sun.javafx.collections.transformation.FilterableList;
+import com.sun.javafx.collections.transformation.FilteredList;
+import com.sun.javafx.collections.transformation.Matcher;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
@@ -49,6 +54,24 @@ public class ChavesSingleton {
 
     public static ObservableList<Chave> getObservableChaves(){
         return observableChaves;
+    }
+
+    public static ObservableList<Chave> observableChaveFor(final KeyPolicy.KeyType keyType){
+        final FilteredList<Chave> filteredList = new FilteredList<Chave>(chaves, new Matcher<Chave>() {
+            @Override
+            public boolean matches(Chave chave) {
+                return KeyPolicy.KeyType.valueOf(chave.getAlgoritmo()) == keyType;
+            }
+        }, FilterableList.FilterMode.BATCH);
+        filteredList.filter();
+        observableChaves.addListener(new ListChangeListener<Chave>() {
+            @Override
+            public void onChanged(Change<? extends Chave> change) {
+                filteredList.filter();
+            }
+        });
+
+        return filteredList;
     }
 
     public static void addChave(Chave chave){
