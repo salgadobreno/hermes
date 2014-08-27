@@ -19,14 +19,14 @@ public class ServiceLoader {
     /**
      * Encontra por reflection os subtipos de <code>ServiceComponent</code>
      *
-     * @return Mapa dos subtipoes de <code>ServiceComponent</code>, mapeados por <code>ServiceComponent.Category</code>.
+     * @return Mapa dos subtipos de <code>ServiceComponent</code>, mapeados por <code>ServiceComponent.Category</code>.
      * subtipos sem annotation de <code>ServiceCategory</code> são ignorados.
      */
-    public static Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> getServiceComponentMap(){
+    public static Map<com.avixy.qrtoken.gui.servicos.ServiceCategory, List<Class<? extends ServiceComponent>>> getServiceComponentMap(){
         Set<Class<? extends ServiceComponent>> classes = reflections.getSubTypesOf(ServiceComponent.class);
-        Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> categoryListMap = new LinkedHashMap<>();
+        Map<com.avixy.qrtoken.gui.servicos.ServiceCategory, List<Class<? extends ServiceComponent>>> categoryListMap = new LinkedHashMap<>();
 
-        for (ServiceComponent.Category category : ServiceComponent.Category.values()) {
+        for (com.avixy.qrtoken.gui.servicos.ServiceCategory category : com.avixy.qrtoken.gui.servicos.ServiceCategory.values()) {
             categoryListMap.put(category, new ArrayList<Class<? extends ServiceComponent>>());
 
             for (Class<? extends ServiceComponent> component : classes) {
