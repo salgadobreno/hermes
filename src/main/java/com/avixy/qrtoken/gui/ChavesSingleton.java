@@ -2,15 +2,18 @@ package com.avixy.qrtoken.gui;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
-import com.sun.javafx.collections.transformation.FilterableList;
-import com.sun.javafx.collections.transformation.FilteredList;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
 import com.sun.javafx.collections.transformation.Matcher;
+import javafx.beans.binding.ListBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +22,10 @@ import java.util.List;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
+//TODO: OOP decente
 public class ChavesSingleton {
     private static final List<Chave> chaves = new ArrayList<>();
     private static final ObservableList<Chave> observableChaves = FXCollections.observableList(chaves);
-    private static CSVReader reader;
-    private static CSVWriter writer;
     private static final File csv = new File("chaves.csv");
 
     static {
@@ -33,11 +35,11 @@ public class ChavesSingleton {
                 csv.createNewFile();
 
             // init reader
-            reader = new CSVReader(new FileReader(csv));
-            // monta List
+            CSVReader reader = new CSVReader(new FileReader(csv));
+            // monta Lista Singleton de chaves
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                observableChaves.add(new Chave(nextLine[0], nextLine[1], nextLine[2]));
+                observableChaves.add(new Chave(nextLine[0], KeyType.valueOf(nextLine[1]), nextLine[2]));
             }
 
             reader.close();
@@ -48,43 +50,56 @@ public class ChavesSingleton {
 
     private ChavesSingleton(){}
 
-    public static List<Chave> getChaves(){
-        return chaves;
-    }
-
     public static ObservableList<Chave> getObservableChaves(){
         return observableChaves;
     }
 
-    public static ObservableList<Chave> observableChaveFor(final KeyPolicy.KeyType keyType){
-        final FilteredList<Chave> filteredList = new FilteredList<Chave>(chaves, new Matcher<Chave>() {
+    public static ObservableList<Chave> observableChaveFor(final KeyType keyType){
+        // Cria lista filtrada
+        final Matcher<Chave> keyTypeMatcher = new Matcher<Chave>() {
             @Override
             public boolean matches(Chave chave) {
-                return KeyPolicy.KeyType.valueOf(chave.getAlgoritmo()) == keyType;
+                return chave.getAlgoritmo() == keyType;
             }
-        }, FilterableList.FilterMode.BATCH);
-        filteredList.filter();
+        };
+
+        final ListBinding<Chave> filtered = new ListBinding<Chave>() {
+            @Override
+            protected ObservableList<Chave> computeValue() {
+                ObservableList<Chave> filtered = FXCollections.observableArrayList();
+                for (Chave chave : observableChaves) {
+                    if (keyTypeMatcher.matches(chave))
+                        filtered.add(chave);
+                }
+                return filtered;
+            }
+        };
         observableChaves.addListener(new ListChangeListener<Chave>() {
             @Override
             public void onChanged(Change<? extends Chave> change) {
-                filteredList.filter();
+                filtered.invalidate();
             }
         });
 
-        return filteredList;
+        return filtered;
     }
 
-    public static void addChave(Chave chave){
+    public static void add(Chave chave){
         observableChaves.add(chave);
         saveCsv();
     }
 
+    public static void remove(Chave chave){
+        observableChaves.remove(chave);
+        saveCsv();
+        LoggerFactory.getLogger(ChavesSingleton.class).info("Removed {}", chave);
+    }
+
     private static void saveCsv() {
-        // init writer
         try {
-            writer = new CSVWriter(new FileWriter(csv));
+            CSVWriter writer = new CSVWriter(new FileWriter(csv));
             for (Chave chave : chaves) {
-                String[] arr = {chave.getId(), chave.getAlgoritmo(), chave.getValor()};
+                String[] arr = {chave.getId(), chave.getAlgoritmo().name(), chave.getValor()};
                 writer.writeNext(arr);
             }
 
@@ -98,10 +113,10 @@ public class ChavesSingleton {
     public static class Chave {
 
         private String id;
-        private String algoritmo;
+        private KeyType algoritmo;
         private String valor;
 
-        public Chave(String id, String algoritmo, String valor) {
+        public Chave(String id, KeyType algoritmo, String valor) {
             this.id = id;
             this.algoritmo = algoritmo;
             this.valor = valor;
@@ -111,25 +126,17 @@ public class ChavesSingleton {
             return id;
         }
 
-        public void setId(String nome) {
-            this.id = nome;
-        }
-
-        public String getAlgoritmo() {
+        public KeyType getAlgoritmo() {
             return algoritmo;
-        }
-
-        public void setAlgoritmo(String idade) {
-            this.algoritmo = idade;
         }
 
         public String getValor() {
             return valor;
         }
 
-        public void setValor(String email) {
-            this.valor = email;
+        @Override
+        public String toString() {
+            return getId() + " - " + getAlgoritmo();
         }
-
     }
 }

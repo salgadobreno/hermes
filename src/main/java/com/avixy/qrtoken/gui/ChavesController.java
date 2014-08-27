@@ -1,15 +1,14 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.core.HermesLogger;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.security.Provider;
-import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +18,19 @@ import java.util.List;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ChavesController {
+    private static Logger logger = LoggerFactory.getLogger(ChavesController.class);
 
     @FXML private TableView<ChavesSingleton.Chave> chavesTable;
     @FXML private TextField idField;
     @FXML private TextField valorField;
-    @FXML private ComboBox<String> algoComboBox;
+    @FXML private ComboBox<KeyType> algoComboBox;
 
-    private List<String> algorythmList = new ArrayList<>();
+    private List<KeyType> algorythmList = new ArrayList<>();
 
     public void initialize(){
 
-        for (KeyPolicy.KeyType keyType : KeyPolicy.KeyType.values()) {
-            algorythmList.add(keyType.toString());
+        for (KeyType keyType : KeyType.values()) {
+            algorythmList.add(keyType);
         }
 
         algoComboBox.setItems(FXCollections.observableList(algorythmList));
@@ -39,10 +39,10 @@ public class ChavesController {
     }
 
     public void save(){
-        HermesLogger.get().info("idField.getText() = " + idField.getText());
-        HermesLogger.get().info("algoComboBox.getValue() = " + algoComboBox.getValue());
-        HermesLogger.get().info("valorField.getText() = " + valorField.getText());
+        logger.info("idField.getText() = " + idField.getText());
+        logger.info("algoComboBox.getValue() = " + algoComboBox.getValue());
+        logger.info("valorField.getText() = " + valorField.getText());
 
-        ChavesSingleton.addChave(new ChavesSingleton.Chave(idField.getText(), algoComboBox.getValue(), valorField.getText()));
+        ChavesSingleton.add(new ChavesSingleton.Chave(idField.getText(), algoComboBox.getValue(), valorField.getText()));
     }
 }

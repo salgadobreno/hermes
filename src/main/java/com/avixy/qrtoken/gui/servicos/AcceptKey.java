@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos;
 
-import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface AcceptKey {
-    KeyPolicy.KeyType keyTypes();
+    KeyType keyType();
 }

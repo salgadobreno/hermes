@@ -6,14 +6,6 @@
 <?import javafx.scene.text.Font?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.ChavesController">
     <children>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-            <children>
-                <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0">
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                    </columnResizePolicy></TableView>
-            </children>
-        </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="435.0">
             <children>
                 <Label layoutX="7.0" layoutY="6.0" text="Nova chave">
@@ -27,7 +19,12 @@
                 <TextField fx:id="idField" layoutX="77.0" layoutY="41.0" />
                 <ComboBox fx:id="algoComboBox" layoutX="77.0" layoutY="77.0" prefWidth="150.0" />
                 <TextField fx:id="valorField" layoutX="77.0" layoutY="114.0" />
-                <Button defaultButton="true" layoutX="352.0" layoutY="114.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
+                <Button defaultButton="true" layoutX="373.0" layoutY="114.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
+            </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+            <children>
+                <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0"/>
             </children>
         </AnchorPane>
     </children>

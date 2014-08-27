@@ -25,17 +25,4 @@ import org.slf4j.LoggerFactory;
         return log;
     }
 
-    public static enum Category {
-        RTC("RTC"), BANCARIO("Serviços Bancários"), CHAVES("Chaves"), OUTROS("Outros");
-
-        private String name;
-        Category(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
 }

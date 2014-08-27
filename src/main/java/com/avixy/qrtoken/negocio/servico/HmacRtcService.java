@@ -13,8 +13,8 @@ import java.util.TimeZone;
  */
 public class HmacRtcService implements Service {
     private HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
-    private final int SERVICE_CODE = 50;
-    private final String SERVICE_NAME = "Atualizar RTC - HMAC";
+    private static final int SERVICE_CODE = 50;
+    private static final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
     private Date data;
     private TimeZone timeZone;

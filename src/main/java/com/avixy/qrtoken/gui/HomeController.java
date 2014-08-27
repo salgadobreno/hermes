@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui;
 
+import com.avixy.qrtoken.gui.servicos.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
@@ -57,7 +58,7 @@ public class HomeController {
     @FXML private Label errorLabel;
 
     // Mapa de categorias e lista de componentes
-    private Map<ServiceComponent.Category, List<Class<? extends ServiceComponent>>> serviceCategoryMap = com.avixy.qrtoken.core.ServiceLoader.getServiceComponentMap();
+    private Map<ServiceCategory, List<Class<? extends ServiceComponent>>> serviceCategoryMap = com.avixy.qrtoken.core.ServiceLoader.getServiceComponentMap();
     // Mapa do nome do serviço e instância do componente
     private Map<String, ServiceComponent> serviceNameMap = new HashMap<>();
 
@@ -67,7 +68,7 @@ public class HomeController {
 
     public void initialize(){
         // Carrega lista de serviços
-        for (ServiceComponent.Category category : serviceCategoryMap.keySet()) {
+        for (ServiceCategory category : serviceCategoryMap.keySet()) {
             List<String> servicoForCategoryListNames = new ArrayList<>();
             // Add the list of services
             for (Class<? extends ServiceComponent> component : serviceCategoryMap.get(category)) {
@@ -176,7 +177,7 @@ public class HomeController {
         // -> mostra o chavesStage
 
         if (chavesStage == null) {
-            chavesStage = new Stage(StageStyle.UTILITY);
+            chavesStage = new Stage(StageStyle.DECORATED);
         }
 
         //carrega o fxml
