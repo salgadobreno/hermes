@@ -1,13 +1,13 @@
-package com.avixy.qrtoken.gui;
+package com.avixy.qrtoken.negocio.servico.crypto;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
 import com.sun.javafx.collections.transformation.Matcher;
 import javafx.beans.binding.ListBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -18,28 +18,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 21/08/2014
- *
+ * Responsável pela persistência e recuperação das Chaves.
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 21/08/2014
  */
-//TODO: OOP decente
 public class ChavesSingleton {
-    private static final List<Chave> chaves = new ArrayList<>();
-    private static final ObservableList<Chave> observableChaves = FXCollections.observableList(chaves);
-    private static final File csv = new File("chaves.csv");
+    private static Logger logger = LoggerFactory.getLogger(ChavesSingleton.class);
 
-    static {
-        // le/cria arquivo de chaves
+    private final List<Chave> chaves = new ArrayList<>();
+    private final ObservableList<Chave> observableChaves = FXCollections.observableList(chaves);
+    private final File csv = new File("chaves.csv");
+
+    private static ChavesSingleton instance = new ChavesSingleton();
+    private ChavesSingleton(){}
+
+    /*
+    TODO:
+    IOC aqui com a estratégia de persistência sendo passada no construtor
+    Não implementando ainda pois não há certeza que esse esquema se manterá até o final
+    */
+    {
+        /* le/cria arquivo de chaves */
         try {
             if (!csv.exists())
                 csv.createNewFile();
 
-            // init reader
             CSVReader reader = new CSVReader(new FileReader(csv));
-            // monta Lista Singleton de chaves
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                observableChaves.add(new Chave(nextLine[0], KeyType.valueOf(nextLine[1]), nextLine[2]));
+                observableChaves.add(new Chave(nextLine[0], KeyType.valueOf(nextLine[1]), nextLine[2], Integer.valueOf(nextLine[3])));
             }
 
             reader.close();
@@ -48,18 +56,16 @@ public class ChavesSingleton {
         }
     }
 
-    private ChavesSingleton(){}
+    public static ChavesSingleton getInstance() { return instance; }
 
-    public static ObservableList<Chave> getObservableChaves(){
-        return observableChaves;
-    }
+    public ObservableList<Chave> getObservableChaves(){ return observableChaves; }
 
-    public static ObservableList<Chave> observableChaveFor(final KeyType keyType){
-        // Cria lista filtrada
+    public ObservableList<Chave> observableChaveFor(final KeyType keyType){
+        /* Cria lista filtrada */
         final Matcher<Chave> keyTypeMatcher = new Matcher<Chave>() {
             @Override
             public boolean matches(Chave chave) {
-                return chave.getAlgoritmo() == keyType;
+                return chave.getKeyType() == keyType;
             }
         };
 
@@ -84,59 +90,36 @@ public class ChavesSingleton {
         return filtered;
     }
 
-    public static void add(Chave chave){
-        observableChaves.add(chave);
-        saveCsv();
+    public boolean add(Chave chave){
+        if (chave.isValid()) {
+            observableChaves.add(chave);
+            persist();
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public static void remove(Chave chave){
+    public void remove(Chave chave){
         observableChaves.remove(chave);
-        saveCsv();
+        persist();
         LoggerFactory.getLogger(ChavesSingleton.class).info("Removed {}", chave);
     }
 
-    private static void saveCsv() {
+    /** Salva o CSV */
+    private void persist() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv));
             for (Chave chave : chaves) {
-                String[] arr = {chave.getId(), chave.getAlgoritmo().name(), chave.getValor()};
+                String[] arr = {chave.getId(), chave.getKeyType().name(), chave.getValor(), chave.getLength().toString()};
                 writer.writeNext(arr);
             }
 
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Não foi possível salvar as Chaves", e);
         }
     }
 
-    public static class Chave {
-
-        private String id;
-        private KeyType algoritmo;
-        private String valor;
-
-        public Chave(String id, KeyType algoritmo, String valor) {
-            this.id = id;
-            this.algoritmo = algoritmo;
-            this.valor = valor;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public KeyType getAlgoritmo() {
-            return algoritmo;
-        }
-
-        public String getValor() {
-            return valor;
-        }
-
-        @Override
-        public String toString() {
-            return getId() + " - " + getAlgoritmo();
-        }
-    }
 }

@@ -4,12 +4,11 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 
 /**
- * Encapsula uma configuração de QR, provê métodos util sobre um set-up de QR
- *
- * Assume-se encoding Byte. ver: QR Code specification ISO/IEC 18004:2000
+ * Encapsula uma configuração de QR, provê métodos util sobre um set-up de QR.
+ * Assume-se encoding Byte. ver: QR Code specification ISO/IEC 18004:2000.
+ * @author Breno Salgado <breno.salgado@axivy.com>
  *
  * Created on 08/07/2014.
- * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrSetup {
 

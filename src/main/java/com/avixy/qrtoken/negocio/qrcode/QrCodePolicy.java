@@ -14,15 +14,15 @@ import java.util.List;
 
 /**
  * Objeto que define e aplica regras do Avixy QR Token para os códigos QR
+ * @author Breno Salgado <breno.salgado@axivy.com>
  *
  * Created on 08/07/2014.
- * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrCodePolicy {
     public static int HEADER_SIZE = 3;
 
     /** TODO:
-     * implement multiple QRs
+     * multiple QRs implementation
      */
 
     public QrCodePolicy() {}

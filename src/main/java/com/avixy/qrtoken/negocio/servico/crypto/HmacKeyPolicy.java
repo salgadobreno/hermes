@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.crypto;
 
-import com.avixy.qrtoken.gui.servicos.AcceptKey;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +9,12 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.GeneralSecurityException;
 
 /**
- * Created on 22/08/2014
- *
+ * Implementação de HMAC
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 22/08/2014
  */
-@AcceptKey(keyType = KeyType.HMAC)
+@AcceptsKey(keyType = KeyType.HMAC)
 public class HmacKeyPolicy implements KeyPolicy {
     private static Logger logger = LoggerFactory.getLogger(HmacKeyPolicy.class);
     private byte[] key;

@@ -32,8 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created on 04/08/2014.
  * @author Breno Salgado <breno.salgado@axivy.com>
+ *
+ * Created on 04/08/2014.
  */
 public class HomeController {
     /** TODO:

@@ -1,26 +1,25 @@
 package com.avixy.qrtoken.core;
 
 import com.avixy.qrtoken.gui.servicos.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.ServiceCategory;
 import org.reflections.Reflections;
 
 import java.util.*;
 
 /**
+ * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 12/08/2014
- * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ServiceLoader {
+    /* TODO: mudar static p/ object? */
     private ServiceLoader(){}
 
     private static Reflections reflections = new Reflections("com.avixy.qrtoken.gui.servicos");
 
     /**
-     * Encontra por reflection os subtipos de <code>ServiceComponent</code>
+     * Encontra por reflection os subtipos de {@link ServiceComponent}
      *
-     * @return Mapa dos subtipos de <code>ServiceComponent</code>, mapeados por <code>ServiceComponent.Category</code>.
-     * subtipos sem annotation de <code>ServiceCategory</code> são ignorados.
+     * @return Mapa dos subtipos de {@link ServiceComponent}, mapeados por {@link ServiceComponent.Category}. Subtipos sem definição de <code>ServiceCategory</code> são ignorados.
      */
     public static Map<com.avixy.qrtoken.gui.servicos.ServiceCategory, List<Class<? extends ServiceComponent>>> getServiceComponentMap(){
         Set<Class<? extends ServiceComponent>> classes = reflections.getSubTypesOf(ServiceComponent.class);
@@ -31,9 +30,9 @@ public class ServiceLoader {
 
             for (Class<? extends ServiceComponent> component : classes) {
                 // Se o ServiceComponent não tiver a anotação ServiceCategory, não é posto na lista
-                ServiceCategory componentAnnotation = component.getAnnotation(ServiceCategory.class);
+                ServiceComponent.Category componentAnnotation = component.getAnnotation(ServiceComponent.Category.class);
                 if (componentAnnotation != null) {
-                    if (component.getAnnotation(ServiceCategory.class).category() == category) {
+                    if (component.getAnnotation(ServiceComponent.Category.class).category() == category) {
                         categoryListMap.get(category).add(component);
                     }
                 }

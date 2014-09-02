@@ -1,9 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.crypto;
 
 /**
-* Created on 26/08/2014
-*
-* @author Breno Salgado <breno.salgado@avixy.com>
+ * Operações criptográficas usadas pelo Avixy Qr Token
+ * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 26/08/2014
 */
 public enum KeyType {
     TDES("TDES"), AES("AES"), RSASIG("RSA Assinatura"), RSACRYPT("RSA Sigilo"), ECCSIG("ECC Assinatura"), ECCCRYPT("ECC Sigilo"), HMAC("HMAC");

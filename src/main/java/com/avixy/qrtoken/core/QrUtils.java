@@ -8,9 +8,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * Created on 08/07/2014.
- *
  * @author Breno Salgado <breno.salgado@axivy.com>
+ *
+ * Created on 08/07/2014.
  */
 public class QrUtils {
 
@@ -22,7 +22,8 @@ public class QrUtils {
      * @return Um ByteArrayInputStream que é a imagem do QR Code
      */
     public static InputStream generate(String dados, ErrorCorrectionLevel ecLevel){
-        QRCode qrCode = QRCode.from(dados).withCharset("ISO-8859-1"); //ISO-8859-1 garante que não terá perda de dados em conversão de Strings em byte[]
+        /* ISO-8859-1 garante que não terá perda de dados em conversão de Strings em byte[] */
+        QRCode qrCode = QRCode.from(dados).withCharset("ISO-8859-1");
         qrCode.withSize(500, 500).to(ImageType.PNG);
         qrCode.withErrorCorrection(ecLevel);
 

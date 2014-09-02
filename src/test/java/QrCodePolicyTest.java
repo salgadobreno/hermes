@@ -1,10 +1,8 @@
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
-import static junit.framework.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -28,7 +26,7 @@ public class QrCodePolicyTest {
 
     @Test @Ignore
     public void testCalcHeader() throws Exception {
-        // TODO: implementar com o protocolo de serviços pronto.
+        // TODO: fazer teste com esquema bitwise
     }
 
 //   @Test

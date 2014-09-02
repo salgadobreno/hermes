@@ -1,9 +1,10 @@
 package com.avixy.qrtoken.gui.servicos;
 
-import com.avixy.qrtoken.gui.ChavesSingleton;
+import com.avixy.qrtoken.negocio.servico.crypto.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
-import com.avixy.qrtoken.negocio.servico.ServiceCategory;
+import com.avixy.qrtoken.negocio.servico.crypto.AcceptsKey;
+import com.avixy.qrtoken.negocio.servico.crypto.Chave;
 import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,12 +21,14 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
- * Created on 07/08/2014
  * @author Breno Salgado <breno@avixy.com>
+ *
+ * Created on 07/08/2014
  */
-@ServiceCategory(category = com.avixy.qrtoken.gui.servicos.ServiceCategory.RTC)
-@AcceptKey(keyType = KeyType.HMAC)
+@ServiceComponent.Category(category = com.avixy.qrtoken.gui.servicos.ServiceCategory.RTC)
+@AcceptsKey(keyType = KeyType.HMAC)
 public class RtcServiceComponent extends ServiceComponent {
+    private ChavesSingleton chaves = ChavesSingleton.getInstance();
 
     private static final String FXML_PATH = "/fxml/rtcservice.fxml";
     private final HmacRtcService service = new HmacRtcService();
@@ -35,15 +38,13 @@ public class RtcServiceComponent extends ServiceComponent {
     @FXML private CalendarTextField dataDatePicker;
     @FXML private ComboBox<String> fusoBox;
     @FXML private CalendarTimeTextField horarioField;
-    @FXML private ComboBox<ChavesSingleton.Chave> keyField;
+    @FXML private ComboBox<Chave> keyField;
 
-    /** TODO:
-     * remover os tooltips padrao dos time fields
-     * FIXME keyfield fromString
+    /* TODO:
+     * remover os tooltips padrao dos time fields -> CalendarTextFieldCaspianSkin.java ..
      */
 
     public RtcServiceComponent() {
-        System.out.println(service.getClass());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         fxmlLoader.setController(this);
@@ -61,37 +62,32 @@ public class RtcServiceComponent extends ServiceComponent {
         horarioField.setValue(Calendar.getInstance());
         dataDatePicker.setValue(Calendar.getInstance());
 
-        KeyType keyType = service.getKeyPolicy().getClass().getAnnotation(AcceptKey.class).keyType();
-        keyField.setItems(ChavesSingleton.observableChaveFor(keyType));
+        KeyType keyType = service.getKeyPolicy().getClass().getAnnotation(AcceptsKey.class).keyType();
+        keyField.setItems(chaves.observableChaveFor(keyType));
         //TODO:
         // OOP melhor aqui
-
     }
 
     @Override
     public Service getService(){
-        // data
+        /* data */
         Calendar data = dataDatePicker.getValue();
-        // hora
+        /* hora */
         Calendar hora = horarioField.getValue();
         data.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
         data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
         service.setKey(keyField.getValue().getValor());
-        service.setData(data.getTime());
+        service.setDate(data.getTime());
         service.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
 
         return service;
     }
 
     @Override
-    public Node getNode() {
-        return node;
-    }
+    public Node getNode() { return node; }
 
     @Override
-    public String getServiceName() {
-        return service.getServiceName();
-    }
+    public String getServiceName() { return service.getServiceName(); }
 
 }

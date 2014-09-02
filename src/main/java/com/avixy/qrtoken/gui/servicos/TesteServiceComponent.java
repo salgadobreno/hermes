@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.gui.servicos;
 
 import com.avixy.qrtoken.negocio.servico.Service;
-import com.avixy.qrtoken.negocio.servico.ServiceCategory;
 import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,10 +8,11 @@ import javafx.scene.Node;
 import java.io.IOException;
 
 /**
- * Created on 13/08/2014
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 13/08/2014
  */
-@ServiceCategory
+@ServiceComponent.Category
 public class TesteServiceComponent extends ServiceComponent {
 
     private static final String FXML_PATH = "/fxml/dindin.fxml";

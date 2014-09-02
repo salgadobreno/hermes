@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.ChavesController">
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.GerenciaDeChavesController">
     <children>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="435.0">
             <children>
-                <Label layoutX="7.0" layoutY="6.0" text="Nova chave">
+                <Label layoutX="17.0" layoutY="6.0" text="Nova chave">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="45.0" text="ID:" />
-                <Label layoutX="15.0" layoutY="81.0" text="Algoritmo:" />
-                <Label layoutX="14.0" layoutY="118.0" text="Valor:" />
-                <TextField fx:id="idField" layoutX="77.0" layoutY="41.0" />
-                <ComboBox fx:id="algoComboBox" layoutX="77.0" layoutY="77.0" prefWidth="150.0" />
-                <TextField fx:id="valorField" layoutX="77.0" layoutY="114.0" />
-                <Button defaultButton="true" layoutX="373.0" layoutY="114.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
+                <Label layoutX="15.0" layoutY="48.0" text="Identificação:" />
+                <Label layoutX="15.0" layoutY="84.0" text="Algoritmo:" />
+                <Label layoutX="15.0" layoutY="121.0" text="Valor:" />
+                <TextField fx:id="idField" layoutX="97.0" layoutY="44.0" prefHeight="25.0" prefWidth="207.0" />
+                <ComboBox fx:id="algoComboBox" layoutX="97.0" layoutY="80.0" prefWidth="150.0" />
+                <TextField fx:id="valorField" layoutX="97.0" layoutY="117.0" prefHeight="25.0" prefWidth="207.0" />
+                <Button defaultButton="true" layoutX="373.0" layoutY="123.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
+            <ComboBox fx:id="lengthComboBox" layoutX="253.0" layoutY="80.0" prefWidth="31.0" />
+            <Label fx:id="errorLabel" layoutY="22.0" prefHeight="17.0" prefWidth="324.0" textFill="RED" />
             </children>
         </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
             <children>
-                <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0"/>
+                <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0" />
             </children>
         </AnchorPane>
     </children>

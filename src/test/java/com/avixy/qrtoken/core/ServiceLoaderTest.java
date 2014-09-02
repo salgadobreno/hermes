@@ -6,7 +6,7 @@ public class ServiceLoaderTest {
 
     @Test
     public void testGetListServicos() throws Exception {
-        //Should not throw exception
+        /* Should not throw exception/be working */
         ServiceLoader.getServiceComponentMap();
     }
 }
