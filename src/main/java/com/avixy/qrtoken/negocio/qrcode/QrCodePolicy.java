@@ -43,8 +43,7 @@ public class QrCodePolicy {
     public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException {
         // verifica se precisa de mais de 1 qr ...
         byte[] data = service.getData();
-        byte[] header = getHeader(service);
-        QrTokenCode tokenCode = new QrTokenCode(header, data, setup);
+        QrTokenCode tokenCode = new QrTokenCode(data, setup);
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
         tokenCodeList.add(tokenCode);
 
@@ -71,15 +70,14 @@ public class QrCodePolicy {
         private ErrorCorrectionLevel ecLevel;
 
         /**
-         * @param header bytes de header
          * @param dados conteúdo do QrCode
          * @param setup configuração do QrCode
          */
-        public QrTokenCode(byte[] header, byte[] dados, QrSetup setup) {
+        public QrTokenCode(byte[] dados, QrSetup setup) {
             this.length = setup.getAvailableBytes();
-            if ((header.length + dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
+            if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
 
-            this.dados = ArrayUtils.addAll(header, dados);
+            this.dados = dados;
             this.ecLevel = setup.getEcLevel();
         }
 
@@ -96,9 +94,7 @@ public class QrCodePolicy {
         /**
          * @return Um <code>ByteArrayInputStream</code> que é a imagem desse <code>QrTokenCode</code>
          */
-        public InputStream image(){
-            return QrUtils.generate(getDados(), ecLevel);
-        }
+        public InputStream image(){ return QrUtils.generate(getDados(), ecLevel); }
 
     }
 }

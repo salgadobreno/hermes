@@ -1,21 +1,23 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HmacRtcServiceTest {
+    HmacRtcService service = new HmacRtcService(new QrtHeaderPolicy(), new HmacKeyPolicy());
+
     static final Charset CHARSET = Charset.forName("ISO-8859-1");
-    HmacRtcService service = new HmacRtcService();
     int timeStamp = 50;
     String key = "chave";
     String data;
@@ -23,7 +25,7 @@ public class HmacRtcServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        service.setData(new Date(timeStamp));
+        service.setDate(new Date(timeStamp));
         service.setTimeZone(TimeZone.getDefault());
         service.setKey(key);
         data = new String(service.getData(), CHARSET);
@@ -34,13 +36,6 @@ public class HmacRtcServiceTest {
     public void testGetServiceCode() throws Exception {
         // Protocolo de serviços: Atualizar RTC - Avixy com HMAC - código 50
         assertEquals(50, service.getServiceCode());
-    }
-
-    @Test
-    public void testParams() throws Exception {
-        // timestamp, fuso horário
-        assertTrue(msg.contains(String.valueOf(timeStamp)));
-        assertTrue(msg.contains(String.valueOf(TimeZone.getDefault().getRawOffset())));
     }
 
     @Test
@@ -63,5 +58,68 @@ public class HmacRtcServiceTest {
         sha1Mac.init(secretKeySpec);
         result = sha1Mac.doFinal("wrong message".getBytes());
         assertFalse(new String(service.getData(), CHARSET).contains(new String(result, CHARSET)));
+    }
+
+    @Test
+    public void testRtcMessage() throws Exception {
+        byte[] expectedByteArray = {
+//                0b00000000,
+//                0b00000000,
+//                0b00110010,     // SERVICE_AVIXY_RTC_SYM_UPDATE
+                0b01010100,
+                0b00000000,
+                (byte)0b10101000,
+                0b00110000,     // expected_epoch gmt
+                0b00010111     // +7
+        };
+
+        int expectedEpochParam = 1409329200;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("utc"));
+        calendar.set(2014, Calendar.AUGUST, 29);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        service.setDate(calendar.getTime());
+        service.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+
+        assertEquals(expectedEpochParam, service.getDate());
+        assertArrayEquals(expectedByteArray, service.getMessage());
+    }
+
+    @Test
+    public void testRtcMessageComTimezoneNegativo() throws Exception {
+        byte[] expectedByteArray = {
+                0b01010100,
+                0b00000000,
+                (byte)0b10101000,
+                0b00110000,     // expected_epoch gmt
+                0b00001011     // -11
+        };
+
+        int expectedEpochParam = 1409329200;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("utc"));
+        calendar.set(2014, Calendar.AUGUST, 29);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        service.setDate(calendar.getTime());
+        service.setTimeZone(TimeZone.getTimeZone("GMT-11"));
+
+        assertEquals(expectedEpochParam, service.getDate());
+        assertArrayEquals(expectedByteArray, service.getMessage());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTimezoneMaximoEhDoze() throws Exception {
+        service.setTimeZone(TimeZone.getTimeZone("GMT+16"));
+        service.setTimeZone(TimeZone.getTimeZone("GMT-13"));
     }
 }
