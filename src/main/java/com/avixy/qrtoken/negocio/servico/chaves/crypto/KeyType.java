@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio.servico.crypto;
+package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 /**
  * Operações criptográficas usadas pelo Avixy Qr Token

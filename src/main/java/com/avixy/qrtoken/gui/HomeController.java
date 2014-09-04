@@ -1,9 +1,12 @@
 package com.avixy.qrtoken.gui;
 
+import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import javafx.beans.value.ChangeListener;
@@ -43,6 +46,7 @@ public class HomeController {
      */
     static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
+    Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
     QrCodePolicy policy = new QrCodePolicy();
@@ -73,14 +77,10 @@ public class HomeController {
             List<String> servicoForCategoryListNames = new ArrayList<>();
             // Add the list of services
             for (Class<? extends ServiceComponent> component : serviceCategoryMap.get(category)) {
-                try {
-                    // store <serviceName, component>
-                    ServiceComponent serviceComponent = component.newInstance();
-                    servicoForCategoryListNames.add(serviceComponent.getServiceName());
-                    serviceNameMap.put(serviceComponent.getServiceName(), serviceComponent);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    log.error("Erro instanciando {}:", component.getClass(), e);
-                }
+                // store <serviceName, component>
+                ServiceComponent serviceComponent = injector.getInstance(component);
+                servicoForCategoryListNames.add(serviceComponent.getServiceName());
+                serviceNameMap.put(serviceComponent.getServiceName(), serviceComponent);
             }
             // Cria ListViews de serviços
             AnchorPane anchorPane = new AnchorPane();

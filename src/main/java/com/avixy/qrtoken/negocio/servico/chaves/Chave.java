@@ -1,4 +1,6 @@
-package com.avixy.qrtoken.negocio.servico.crypto;
+package com.avixy.qrtoken.negocio.servico.chaves;
+
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 
 /**
 * Bean de Chave

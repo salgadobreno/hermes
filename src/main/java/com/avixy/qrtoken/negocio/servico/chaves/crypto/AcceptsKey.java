@@ -1,8 +1,4 @@
-package com.avixy.qrtoken.negocio.servico.crypto;
-
-import com.avixy.qrtoken.negocio.servico.crypto.Chave;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
+package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

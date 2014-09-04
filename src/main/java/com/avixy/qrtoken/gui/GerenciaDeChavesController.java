@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.gui;
 
-import com.avixy.qrtoken.negocio.servico.crypto.Chave;
-import com.avixy.qrtoken.negocio.servico.crypto.ChavesSingleton;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
+import com.avixy.qrtoken.negocio.servico.chaves.Chave;
+import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;

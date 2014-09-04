@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio.servico.crypto;
+package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;

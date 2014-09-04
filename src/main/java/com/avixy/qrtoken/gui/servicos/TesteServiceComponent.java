@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos;
 
 import com.avixy.qrtoken.negocio.servico.Service;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 

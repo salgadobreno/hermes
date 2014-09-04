@@ -1,7 +1,8 @@
-package com.avixy.qrtoken.negocio.servico.crypto;
+package com.avixy.qrtoken.negocio.servico.chaves;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.sun.javafx.collections.transformation.Matcher;
 import javafx.beans.binding.ListBinding;
 import javafx.collections.FXCollections;
@@ -60,7 +61,7 @@ public class ChavesSingleton {
 
     public ObservableList<Chave> getObservableChaves(){ return observableChaves; }
 
-    public ObservableList<Chave> observableChaveFor(final KeyType keyType){
+    public ObservableList<Chave> observableChavesFor(final KeyType keyType){
         /* Cria lista filtrada */
         final Matcher<Chave> keyTypeMatcher = new Matcher<Chave>() {
             @Override

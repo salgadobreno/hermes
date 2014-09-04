@@ -1,11 +1,14 @@
 package com.avixy.qrtoken.gui.servicos;
 
-import com.avixy.qrtoken.negocio.servico.crypto.ChavesSingleton;
+import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.chaves.Chave;
+import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
+import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.*;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
-import com.avixy.qrtoken.negocio.servico.crypto.AcceptsKey;
-import com.avixy.qrtoken.negocio.servico.crypto.Chave;
-import com.avixy.qrtoken.negocio.servico.crypto.KeyType;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,10 +31,15 @@ import java.util.TimeZone;
 @ServiceComponent.Category(category = com.avixy.qrtoken.gui.servicos.ServiceCategory.RTC)
 @AcceptsKey(keyType = KeyType.HMAC)
 public class RtcServiceComponent extends ServiceComponent {
-    private ChavesSingleton chaves = ChavesSingleton.getInstance();
+    Injector injector = Guice.createInjector(new HermesModule());
 
     private static final String FXML_PATH = "/fxml/rtcservice.fxml";
-    private final HmacRtcService service = new HmacRtcService();
+
+    private HeaderPolicy headerPolicy;
+    private KeyPolicy keyPolicy = new HmacKeyPolicy();
+
+
+    private final HmacRtcService service;
 
     private Node node;
 
@@ -45,6 +53,8 @@ public class RtcServiceComponent extends ServiceComponent {
      */
 
     public RtcServiceComponent() {
+        headerPolicy = injector.getInstance(HeaderPolicy.class);
+        service = new HmacRtcService(headerPolicy, keyPolicy);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         fxmlLoader.setController(this);
@@ -63,7 +73,7 @@ public class RtcServiceComponent extends ServiceComponent {
         dataDatePicker.setValue(Calendar.getInstance());
 
         KeyType keyType = service.getKeyPolicy().getClass().getAnnotation(AcceptsKey.class).keyType();
-        keyField.setItems(chaves.observableChaveFor(keyType));
+        keyField.setItems(ChavesSingleton.getInstance().observableChavesFor(keyType));
         //TODO:
         // OOP melhor aqui
     }
