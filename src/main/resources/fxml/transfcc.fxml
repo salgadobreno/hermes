@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" prefHeight="356.0" prefWidth="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="origemLabel" layoutX="12.0" layoutY="74.0" text="xxxxx">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane fx:id="origemPane" layoutX="12.0" layoutY="117.0" prefHeight="78.0" prefWidth="148.0" />
+      <Pane fx:id="destinoPane" layoutX="175.0" layoutY="117.0" prefHeight="78.0" prefWidth="148.0" />
+      <Label fx:id="destinoLabel" layoutX="175.0" layoutY="74.0" text="xxxxx">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="chaveLabel" layoutX="345.0" layoutY="74.0" text="xxxxx">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane fx:id="chavesPane" layoutX="345.0" layoutY="117.0" prefHeight="78.0" prefWidth="136.0" />
+      <Pane fx:id="dadosPane" layoutX="14.0" layoutY="248.0" prefHeight="78.0" prefWidth="465.0">
+         <children>
+            <Button fx:id="okButton" defaultButton="true" layoutX="418.0" layoutY="52.0" mnemonicParsing="false" text="OK" />
+         </children></Pane>
+      <Label fx:id="titleLabel" layoutX="12.0" layoutY="14.0" text="xxxxx">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

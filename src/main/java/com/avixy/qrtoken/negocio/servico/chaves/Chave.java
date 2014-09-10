@@ -1,6 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.chaves;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
 * Bean de Chave
@@ -9,6 +13,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
  * Created on 28/08/2014
 */
 public class Chave {
+    Logger logger = LoggerFactory.getLogger(Chave.class);
 
     private String id;
     private String valor;
@@ -21,7 +26,7 @@ public class Chave {
 
     public Chave(String id, KeyType keyType, String valor, int length) {
         this.id = id;
-        this.valor = valor;
+        setValor(valor);
         this.keyType = keyType;
         this.length = length;
     }
@@ -47,7 +52,13 @@ public class Chave {
     }
 
     public Boolean isValid(){
-        boolean valid = valor.length() == length;
+        byte[] bytes;
+        try {
+            bytes = Hex.decodeHex(valor.toCharArray());
+        } catch (DecoderException e) {
+            return false;
+        }
+        boolean valid = bytes.length == (length / 8);
         if (!valid)
             errors = "Invalid length;"; //TODO: mecânismo de erros melhor
         return valid;

@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,12 +11,13 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import static org.junit.Assert.*;
 
 public class HmacRtcServiceTest {
-    HmacRtcService service = new HmacRtcService(new QrtHeaderPolicy(), new HmacKeyPolicy());
+    HmacRtcService service = new HmacRtcService(new HmacKeyPolicy());
 
     static final Charset CHARSET = Charset.forName("ISO-8859-1");
     int timeStamp = 50;
@@ -63,9 +65,6 @@ public class HmacRtcServiceTest {
     @Test
     public void testRtcMessage() throws Exception {
         byte[] expectedByteArray = {
-//                0b00000000,
-//                0b00000000,
-//                0b00110010,     // SERVICE_AVIXY_RTC_SYM_UPDATE
                 0b01010100,
                 0b00000000,
                 (byte)0b10101000,

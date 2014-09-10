@@ -15,9 +15,8 @@ import java.security.GeneralSecurityException;
  * Created on 22/08/2014
  */
 @AcceptsKey(keyType = KeyType.HMAC)
-public class HmacKeyPolicy implements KeyPolicy {
+public class HmacKeyPolicy extends AbstractKeyPolicy {
     private static Logger logger = LoggerFactory.getLogger(HmacKeyPolicy.class);
-    private byte[] key;
 
     @Override
     public byte[] apply(byte[] msg) throws GeneralSecurityException {
@@ -31,7 +30,4 @@ public class HmacKeyPolicy implements KeyPolicy {
         return ArrayUtils.addAll(msg, mac);
     }
 
-    public void setKey(byte[] key) {
-        this.key = key;
-    }
 }

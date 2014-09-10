@@ -1,6 +1,9 @@
 package com.avixy.qrtoken.gui.servicos;
 
+import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.negocio.servico.Service;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
@@ -19,14 +22,15 @@ import java.lang.annotation.Target;
  */
  public abstract class ServiceComponent extends VBox {
     static Logger log = LoggerFactory.getLogger(ServiceComponent.class);
+    protected Injector injector = Guice.createInjector(new HermesModule());
 
-    public ServiceComponent(){}
+    protected Service service;
 
-    public abstract Service getService();
+    public Service getService(){ return service; }
 
     public abstract Node getNode();
 
-    public abstract String getServiceName();
+    public String getServiceName() { return service.getServiceName(); }
 
     public Logger getLogger() { return log; }
 

@@ -140,6 +140,12 @@
             <version>2.2-r5</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-javafx</artifactId>
+            <version>4.2</version>
+        </dependency>
+
         <!--reflections-->
         <dependency>
             <groupId>org.reflections</groupId>

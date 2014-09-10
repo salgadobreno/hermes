@@ -1,5 +1,6 @@
-package com.avixy.qrtoken.negocio.servico.chaves.crypto;
+package com.avixy.qrtoken.negocio.servico.crypto;
 
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 

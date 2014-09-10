@@ -16,4 +16,6 @@ public interface KeyPolicy {
     /** Aplica a operação criptográfica */
     public byte[] apply(byte[] msg) throws GeneralSecurityException;
 
+
+    void setKey(byte[] bytes);
 }

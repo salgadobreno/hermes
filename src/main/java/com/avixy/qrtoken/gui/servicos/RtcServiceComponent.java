@@ -1,14 +1,11 @@
 package com.avixy.qrtoken.gui.servicos;
 
-import com.avixy.qrtoken.core.HermesModule;
-import com.avixy.qrtoken.negocio.servico.chaves.Chave;
-import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
-import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.*;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.avixy.qrtoken.negocio.servico.chaves.Chave;
+import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,18 +25,11 @@ import java.util.TimeZone;
  *
  * Created on 07/08/2014
  */
-@ServiceComponent.Category(category = com.avixy.qrtoken.gui.servicos.ServiceCategory.RTC)
+@ServiceComponent.Category(category = ServiceCategory.RTC)
 @AcceptsKey(keyType = KeyType.HMAC)
 public class RtcServiceComponent extends ServiceComponent {
-    Injector injector = Guice.createInjector(new HermesModule());
 
-    private static final String FXML_PATH = "/fxml/rtcservice.fxml";
-
-    private HeaderPolicy headerPolicy;
-    private KeyPolicy keyPolicy = new HmacKeyPolicy();
-
-
-    private final HmacRtcService service;
+    private final String FXML_PATH = "/fxml/rtcservice.fxml";
 
     private Node node;
 
@@ -53,8 +43,7 @@ public class RtcServiceComponent extends ServiceComponent {
      */
 
     public RtcServiceComponent() {
-        headerPolicy = injector.getInstance(HeaderPolicy.class);
-        service = new HmacRtcService(headerPolicy, keyPolicy);
+        service = injector.getInstance(HmacRtcService.class);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         fxmlLoader.setController(this);
@@ -74,12 +63,11 @@ public class RtcServiceComponent extends ServiceComponent {
 
         KeyType keyType = service.getKeyPolicy().getClass().getAnnotation(AcceptsKey.class).keyType();
         keyField.setItems(ChavesSingleton.getInstance().observableChavesFor(keyType));
-        //TODO:
-        // OOP melhor aqui
     }
 
     @Override
     public Service getService(){
+        HmacRtcService hmacRtcService = (HmacRtcService) service;
         /* data */
         Calendar data = dataDatePicker.getValue();
         /* hora */
@@ -87,11 +75,11 @@ public class RtcServiceComponent extends ServiceComponent {
         data.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
         data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
-        service.setKey(keyField.getValue().getValor());
-        service.setDate(data.getTime());
-        service.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
+        hmacRtcService.setKey(keyField.getValue().getValor());
+        hmacRtcService.setDate(data.getTime());
+        hmacRtcService.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
 
-        return service;
+        return hmacRtcService;
     }
 
     @Override

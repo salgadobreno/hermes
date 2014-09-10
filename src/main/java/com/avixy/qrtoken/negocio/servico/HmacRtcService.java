@@ -3,6 +3,8 @@ package com.avixy.qrtoken.negocio.servico;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.security.GeneralSecurityException;
@@ -23,9 +25,9 @@ public class HmacRtcService extends AbstractService {
     private int date;
     private int timeZone;
 
-    public HmacRtcService(HeaderPolicy headerPolicy, KeyPolicy keyPolicy) {
-        super(headerPolicy, keyPolicy);
-        System.out.println("headerPolicy = " + headerPolicy);
+    @Inject
+    public HmacRtcService(@Named("Hmac") KeyPolicy keyPolicy) {
+        super(keyPolicy);
     }
 
     @Override
@@ -40,7 +42,7 @@ public class HmacRtcService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException {
-        return ArrayUtils.addAll(headerPolicy.getHeader(this), hmacKeyPolicy.apply(getMessage()));
+        return hmacKeyPolicy.apply(getMessage());
     }
 
     @Override
@@ -49,7 +51,6 @@ public class HmacRtcService extends AbstractService {
     }
 
     public byte[] getMessage(){
-        //TODO: generify header
         byte[] bytes = new byte[5];
         bytes[0] = (byte)(date >> 24);
         bytes[1] = (byte)(date >> 16);
@@ -60,7 +61,6 @@ public class HmacRtcService extends AbstractService {
     }
 
     public void setTimeZone(TimeZone timeZone) {
-        // TODO: abs max 12
         int hourOffset = timeZone.getRawOffset() / (60 * 60 * 1000);
         int absOffset = Math.abs(hourOffset);
         if (absOffset > 12)

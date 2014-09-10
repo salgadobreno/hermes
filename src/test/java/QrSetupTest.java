@@ -19,18 +19,6 @@ public class QrSetupTest {
 
     private byte[] msg = "mensagem secreta".getBytes();
 
-    QrCodePolicy policy = new QrCodePolicy(){
-        @Override
-        public int getHeaderSize(){
-            return 3;
-        }
-
-        @Override
-        public byte[] getHeader(Service service) {
-            return "111".getBytes();
-        }
-    };
-
     @Test
     public void testGetAvailableBytes() throws Exception {
         // ISO/IEC 18004:2000 Table 7

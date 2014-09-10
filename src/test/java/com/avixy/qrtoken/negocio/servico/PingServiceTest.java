@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico;
 
-import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -13,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class PingServiceTest {
 
-    PingService pingService = new PingService(new QrtHeaderPolicy(), null);
+    PingService pingService = new PingService(null);
 
     @Test
     public void testServiceCode() throws Exception {

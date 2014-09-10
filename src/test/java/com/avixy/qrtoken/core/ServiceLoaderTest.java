@@ -1,12 +1,33 @@
 package com.avixy.qrtoken.core;
 
+import com.avixy.qrtoken.gui.servicos.HmacTemplateMessageServiceComponent;
+import com.avixy.qrtoken.gui.servicos.PingServiceComponent;
+import com.avixy.qrtoken.gui.servicos.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.ServiceComponent;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ServiceLoaderTest {
 
     @Test
     public void testGetListServicos() throws Exception {
-        /* Should not throw exception/be working */
+        /* doesn't throw exception */
         ServiceLoader.getServiceComponentMap();
+
+        List<Class<? extends ServiceComponent>> serviceComponents = new ArrayList<>();
+        /* get all service components in a list */
+        for (Map.Entry<ServiceCategory, List<Class<? extends ServiceComponent>>> serviceCategoryListEntry : ServiceLoader.getServiceComponentMap().entrySet()) {
+            serviceComponents.addAll(serviceCategoryListEntry.getValue());
+        }
+        /* includes PingService */
+        assertTrue(serviceComponents.contains(PingServiceComponent.class));
+        /* includes HmacTemplateMessageService */
+        assertTrue(serviceComponents.contains(HmacTemplateMessageServiceComponent.class));
+
+
     }
 }

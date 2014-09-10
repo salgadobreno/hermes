@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,12 +47,9 @@ public class GerenciaDeChavesController {
     Integer[] keyLengths = {64, 128, 160, 192, 224, 256, 320, 384, 512, 1024, 2048, 4096};
 
     public void initialize(){
-
         chave.setKeyType(KeyType.values()[0]);
         chave.setLength(keyLengths[0]);
-        for (KeyType keyType : KeyType.values()) {
-            algorythmList.add(keyType);
-        }
+        Collections.addAll(algorythmList, KeyType.values());
 
         algoComboBox.setItems(FXCollections.observableList(algorythmList));
         lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyLengths)));

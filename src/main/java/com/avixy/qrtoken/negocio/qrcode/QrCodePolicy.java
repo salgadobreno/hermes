@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
 import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,18 +21,14 @@ import java.util.List;
  */
 public class QrCodePolicy {
     public static int HEADER_SIZE = 3;
+    private HeaderPolicy headerPolicy;
 
     /** TODO:
      * multiple QRs implementation
      */
 
-    public QrCodePolicy() {}
-
-    /**
-     * @return O tamanho básico do header de um QR
-     */
-    public int getHeaderSize(){
-        return HEADER_SIZE;
+    public QrCodePolicy(HeaderPolicy headerPolicy) {
+        this.headerPolicy = headerPolicy;
     }
 
     /**
@@ -42,24 +39,12 @@ public class QrCodePolicy {
      */
     public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException {
         // verifica se precisa de mais de 1 qr ...
-        byte[] data = service.getData();
+        byte[] data = ArrayUtils.addAll(headerPolicy.getHeader(service), service.getData());
         QrTokenCode tokenCode = new QrTokenCode(data, setup);
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
         tokenCodeList.add(tokenCode);
 
         return tokenCodeList;
-    }
-
-    /**
-     * @param service
-     * @return Tripa de dados para o *header* pra esse <code>Service</code> dentro dessa política de QRs
-     * <code>Policy</code>
-     */
-    public byte[] getHeader(Service service) {
-        byte[] header = new byte[getHeaderSize()];
-        // byte[0] e byte[1] == 0 por default
-        header[2] = (byte) service.getServiceCode();
-        return header;
     }
 
     public class QrTokenCode {

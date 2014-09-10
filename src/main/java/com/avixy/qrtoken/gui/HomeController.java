@@ -5,6 +5,7 @@ import com.avixy.qrtoken.gui.servicos.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -49,7 +50,7 @@ public class HomeController {
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
-    QrCodePolicy policy = new QrCodePolicy();
+    QrCodePolicy policy = new QrCodePolicy(new QrtHeaderPolicy());
 
     Stage zoomStage;
     Stage chavesStage;
