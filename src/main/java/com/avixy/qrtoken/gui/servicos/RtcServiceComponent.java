@@ -6,6 +6,8 @@ import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
+import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,8 +78,8 @@ public class RtcServiceComponent extends ServiceComponent {
         data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
         hmacRtcService.setKey(keyField.getValue().getValor());
-        hmacRtcService.setDate(data.getTime());
-        hmacRtcService.setTimeZone(TimeZone.getTimeZone(fusoBox.getValue()));
+        hmacRtcService.setDate(new TimestampParam(data.getTime()));
+        hmacRtcService.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone(fusoBox.getValue())));
 
         return hmacRtcService;
     }

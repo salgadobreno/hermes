@@ -1,11 +1,8 @@
 /*
-
 package com.avixy.qrtoken.gui;
 
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.qrcode.QrSlice;
-import com.avixy.qrtoken.core.QrUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import javafx.application.Platform;
@@ -34,15 +31,21 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
+
 
 
 */
 /**
- * Created on 08/07/2014.
  * @author Breno Salgado <breno.salgado@axivy.com>
+ *
+ * Created on 08/07/2014.
  *//*
+
 
 
 public class BootloaderController {
@@ -135,7 +138,8 @@ public class BootloaderController {
         bytesPorDadosProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return getSetup().getUsableBytes();
+//                return getSetup().getUsableBytes();
+                return null;
             }
         }, qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
@@ -149,7 +153,8 @@ public class BootloaderController {
         quantidadeQrsProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return getSetup().getQrQuantity();
+//                return getSetup().getQrQuantity();
+                return null;
             }
         }, contentField.textProperty(), qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
@@ -196,16 +201,16 @@ public class BootloaderController {
     }
 
     public void gerarQr() {
-        if (getContent().length < 1){ qrView.setImage(null); return; }
-        byte[] content = getContent();
-        QrSlice[] qrs = policy.getQrsFor(getSetup());
-
-        QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
-//        System.out.println("-> " + currQr.getDados());
-//        System.out.println("--- length: " + currQr.getDados().length());
-        Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
-
-        qrView.setImage(image);
+//        if (getContent().length < 1){ qrView.setImage(null); return; }
+//        byte[] content = getContent();
+//        QrSlice[] qrs = policy.getQrsFor(getSetup());
+//
+//        QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
+////        System.out.println("-> " + currQr.getDados());
+////        System.out.println("--- length: " + currQr.getDados().length());
+//        Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
+//
+//        qrView.setImage(image);
     }
 
     public void resetQrDisplay() {
@@ -322,5 +327,6 @@ public class BootloaderController {
         return ErrorCorrectionLevel.values()[errorCorrectionLevel];
     }
 }
+
 */
 

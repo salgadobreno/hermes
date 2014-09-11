@@ -2,6 +2,8 @@ package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -48,9 +50,9 @@ public class EncryptedTemplateMessageServiceTest {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        service.setDate(calendar.getTime());
-        service.setPin("1234");
-        service.setTemplate(1);
+        service.setDate(new TimestampParam(calendar.getTime()));
+        service.setPin(new PinParam("1234"));
+        service.setTemplate(new ByteWrapperParam((byte) 1));
         service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));
 
         assertArrayEquals(expectedByteArray, service.getMessage());

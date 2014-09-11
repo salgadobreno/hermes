@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.core;
 
-import com.avixy.qrtoken.gui.servicos.HmacTemplateMessageServiceComponent;
+import com.avixy.qrtoken.gui.servicos.EncryptedTemplateMessageServiceComponent;
 import com.avixy.qrtoken.gui.servicos.PingServiceComponent;
 import com.avixy.qrtoken.gui.servicos.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.ServiceComponent;
@@ -26,7 +26,7 @@ public class ServiceLoaderTest {
         /* includes PingService */
         assertTrue(serviceComponents.contains(PingServiceComponent.class));
         /* includes HmacTemplateMessageService */
-        assertTrue(serviceComponents.contains(HmacTemplateMessageServiceComponent.class));
+        assertTrue(serviceComponents.contains(EncryptedTemplateMessageServiceComponent.class));
 
 
     }

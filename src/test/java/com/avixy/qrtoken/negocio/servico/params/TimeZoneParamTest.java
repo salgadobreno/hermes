@@ -6,7 +6,7 @@ import java.util.TimeZone;
 
 import static org.junit.Assert.*;
 
-public class FusoHorarioParamTest {
+public class TimeZoneParamTest {
 
     @Test
     public void testToBinaryString() throws Exception {
@@ -16,7 +16,7 @@ public class FusoHorarioParamTest {
         TimeZone timeZonePositive = TimeZone.getTimeZone("GMT+7");
         TimeZone timeZoneNegative = TimeZone.getTimeZone("GMT-11");
 
-        assertEquals(expectedBinaryStringPositive, new FusoHorarioParam(timeZonePositive).toBinaryString());
-        assertEquals(expectedBinaryStringNegative, new FusoHorarioParam(timeZoneNegative).toBinaryString());
+        assertEquals(expectedBinaryStringPositive, new TimeZoneParam(timeZonePositive).toBinaryString());
+        assertEquals(expectedBinaryStringNegative, new TimeZoneParam(timeZoneNegative).toBinaryString());
     }
 }

@@ -2,6 +2,8 @@ package com.avixy.qrtoken.negocio.servico.params;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 /**
  * Created on 10/09/2014
  *
@@ -13,6 +15,10 @@ public class TimestampParam implements Param {
 
     public TimestampParam(int timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public TimestampParam(Date timestamp) {
+        this.timestamp = (int) (timestamp.getTime() / 1000);
     }
 
     @Override

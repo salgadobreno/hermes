@@ -9,11 +9,11 @@ import java.util.TimeZone;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class FusoHorarioParam implements Param {
+public class TimeZoneParam implements Param {
     private static final int LENGTH = 8;
     private byte timeZone;
 
-    public FusoHorarioParam(TimeZone timeZone) {
+    public TimeZoneParam(TimeZone timeZone) {
         int gmtOffset = timeZone.getRawOffset() / (60 * 60 * 1000);
         int absOffset = Math.abs(gmtOffset);
         if (absOffset > 12)

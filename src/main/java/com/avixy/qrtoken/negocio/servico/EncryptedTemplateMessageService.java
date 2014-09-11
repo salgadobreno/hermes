@@ -4,7 +4,10 @@ import com.avixy.qrtoken.core.ExBitSet;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.Param;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import org.apache.commons.lang.ArrayUtils;
@@ -19,16 +22,15 @@ import java.util.*;
  */
 public class EncryptedTemplateMessageService extends AbstractService {
 
-    private String pin;
-    private int template;
-    private int date;
+    private PinParam pin;
+    private ByteWrapperParam template;
+    private TimestampParam date;
     private List<Param> params = new ArrayList<>();
 
     private KeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
 
     @Inject
     public EncryptedTemplateMessageService(@Named("PinCypher") KeyPolicy keyPolicy) {
-        //TODO: header.. ?
         super(keyPolicy);
     }
 
@@ -45,41 +47,30 @@ public class EncryptedTemplateMessageService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        List<Byte> bytes = new ArrayList<>();
-        bytes.add((byte)(date >> 24));
-        bytes.add((byte)(date >> 16));
-        bytes.add((byte)(date >> 8));
-        bytes.add((byte)(date >> 0)); //timestamp
-
-        String pinString = pin + '$';
-        for (char c : pinString.toCharArray()) {
-            bytes.add((byte) c);
-        }
-        bytes.add((byte) template);
-
+        String binMsg = "";
+        binMsg += date.toBinaryString();
+        binMsg += pin.toBinaryString();
+        binMsg += template.toBinaryString();
         for (Param param : params) {
-            BitSet bitSet = ExBitSet.createFromString(param.toBinaryString());
-            for (byte b : bitSet.toByteArray()) {
-                bytes.add(b);
-            }
+            binMsg += param.toBinaryString();
         }
 
-        return ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()]));
+        return ExBitSet.bytesFromString(binMsg);
     }
 
     @Override
     public KeyPolicy getKeyPolicy() { return null; }
 
-    public void setPin(String pin) { this.pin = pin; }
+    public void setPin(PinParam pin) { this.pin = pin; }
 
-    public void setTemplate(int template) { this.template = template; }
+    public void setTemplate(ByteWrapperParam template) { this.template = template; }
 
     public void setParams(Param... params) {
         this.params = Arrays.asList(params);
     }
 
-    public void setDate(Date date) {
-        this.date = (int)(date.getTime() / 1000);
+    public void setDate(TimestampParam date) {
+        this.date = date;
     }
 
     public void setChaveAes(Chave chaveAes) {

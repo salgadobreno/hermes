@@ -6,6 +6,10 @@ import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
+import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,8 +42,7 @@ import java.util.List;
  */
 @ServiceComponent.Category(category = ServiceCategory.BANCARIO)
 @AcceptsKey(keyType = KeyType.HMAC)
-public class HmacTemplateMessageServiceComponent extends ServiceComponent {
-    /* todo: rename */
+public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
 
     private Stage formStage = new Stage();
     private final String FXML_PATH = "/fxml/transfcc.fxml";
@@ -65,8 +68,14 @@ public class HmacTemplateMessageServiceComponent extends ServiceComponent {
     private CalendarTextField dataCalendarTextField = new CalendarTextField();
     private TextField tanTextField = new TextField();
     private TextField valorTextField = new TextField();
+    private TextField origemNomeTextField = new TextField();
+    private TextField origemAgenciaTextField = new TextField();
+    private TextField destinoNomeTextField = new TextField();
+    private TextField origemContaTextField = new TextField();
+    private TextField destinoContaTextField = new TextField();
+    private TextField destinoAgenciaTextField = new TextField();
 
-    public HmacTemplateMessageServiceComponent() {
+    public EncryptedTemplateMessageServiceComponent() {
         this.encryptedTemplateMessageService = injector.getInstance(EncryptedTemplateMessageService.class);
         this.service = encryptedTemplateMessageService;
 
@@ -87,26 +96,20 @@ public class HmacTemplateMessageServiceComponent extends ServiceComponent {
             //origem
             VBox vBox = new VBox();
             Label nomeL = new Label("Nome:");
-            TextField nomeTf = new TextField();
             Label agL = new Label("Ag:");
-            TextField agTf = new TextField();
             Label ccL = new Label("CC:");
-            TextField ccTf = new TextField();
 
-            vBox.getChildren().addAll(nomeL, nomeTf, agL, agTf, ccL, ccTf);
+            vBox.getChildren().addAll(nomeL, origemNomeTextField, agL, origemAgenciaTextField, ccL, origemContaTextField);
             origemPane.getChildren().add(vBox);
             //endorigem
 
             //destino
             VBox vBoxDes = new VBox();
             Label nomeDes = new Label("Nome:");
-            TextField nomeDesTf = new TextField();
             Label agDesL = new Label("Ag:");
-            TextField agDesTf = new TextField();
             Label ccDesL = new Label("CC:");
-            TextField ccDesTf = new TextField();
 
-            vBoxDes.getChildren().addAll(nomeDes, nomeDesTf, agDesL, agDesTf, ccDesL, ccDesTf);
+            vBoxDes.getChildren().addAll(nomeDes, destinoNomeTextField, agDesL, destinoAgenciaTextField, ccDesL, destinoContaTextField);
             destinoPane.getChildren().add(vBoxDes);
             //enddestino
 
@@ -189,11 +192,21 @@ public class HmacTemplateMessageServiceComponent extends ServiceComponent {
     public Service getService() {
         encryptedTemplateMessageService.setChaveAes(comboAes.getValue());
         encryptedTemplateMessageService.setChaveHmac(comboHmac.getValue());
-        encryptedTemplateMessageService.setTemplate(templateComboBox.getValue());
-        encryptedTemplateMessageService.setPin(pinTextField.getText());
-        encryptedTemplateMessageService.setDate(timestampTextField.getValue().getTime());
-        //hmacTemplateMessageService.setParams(valorTextField.getText(), dataCalendarTextField.getValue(), tanTextField.getText());
-        //TODO
+        encryptedTemplateMessageService.setTemplate(new ByteWrapperParam(templateComboBox.getValue().byteValue()));
+        encryptedTemplateMessageService.setPin(new PinParam(pinTextField.getText()));
+        encryptedTemplateMessageService.setDate(new TimestampParam(timestampTextField.getValue().getTime())); //TODO: date + time
+
+        encryptedTemplateMessageService.setParams(
+                new StringWrapperParam(origemNomeTextField.getText()),
+                new StringWrapperParam(origemAgenciaTextField.getText()),
+                new StringWrapperParam(origemContaTextField.getText()),
+                new StringWrapperParam(destinoNomeTextField.getText()),
+                new StringWrapperParam(destinoAgenciaTextField.getText()),
+                new StringWrapperParam(destinoContaTextField.getText()),
+                new StringWrapperParam(valorTextField.getText()),
+                new TimestampParam(dataCalendarTextField.getValue().getTime()),
+                new StringWrapperParam(tanTextField.getText())
+        );
         return encryptedTemplateMessageService;
     }
 }

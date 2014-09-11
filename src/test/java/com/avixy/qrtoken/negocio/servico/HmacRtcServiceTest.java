@@ -2,6 +2,8 @@ package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +29,8 @@ public class HmacRtcServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        service.setDate(new Date(timeStamp));
-        service.setTimeZone(TimeZone.getDefault());
+        service.setDate(new TimestampParam(50));
+        service.setTimeZone(new TimeZoneParam(TimeZone.getDefault()));
         service.setKey(key);
         data = new String(service.getData(), CHARSET);
         msg = new String(service.getMessage(), CHARSET);
@@ -82,10 +84,10 @@ public class HmacRtcServiceTest {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        service.setDate(calendar.getTime());
-        service.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        service.setDate(new TimestampParam(calendar.getTime()));
+        service.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone("GMT+7")));
 
-        assertEquals(expectedEpochParam, service.getDate());
+        assertEquals(expectedEpochParam, calendar.getTimeInMillis()/1000);
         assertArrayEquals(expectedByteArray, service.getMessage());
     }
 
@@ -96,7 +98,7 @@ public class HmacRtcServiceTest {
                 0b00000000,
                 (byte)0b10101000,
                 0b00110000,     // expected_epoch gmt
-                0b00001011     // -11
+                0b00001011      // -11
         };
 
         int expectedEpochParam = 1409329200;
@@ -109,16 +111,16 @@ public class HmacRtcServiceTest {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        service.setDate(calendar.getTime());
-        service.setTimeZone(TimeZone.getTimeZone("GMT-11"));
+        service.setDate(new TimestampParam(calendar.getTime()));
+        service.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone("GMT-11")));
 
-        assertEquals(expectedEpochParam, service.getDate());
+        assertEquals(expectedEpochParam, calendar.getTimeInMillis()/1000);
         assertArrayEquals(expectedByteArray, service.getMessage());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testTimezoneMaximoEhDoze() throws Exception {
-        service.setTimeZone(TimeZone.getTimeZone("GMT+16"));
-        service.setTimeZone(TimeZone.getTimeZone("GMT-13"));
+        service.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone("GMT+16")));
+        service.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone("GMT-13")));
     }
 }

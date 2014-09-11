@@ -1,15 +1,14 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.core.ExBitSet;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
+import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.security.GeneralSecurityException;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Serviço de RTC com Hmac
@@ -22,8 +21,8 @@ public class HmacRtcService extends AbstractService {
     private static final byte SERVICE_CODE = 50;
     private static final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
-    private int date;
-    private int timeZone;
+    private TimestampParam date;
+    private TimeZoneParam timeZone;
 
     @Inject
     public HmacRtcService(@Named("Hmac") KeyPolicy keyPolicy) {
@@ -51,31 +50,18 @@ public class HmacRtcService extends AbstractService {
     }
 
     public byte[] getMessage(){
-        byte[] bytes = new byte[5];
-        bytes[0] = (byte)(date >> 24);
-        bytes[1] = (byte)(date >> 16);
-        bytes[2] = (byte)(date >> 8);
-        bytes[3] = (byte)(date >> 0);
-        bytes[4] = (byte) timeZone;
-        return bytes;
+        String binMsg = "";
+        binMsg += date.toBinaryString();
+        binMsg += timeZone.toBinaryString();
+        return ExBitSet.bytesFromString(binMsg);
     }
 
-    public void setTimeZone(TimeZone timeZone) {
-        int hourOffset = timeZone.getRawOffset() / (60 * 60 * 1000);
-        int absOffset = Math.abs(hourOffset);
-        if (absOffset > 12)
-            throw new IllegalArgumentException("Timezone offset must be between -12 and 12");
-        this.timeZone = absOffset;
-        if (hourOffset > 0)
-            this.timeZone = this.timeZone | 0x10;
+    public void setTimeZone(TimeZoneParam timeZone) {
+        this.timeZone = timeZone;
     }
 
-    public void setDate(Date date) {
-        this.date = (int)(date.getTime() / 1000);
-    }
-
-    public int getDate() {
-        return date;
+    public void setDate(TimestampParam date) {
+        this.date = date;
     }
 
     public void setKey(String key){

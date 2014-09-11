@@ -1,5 +1,8 @@
 package com.avixy.qrtoken.core;
 
+import com.sun.deploy.util.ArrayUtil;
+import org.apache.commons.lang.ArrayUtils;
+
 import java.util.BitSet;
 
 /**
@@ -24,6 +27,8 @@ public class ExBitSet {
     }
 
     public static byte[] bytesFromString(String s){
-        return createFromString(s).toByteArray();
+        byte[] bytes = createFromString(s).toByteArray();
+        ArrayUtils.reverse(bytes);
+        return bytes;
     }
 }
