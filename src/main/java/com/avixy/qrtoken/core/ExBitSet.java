@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.core;
 
-import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.BitSet;

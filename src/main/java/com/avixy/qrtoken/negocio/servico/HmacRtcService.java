@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.core.BinMsg;
 import com.avixy.qrtoken.core.ExBitSet;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
@@ -50,10 +51,7 @@ public class HmacRtcService extends AbstractService {
     }
 
     public byte[] getMessage(){
-        String binMsg = "";
-        binMsg += date.toBinaryString();
-        binMsg += timeZone.toBinaryString();
-        return ExBitSet.bytesFromString(binMsg);
+        return BinMsg.getInstance().append(date).append(timeZone).toByteArray();
     }
 
     public void setTimeZone(TimeZoneParam timeZone) {

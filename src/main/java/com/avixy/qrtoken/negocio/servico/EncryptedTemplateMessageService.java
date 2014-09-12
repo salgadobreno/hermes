@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.core.BinMsg;
 import com.avixy.qrtoken.core.ExBitSet;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
@@ -10,10 +11,11 @@ import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -47,15 +49,7 @@ public class EncryptedTemplateMessageService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        String binMsg = "";
-        binMsg += date.toBinaryString();
-        binMsg += pin.toBinaryString();
-        binMsg += template.toBinaryString();
-        for (Param param : params) {
-            binMsg += param.toBinaryString();
-        }
-
-        return ExBitSet.bytesFromString(binMsg);
+        return BinMsg.getInstance().append(date).append(pin).append(template).append(params).toByteArray();
     }
 
     @Override

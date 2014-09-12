@@ -33,6 +33,8 @@ import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,6 +76,7 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
     private TextField origemContaTextField = new TextField();
     private TextField destinoContaTextField = new TextField();
     private TextField destinoAgenciaTextField = new TextField();
+    CalendarTimeTextField timestampTimeField = new CalendarTimeTextField();
 
     public EncryptedTemplateMessageServiceComponent() {
         this.encryptedTemplateMessageService = injector.getInstance(EncryptedTemplateMessageService.class);
@@ -143,7 +146,7 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
             migPane.add(new Label("PIN:"));
             migPane.add(pinTextField);
             migPane.add(new Label("Time:"));
-            migPane.add(new CalendarTimeTextField(), "wrap");
+            migPane.add(timestampTimeField, "wrap");
 
             dadosPane.getChildren().add(migPane);
             //end
@@ -196,6 +199,15 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
         encryptedTemplateMessageService.setPin(new PinParam(pinTextField.getText()));
         encryptedTemplateMessageService.setDate(new TimestampParam(timestampTextField.getValue().getTime())); //TODO: date + time
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(timestampTextField.getValue().getTime());
+        Calendar hora = timestampTimeField.getValue();
+        calendar.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
+
+        TimestampParam timestampParam = new TimestampParam(calendar.getTime());
+        TimestampParam dataParam = new TimestampParam(dataCalendarTextField.getValue().getTime());
+
         encryptedTemplateMessageService.setParams(
                 new StringWrapperParam(origemNomeTextField.getText()),
                 new StringWrapperParam(origemAgenciaTextField.getText()),
@@ -204,8 +216,9 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
                 new StringWrapperParam(destinoAgenciaTextField.getText()),
                 new StringWrapperParam(destinoContaTextField.getText()),
                 new StringWrapperParam(valorTextField.getText()),
-                new TimestampParam(dataCalendarTextField.getValue().getTime()),
-                new StringWrapperParam(tanTextField.getText())
+                timestampParam,
+                new StringWrapperParam(tanTextField.getText()),
+                dataParam
         );
         return encryptedTemplateMessageService;
     }

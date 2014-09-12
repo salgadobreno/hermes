@@ -38,7 +38,7 @@ public class PingService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return new byte[]{(byte) SERVICE_CODE};
+        return new byte[]{(byte) SERVICE_CODE}; //TODO: actually I think this one haven't got any message besides the header
     }
 
     @Override
