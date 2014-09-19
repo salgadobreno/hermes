@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.header;
 
-import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>

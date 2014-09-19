@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.core;
 
-import com.avixy.qrtoken.gui.servicos.*;
-import com.avixy.qrtoken.gui.servicos.bank.AutorizarTransferenciaBancariaServiceComponent;
+import com.avixy.qrtoken.gui.servicos.banking.AutorizarTransferenciaBancariaServiceComponent;
+import com.avixy.qrtoken.gui.servicos.components.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -9,8 +9,9 @@ public class PinParam implements Param {
     private char[] chars;
 
     public PinParam(String pin) {
-        if (pin.length() > 4)
+        if (pin.length() > 4) {
             throw new IllegalArgumentException("Pin is 4 chars"); //TODO: msg
+        }
 
         this.chars = new char[5];
         char[] charArray = pin.toCharArray();

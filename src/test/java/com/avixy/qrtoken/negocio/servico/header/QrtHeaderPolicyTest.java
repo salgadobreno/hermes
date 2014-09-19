@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.header;
 
-import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import org.junit.Test;
 

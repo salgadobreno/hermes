@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.gui.controllers;
 
 import com.avixy.qrtoken.core.HermesModule;
-import com.avixy.qrtoken.gui.servicos.ServiceCategory;
-import com.avixy.qrtoken.gui.servicos.ServiceComponent;
+import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;

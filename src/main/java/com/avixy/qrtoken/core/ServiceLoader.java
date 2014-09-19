@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.core;
 
-import com.avixy.qrtoken.gui.servicos.ServiceCategory;
-import com.avixy.qrtoken.gui.servicos.ServiceComponent;
+import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import org.reflections.Reflections;
 
 import java.util.*;

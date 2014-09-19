@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.header;
 
-import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
 
 /**
  * Estratégia de definição de header Qr Code de Serviço

@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
-import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.lang.ArrayUtils;

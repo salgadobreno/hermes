@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.avixy.qrtoken.core.components.TimestampField?>
+<?import com.avixy.qrtoken.core.extensions.components.TimestampField?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>

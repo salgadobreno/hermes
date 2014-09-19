@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
-import com.avixy.qrtoken.negocio.servico.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;

@@ -1,12 +1,14 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
+import com.avixy.qrtoken.negocio.servico.chaves.Chave;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Define que tipo de {@link com.avixy.qrtoken.negocio.servico.chaves.Chave} um {@link KeyPolicy} aceita
+ * Define que tipo de {@link Chave} um {@link KeyPolicy} aceita
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
