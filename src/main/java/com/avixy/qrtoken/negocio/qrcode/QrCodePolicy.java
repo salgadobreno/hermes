@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bouncycastle.crypto.CryptoException;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Objeto que define e aplica regras do Avixy QR Token para os códigos QR
+ * Objeto que orquestra a criação dos Qr Codes para o Qr Token
  * @author Breno Salgado <breno.salgado@axivy.com>
  *
  * Created on 08/07/2014.
@@ -24,7 +25,7 @@ public class QrCodePolicy {
     private HeaderPolicy headerPolicy;
 
     /** TODO:
-     * multiple QRs implementation
+     * implement multiple QRs
      */
 
     public QrCodePolicy(HeaderPolicy headerPolicy) {
@@ -37,7 +38,7 @@ public class QrCodePolicy {
      * @return Um <code>List</code> de <code>QrTokenCode</code>. Não necessáriamente será mais de um, o container deve
      * se virar p/ tratar 0, 1 ou muitos QRs de retorno apropriadamente.
      */
-    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException {
+    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException {
         // verifica se precisa de mais de 1 qr ...
         byte[] data = ArrayUtils.addAll(headerPolicy.getHeader(service), service.getData());
         QrTokenCode tokenCode = new QrTokenCode(data, setup);

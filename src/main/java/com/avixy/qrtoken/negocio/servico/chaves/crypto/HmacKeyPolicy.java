@@ -9,7 +9,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.GeneralSecurityException;
 
 /**
- * Implementação de HMAC
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 22/08/2014

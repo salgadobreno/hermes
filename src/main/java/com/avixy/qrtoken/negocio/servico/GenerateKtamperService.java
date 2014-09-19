@@ -1,36 +1,28 @@
 package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+
 import java.security.GeneralSecurityException;
 
 /**
- * @author Breno Salgado <breno.salgado@avixy.com>
+ * Created on 15/09/2014
  *
- * Created on 03/09/2014
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class PingService extends AbstractService {
-    private int SERVICE_CODE = 0b00000001;
-
-    @Inject
-    public PingService(@Named("Null") KeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
-
+public class GenerateKtamperService implements Service {
     @Override
     public String getServiceName() {
-        return "Ping";
+        return "Gerar K_Tamper";
     }
 
     @Override
     public int getServiceCode() {
-        return SERVICE_CODE;
+        return 20;
     }
 
     @Override
     public byte[] getData() throws GeneralSecurityException {
-        return getMessage();
+        return new byte[0];
     }
 
     @Override

@@ -30,11 +30,11 @@ public class EncryptedTemplateMessageServiceTest {
                 0b00000000,
                 (byte)0b10101000,
                 0b00110000,     // expected_epoch gmt / timestamp
-                '1', // PIN 1234
-                '2',
-                '3',
-                '4',
-                '$',
+                0b00110001, // PIN:'1'
+                0b00110010, // '2'
+                0b00110011, // '3'
+                0b00110100, // '4'
+                0b00100100, // '$'
                 1, // template
                 40, // a param
                 50, // another param
@@ -50,7 +50,7 @@ public class EncryptedTemplateMessageServiceTest {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        service.setDate(new TimestampParam(calendar.getTime()));
+        service.setTimestamp(new TimestampParam(calendar.getTime()));
         service.setPin(new PinParam("1234"));
         service.setTemplate(new ByteWrapperParam((byte) 1));
         service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));

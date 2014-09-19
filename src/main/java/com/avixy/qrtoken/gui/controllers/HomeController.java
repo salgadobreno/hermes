@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.gui;
+package com.avixy.qrtoken.gui.controllers;
 
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.ServiceCategory;

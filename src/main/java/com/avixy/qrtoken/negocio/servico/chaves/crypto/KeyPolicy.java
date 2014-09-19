@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 import com.avixy.qrtoken.negocio.servico.Service;
+import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
 
@@ -13,9 +14,14 @@ import java.security.GeneralSecurityException;
  */
 public interface KeyPolicy {
 
-    /** Aplica a operação criptográfica */
-    public byte[] apply(byte[] msg) throws GeneralSecurityException;
-
+    /**
+     * Aplica a operação criptográfica
+     * @param msg   Mensagem
+     * @throws CryptoException
+     * @throws GeneralSecurityException
+     */
+    public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException;
+    /* TODO: Usar só uma lib pra suportar só um tipo de exception de crypto generica? */
 
     void setKey(byte[] bytes);
 }

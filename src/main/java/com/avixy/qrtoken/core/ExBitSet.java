@@ -1,16 +1,27 @@
 package com.avixy.qrtoken.core;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.BitSet;
+import java.util.regex.Pattern;
 
 /**
- * Created on 10/09/2014
- *
+ * Util que transforma String de '0' e '1' em array de byte.
+ * <code>' '</code>, <code>'_'</code> e <code>'.'</code> são ignorados e podem ser usados como forma de marcação.
+ * Ex.: <code>ExBitSet.bytesFromString("0000_0001_0000_0010"); # -> [1, 2] </code>
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 10/09/2014
  */
 public class ExBitSet {
-    public static BitSet createFromString(String s) {
+    private static final char[] IGNORE = {'_', '.', ' '};
+
+    private static BitSet createFromString(String s) {
+        for (char c : IGNORE) {
+            s = StringUtils.remove(s, c);
+        }
+
         BitSet t = new BitSet(s.length());
         int lastBitIndex = s.length() - 1;
         int i = lastBitIndex;
@@ -25,6 +36,10 @@ public class ExBitSet {
         return t;
     }
 
+    /**
+     * @param s     String em formato binário. Ex.: "01100000"
+     * @return      Array de <code>byte</code> equivalente à string '0' e '1'.
+     */
     public static byte[] bytesFromString(String s){
         byte[] bytes = createFromString(s).toByteArray();
         ArrayUtils.reverse(bytes);

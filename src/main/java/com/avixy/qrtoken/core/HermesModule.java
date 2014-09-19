@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
 /**
+ * Configuração do Google Guice(dependency injection).
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 03/09/2014
@@ -22,7 +23,7 @@ public class HermesModule extends AbstractModule {
         bind(HeaderPolicy.class).to(QrtHeaderPolicy.class);
         bind(KeyPolicy.class).annotatedWith(Names.named("Null")).to(NullKeyPolicy.class);
         bind(KeyPolicy.class).annotatedWith(Names.named("Hmac")).to(HmacKeyPolicy.class);
-        bind(KeyPolicy.class).annotatedWith(Names.named("PinCypher")).to(AesKeyPolicy.class);
+        bind(AesKeyPolicy.class);
     }
 
     public static Injector getInjector(){

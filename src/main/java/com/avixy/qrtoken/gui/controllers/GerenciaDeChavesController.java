@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.gui;
+package com.avixy.qrtoken.gui.controllers;
 
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
@@ -50,9 +50,15 @@ public class GerenciaDeChavesController {
         chave.setKeyType(KeyType.values()[0]);
         chave.setLength(keyLengths[0]);
         Collections.addAll(algorythmList, KeyType.values());
+        algoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
+            @Override
+            public void changed(ObservableValue<? extends KeyType> observableValue, KeyType keyType, KeyType keyType2) {
+                lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyType2.getKeyLengths())));
+                lengthComboBox.getSelectionModel().select(0);
+            }
+        });
 
         algoComboBox.setItems(FXCollections.observableList(algorythmList));
-        lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyLengths)));
 
         final BeanPathAdapter<Chave> chavePA = new BeanPathAdapter<>(chave);
         chavePA.bindBidirectional("valor", valorField.textProperty());
@@ -61,7 +67,6 @@ public class GerenciaDeChavesController {
         chavePA.bindBidirectional("keyType", algoComboBox.valueProperty(), KeyType.class);
 
         algoComboBox.getSelectionModel().select(0);
-        lengthComboBox.getSelectionModel().select(0);
 
         /* basic validation */
         valorField.textProperty().addListener(new ChangeListener<String>() {

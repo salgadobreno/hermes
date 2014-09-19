@@ -1,9 +1,9 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
 /**
- * Created on 10/09/2014
- *
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 10/09/2014
  */
 public class StringWrapperParam implements Param {
     private String string;
@@ -14,6 +14,12 @@ public class StringWrapperParam implements Param {
 
     @Override
     public String toBinaryString() {
-        return string;
+        /* TODO: could use optimization? */
+        char[] chars = string.toCharArray();
+        String bin = "";
+        for (char c : chars) {
+            bin += new ByteWrapperParam(c).toBinaryString();
+        }
+        return bin;
     }
 }

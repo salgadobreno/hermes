@@ -1,12 +1,29 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 public class AesKeyPolicyTest {
     AesKeyPolicy keyPolicy;
+
+    @Test
+    public void testDoesNotRepeatIv() throws Exception {
+        byte[] iv128 = Hex.decodeHex("2FE2B333CEDA8F98F4A99B40D2CD34A8".toCharArray());
+        byte[] text128 = Hex.decodeHex("45CF12964FC824AB76616AE2F4BF0822".toCharArray());
+        byte[] key128 = Hex.decodeHex("1F8E4973953F3FB0BD6B16662E9A3C17".toCharArray());
+
+        AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(iv128, false);
+        aesKeyPolicy.setKey(key128);
+        aesKeyPolicy.apply(text128);
+
+        assertNotEquals(iv128, aesKeyPolicy);
+        assertFalse(ArrayUtils.isEquals(iv128, aesKeyPolicy.getInitializationVector()));
+    }
 
     @Test
     public void testApply() throws Exception {
@@ -25,7 +42,6 @@ public class AesKeyPolicyTest {
 
         keyPolicy = new AesKeyPolicy(iv128, false);
         keyPolicy.setKey(key128);
-        System.out.println(Hex.encodeHexString(keyPolicy.apply(text128)));
         assertArrayEquals(result128, keyPolicy.apply(text128));
 
         /*
@@ -50,7 +66,6 @@ public class AesKeyPolicyTest {
         PLAINTEXT = 9B7CEE827A26575AFDBB7C7A329F887238052E3601A7917456BA61251C214763D5E1847A6AD5D54127A399AB07EE3599
         CIPHERTEXT = D5AED6C9622EC451A15DB12819952B6752501CF05CDBF8CDA34A457726DED97818E1F127A28D72DB5652749F0C6AFEE5
         */
-
 
         iv128 = Hex.decodeHex("19153C673160DF2B1D38C28060E59B96".toCharArray());
         text128 = Hex.decodeHex("9B7CEE827A26575AFDBB7C7A329F887238052E3601A7917456BA61251C214763D5E1847A6AD5D54127A399AB07EE3599".toCharArray());
@@ -109,6 +124,5 @@ public class AesKeyPolicyTest {
         keyPolicy = new AesKeyPolicy(iv256, false);
         keyPolicy.setKey(key256);
         assertArrayEquals(result256, keyPolicy.apply(text256));
-
     }
 }

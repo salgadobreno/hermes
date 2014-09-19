@@ -19,6 +19,17 @@ public class HmacKeyPolicyTest {
         keyPolicy.setKey(key.getBytes());
         String result = Hex.encodeHexString(keyPolicy.apply(msg.getBytes()));
         assertTrue(result.contains(correct));
+    }
 
+    @Test
+    public void testApplyWithLargeKey() throws Exception {
+        String key = "Computes a Hash-based message authentication code (HMAC) using a secret key. A HMAC is a small set of data that helps authenticate the nature of message; it protects the integrity and the authenticity of the message.  The secret key is a unique piece of information that is used to compute the HMAC and is known both by the sender and the receiver of the message. This key will vary in length depending on the algorithm that you use.";
+        String msg = "x";
+        String correct = "a7153a474c2a359b4e0904aef02c86aa9934330f";
+
+        HmacKeyPolicy keyPolicy = new HmacKeyPolicy();
+        keyPolicy.setKey(key.getBytes());
+        String result = Hex.encodeHexString(keyPolicy.apply(msg.getBytes()));
+        assertTrue(result.contains(correct));
     }
 }

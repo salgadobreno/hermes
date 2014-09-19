@@ -1,15 +1,15 @@
-package com.avixy.qrtoken.gui.servicos;
+package com.avixy.qrtoken.gui.servicos.bank;
 
-import com.avixy.qrtoken.negocio.servico.EncryptedTemplateMessageService;
+import com.avixy.qrtoken.core.components.TimestampField;
+import com.avixy.qrtoken.gui.servicos.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.AutorizarTransferenciaBancariaService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,13 +28,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.CalendarTextField;
-import jfxtras.labs.scene.control.CalendarTimeTextField;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,11 +41,11 @@ import java.util.List;
  */
 @ServiceComponent.Category(category = ServiceCategory.BANCARIO)
 @AcceptsKey(keyType = KeyType.HMAC)
-public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
+public class AutorizarTransferenciaBancariaServiceComponent extends ServiceComponent {
 
     private Stage formStage = new Stage();
     private final String FXML_PATH = "/fxml/transfcc.fxml";
-    private final EncryptedTemplateMessageService encryptedTemplateMessageService;
+    private final AutorizarTransferenciaBancariaService autorizarTransferenciaBancariaService;
     private FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
 
     @FXML private AnchorPane root;
@@ -64,7 +61,6 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
 
     private ComboBox<Chave> comboAes = new ComboBox<>();
     private ComboBox<Chave> comboHmac = new ComboBox<>();
-    private CalendarTextField timestampTextField = new CalendarTextField();
     private ComboBox<Integer> templateComboBox = new ComboBox<>();
     private TextField pinTextField = new TextField();
     private CalendarTextField dataCalendarTextField = new CalendarTextField();
@@ -76,11 +72,11 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
     private TextField origemContaTextField = new TextField();
     private TextField destinoContaTextField = new TextField();
     private TextField destinoAgenciaTextField = new TextField();
-    CalendarTimeTextField timestampTimeField = new CalendarTimeTextField();
+    private TimestampField timestampField = new TimestampField();
 
-    public EncryptedTemplateMessageServiceComponent() {
-        this.encryptedTemplateMessageService = injector.getInstance(EncryptedTemplateMessageService.class);
-        this.service = encryptedTemplateMessageService;
+    public AutorizarTransferenciaBancariaServiceComponent() {
+        this.autorizarTransferenciaBancariaService = injector.getInstance(AutorizarTransferenciaBancariaService.class);
+        this.service = autorizarTransferenciaBancariaService;
 
         fxmlLoader.setController(this);
         try {
@@ -94,7 +90,7 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
             // setup  the form
 
             //title
-            titleLabel.setText(encryptedTemplateMessageService.getServiceName());
+            titleLabel.setText(autorizarTransferenciaBancariaService.getServiceName());
 
             //origem
             VBox vBox = new VBox();
@@ -142,11 +138,9 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
             migPane.add(dataCalendarTextField);
 
             migPane.add(new Label("Timestamp:"));
-            migPane.add(timestampTextField, "wrap");
+            migPane.add(timestampField, "wrap");
             migPane.add(new Label("PIN:"));
             migPane.add(pinTextField);
-            migPane.add(new Label("Time:"));
-            migPane.add(timestampTimeField, "wrap");
 
             dadosPane.getChildren().add(migPane);
             //end
@@ -166,7 +160,7 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
     @Override
     public Node getNode() {
         MigPane migPane = new MigPane();
-        Label label = new Label(encryptedTemplateMessageService.getServiceName());
+        Label label = new Label(autorizarTransferenciaBancariaService.getServiceName());
         label.setFont(new Font(18));
         Button button = new Button("Clique para setar os parâmetros");
 
@@ -193,33 +187,28 @@ public class EncryptedTemplateMessageServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() {
-        encryptedTemplateMessageService.setChaveAes(comboAes.getValue());
-        encryptedTemplateMessageService.setChaveHmac(comboHmac.getValue());
-        encryptedTemplateMessageService.setTemplate(new ByteWrapperParam(templateComboBox.getValue().byteValue()));
-        encryptedTemplateMessageService.setPin(new PinParam(pinTextField.getText()));
-        encryptedTemplateMessageService.setDate(new TimestampParam(timestampTextField.getValue().getTime())); //TODO: date + time
+        autorizarTransferenciaBancariaService.setChaveAes(comboAes.getValue());
+        autorizarTransferenciaBancariaService.setChaveHmac(comboHmac.getValue());
+        autorizarTransferenciaBancariaService.setTemplate(new ByteWrapperParam(templateComboBox.getValue().byteValue()));
+        //pin e tan
+        autorizarTransferenciaBancariaService.setPin(pinTextField.getText());
+        autorizarTransferenciaBancariaService.setTan(tanTextField.getText());
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(timestampTextField.getValue().getTime());
-        Calendar hora = timestampTimeField.getValue();
-        calendar.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
+        //timestamp
+        autorizarTransferenciaBancariaService.setTimestamp(timestampField.getValue());
+        //data
+        autorizarTransferenciaBancariaService.setData(dataCalendarTextField.getValue().getTime());
+        //origem
+        autorizarTransferenciaBancariaService.setNomeOrigem(origemNomeTextField.getText());
+        autorizarTransferenciaBancariaService.setAgenciaOrigem(origemAgenciaTextField.getText());
+        autorizarTransferenciaBancariaService.setContaOrigem(origemContaTextField.getText());
+        //destino
+        autorizarTransferenciaBancariaService.setNomeDestino(destinoNomeTextField.getText());
+        autorizarTransferenciaBancariaService.setAgenciaDestino(destinoAgenciaTextField.getText());
+        autorizarTransferenciaBancariaService.setContaDestino(destinoContaTextField.getText());
+        //valor
+        autorizarTransferenciaBancariaService.setValor(valorTextField.getText());
 
-        TimestampParam timestampParam = new TimestampParam(calendar.getTime());
-        TimestampParam dataParam = new TimestampParam(dataCalendarTextField.getValue().getTime());
-
-        encryptedTemplateMessageService.setParams(
-                new StringWrapperParam(origemNomeTextField.getText()),
-                new StringWrapperParam(origemAgenciaTextField.getText()),
-                new StringWrapperParam(origemContaTextField.getText()),
-                new StringWrapperParam(destinoNomeTextField.getText()),
-                new StringWrapperParam(destinoAgenciaTextField.getText()),
-                new StringWrapperParam(destinoContaTextField.getText()),
-                new StringWrapperParam(valorTextField.getText()),
-                timestampParam,
-                new StringWrapperParam(tanTextField.getText()),
-                dataParam
-        );
-        return encryptedTemplateMessageService;
+        return autorizarTransferenciaBancariaService;
     }
 }

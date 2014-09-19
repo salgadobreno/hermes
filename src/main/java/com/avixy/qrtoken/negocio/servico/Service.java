@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
 
@@ -17,7 +18,7 @@ public interface Service {
     int getServiceCode();
 
     /** @return Dados a serem convertidos em um código QR p/ executar uma função no Avixy QR Token */
-    byte[] getData() throws GeneralSecurityException;
+    byte[] getData() throws GeneralSecurityException, CryptoException;
 
     /** @return Dados em claro do serviço */
     byte[] getMessage();

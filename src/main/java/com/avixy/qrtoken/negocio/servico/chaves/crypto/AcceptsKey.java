@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Define que tipo de {@link Chave} um {@link KeyPolicy} aceita
+ * Define que tipo de {@link com.avixy.qrtoken.negocio.servico.chaves.Chave} um {@link KeyPolicy} aceita
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *

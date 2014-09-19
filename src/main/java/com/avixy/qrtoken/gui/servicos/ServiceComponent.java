@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
     public Logger getLogger() { return log; }
 
     /**
-     * Define a categoria de um <code>ServiceComponent</code>
+     * Annotation que define a categoria de um <code>ServiceComponent</code>. Usado para definir em que aba o serviço será listado na aplicação.
      * @author Breno Salgado <breno.salgado@avixy.com>
      *
      * Created on 12/08/2014

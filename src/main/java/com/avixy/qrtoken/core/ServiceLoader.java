@@ -7,6 +7,7 @@ import org.reflections.Reflections;
 import java.util.*;
 
 /**
+ * Localizador de {@link ServiceComponent}
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 12/08/2014

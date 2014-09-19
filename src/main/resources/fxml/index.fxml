@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.HomeController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.HomeController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -66,7 +66,7 @@
                            </children>
                         </AnchorPane>
                       <AnchorPane fx:id="content" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="335.0" />
-                        <Button defaultButton="true" layoutX="280.0" layoutY="130.0" mnemonicParsing="false" onAction="#gerarQr" text="Rodar -&gt;" />
+                        <Button defaultButton="true" layoutX="280.0" layoutY="130.0" mnemonicParsing="false" onAction="#gerarQr" text="Gerar -&gt;" />
                      </children>
             </AnchorPane>
           </content>

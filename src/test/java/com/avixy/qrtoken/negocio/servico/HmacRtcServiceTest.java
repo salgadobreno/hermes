@@ -88,6 +88,7 @@ public class HmacRtcServiceTest {
         service.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone("GMT+7")));
 
         assertEquals(expectedEpochParam, calendar.getTimeInMillis()/1000);
+        System.out.println(calendar.getTimeInMillis());
         assertArrayEquals(expectedByteArray, service.getMessage());
     }
 

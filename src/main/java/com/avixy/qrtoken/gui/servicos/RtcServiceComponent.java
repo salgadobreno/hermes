@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos;
 
+import com.avixy.qrtoken.core.components.TimestampField;
 import com.avixy.qrtoken.negocio.servico.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
@@ -35,9 +36,8 @@ public class RtcServiceComponent extends ServiceComponent {
 
     private Node node;
 
-    @FXML private CalendarTextField dataDatePicker;
+    @FXML private TimestampField timestampField;
     @FXML private ComboBox<String> fusoBox;
-    @FXML private CalendarTimeTextField horarioField;
     @FXML private ComboBox<Chave> keyField;
 
     /* TODO:
@@ -60,8 +60,6 @@ public class RtcServiceComponent extends ServiceComponent {
 
         fusoBox.setItems(observableList);
         fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
-        horarioField.setValue(Calendar.getInstance());
-        dataDatePicker.setValue(Calendar.getInstance());
 
         KeyType keyType = service.getKeyPolicy().getClass().getAnnotation(AcceptsKey.class).keyType();
         keyField.setItems(ChavesSingleton.getInstance().observableChavesFor(keyType));
@@ -70,15 +68,9 @@ public class RtcServiceComponent extends ServiceComponent {
     @Override
     public Service getService(){
         HmacRtcService hmacRtcService = (HmacRtcService) service;
-        /* data */
-        Calendar data = dataDatePicker.getValue();
-        /* hora */
-        Calendar hora = horarioField.getValue();
-        data.set(Calendar.HOUR_OF_DAY, hora.get(Calendar.HOUR_OF_DAY));
-        data.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
 
         hmacRtcService.setKey(keyField.getValue().getValor());
-        hmacRtcService.setDate(new TimestampParam(data.getTime()));
+        hmacRtcService.setDate(timestampField.getValue());
         hmacRtcService.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone(fusoBox.getValue())));
 
         return hmacRtcService;

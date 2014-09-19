@@ -5,17 +5,21 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.avixy.qrtoken.core.components.TimestampField?>
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label layoutX="18.0" layoutY="189.0" text="Chave Simetrica p/ HMAC:" />
+        <Label layoutX="18.0" layoutY="189.0" text="Chave Simetrica p/ HMAC:"/>
         <ComboBox fx:id="keyField" layoutX="18.0" layoutY="206.0" />
         <ComboBox fx:id="fusoBox" layoutX="101.0" layoutY="87.0" prefWidth="150.0" />
         <Separator layoutX="14.0" layoutY="174.0" prefHeight="0.0" prefWidth="137.0" />
-        <CalendarTextField fx:id="dataDatePicker" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0"/>
-        <CalendarTimeTextField fx:id="horarioField" layoutX="101.0" layoutY="123.0"/>
-        <Label layoutX="14.0" layoutY="127.0" text="Hora:" />
+        <TimestampField fx:id="timestampField" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0"/>
         <Label layoutX="14.0" layoutY="91.0" text="Fuso horário" />
-        <Label layoutX="14.0" layoutY="56.0" text="Data" />
-        <Label layoutX="14.0" layoutY="19.0" text="Atualizar RTC - Avixy com HMAC" />
+        <Label layoutX="14.0" layoutY="56.0" text="Timestamp" />
+        <Label layoutX="8.0" layoutY="8.0" text="Atualizar RTC - Avixy com HMAC">
+            <font>
+                <Font size="18"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>

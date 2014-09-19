@@ -3,9 +3,9 @@ package com.avixy.qrtoken.negocio.servico.params;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Created on 10/09/2014
- *
  * @author Breno Salgado <breno.salgado@avixy.com>
+ *
+ * Created on 10/09/2014
  */
 public class ByteWrapperParam implements Param {
     private static final int LENGTH = 8;

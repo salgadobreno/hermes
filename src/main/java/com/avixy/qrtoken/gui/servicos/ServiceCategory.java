@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.gui.servicos;
 
 /**
+ * Enum que define as categorias dos {@link ServiceComponent}.
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 26/08/2014

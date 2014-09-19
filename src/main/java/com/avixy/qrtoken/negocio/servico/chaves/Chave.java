@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
-* Bean de Chave
+* POJO de Chave
 * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 28/08/2014

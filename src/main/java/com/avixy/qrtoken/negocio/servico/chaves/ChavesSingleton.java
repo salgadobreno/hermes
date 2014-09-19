@@ -34,11 +34,6 @@ public class ChavesSingleton {
     private static ChavesSingleton instance = new ChavesSingleton();
     private ChavesSingleton(){}
 
-    /*
-    TODO:
-    IOC aqui com a estratégia de persistência sendo passada no construtor
-    Não implementando ainda pois não há certeza que esse esquema se manterá até o final
-    */
     {
         /* le/cria arquivo de chaves */
         try {
@@ -122,5 +117,4 @@ public class ChavesSingleton {
             logger.error("Não foi possível salvar as Chaves", e);
         }
     }
-
 }

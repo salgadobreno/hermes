@@ -1,15 +1,16 @@
 package com.avixy.qrtoken.negocio.servico;
 
-import com.avixy.qrtoken.core.BinMsg;
-import com.avixy.qrtoken.core.ExBitSet;
+import com.avixy.qrtoken.core.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.params.ParamFactory;
 import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import java.security.GeneralSecurityException;
+import java.util.Date;
 
 /**
  * Serviço de RTC com Hmac
@@ -51,7 +52,7 @@ public class HmacRtcService extends AbstractService {
     }
 
     public byte[] getMessage(){
-        return BinMsg.getInstance().append(date).append(timeZone).toByteArray();
+        return BinnaryMsg.getInstance().append(date).append(timeZone).toByteArray();
     }
 
     public void setTimeZone(TimeZoneParam timeZone) {
@@ -60,6 +61,10 @@ public class HmacRtcService extends AbstractService {
 
     public void setDate(TimestampParam date) {
         this.date = date;
+    }
+
+    public void setDate(Date date) {
+        this.date = ParamFactory.getParam(date);
     }
 
     public void setKey(String key){

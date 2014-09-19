@@ -1,9 +1,7 @@
 package com.avixy.qrtoken.core;
 
-import com.avixy.qrtoken.gui.servicos.EncryptedTemplateMessageServiceComponent;
-import com.avixy.qrtoken.gui.servicos.PingServiceComponent;
-import com.avixy.qrtoken.gui.servicos.ServiceCategory;
-import com.avixy.qrtoken.gui.servicos.ServiceComponent;
+import com.avixy.qrtoken.gui.servicos.*;
+import com.avixy.qrtoken.gui.servicos.bank.AutorizarTransferenciaBancariaServiceComponent;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,7 +24,12 @@ public class ServiceLoaderTest {
         /* includes PingService */
         assertTrue(serviceComponents.contains(PingServiceComponent.class));
         /* includes HmacTemplateMessageService */
-        assertTrue(serviceComponents.contains(EncryptedTemplateMessageServiceComponent.class));
+        assertTrue(serviceComponents.contains(AutorizarTransferenciaBancariaServiceComponent.class));
+        /* includes GenerateKtamperServiceComponent */
+        assertTrue(serviceComponents.contains(GenerateKtamperServiceComponent.class));
+        /* includes EraseKtamperServiceComponent */
+        assertTrue(serviceComponents.contains(EraseKtamperServiceComponent.class));
+
 
 
     }
