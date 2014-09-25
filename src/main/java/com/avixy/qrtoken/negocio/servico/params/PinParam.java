@@ -6,7 +6,7 @@ package com.avixy.qrtoken.negocio.servico.params;
  * Created on 11/09/2014
  */
 public class PinParam implements Param {
-    private char[] chars;
+    protected char[] chars;
 
     public PinParam(String pin) {
         if (pin.length() > 4) {

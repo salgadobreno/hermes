@@ -1,7 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
  *

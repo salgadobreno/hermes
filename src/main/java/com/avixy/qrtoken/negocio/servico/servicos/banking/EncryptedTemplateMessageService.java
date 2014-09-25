@@ -1,14 +1,14 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
@@ -16,42 +16,45 @@ import org.bouncycastle.crypto.CryptoException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
- * @author Breno Salgado <breno.salgado@avixy.com>
+ * Created on 22/09/2014
  *
- * Created on 02/09/2014
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EncryptedHmacTemplateMessageService extends AbstractService {
+public class EncryptedTemplateMessageService extends AbstractService {
 
     protected PinParam pin;
     protected ByteWrapperParam template;
     protected TimestampParam date;
     protected List<Param> params = new ArrayList<>();
 
-    private KeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
-
     @Inject
-    public EncryptedHmacTemplateMessageService(AesKeyPolicy keyPolicy) {
+    protected EncryptedTemplateMessageService(AesKeyPolicy keyPolicy) {
         super(keyPolicy);
     }
-
-    @Override
-    public String getServiceName() { return "Encrypted Template Message"; }
-
-    @Override
-    public int getServiceCode() { return 10; }
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
         AesKeyPolicy aesKeyPolicy = (AesKeyPolicy) keyPolicy;
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
-        byte[] data = aesKeyPolicy.apply(hmacKeyPolicy.apply(getMessage()));
+        byte[] data = aesKeyPolicy.apply(getMessage());
 
         byte[] dataWithIv = ArrayUtils.addAll(initializationVector, data);
 
         return dataWithIv;
+    }
+
+    @Override
+    public String getServiceName() {
+        return "SERVICE_ENCRYPTED_TEMPLATE_MESSAGE";
+    }
+
+    @Override
+    public int getServiceCode() {
+        return 12;
     }
 
     @Override
@@ -62,23 +65,20 @@ public class EncryptedHmacTemplateMessageService extends AbstractService {
     @Override
     public KeyPolicy getKeyPolicy() { return null; }
 
-    public void setPin(PinParam pin) { this.pin = pin; }
+    public void setPin(String pin) { this.pin = new PinParam(pin); }
 
-    public void setTemplate(ByteWrapperParam template) { this.template = template; }
+    public void setTemplate(byte template) { this.template = new ByteWrapperParam(template); }
 
     public void setParams(Param... params) {
         this.params = Arrays.asList(params);
     }
 
-    public void setTimestamp(TimestampParam date) {
-        this.date = date;
+    public void setTimestamp(Date date) {
+        this.date = new TimestampParam(date);
     }
 
     public void setChaveAes(Chave chaveAes) {
         keyPolicy.setKey(chaveAes.getValor().getBytes());
     }
 
-    public void setChaveHmac(Chave chaveHmac) {
-        hmacKeyPolicy.setKey(chaveHmac.getValor().getBytes());
-    }
 }

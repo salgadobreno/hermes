@@ -1,16 +1,19 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -18,17 +21,18 @@ import static org.junit.Assert.assertEquals;
  * Created on 02/09/2014
  */
 public class EncryptedHmacTemplateMessageServiceTest {
-    private EncryptedHmacTemplateMessageService service = HermesModule.getInjector().getInstance(EncryptedHmacTemplateMessageService.class);
+    AesKeyPolicy aesKeyPolicy = mock(AesKeyPolicy.class);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
 
-    @Test
-    public void testServiceCode() throws Exception { assertEquals(10, service.getServiceCode()); }
+    EncryptedHmacTemplateMessageService service = new EncryptedHmacTemplateMessageService(aesKeyPolicy, hmacKeyPolicy);
+    byte[] expectedByteArray;
 
-    @Test
-    public void testHmacTemplateMessage() throws Exception {
-        byte[] expectedByteArray = {
+    @Before
+    public void setUp() throws Exception {
+        expectedByteArray = new byte[]{
                 0b01010100,
                 0b00000000,
-                (byte)0b10101000,
+                (byte) 0b10101000,
                 0b00110000,     // expected_epoch gmt / timestamp
                 0b00110001, // PIN:'1'
                 0b00110010, // '2'
@@ -50,11 +54,26 @@ public class EncryptedHmacTemplateMessageServiceTest {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        service.setTimestamp(new TimestampParam(calendar.getTime()));
-        service.setPin(new PinParam("1234"));
-        service.setTemplate(new ByteWrapperParam((byte) 1));
+        service.setTimestamp(calendar.getTime());
+        service.setPin("1234");
+        service.setTemplate((byte) 1);
         service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));
+    }
 
+    @Test
+    public void testServiceCode() throws Exception {
+        assertEquals(10, service.getServiceCode());
+    }
+
+    @Test
+    public void testHmacTemplateMessage() throws Exception {
         assertArrayEquals(expectedByteArray, service.getMessage());
+    }
+
+    @Test
+    public void testCrypto() throws Exception {
+        service.getData();
+        verify(aesKeyPolicy).apply(Matchers.<byte[]>anyObject());
+        verify(hmacKeyPolicy).apply(Matchers.<byte[]>anyObject());
     }
 }

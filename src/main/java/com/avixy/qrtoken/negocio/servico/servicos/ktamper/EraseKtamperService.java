@@ -1,9 +1,10 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import static com.avixy.qrtoken.negocio.servico.params.ParamFactory.*;
@@ -56,5 +57,9 @@ public class EraseKtamperService extends AbstractService {
 
     public void setTimestamp(Date date){
         this.timestampParam = getParam(date);
+    }
+
+    public void setPuk(String puk) {
+        setPin(puk);
     }
 }

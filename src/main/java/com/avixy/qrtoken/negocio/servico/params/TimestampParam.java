@@ -13,10 +13,6 @@ public class TimestampParam implements Param {
     private static int LENGTH = 32;
     private Integer timestamp;
 
-    public TimestampParam(int timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public TimestampParam(Date timestamp) {
         this.timestamp = (int) (timestamp.getTime() / 1000);
     }

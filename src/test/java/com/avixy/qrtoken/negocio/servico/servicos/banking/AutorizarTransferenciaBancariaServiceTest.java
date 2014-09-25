@@ -1,9 +1,8 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.servicos.AutorizarTransferenciaBancariaService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;

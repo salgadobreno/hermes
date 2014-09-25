@@ -1,0 +1,47 @@
+package com.avixy.qrtoken.negocio.servico.servicos.rtc;
+
+import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
+import com.avixy.qrtoken.negocio.servico.params.Param;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Created on 22/09/2014
+ *
+ * @author Breno Salgado <breno.salgado@avixy.com>
+ */
+public class ClientRtcService extends HmacRtcService {
+    private ByteWrapperParam template;
+    private List<Param> params = new ArrayList<>();
+
+    @Inject
+    public ClientRtcService(HmacKeyPolicy keyPolicy) {
+        super(keyPolicy);
+    }
+
+    @Override
+    public int getServiceCode() {
+        return 52;
+    }
+
+    @Override
+    public byte[] getMessage() {
+        return BinnaryMsg.create().append(timestamp).append(timezone).append(template).append(params).toByteArray();
+    }
+
+    public void setTemplate(byte template){
+        this.template = new ByteWrapperParam(template);
+    }
+
+    public void setParams(Param... params) {
+        this.params = Arrays.asList(params);
+    }
+}

@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
-import com.avixy.qrtoken.negocio.servico.servicos.EraseKtamperService;
+import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

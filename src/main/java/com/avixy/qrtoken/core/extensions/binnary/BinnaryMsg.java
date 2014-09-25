@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.core.extensions.binnary;
 
 import com.avixy.qrtoken.negocio.servico.params.Param;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -42,7 +43,9 @@ public class BinnaryMsg {
     }
 
     public byte[] toByteArray() {
-        //TODO: block-length/validation/padding ?
+        if (binMsg.length() % 8 != 0) {
+            binMsg = StringUtils.rightPad(binMsg, (int) Math.ceil((double)binMsg.length()/8) * 8, '0');
+        }
         return ExBitSet.bytesFromString(binMsg);
     }
 }

@@ -1,9 +1,9 @@
-package com.avixy.qrtoken.gui.servicos.banking;
+package com.avixy.qrtoken.gui.servicos.components.banking;
 
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.servicos.AutorizarTransferenciaBancariaService;
+import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
@@ -189,7 +189,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     public Service getService() {
         autorizarTransferenciaBancariaService.setChaveAes(comboAes.getValue());
         autorizarTransferenciaBancariaService.setChaveHmac(comboHmac.getValue());
-        autorizarTransferenciaBancariaService.setTemplate(new ByteWrapperParam(templateComboBox.getValue().byteValue()));
+        autorizarTransferenciaBancariaService.setTemplate(templateComboBox.getValue().byteValue());
         //pin e tan
         autorizarTransferenciaBancariaService.setPin(pinTextField.getText());
         autorizarTransferenciaBancariaService.setTan(tanTextField.getText());

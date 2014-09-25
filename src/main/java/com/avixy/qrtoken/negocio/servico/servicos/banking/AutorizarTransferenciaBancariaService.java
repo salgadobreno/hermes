@@ -1,6 +1,7 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.google.inject.Inject;
@@ -20,8 +21,8 @@ public class AutorizarTransferenciaBancariaService extends EncryptedHmacTemplate
     List<Param> paramsBuffer = new ArrayList<>();
 
     @Inject
-    public AutorizarTransferenciaBancariaService(AesKeyPolicy keyPolicy) {
-        super(keyPolicy);
+    public AutorizarTransferenciaBancariaService(AesKeyPolicy keyPolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(keyPolicy, hmacKeyPolicy);
     }
 
     @Override

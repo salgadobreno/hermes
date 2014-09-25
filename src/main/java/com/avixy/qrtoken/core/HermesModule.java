@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.chaves.DeleteSymKeyService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -24,6 +25,8 @@ public class HermesModule extends AbstractModule {
         bind(KeyPolicy.class).annotatedWith(Names.named("Null")).to(NullKeyPolicy.class);
         bind(KeyPolicy.class).annotatedWith(Names.named("Hmac")).to(HmacKeyPolicy.class);
         bind(AesKeyPolicy.class);
+        bind(NullKeyPolicy.class);
+        bind(DeleteSymKeyService.class);
     }
 
     public static Injector getInjector(){

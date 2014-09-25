@@ -1,10 +1,9 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class HmacKeyPolicyTest {
 

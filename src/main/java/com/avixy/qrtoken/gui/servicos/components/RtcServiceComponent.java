@@ -1,13 +1,12 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
-import com.avixy.qrtoken.negocio.servico.servicos.HmacRtcService;
+import com.avixy.qrtoken.negocio.servico.servicos.rtc.HmacRtcService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -66,8 +65,8 @@ public class RtcServiceComponent extends ServiceComponent {
         HmacRtcService hmacRtcService = (HmacRtcService) service;
 
         hmacRtcService.setKey(keyField.getValue().getValor());
-        hmacRtcService.setDate(timestampField.getValue());
-        hmacRtcService.setTimeZone(new TimeZoneParam(TimeZone.getTimeZone(fusoBox.getValue())));
+        hmacRtcService.setTimestamp(timestampField.getValue());
+        hmacRtcService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
 
         return hmacRtcService;
     }
