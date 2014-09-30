@@ -11,10 +11,7 @@ public class KeyComponentParamTest {
 
     @Test
     public void testBinaryString() throws Exception {
-        lengthParam = new KeyLengthParam(128);
-        typeParam = new KeyTypeParam(KeyTypeParam.KeyType.TDES);
-
-        param = new KeyComponentParam(typeParam, lengthParam, "123456789");
+        param = new KeyComponentParam(KeyTypeParam.KeyType.TDES, 128, "123456789");
 
         String expectedKeyType = "0001";
         String expectedKeyLength = "00001";

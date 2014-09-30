@@ -11,10 +11,10 @@ public class KeyComponentParam implements Param {
     private KeyLengthParam keyLengthParam;
     private CrcParam crcParam;
 
-    public KeyComponentParam(KeyTypeParam typeParam, KeyLengthParam lengthParam, String key) {
+    public KeyComponentParam(KeyTypeParam.KeyType keyType, int keyLength, String key) {
         this.keyParam = new StringWrapperParam(key);
-        this.keyLengthParam = lengthParam;
-        this.keyTypeParam = typeParam;
+        this.keyLengthParam = new KeyLengthParam(keyLength);
+        this.keyTypeParam = new KeyTypeParam(keyType);
         this.crcParam = new CrcParam(key.getBytes());
     }
 

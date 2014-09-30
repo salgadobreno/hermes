@@ -1,18 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockSettings;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Date;
 
@@ -44,10 +36,9 @@ public class EncryptedTemplateMessageServiceTest {
                 0b00110011, // '3'
                 0b00110100, // '4'
                 0b00100100, // '$'
-                3, // Template:'3'
-                40, // a param
-                50, // another param
-                // string param
+                0b00011_001, // template
+                0b01000_001, // a param
+                (byte) 0b10010000, // another param
         };
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");

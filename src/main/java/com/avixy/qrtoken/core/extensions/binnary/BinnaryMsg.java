@@ -15,11 +15,20 @@ import java.util.List;
  */
 public class BinnaryMsg {
     private String binMsg = "";
+    private static final char[] IGNORE = {'_', '.', ' '};
 
     private BinnaryMsg() { }
 
     public static BinnaryMsg create(){
         return new BinnaryMsg();
+    }
+
+    public BinnaryMsg(String binMsg) {
+        /* para fims de teste */
+        for (char c : IGNORE) {
+            binMsg = StringUtils.remove(binMsg, c);
+        }
+        this.binMsg = binMsg;
     }
 
     /**
@@ -42,10 +51,28 @@ public class BinnaryMsg {
         return this;
     }
 
-    public byte[] toByteArray() {
-        if (binMsg.length() % 8 != 0) {
-            binMsg = StringUtils.rightPad(binMsg, (int) Math.ceil((double)binMsg.length()/8) * 8, '0');
+    public BinnaryMsg append(Param ... params){
+        for (Param param : params) {
+            append(param);
         }
-        return ExBitSet.bytesFromString(binMsg);
+        return this;
+    }
+
+    public byte[] toByteArray() {
+//        System.out.println("binMsg = " + binMsg);
+        return ExBitSet.bytesFromString(padded());
+    }
+
+    @Override
+    public String toString() {
+        return padded();
+    }
+
+    private String padded(){
+        if (binMsg.length() % 8 != 0) {
+            return StringUtils.rightPad(binMsg, (int) Math.ceil((double) binMsg.length() / 8) * 8, '0');
+        } else {
+            return binMsg;
+        }
     }
 }

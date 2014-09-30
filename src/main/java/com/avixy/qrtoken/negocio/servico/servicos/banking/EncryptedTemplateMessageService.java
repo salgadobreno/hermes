@@ -4,10 +4,7 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.Param;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
@@ -27,7 +24,7 @@ import java.util.List;
 public class EncryptedTemplateMessageService extends AbstractService {
 
     protected PinParam pin;
-    protected ByteWrapperParam template;
+    protected TemplateParam template;
     protected TimestampParam date;
     protected List<Param> params = new ArrayList<>();
 
@@ -67,7 +64,7 @@ public class EncryptedTemplateMessageService extends AbstractService {
 
     public void setPin(String pin) { this.pin = new PinParam(pin); }
 
-    public void setTemplate(byte template) { this.template = new ByteWrapperParam(template); }
+    public void setTemplate(byte template) { this.template = new TemplateParam(template); }
 
     public void setParams(Param... params) {
         this.params = Arrays.asList(params);

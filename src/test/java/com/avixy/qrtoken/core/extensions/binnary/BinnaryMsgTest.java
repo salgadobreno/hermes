@@ -1,7 +1,10 @@
 package com.avixy.qrtoken.core.extensions.binnary;
 
 import com.avixy.qrtoken.negocio.servico.params.Param;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
+
+import javax.naming.BinaryRefAddr;
 
 import static org.junit.Assert.*;
 

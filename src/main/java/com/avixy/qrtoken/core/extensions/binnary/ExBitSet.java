@@ -16,12 +16,8 @@ import java.util.regex.Pattern;
  * Created on 10/09/2014
  */
 public class ExBitSet {
-    private static final char[] IGNORE = {'_', '.', ' '};
 
     private static BitSet createFromString(String s) {
-        for (char c : IGNORE) {
-            s = StringUtils.remove(s, c);
-        }
 
         BitSet t = new BitSet(s.length());
         int lastBitIndex = s.length() - 1;

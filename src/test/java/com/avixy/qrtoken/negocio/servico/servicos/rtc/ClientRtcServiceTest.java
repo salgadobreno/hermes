@@ -27,10 +27,9 @@ public class ClientRtcServiceTest {
                 (byte) 0b10101000,
                 0b00110000,     // expected_epoch gmt / timestamp
                 0b00010111,     // +7
-                3, // template
-                40,
-                50,
-                //string param
+                0b00011_001, // template
+                0b01000_001, // a param
+                (byte) 0b10010000, // another param
         };
         service.setTemplate((byte) 3);
         service.setTimestamp(new Date(epoch));

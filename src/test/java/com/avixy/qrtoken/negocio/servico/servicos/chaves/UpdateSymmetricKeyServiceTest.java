@@ -25,18 +25,19 @@ public class UpdateSymmetricKeyServiceTest {
                 0b00000000,
                 (byte) 0b10101000,
                 0b00110000,     // timestamp
-                3, //template
-                0b0001_0111, //keytype1_key: "zxcv"
-                (byte) 0b10100111,
-                (byte) 0b10000110,
-                0b00110111,
-                0b01100000
+                0b00011_000, //template3_
+                (byte) 0b1_0111101, //keytype1_key: "zxcv"
+                (byte) 0b00111100,
+                (byte) 0b00110001,
+                (byte) 0b10111011,
+                0b00000000
         };
 
         service.setTimestamp(new Date(epoch));
-        service.setTemplate((byte) 1);
+        service.setTemplate((byte) 3);
         service.setKeyType(KeyTypeParam.KeyType.TDES);
         service.setKey("zxcv");
+        aesKeyPolicy.setKey("bla".getBytes());
     }
 
     @Test
@@ -46,8 +47,6 @@ public class UpdateSymmetricKeyServiceTest {
 
     @Test
     public void testMsg() throws Exception {
-        System.out.println(ArrayUtils.toString(service.getMessage()));
-        System.out.println(ArrayUtils.toString(expectedMsg));
         assertArrayEquals(expectedMsg, service.getMessage());
     }
 

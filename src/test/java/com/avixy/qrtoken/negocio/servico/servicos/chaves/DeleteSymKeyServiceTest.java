@@ -27,13 +27,15 @@ public class DeleteSymKeyServiceTest {
                 0b00000000,
                 (byte) 0b10101000,
                 0b00110000,     //timestamp
-                3, //template
-                0b0001_0000 // keytype0001_padding
+                0b00011_000, //template_
+                (byte) 0b1_0000000 // keytype0001_padding
         };
 
         service.setTimestamp(new Date(epoch));
         service.setTemplate((byte) 3);
         service.setKeyType(KeyTypeParam.KeyType.TDES);
+
+        aesKeyPolicy.setKey("bla".getBytes());
     }
 
     @Test

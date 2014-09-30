@@ -5,6 +5,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.Param;
+import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ClientRtcService extends HmacRtcService {
-    private ByteWrapperParam template;
+    private TemplateParam template;
     private List<Param> params = new ArrayList<>();
 
     @Inject
@@ -38,7 +39,7 @@ public class ClientRtcService extends HmacRtcService {
     }
 
     public void setTemplate(byte template){
-        this.template = new ByteWrapperParam(template);
+        this.template = new TemplateParam(template);
     }
 
     public void setParams(Param... params) {
