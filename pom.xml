@@ -29,7 +29,7 @@
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>br.com.avixy.qrtoken.gui.MainApp</mainClass>
+                    <mainClass>com.avixy.qrtoken.gui.MainApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>
