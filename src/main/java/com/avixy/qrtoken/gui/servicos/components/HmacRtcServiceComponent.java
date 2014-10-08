@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
     protected Node node;
 
+    @FXML protected Label title;
     @FXML protected TimestampField timestampField;
     @FXML protected ComboBox<String> fusoBox;
     @FXML protected ComboBox<Chave> keyField;
@@ -53,6 +56,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
         } catch (IOException e) {
             logger.error("FXML Error: ", e);
         }
+        title.setText(service.getServiceName());
 
         ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
 

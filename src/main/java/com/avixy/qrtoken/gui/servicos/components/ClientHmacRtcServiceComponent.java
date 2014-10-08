@@ -35,21 +35,13 @@ public class ClientHmacRtcServiceComponent extends HmacRtcServiceComponent {
     }
 
     @Override
-    public Node getNode() {
-        Node node1 = super.getNode();
-        MigPane migPane = new MigPane();
-        migPane.add(node1, "wrap, span");
-
-        migPane.add(new Label("Template:"));
-        migPane.add(templateField, "wrap");
-
-        return migPane;
+    public String getServiceName() {
+        return service.getServiceName();
     }
 
     @Override
     public Service getService() {
         super.getService();
-        service.setTemplate(templateField.getValue());
         return service;
     }
 }

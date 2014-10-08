@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -27,14 +26,9 @@ public class ClientRtcServiceTest {
                 (byte) 0b10101000,
                 0b00110000,     // expected_epoch gmt / timestamp
                 0b00010111,     // +7
-                0b0011_0010, // template
-                (byte) 0b1000_0011, // a param
-                (byte) 0b00100000, // another param
         };
-        service.setTemplate((byte) 3);
         service.setTimestamp(new Date(epoch));
         service.setTimezone(TimeZone.getTimeZone("GMT+7"));
-        service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));
     }
 
     @Test
