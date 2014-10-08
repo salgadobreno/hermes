@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
+import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
@@ -14,8 +15,9 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.OUTROS)
 public class PingServiceComponent extends ServiceComponent {
 
-    public PingServiceComponent() {
-        this.service = injector.getInstance(PingService.class);
+    @Inject
+    public PingServiceComponent(PingService service) {
+        super(service);
     }
 
     @Override

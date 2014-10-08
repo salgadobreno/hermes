@@ -21,18 +21,17 @@ import java.lang.annotation.Target;
  * Created on 08/08/2014
  */
  public abstract class ServiceComponent extends VBox {
-    static Logger log = LoggerFactory.getLogger(ServiceComponent.class);
-    protected Injector injector = Guice.createInjector(new HermesModule());
-
     protected Service service;
+
+    protected ServiceComponent(Service service) {
+        this.service = service;
+    }
 
     public Service getService(){ return service; }
 
     public abstract Node getNode();
 
     public String getServiceName() { return service.getServiceName(); }
-
-    public Logger getLogger() { return log; }
 
     /**
      * Annotation que define a categoria de um <code>ServiceComponent</code>. Usado para definir em que aba o serviço será listado na aplicação.

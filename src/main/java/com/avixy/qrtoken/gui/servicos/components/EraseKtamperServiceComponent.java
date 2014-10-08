@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.servicos.components;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
+import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,8 +20,10 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
     private TextField pinField = new TextField();
 
-    public EraseKtamperServiceComponent() {
-        this.service = injector.getInstance(EraseKtamperService.class);
+    @Inject
+    public EraseKtamperServiceComponent(EraseKtamperService service) {
+        super(service);
+        this.service = service;
     }
 
     @Override

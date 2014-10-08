@@ -9,7 +9,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,7 +45,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
     private Stage formStage = new Stage();
     private final String FXML_PATH = "/fxml/transfcc.fxml";
-    private final AutorizarTransferenciaBancariaService autorizarTransferenciaBancariaService;
+    private final AutorizarTransferenciaBancariaService service;
     private FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
 
     @FXML private AnchorPane root;
@@ -74,9 +74,10 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     private TextField destinoAgenciaTextField = new TextField();
     private TimestampField timestampField = new TimestampField();
 
-    public AutorizarTransferenciaBancariaServiceComponent() {
-        this.autorizarTransferenciaBancariaService = injector.getInstance(AutorizarTransferenciaBancariaService.class);
-        this.service = autorizarTransferenciaBancariaService;
+    @Inject
+    public AutorizarTransferenciaBancariaServiceComponent(AutorizarTransferenciaBancariaService service) {
+        super(service);
+        this.service = service;
 
         fxmlLoader.setController(this);
         try {
@@ -90,7 +91,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             // setup  the form
 
             //title
-            titleLabel.setText(autorizarTransferenciaBancariaService.getServiceName());
+            titleLabel.setText(service.getServiceName());
 
             //origem
             VBox vBox = new VBox();
@@ -160,7 +161,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     @Override
     public Node getNode() {
         MigPane migPane = new MigPane();
-        Label label = new Label(autorizarTransferenciaBancariaService.getServiceName());
+        Label label = new Label(service.getServiceName());
         label.setFont(new Font(18));
         Button button = new Button("Clique para setar os parâmetros");
 
@@ -187,28 +188,28 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
     @Override
     public Service getService() {
-        autorizarTransferenciaBancariaService.setChaveAes(comboAes.getValue());
-        autorizarTransferenciaBancariaService.setChaveHmac(comboHmac.getValue());
-        autorizarTransferenciaBancariaService.setTemplate(templateComboBox.getValue().byteValue());
+        service.setChaveAes(comboAes.getValue());
+        service.setChaveHmac(comboHmac.getValue());
+        service.setTemplate(templateComboBox.getValue().byteValue());
         //pin e tan
-        autorizarTransferenciaBancariaService.setPin(pinTextField.getText());
-        autorizarTransferenciaBancariaService.setTan(tanTextField.getText());
+        service.setPin(pinTextField.getText());
+        service.setTan(tanTextField.getText());
 
         //timestamp
-        autorizarTransferenciaBancariaService.setTimestamp(timestampField.getValue());
+        service.setTimestamp(timestampField.getValue());
         //data
-        autorizarTransferenciaBancariaService.setData(dataCalendarTextField.getValue().getTime());
+        service.setData(dataCalendarTextField.getValue().getTime());
         //origem
-        autorizarTransferenciaBancariaService.setNomeOrigem(origemNomeTextField.getText());
-        autorizarTransferenciaBancariaService.setAgenciaOrigem(origemAgenciaTextField.getText());
-        autorizarTransferenciaBancariaService.setContaOrigem(origemContaTextField.getText());
+        service.setNomeOrigem(origemNomeTextField.getText());
+        service.setAgenciaOrigem(origemAgenciaTextField.getText());
+        service.setContaOrigem(origemContaTextField.getText());
         //destino
-        autorizarTransferenciaBancariaService.setNomeDestino(destinoNomeTextField.getText());
-        autorizarTransferenciaBancariaService.setAgenciaDestino(destinoAgenciaTextField.getText());
-        autorizarTransferenciaBancariaService.setContaDestino(destinoContaTextField.getText());
+        service.setNomeDestino(destinoNomeTextField.getText());
+        service.setAgenciaDestino(destinoAgenciaTextField.getText());
+        service.setContaDestino(destinoContaTextField.getText());
         //valor
-        autorizarTransferenciaBancariaService.setValor(valorTextField.getText());
+        service.setValor(valorTextField.getText());
 
-        return autorizarTransferenciaBancariaService;
+        return service;
     }
 }
