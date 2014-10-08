@@ -38,8 +38,13 @@ public class ClientRtcService extends HmacRtcService {
         return BinnaryMsg.create().append(timestamp).append(timezone).append(template).append(params).toByteArray();
     }
 
-    public void setTemplate(byte template){
-        this.template = new TemplateParam(template);
+    @Override
+    public String getServiceName() {
+        return "Atualizar RTC - HMAC Cliente";
+    }
+
+    public void setTemplate(int template){
+        this.template = new TemplateParam((byte) template);
     }
 
     public void setParams(Param... params) {

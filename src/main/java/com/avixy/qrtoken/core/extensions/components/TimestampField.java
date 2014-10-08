@@ -6,6 +6,7 @@ import jfxtras.labs.scene.control.CalendarTimeTextField;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Componente que encapsula setagem de data + hora
@@ -25,16 +26,28 @@ public class TimestampField extends VBox {
     }
 
     public Date getValue(){
-        Calendar calendar = calendarTextField.getValue();
-        int hour = calendarTimeTextField.getValue().get(Calendar.HOUR_OF_DAY);
-        int mins = calendarTimeTextField.getValue().get(Calendar.MINUTE);
-        int secs = calendarTimeTextField.getValue().get(Calendar.SECOND);
-        int mils = calendarTimeTextField.getValue().get(Calendar.MILLISECOND);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, mins);
-        calendar.set(Calendar.SECOND, secs);
-        calendar.set(Calendar.MILLISECOND, mils);
+        Calendar calendarDate = calendarTextField.getValue();
 
-        return calendar.getTime();
+        /* pega hora e minutos do field de tempo */
+        Calendar calendarTime = calendarTimeTextField.getValue();
+        int hour = calendarTime.get(Calendar.HOUR_OF_DAY);
+        int mins = calendarTime.get(Calendar.MINUTE);
+
+        calendarDate.set(Calendar.HOUR_OF_DAY, hour);
+        calendarDate.set(Calendar.MINUTE, mins);
+        calendarDate.set(Calendar.SECOND, 0);
+        calendarDate.set(Calendar.MILLISECOND, 0);
+
+        /* Setar o timezone depois de setar a hora pra não dar treta na conversão.. */
+        calendarDate.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return calendarDate.getTime();
+    }
+
+    public CalendarTextField getCalendarTextField() {
+        return calendarTextField;
+    }
+
+    public CalendarTimeTextField getCalendarTimeTextField() {
+        return calendarTimeTextField;
     }
 }

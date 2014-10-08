@@ -20,4 +20,9 @@ public class AvixyRtcService extends HmacRtcService {
     public int getServiceCode() {
         return 50;
     }
+
+    @Override
+    public String getServiceName() {
+        return "Atualizar RTC - HMAC Avixy";
+    }
 }
