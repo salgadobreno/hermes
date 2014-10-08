@@ -25,12 +25,11 @@ public class UpdateSymmetricKeyServiceTest {
                 0b00000000,
                 (byte) 0b10101000,
                 0b00110000,     // timestamp
-                0b00011_000, //template3_
-                (byte) 0b1_0111101, //keytype1_key: "zxcv"
-                (byte) 0b00111100,
-                (byte) 0b00110001,
-                (byte) 0b10111011,
-                0b00000000
+                0b0011_0001, //template3_
+                (byte) 0b01111010, //keytype1
+                (byte) 0b01111000, //key: "zxcv"
+                (byte) 0b01100011,
+                (byte) 0b01110110,
         };
 
         service.setTimestamp(new Date(epoch));

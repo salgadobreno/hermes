@@ -24,9 +24,7 @@ public class CreateAndExportSymKeyService extends AbstractService {
     private KeyLengthParam keyLength;
 
     @Inject
-    protected CreateAndExportSymKeyService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected CreateAndExportSymKeyService() { }
 
     @Override
     public String getServiceName() {

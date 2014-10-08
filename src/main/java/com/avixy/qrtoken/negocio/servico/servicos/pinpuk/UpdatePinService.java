@@ -21,9 +21,7 @@ public class UpdatePinService extends AbstractService {
     private TimestampParam timestamp;
 
     @Inject
-    protected UpdatePinService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected UpdatePinService() { }
 
     @Override
     public String getServiceName() {
@@ -38,11 +36,6 @@ public class UpdatePinService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return BinnaryMsg.create().append(timestamp).append(oldPin).append(newPin).toByteArray();
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setOldPin(String oldPin) {

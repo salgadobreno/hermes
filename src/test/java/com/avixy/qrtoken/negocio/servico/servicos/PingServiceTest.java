@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class PingServiceTest {
 
-    PingService pingService = new PingService(null);
+    PingService pingService = new PingService();
 
     @Test
     public void testServiceCode() throws Exception {

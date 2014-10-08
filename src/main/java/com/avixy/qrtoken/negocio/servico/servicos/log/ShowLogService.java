@@ -13,9 +13,7 @@ import com.google.inject.Inject;
 public class ShowLogService extends AbstractService {
 
     @Inject
-    protected ShowLogService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected ShowLogService() {}
 
     @Override
     public String getServiceName() {
@@ -32,8 +30,4 @@ public class ShowLogService extends AbstractService {
         return new byte[0];
     }
 
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
-    }
 }

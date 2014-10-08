@@ -28,14 +28,15 @@ public class EncryptedTemplateMessageService extends AbstractService {
     protected TimestampParam date;
     protected List<Param> params = new ArrayList<>();
 
+    private AesKeyPolicy aesKeyPolicy;
+
     @Inject
     protected EncryptedTemplateMessageService(AesKeyPolicy keyPolicy) {
-        super(keyPolicy);
+        aesKeyPolicy = keyPolicy;
     }
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        AesKeyPolicy aesKeyPolicy = (AesKeyPolicy) keyPolicy;
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
         byte[] data = aesKeyPolicy.apply(getMessage());
 
@@ -59,9 +60,6 @@ public class EncryptedTemplateMessageService extends AbstractService {
         return BinnaryMsg.create().append(date).append(pin).append(template).append(params).toByteArray();
     }
 
-    @Override
-    public KeyPolicy getKeyPolicy() { return null; }
-
     public void setPin(String pin) { this.pin = new PinParam(pin); }
 
     public void setTemplate(byte template) { this.template = new TemplateParam(template); }
@@ -75,7 +73,7 @@ public class EncryptedTemplateMessageService extends AbstractService {
     }
 
     public void setChaveAes(Chave chaveAes) {
-        keyPolicy.setKey(chaveAes.getValor().getBytes());
+        aesKeyPolicy.setKey(chaveAes.getValor().getBytes());
     }
 
 }

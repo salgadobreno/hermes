@@ -91,7 +91,7 @@ public class HmacRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.setKey("key");
+        service.setHmacKey("key");
         service.getData();
         verify(hmacKeyPolicy).apply(Matchers.<byte[]>anyObject());
     }

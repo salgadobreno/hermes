@@ -21,9 +21,7 @@ public class OneStepSymmetricKeyImportService extends AbstractService {
     protected DesafioParam desafio;
 
     @Inject
-    protected OneStepSymmetricKeyImportService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected OneStepSymmetricKeyImportService() { }
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = new TimestampParam(timestamp);

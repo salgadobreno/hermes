@@ -20,9 +20,7 @@ public class StorePinService extends AbstractService {
     private PinParam pin;
 
     @Inject
-    protected StorePinService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected StorePinService() { }
 
     @Override
     public String getServiceName() {
@@ -42,11 +40,6 @@ public class StorePinService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return BinnaryMsg.create().append(pin).toByteArray();
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setPin(String pin) {

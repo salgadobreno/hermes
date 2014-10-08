@@ -10,7 +10,7 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class OneStepSymmetricKeyImportServiceTest {
-    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportService(new NullKeyPolicy());
+    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportService();
     byte[] expectedMsg;
 
     @Before
@@ -27,19 +27,19 @@ public class OneStepSymmetricKeyImportServiceTest {
                 0b00110011, // '3'
                 0b00110100, // '4'
                 0b00100100, // '$'
-                0b00100_001,  //template4_
-                (byte) 0b1_00011_01, //keytype3_keylength3_key
-                (byte) 0b11_0011_01, // 's'
-                (byte) 0b10_0101_01, // 'e'
-                (byte) 0b10_1110_01, // 'n'
-                (byte) 0b10_1000_01, // 'h'
-                (byte) 0b10_0001_01, // 'a' _crc
-                (byte) 0b11_1001_10, // crc-ccitt 'senha' -> 0x79A1 == 31137 http://www.lammertbies.nl/comm/info/crc-calculation.html
-                (byte) 0b10_0001_00, // _desafio 0372
-                (byte) 0b11_0000_00,
-                (byte) 0b11_0011_00,
-                (byte) 0b11_0111_00,
-                (byte) 0b11_0010_00
+                0b0100_0011,  //template4_
+                (byte) 0b00011_011, //keytype3_keylength3_key
+                (byte) 0b1_0011_011, // 's'
+                (byte) 0b0_0101_011, // 'e'
+                (byte) 0b0_1110_011, // 'n'
+                (byte) 0b0_1000_011, // 'h'
+                (byte) 0b0_0001_011, // 'a' _crc
+                (byte) 0b1_1001_101, // crc-ccitt 'senha' -> 0x79A1 == 31137 http://www.lammertbies.nl/comm/info/crc-calculation.html
+                (byte) 0b0_0001_001, // _desafio 0372
+                (byte) 0b1_0000_001,
+                (byte) 0b1_0011_001,
+                (byte) 0b1_0111_001,
+                (byte) 0b1_0010_000
         };
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");

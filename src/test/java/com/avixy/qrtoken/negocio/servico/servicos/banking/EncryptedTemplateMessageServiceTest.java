@@ -36,9 +36,9 @@ public class EncryptedTemplateMessageServiceTest {
                 0b00110011, // '3'
                 0b00110100, // '4'
                 0b00100100, // '$'
-                0b00011_001, // template
-                0b01000_001, // a param
-                (byte) 0b10010000, // another param
+                0b0011_0010, // template
+                (byte) 0b1000_0011, // a param
+                (byte) 0b00100000, // another param
         };
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");

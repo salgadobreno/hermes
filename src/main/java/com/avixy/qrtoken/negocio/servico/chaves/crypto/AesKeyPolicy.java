@@ -20,6 +20,7 @@ import java.util.Arrays;
  *
  * Created on 04/09/2014
  */
+@AcceptsKey(keyType = KeyType.AES)
 public class AesKeyPolicy extends AbstractKeyPolicy {
     private byte[] initializationVector = new byte[16];
     private boolean doPadding = true;
@@ -34,6 +35,7 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
 
     public AesKeyPolicy(byte[] initializationVector, boolean doPadding) {
         this.initializationVector = initializationVector.clone();
+//        this.initializationVector = "abcde".getBytes();
         this.doPadding = doPadding;
     }
 
@@ -50,7 +52,7 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
 
         blockCipher.doFinal(output, bytesOut);
 
-        newIv();
+//        newIv();
 
         return output;
     }

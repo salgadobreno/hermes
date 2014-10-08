@@ -31,8 +31,4 @@ public class GenerateKtamperService implements Service {
         return new byte[0];
     }
 
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
-    }
 }

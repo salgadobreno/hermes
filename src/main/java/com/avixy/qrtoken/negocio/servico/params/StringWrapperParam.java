@@ -14,7 +14,6 @@ public class StringWrapperParam implements Param {
 
     @Override
     public String toBinaryString() {
-        /* TODO: could use optimization? */
         char[] chars = string.toCharArray();
         String bin = "";
         for (char c : chars) {

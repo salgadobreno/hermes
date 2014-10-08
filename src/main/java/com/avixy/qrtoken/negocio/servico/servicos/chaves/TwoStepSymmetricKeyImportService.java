@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
+import com.google.inject.Inject;
 
 /**
  * Created on 25/09/2014
@@ -8,9 +9,8 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TwoStepSymmetricKeyImportService extends OneStepSymmetricKeyImportService {
-    protected TwoStepSymmetricKeyImportService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    @Inject
+    protected TwoStepSymmetricKeyImportService() { }
 
     @Override
     public String getServiceName() {

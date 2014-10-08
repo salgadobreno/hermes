@@ -27,8 +27,7 @@ public class DeleteSymKeyServiceTest {
                 0b00000000,
                 (byte) 0b10101000,
                 0b00110000,     //timestamp
-                0b00011_000, //template_
-                (byte) 0b1_0000000 // keytype0001_padding
+                0b0011_0001, //template_
         };
 
         service.setTimestamp(new Date(epoch));

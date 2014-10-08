@@ -18,10 +18,12 @@ import java.security.GeneralSecurityException;
 public class EncryptedHmacTemplateMessageService extends EncryptedTemplateMessageService {
 
     private KeyPolicy hmacKeyPolicy;
+    private AesKeyPolicy aesKeyPolicy;
 
     @Inject
     public EncryptedHmacTemplateMessageService(AesKeyPolicy keyPolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(keyPolicy);
+        this.aesKeyPolicy = keyPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
@@ -33,7 +35,6 @@ public class EncryptedHmacTemplateMessageService extends EncryptedTemplateMessag
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        AesKeyPolicy aesKeyPolicy = (AesKeyPolicy) keyPolicy;
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
         byte[] data = aesKeyPolicy.apply(hmacKeyPolicy.apply(getMessage()));
 

@@ -24,9 +24,11 @@ public class UpdateSymmetricKeyService extends AbstractService {
     private KeyTypeParam keyType;
     private StringWrapperParam key;
 
+    private AesKeyPolicy aesKeyPolicy;
+
     @Inject
     protected UpdateSymmetricKeyService(AesKeyPolicy keyPolicy) {
-        super(keyPolicy);
+        this.aesKeyPolicy = keyPolicy;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class UpdateSymmetricKeyService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return keyPolicy.apply(getMessage());
+        return aesKeyPolicy.apply(getMessage());
     }
 
     public void setTimestamp(Date date){

@@ -27,9 +27,9 @@ public class ClientRtcServiceTest {
                 (byte) 0b10101000,
                 0b00110000,     // expected_epoch gmt / timestamp
                 0b00010111,     // +7
-                0b00011_001, // template
-                0b01000_001, // a param
-                (byte) 0b10010000, // another param
+                0b0011_0010, // template
+                (byte) 0b1000_0011, // a param
+                (byte) 0b00100000, // another param
         };
         service.setTemplate((byte) 3);
         service.setTimestamp(new Date(epoch));
@@ -49,7 +49,7 @@ public class ClientRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.setKey("key");
+        service.setHmacKey("key");
         service.getData();
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>anyObject());
     }

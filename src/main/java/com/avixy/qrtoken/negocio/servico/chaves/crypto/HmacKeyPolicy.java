@@ -28,5 +28,4 @@ public class HmacKeyPolicy extends AbstractKeyPolicy {
         logger.info("HMAC: " + new String(ArrayUtils.addAll(msg, mac)));
         return ArrayUtils.addAll(msg, mac);
     }
-
 }

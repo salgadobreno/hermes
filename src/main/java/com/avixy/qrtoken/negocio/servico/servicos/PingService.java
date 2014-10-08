@@ -14,9 +14,7 @@ public class PingService extends AbstractService {
     private int SERVICE_CODE = 0b00000001;
 
     @Inject
-    public PingService(@Named("Null") KeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    public PingService() { }
 
     @Override
     public String getServiceName() {
@@ -36,10 +34,5 @@ public class PingService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return new byte[0];
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 }

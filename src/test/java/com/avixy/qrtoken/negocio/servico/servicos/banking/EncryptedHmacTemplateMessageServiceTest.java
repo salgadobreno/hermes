@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
@@ -25,24 +26,15 @@ public class EncryptedHmacTemplateMessageServiceTest {
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
 
     EncryptedHmacTemplateMessageService service = new EncryptedHmacTemplateMessageService(aesKeyPolicy, hmacKeyPolicy);
-    byte[] expectedByteArray;
+    String expectedBinaryString;
 
     @Before
     public void setUp() throws Exception {
-        expectedByteArray = new byte[]{
-                0b01010100,
-                0b00000000,
-                (byte) 0b10101000,
-                0b00110000,     // expected_epoch gmt / timestamp
-                0b00110001, // PIN:'1'
-                0b00110010, // '2'
-                0b00110011, // '3'
-                0b00110100, // '4'
-                0b00100100, // '$'
-                0b00001_001, // template
-                0b01000_001, // a param
-                (byte) 0b10010000, // another param
-        };
+        expectedBinaryString =  "01010100000000001010100000110000" +     // expected_epoch gmt / timestamp
+                "0011000100110010001100110011010000100100" + // PIN:1234%
+                "0001" + // template 1
+                "00101000" + // param
+                "00110010"; // another param
 
         Integer epoch = 1409329200;
 
@@ -67,7 +59,7 @@ public class EncryptedHmacTemplateMessageServiceTest {
 
     @Test
     public void testHmacTemplateMessage() throws Exception {
-        assertArrayEquals(expectedByteArray, service.getMessage());
+        assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -54,7 +53,7 @@ public class AvixyRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.setKey("key");
+        service.setHmacKey("key");
         service.getData();
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
     }

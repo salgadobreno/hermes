@@ -15,9 +15,7 @@ public class StorePukService extends AbstractService {
     private PukParam puk;
 
     @Inject
-    protected StorePukService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected StorePukService() { }
 
     @Override
     public String getServiceName() {
@@ -32,11 +30,6 @@ public class StorePukService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return new byte[0];
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setPuk(String puk) {

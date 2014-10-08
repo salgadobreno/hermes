@@ -10,9 +10,7 @@ import com.google.inject.Inject;
  */
 public class TwoStepDoubleSymmetricKeyImportService extends OneStepDoubleSymmetricKeyImportService {
     @Inject
-    protected TwoStepDoubleSymmetricKeyImportService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected TwoStepDoubleSymmetricKeyImportService() { }
 
     @Override
     public int getServiceCode() {

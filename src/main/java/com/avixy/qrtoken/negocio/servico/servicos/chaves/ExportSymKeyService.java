@@ -21,9 +21,11 @@ public class ExportSymKeyService extends AbstractService {
     private TimestampParam timestamp;
     private PinParam pin;
 
+    private HmacKeyPolicy hmacKeyPolicy;
+
     @Inject
-    protected ExportSymKeyService(HmacKeyPolicy keyPolicy) {
-        super(keyPolicy);
+    protected ExportSymKeyService(HmacKeyPolicy hmacKeyPolicy) {
+        this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ExportSymKeyService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return keyPolicy.apply(getMessage());
+        return hmacKeyPolicy.apply(getMessage());
     }
 
     @Override

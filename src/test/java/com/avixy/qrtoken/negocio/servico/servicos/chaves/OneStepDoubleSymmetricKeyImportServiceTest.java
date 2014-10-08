@@ -10,7 +10,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class OneStepDoubleSymmetricKeyImportServiceTest {
-    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService(null);
+    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService();
 
     byte[] expectedMsg;
 
@@ -28,27 +28,27 @@ public class OneStepDoubleSymmetricKeyImportServiceTest {
                 0b00110011, // '3'
                 0b00110100, // '4'
                 0b00100100, // '$'
-                0b00100_001,  //template4_
-                (byte) 0b1_00011_00, //keytype3_keylength3_keytype2
-                (byte) 0b10_00100_0, //keylength4
-                (byte) 0b111_00110, //senha1senha2
-                (byte) 0b110_01010,
-                (byte) 0b110_11100,
-                (byte) 0b110_10000,
-                (byte) 0b110_00010,
-                0b011_00010,
-                (byte) 0b111_00110,
-                (byte) 0b110_01010,
-                (byte) 0b110_11100,
-                (byte) 0b110_10000,
-                (byte) 0b110_00010,
-                0b011_00101,
-                0b011_11000, //crc 'senha1senha2' -> 0xBC76 == -17290
-                (byte) 0b111_01100,
-                0b011_10010, //desafio 9879
-                0b011_10000,
-                0b011_01110,
-                0b011_10010
+                0b0100_0011,  //template4_
+                (byte) 0b00011_001, //keytype3_keylength3_keytype2
+                (byte) 0b0_00100_01, //keylength4
+                (byte) 0b11_001101, //senha1senha2
+                (byte) 0b10_010101,
+                (byte) 0b10_111001,
+                (byte) 0b10_100001,
+                (byte) 0b10_000100,
+                (byte) 0b11_000101,
+                (byte) 0b11_001101,
+                (byte) 0b10_010101,
+                (byte) 0b10_111001,
+                (byte) 0b10_100001,
+                (byte) 0b10_000100,
+                (byte) 0b11_001010,
+                (byte) 0b11_110001, //crc 'senha1senha2' -> 0xBC76 == -17290
+                (byte) 0b11_011000,
+                (byte) 0b11_100100, //desafio 9879
+                (byte) 0b11_100000,
+                (byte) 0b11_011100,
+                (byte) 0b11_100100
         };
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");

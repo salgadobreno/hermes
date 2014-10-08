@@ -28,9 +28,11 @@ public class HmacRtcService extends AbstractService {
     protected TimestampParam timestamp;
     protected TimeZoneParam timezone;
 
+    protected HmacKeyPolicy hmacKeyPolicy;
+
     @Inject
     public HmacRtcService(HmacKeyPolicy keyPolicy) {
-        super(keyPolicy);
+        this.hmacKeyPolicy = keyPolicy;
     }
 
     @Override
@@ -45,12 +47,7 @@ public class HmacRtcService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return keyPolicy.apply(getMessage());
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return keyPolicy;
+        return hmacKeyPolicy.apply(getMessage());
     }
 
     public byte[] getMessage(){
@@ -62,10 +59,11 @@ public class HmacRtcService extends AbstractService {
     }
 
     public void setTimestamp(Date date) {
+
         this.timestamp = ParamFactory.getParam(date);
     }
 
-    public void setKey(String key){
-        keyPolicy.setKey(key.getBytes());
+    public void setHmacKey(String key){
+        hmacKeyPolicy.setKey(key.getBytes());
     }
 }

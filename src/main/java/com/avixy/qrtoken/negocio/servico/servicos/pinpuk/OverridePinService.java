@@ -22,9 +22,7 @@ public class OverridePinService extends AbstractService {
     private PukParam puk;
 
     @Inject
-    protected OverridePinService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected OverridePinService() { }
 
     @Override
     public String getServiceName() {
@@ -39,11 +37,6 @@ public class OverridePinService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return BinnaryMsg.create().append(timestamp).append(puk).append(pin).toByteArray();
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setPin(String pin) {

@@ -21,9 +21,11 @@ public class DeleteSymKeyService extends AbstractService {
     private TemplateParam template;
     private KeyTypeParam keyType;
 
+    private AesKeyPolicy aesKeyPolicy;
+
     @Inject
     protected DeleteSymKeyService(AesKeyPolicy keyPolicy) {
-        super(keyPolicy);
+        this.aesKeyPolicy = keyPolicy;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class DeleteSymKeyService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return keyPolicy.apply(getMessage());
+        return aesKeyPolicy.apply(getMessage());
     }
 
     @Override

@@ -22,9 +22,7 @@ public class EraseKtamperService extends AbstractService {
     private TimestampParam timestampParam;
 
     @Inject
-    protected EraseKtamperService(@Named("Null")KeyPolicy keyPolicy) {
-        super(keyPolicy);
-    }
+    protected EraseKtamperService() { }
 
     @Override
     public String getServiceName() {
@@ -44,11 +42,6 @@ public class EraseKtamperService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return BinnaryMsg.create().append(timestampParam).append(pinParam).toByteArray();
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setPin(String pin){

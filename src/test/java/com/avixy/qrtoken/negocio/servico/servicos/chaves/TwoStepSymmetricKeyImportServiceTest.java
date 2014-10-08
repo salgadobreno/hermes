@@ -10,7 +10,7 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class TwoStepSymmetricKeyImportServiceTest {
-    TwoStepSymmetricKeyImportService service = new TwoStepSymmetricKeyImportService(null);
+    TwoStepSymmetricKeyImportService service = new TwoStepSymmetricKeyImportService();
     String expectedBinaryString = "";
     byte[] expectedMsg;
 
@@ -19,7 +19,7 @@ public class TwoStepSymmetricKeyImportServiceTest {
         long epoch = 1409329200000L;
         expectedBinaryString += "0101_0100_0000_0000_1010_1000_0011_0000" + //epoch
                 "0011_0001_0011_0010_0011_0011_0011_0100_0010_0100" + //pin 1234$
-                "00100" + //template4
+                "0100" + //template4
                 "0011" + //keytype3
                 "00011" + //keylength3
                 "0111_0011_0110_0101_0110_1110_0110_1000_0110_0001" + //senha

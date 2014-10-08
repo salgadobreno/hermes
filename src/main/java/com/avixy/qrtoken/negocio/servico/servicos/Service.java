@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
@@ -22,7 +21,4 @@ public interface Service {
 
     /** @return Dados em claro do serviço */
     byte[] getMessage();
-
-    KeyPolicy getKeyPolicy();
-
 }

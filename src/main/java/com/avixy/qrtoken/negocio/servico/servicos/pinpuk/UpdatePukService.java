@@ -21,8 +21,7 @@ public class UpdatePukService extends AbstractService {
     private PukParam newPuk;
 
     @Inject
-    protected UpdatePukService(NullKeyPolicy keyPolicy) {
-        super(keyPolicy);
+    protected UpdatePukService() {
     }
 
     @Override
@@ -38,11 +37,6 @@ public class UpdatePukService extends AbstractService {
     @Override
     public byte[] getMessage() {
         return BinnaryMsg.create().append(timestamp).append(oldPuk).append(newPuk).toByteArray();
-    }
-
-    @Override
-    public KeyPolicy getKeyPolicy() {
-        return null;
     }
 
     public void setOldPuk(String oldPuk) {

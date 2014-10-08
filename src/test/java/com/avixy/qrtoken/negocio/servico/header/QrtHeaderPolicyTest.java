@@ -21,7 +21,6 @@ public class QrtHeaderPolicyTest {
         public byte[] getData() throws GeneralSecurityException { return new byte[0]; }
         @Override
         public byte[] getMessage() { return new byte[0]; }
-        @Override public KeyPolicy getKeyPolicy() { return null; }
     };
 
     @Test
