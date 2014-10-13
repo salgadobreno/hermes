@@ -4,8 +4,12 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractHmacService;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
@@ -16,16 +20,13 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class ExportSymKeyService extends AbstractService {
+public class ExportSymKeyService extends AbstractHmacService {
 
     private TimestampParam timestamp;
     private PinParam pin;
 
-    private HmacKeyPolicy hmacKeyPolicy;
-
-    @Inject
-    protected ExportSymKeyService(HmacKeyPolicy hmacKeyPolicy) {
-        this.hmacKeyPolicy = hmacKeyPolicy;
+    protected ExportSymKeyService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy keyPolicy) {
+        super(headerPolicy, keyPolicy);
     }
 
     @Override
@@ -36,11 +37,6 @@ public class ExportSymKeyService extends AbstractService {
     @Override
     public int getServiceCode() {
         return 39;
-    }
-
-    @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return hmacKeyPolicy.apply(getMessage());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import org.apache.commons.lang.ArrayUtils;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class UpdateSymmetricKeyServiceTest {
     AesKeyPolicy aesKeyPolicy = Mockito.mock(AesKeyPolicy.class);
-    UpdateSymmetricKeyService service = new UpdateSymmetricKeyService(aesKeyPolicy);
+    UpdateSymmetricKeyService service = new UpdateSymmetricKeyService(TestHelper.getHeaderPolicy(), aesKeyPolicy);
     byte[] expectedMsg;
 
     @Before

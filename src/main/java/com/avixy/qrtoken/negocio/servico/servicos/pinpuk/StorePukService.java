@@ -1,9 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 /**
@@ -15,7 +14,9 @@ public class StorePukService extends AbstractService {
     private PukParam puk;
 
     @Inject
-    protected StorePukService() { }
+    public StorePukService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {

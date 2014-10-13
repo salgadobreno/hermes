@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class PingServiceTest {
 
-    PingService pingService = new PingService();
+    PingService pingService = new PingService(TestHelper.getHeaderPolicy());
 
     @Test
     public void testServiceCode() throws Exception {

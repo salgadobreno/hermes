@@ -2,16 +2,11 @@ package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.Param;
-import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,8 +18,8 @@ public class ClientRtcService extends HmacRtcService {
     private List<Param> params = new ArrayList<>();
 
     @Inject
-    public ClientRtcService(HmacKeyPolicy keyPolicy) {
-        super(keyPolicy);
+    public ClientRtcService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy keyPolicy) {
+        super(headerPolicy, keyPolicy);
     }
 
     @Override

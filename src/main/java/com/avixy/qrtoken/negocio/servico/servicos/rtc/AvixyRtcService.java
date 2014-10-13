@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -12,8 +13,8 @@ import com.google.inject.name.Named;
  */
 public class AvixyRtcService extends HmacRtcService {
     @Inject
-    public AvixyRtcService(HmacKeyPolicy keyPolicy) {
-        super(keyPolicy);
+    public AvixyRtcService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy keyPolicy) {
+        super(headerPolicy, keyPolicy);
     }
 
     @Override

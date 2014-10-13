@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ClientRtcServiceTest {
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    ClientRtcService service = new ClientRtcService(hmacKeyPolicy);
+    ClientRtcService service = new ClientRtcService(TestHelper.getHeaderPolicy(), hmacKeyPolicy);
 
     byte[] expectedMsg;
 
@@ -43,7 +44,7 @@ public class ClientRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.setHmacKey("key");
+        service.setHmacKey("key".getBytes());
         service.getData();
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>anyObject());
     }

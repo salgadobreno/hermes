@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class OneStepDoubleSymmetricKeyImportServiceTest {
-    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService();
+    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService(TestHelper.getHeaderPolicy());
 
     byte[] expectedMsg;
 

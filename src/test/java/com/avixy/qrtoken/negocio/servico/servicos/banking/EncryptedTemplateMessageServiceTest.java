@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class EncryptedTemplateMessageServiceTest {
     AesKeyPolicy aesKeyPolicy =  Mockito.mock(AesKeyPolicy.class);
 
-    EncryptedTemplateMessageService service = new EncryptedTemplateMessageService(aesKeyPolicy);
+    EncryptedTemplateMessageService service = new EncryptedTemplateMessageService(TestHelper.getHeaderPolicy(), aesKeyPolicy);
 
     byte[] expectedMsg;
 

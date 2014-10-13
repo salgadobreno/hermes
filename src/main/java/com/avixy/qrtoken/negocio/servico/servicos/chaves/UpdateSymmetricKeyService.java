@@ -7,7 +7,9 @@ import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
@@ -27,7 +29,8 @@ public class UpdateSymmetricKeyService extends AbstractService {
     private AesKeyPolicy aesKeyPolicy;
 
     @Inject
-    protected UpdateSymmetricKeyService(AesKeyPolicy keyPolicy) {
+    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+        super(headerPolicy);
         this.aesKeyPolicy = keyPolicy;
     }
 
@@ -48,7 +51,7 @@ public class UpdateSymmetricKeyService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return aesKeyPolicy.apply(getMessage());
+        return ArrayUtils.addAll(headerPolicy.getHeader(this), aesKeyPolicy.apply(getMessage()));
     }
 
     public void setTimestamp(Date date){

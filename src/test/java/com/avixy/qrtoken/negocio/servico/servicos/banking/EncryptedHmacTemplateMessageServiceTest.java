@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
@@ -25,7 +26,7 @@ public class EncryptedHmacTemplateMessageServiceTest {
     AesKeyPolicy aesKeyPolicy = mock(AesKeyPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
 
-    EncryptedHmacTemplateMessageService service = new EncryptedHmacTemplateMessageService(aesKeyPolicy, hmacKeyPolicy);
+    EncryptedHmacTemplateMessageService service = new EncryptedHmacTemplateMessageService(TestHelper.getHeaderPolicy(), aesKeyPolicy, hmacKeyPolicy);
     String expectedBinaryString;
 
     @Before

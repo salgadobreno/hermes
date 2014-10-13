@@ -14,4 +14,13 @@ public class StringWithLengthParamTest {
 
         assertEquals(expectedBinaryString, param.toBinaryString());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSizeLimit() throws Exception {
+        char[] string = new char[256];
+        for (int i = 0; i < string.length; i++) {
+            string[i] = 'u';
+        }
+        new StringWithLengthParam(new String(string));
+    }
 }

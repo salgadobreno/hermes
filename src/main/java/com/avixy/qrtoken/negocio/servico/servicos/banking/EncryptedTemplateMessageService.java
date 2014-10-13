@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
@@ -31,7 +32,8 @@ public class EncryptedTemplateMessageService extends AbstractService {
     private AesKeyPolicy aesKeyPolicy;
 
     @Inject
-    protected EncryptedTemplateMessageService(AesKeyPolicy keyPolicy) {
+    protected EncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+        super(headerPolicy);
         aesKeyPolicy = keyPolicy;
     }
 
@@ -40,9 +42,7 @@ public class EncryptedTemplateMessageService extends AbstractService {
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
         byte[] data = aesKeyPolicy.apply(getMessage());
 
-        byte[] dataWithIv = ArrayUtils.addAll(initializationVector, data);
-
-        return dataWithIv;
+        return ArrayUtils.addAll(initializationVector, data);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class EncryptedTemplateMessageService extends AbstractService {
     }
 
     public void setChaveAes(Chave chaveAes) {
-        aesKeyPolicy.setKey(chaveAes.getValor().getBytes());
+        aesKeyPolicy.setKey(chaveAes.getHexValue());
     }
 
 }

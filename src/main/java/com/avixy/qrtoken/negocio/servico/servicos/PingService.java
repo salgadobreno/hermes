@@ -1,9 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import java.security.GeneralSecurityException;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -14,7 +12,9 @@ public class PingService extends AbstractService {
     private int SERVICE_CODE = 0b00000001;
 
     @Inject
-    public PingService() { }
+    public PingService(QrtHeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {
@@ -24,11 +24,6 @@ public class PingService extends AbstractService {
     @Override
     public int getServiceCode() {
         return SERVICE_CODE;
-    }
-
-    @Override
-    public byte[] getData() throws GeneralSecurityException {
-        return getMessage();
     }
 
     @Override

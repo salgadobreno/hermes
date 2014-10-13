@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 /**
@@ -10,7 +11,9 @@ import com.google.inject.Inject;
  */
 public class TwoStepDoubleSymmetricKeyImportService extends OneStepDoubleSymmetricKeyImportService {
     @Inject
-    protected TwoStepDoubleSymmetricKeyImportService() { }
+    public TwoStepDoubleSymmetricKeyImportService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public int getServiceCode() {

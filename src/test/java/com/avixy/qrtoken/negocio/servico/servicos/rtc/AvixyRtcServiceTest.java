@@ -1,18 +1,24 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import static org.junit.Assert.*;
 
 public class AvixyRtcServiceTest {
+    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    AvixyRtcService service = new AvixyRtcService(hmacKeyPolicy);
+    AvixyRtcService service = new AvixyRtcService(headerPolicy, hmacKeyPolicy);
 
     byte[] expectedMsg;
 
@@ -53,8 +59,9 @@ public class AvixyRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.setHmacKey("key");
+        service.setHmacKey("key".getBytes());
         service.getData();
+        Mockito.verify(headerPolicy).getHeader(Matchers.<Service>anyObject());
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
     }
 }

@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class TwoStepSymmetricKeyImportServiceTest {
-    TwoStepSymmetricKeyImportService service = new TwoStepSymmetricKeyImportService();
+    TwoStepSymmetricKeyImportService service = new TwoStepSymmetricKeyImportService(TestHelper.getHeaderPolicy());
     String expectedBinaryString = "";
     byte[] expectedMsg;
 

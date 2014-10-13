@@ -5,6 +5,8 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.bouncycastle.crypto.CryptoException;
 
@@ -20,7 +22,9 @@ public class StorePinService extends AbstractService {
     private PinParam pin;
 
     @Inject
-    protected StorePinService() { }
+    public StorePinService(QrtHeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {
@@ -30,11 +34,6 @@ public class StorePinService extends AbstractService {
     @Override
     public int getServiceCode() {
         return 22;
-    }
-
-    @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return new byte[0];
     }
 
     @Override

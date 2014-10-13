@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;
@@ -21,7 +22,8 @@ public class UpdatePukService extends AbstractService {
     private PukParam newPuk;
 
     @Inject
-    protected UpdatePukService() {
+    protected UpdatePukService(QrtHeaderPolicy headerPolicy) {
+        super(headerPolicy);
     }
 
     @Override

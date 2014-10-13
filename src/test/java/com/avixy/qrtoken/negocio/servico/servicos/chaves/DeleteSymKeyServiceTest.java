@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import org.junit.Before;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 public class DeleteSymKeyServiceTest {
     AesKeyPolicy aesKeyPolicy = Mockito.mock(AesKeyPolicy.class);
-    DeleteSymKeyService service = new DeleteSymKeyService(aesKeyPolicy);
+    DeleteSymKeyService service = new DeleteSymKeyService(TestHelper.getHeaderPolicy(), aesKeyPolicy);
 
     byte[] expectedMsg;
 

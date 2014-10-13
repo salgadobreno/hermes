@@ -2,13 +2,13 @@ package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ParamFactory;
 import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractHmacService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
@@ -21,18 +21,16 @@ import java.util.TimeZone;
  *
  * Created on 31/07/2014
  */
-public class HmacRtcService extends AbstractService {
+public class HmacRtcService extends AbstractHmacService {
     private static final byte SERVICE_CODE = 50;
     private static final String SERVICE_NAME = "Atualizar RTC - HMAC";
 
     protected TimestampParam timestamp;
     protected TimeZoneParam timezone;
 
-    protected HmacKeyPolicy hmacKeyPolicy;
-
     @Inject
-    public HmacRtcService(HmacKeyPolicy keyPolicy) {
-        this.hmacKeyPolicy = keyPolicy;
+    public HmacRtcService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy keyPolicy) {
+        super(headerPolicy, keyPolicy);
     }
 
     @Override
@@ -45,11 +43,6 @@ public class HmacRtcService extends AbstractService {
         return SERVICE_CODE;
     }
 
-    @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return hmacKeyPolicy.apply(getMessage());
-    }
-
     public byte[] getMessage(){
         return BinnaryMsg.create().append(timestamp).append(timezone).toByteArray();
     }
@@ -59,11 +52,10 @@ public class HmacRtcService extends AbstractService {
     }
 
     public void setTimestamp(Date date) {
-
         this.timestamp = ParamFactory.getParam(date);
     }
 
-    public void setHmacKey(String key){
-        hmacKeyPolicy.setKey(key.getBytes());
+    public void setHmacKey(byte[] key){
+        hmacKeyPolicy.setKey(key);
     }
 }

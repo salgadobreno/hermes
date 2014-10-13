@@ -1,7 +1,6 @@
-package com.avixy.qrtoken.negocio.servico.header;
+package com.avixy.qrtoken.negocio.servico.servicos.header;
 
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import org.junit.Test;
 
 import java.security.GeneralSecurityException;

@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;
@@ -21,7 +22,9 @@ public class OneStepSymmetricKeyImportService extends AbstractService {
     protected DesafioParam desafio;
 
     @Inject
-    protected OneStepSymmetricKeyImportService() { }
+    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = new TimestampParam(timestamp);

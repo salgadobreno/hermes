@@ -7,6 +7,7 @@ import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;
@@ -22,7 +23,9 @@ public class OverridePinService extends AbstractService {
     private PukParam puk;
 
     @Inject
-    protected OverridePinService() { }
+    public OverridePinService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {

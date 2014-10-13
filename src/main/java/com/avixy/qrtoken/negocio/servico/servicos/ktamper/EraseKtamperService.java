@@ -5,6 +5,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import static com.avixy.qrtoken.negocio.servico.params.ParamFactory.*;
@@ -22,7 +23,9 @@ public class EraseKtamperService extends AbstractService {
     private TimestampParam timestampParam;
 
     @Inject
-    protected EraseKtamperService() { }
+    public EraseKtamperService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {
@@ -32,11 +35,6 @@ public class EraseKtamperService extends AbstractService {
     @Override
     public int getServiceCode() {
         return 21;
-    }
-
-    @Override
-    public byte[] getData() throws GeneralSecurityException {
-        return getMessage();
     }
 
     @Override

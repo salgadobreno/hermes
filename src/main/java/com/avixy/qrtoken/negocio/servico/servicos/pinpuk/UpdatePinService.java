@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;
@@ -21,7 +22,9 @@ public class UpdatePinService extends AbstractService {
     private TimestampParam timestamp;
 
     @Inject
-    protected UpdatePinService() { }
+    public UpdatePinService(HeaderPolicy headerPolicy) {
+        super(headerPolicy);
+    }
 
     @Override
     public String getServiceName() {

@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ExportSymKeyServiceTest {
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    ExportSymKeyService service = new ExportSymKeyService(hmacKeyPolicy);
+    ExportSymKeyService service = new ExportSymKeyService(TestHelper.getHeaderPolicy(), hmacKeyPolicy);
 
     byte[] expectedMsg;
 

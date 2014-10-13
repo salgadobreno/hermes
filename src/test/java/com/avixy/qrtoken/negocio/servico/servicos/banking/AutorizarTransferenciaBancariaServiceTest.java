@@ -18,6 +18,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         /* 'excercitando o codigo' */
 
         String teste = "teste";
+        String chaveHex = "ffffffffffffffff";
         //nome, conta, agencia de origem
         service.setNomeOrigem(teste);
         service.setAgenciaOrigem(teste);
@@ -33,7 +34,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         service.setTimestamp(new Date());
         //chaves, pin
         service.setPin("1234");
-        service.setChaveAes(new Chave(teste, KeyType.AES, teste, 64));
-        service.setChaveHmac(new Chave(teste, KeyType.AES, teste, 64));
+        service.setChaveAes(new Chave(teste, KeyType.AES, chaveHex, 64));
+        service.setChaveHmac(new Chave(teste, KeyType.AES, chaveHex, 64));
     }
 }

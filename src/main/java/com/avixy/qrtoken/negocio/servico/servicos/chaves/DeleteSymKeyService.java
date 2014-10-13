@@ -5,7 +5,9 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
@@ -24,7 +26,9 @@ public class DeleteSymKeyService extends AbstractService {
     private AesKeyPolicy aesKeyPolicy;
 
     @Inject
-    protected DeleteSymKeyService(AesKeyPolicy keyPolicy) {
+    public DeleteSymKeyService(HeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+        super(headerPolicy);
+        this.headerPolicy = headerPolicy;
         this.aesKeyPolicy = keyPolicy;
     }
 
@@ -40,7 +44,7 @@ public class DeleteSymKeyService extends AbstractService {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return aesKeyPolicy.apply(getMessage());
+        return ArrayUtils.addAll(headerPolicy.getHeader(this), aesKeyPolicy.apply(getMessage()));
     }
 
     @Override

@@ -1,27 +1,34 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class StoreUserInfoServiceTest {
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
     AesKeyPolicy aesKeyPolicy = Mockito.mock(AesKeyPolicy.class);
-    StoreUserInfoService service = new StoreUserInfoService(aesKeyPolicy, hmacKeyPolicy);
+    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
+    StoreUserInfoService service = new StoreUserInfoService(headerPolicy, aesKeyPolicy, hmacKeyPolicy);
 
     String nome = "italo";
     String email = "italo@italo.com";
-    String cpf = "1234";
-    String conta = "222";
-    String agencia = "111";
-    String cliente = "banco";
-    String telefone = "123456";
+    String cpf = "53962087168";
+    String cliente = "banco do brasil";
+    String conta = "268232"; // deposite mil reais
+    String agencia = "34754";
+    String telefone = "6155558722";
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +39,6 @@ public class StoreUserInfoServiceTest {
         service.setAgencia(agencia);
         service.setCliente(cliente);
         service.setTelefone(telefone);
-        service.setTemplate(1);
         service.setHmacKey("hmac".getBytes());
         service.setAesKey("aes".getBytes());
     }
@@ -44,22 +50,65 @@ public class StoreUserInfoServiceTest {
 
     @Test
     public void testGetMessage() throws Exception {
-        String expectedBinaryString = "0001" + //template 1
-                "0000_0101_0110100101110100011000010110110001101111" + //nome
-                "00001111011010010111010001100001011011000110111101000000011010010111010001100001011011000110111100101110011000110110111101101101" + // email
-                "0000010000110001001100100011001100110100" + // cpf
-                "00000011001100100011001000110010" + // conta
-                "00000011001100010011000100110001" + // agencia
-                "000001010110001001100001011011100110001101101111" + // cliente
-                "00000110001100010011001000110011001101000011010100110110"; //telefone
+        String expectedBinaryString =
+                "00000101_0110100101110100011000010110110001101111" + //5 italo
+                "00001111_011010010111010001100001011011000110111101000000011010010111010001100001011011000110111100101110011000110110111101101101" + //15 email
+                "00001011_0011010100110011001110010011011000110010001100000011100000110111001100010011011000111000" + //11 cpf
+                "00001111_011000100110000101101110011000110110111100100000011001000110111100100000011000100111001001100001011100110110100101101100" + //15 cliente
+                "00000101_0011001100110100001101110011010100110100" + //5 agencia
+                "00000110_001100100011011000111000001100100011001100110010" + //6 conta
+                "00001010_00110110001100010011010100110101001101010011010100111000001101110011001000110010"; //10 telefone
 
         assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }
 
     @Test
-    public void testCrypto() throws Exception {
+    public void testCryptoAndHeader() throws Exception {
         service.getData();
+        Mockito.verify(headerPolicy).getHeader(service);
         Mockito.verify(aesKeyPolicy).apply(Mockito.<byte[]>any());
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNameLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 31, 'c');
+        service.setNome(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCPFLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 21, 'c');
+        service.setCpf(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmailLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 41, 'c');
+        service.setEmail(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testClienteLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 21, 'c');
+        service.setCliente(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAgenciaLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 11, 'c');
+        service.setAgencia(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContaLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 11, 'c');
+        service.setConta(str);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTelefoneLimit() throws Exception {
+        String str = StringUtils.leftPad("x", 21, 'c');
+        service.setTelefone(str);
     }
 }

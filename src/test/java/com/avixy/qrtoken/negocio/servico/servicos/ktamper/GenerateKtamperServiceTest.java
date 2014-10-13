@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertEquals;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class GenerateKtamperServiceTest {
-    private GenerateKtamperService service = new GenerateKtamperService();
+    private GenerateKtamperService service = new GenerateKtamperService(new QrtHeaderPolicy());
 
     @Test
     public void testServiceCode() throws Exception {

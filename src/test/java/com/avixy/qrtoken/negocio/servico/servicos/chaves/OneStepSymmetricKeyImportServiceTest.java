@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.NullKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import org.junit.Before;
@@ -10,7 +11,7 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class OneStepSymmetricKeyImportServiceTest {
-    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportService();
+    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportService(TestHelper.getHeaderPolicy());
     byte[] expectedMsg;
 
     @Before
