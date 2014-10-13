@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +20,13 @@ public class HmacKeyPolicy extends AbstractKeyPolicy {
 
     @Override
     public byte[] apply(byte[] msg) throws GeneralSecurityException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA1");
-        Mac sha1Mac = Mac.getInstance("HmacSHA1");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA256");
+        Mac sha1Mac = Mac.getInstance("HmacSHA256");
         sha1Mac.init(secretKeySpec);
         byte[] mac = sha1Mac.doFinal(msg);
-        logger.info("MSG: " + new String(msg));
-        logger.info("MAC: " + new String(mac));
-        logger.info("HMAC: " + new String(ArrayUtils.addAll(msg, mac)));
+        logger.info("key = " + Hex.encodeHexString(key));
+        logger.info("MSG: " + Hex.encodeHexString(msg));
+        logger.info("HMAC: " + Hex.encodeHexString(mac));
         return ArrayUtils.addAll(msg, mac);
     }
 }

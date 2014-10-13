@@ -14,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,10 +66,10 @@ public class HmacRtcServiceComponent extends ServiceComponent {
     }
 
     @Override
-    public Service getService(){
+    public Service getService() {
         HmacRtcService hmacRtcService = (HmacRtcService) service;
 
-        hmacRtcService.setHmacKey(keyField.getValue().getValor());
+        hmacRtcService.setHmacKey(keyField.getValue().getHexValue());
         hmacRtcService.setTimestamp(timestampField.getValue());
         hmacRtcService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
 

@@ -2,9 +2,7 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.header.HeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.crypto.CryptoException;
 
@@ -22,14 +20,12 @@ import java.util.List;
  */
 public class QrCodePolicy {
     public static int HEADER_SIZE = 3;
-    private HeaderPolicy headerPolicy;
 
     /** TODO:
      * implement multiple QRs
      */
 
-    public QrCodePolicy(HeaderPolicy headerPolicy) {
-        this.headerPolicy = headerPolicy;
+    public QrCodePolicy() {
     }
 
     /**
@@ -40,7 +36,7 @@ public class QrCodePolicy {
      */
     public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException {
         // verifica se precisa de mais de 1 qr ...
-        byte[] data = ArrayUtils.addAll(headerPolicy.getHeader(service), service.getData());
+        byte[] data = service.getData();
         QrTokenCode tokenCode = new QrTokenCode(data, setup);
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
         tokenCodeList.add(tokenCode);
@@ -60,8 +56,8 @@ public class QrCodePolicy {
          * @param setup configuração do QrCode
          */
         public QrTokenCode(byte[] dados, QrSetup setup) {
-            this.length = setup.getAvailableBytes();
-            if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
+//            this.length = setup.getAvailableBytes(); // TODO: QRs now can be of any size.. ?
+//            if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
 
             this.dados = dados;
             this.ecLevel = setup.getEcLevel();
@@ -74,7 +70,9 @@ public class QrCodePolicy {
          * <code>CHARSET</code> ISO-8859-1 pra assegurar que os bytes originais não são perdidos na transição p/ String
          */
         public String getDados(){
-            return StringUtils.rightPad(new String(dados, CHARSET), length, '0');
+            String qrPayload = new String(dados, CHARSET);
+            if (qrPayload.length() < 17) { qrPayload = StringUtils.rightPad(qrPayload, 18, '0'); } // O token não lê QRs versão 1, então padding p/ 18 para que use qr versão 2
+            return qrPayload;
         }
 
         /**

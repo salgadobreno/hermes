@@ -5,11 +5,12 @@ import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * @author Breno Salgado <breno.salgado@axivy.com>
@@ -50,7 +53,7 @@ public class HomeController {
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
-    QrCodePolicy policy = new QrCodePolicy(new QrtHeaderPolicy());
+    QrCodePolicy policy = new QrCodePolicy();
 
     Stage zoomStage;
     Stage chavesStage;
@@ -193,6 +196,36 @@ public class HomeController {
             chavesStage.toFront();
         } catch (IOException e) {
             log.error(e.toString(), e);
+        }
+    }
+
+    public void zoomQR(){
+        Parent root = qrView.getScene().getRoot();
+        Window window = qrView.getScene().getWindow();
+        if (zoomStage == null) {
+            zoomStage = new Stage(StageStyle.UTILITY);
+        }
+
+        try {
+            String fxmlFile = "/fxml/qrcodezoom.fxml";
+            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            zoomStage.setX(window.getX() + window.getWidth());
+            zoomStage.setY(window.getY());
+            zoomStage.setResizable(false);
+            zoomStage.setScene(new Scene(parent));
+            zoomStage.show();
+            zoomStage.toFront();
+            final ImageView qrZoomImageView = (ImageView) parent.lookup("#qrZoomImageView");
+            qrZoomImageView.imageProperty().bind(Bindings.createObjectBinding(new Callable<Image>() {
+                @Override
+                public Image call() throws Exception {
+                    return qrView.getImage();
+                }
+            }, qrView.imageProperty()));
+            final VBox vBox = (VBox) parent.lookup("#vbox");
+            vBox.styleProperty().bind(qrDisplayVBox.styleProperty());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

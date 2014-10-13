@@ -39,8 +39,17 @@ public class Chave {
         return new KeyTypeWrap(keyType, length);
     }
 
-    public String getValor() {
-        return valor;
+    public byte[] getHexValue() {
+        try {
+            return Hex.decodeHex(this.valor.toCharArray());
+        } catch (DecoderException e) {
+            logger.error("Chave não é hexa.", e);
+            throw new RuntimeException("Toda chave deve ser em formato hexa.");
+        }
+    }
+
+    public String getValor(){
+        return this.valor;
     }
 
     public Integer getLength() {

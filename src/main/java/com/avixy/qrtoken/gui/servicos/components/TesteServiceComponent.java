@@ -1,8 +1,10 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,7 +26,7 @@ public class TesteServiceComponent extends ServiceComponent {
 
     @Inject
     protected TesteServiceComponent(PingService ignored) {
-        super(new Service() {
+        super(new AbstractService(new QrtHeaderPolicy()) {
             @Override
             public String getServiceName() {
                 return "teste";
@@ -32,14 +34,8 @@ public class TesteServiceComponent extends ServiceComponent {
 
             @Override
             public int getServiceCode() {
-                return 0;
+                return 666;
             }
-
-            @Override
-            public byte[] getData() {
-                return new byte[0];
-            }
-
             @Override
             public byte[] getMessage() {
                 return new byte[0];

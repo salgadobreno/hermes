@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.BufferedBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
@@ -35,7 +34,6 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
 
     public AesKeyPolicy(byte[] initializationVector, boolean doPadding) {
         this.initializationVector = initializationVector.clone();
-//        this.initializationVector = "abcde".getBytes();
         this.doPadding = doPadding;
     }
 
@@ -52,7 +50,7 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
 
         blockCipher.doFinal(output, bytesOut);
 
-//        newIv();
+        newIv();
 
         return output;
     }

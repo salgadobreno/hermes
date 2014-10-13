@@ -10,7 +10,10 @@ public class StringWithLengthParam implements Param {
     private StringWrapperParam string;
 
     public StringWithLengthParam(String string) {
-        this.length = new ByteWrapperParam((byte) string.length()); //TODO: verificar o tamanho da string?
+        if (string.length() > 255) {
+            throw new IllegalArgumentException("String muito grande!");
+        }
+        this.length = new ByteWrapperParam((byte) string.length());
         this.string = new StringWrapperParam(string);
     }
 

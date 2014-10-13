@@ -7,7 +7,7 @@ package com.avixy.qrtoken.negocio.servico.chaves.crypto;
  * Created on 26/08/2014
 */
 public enum KeyType {
-    TDES("TDES", new Integer[]{64, 128, 192}), AES("AES"), HMAC("HMAC");
+    TDES("TDES", new Integer[]{64, 128, 192}), AES("AES", new Integer[]{128, 192, 256}), HMAC("HMAC");
     //RSASIG("RSA Assinatura"), RSACRYPT("RSA Sigilo"), ECCSIG("ECC Assinatura"), ECCCRYPT("ECC Sigilo"), futura versao
 
     private String name;

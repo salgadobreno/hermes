@@ -5,6 +5,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
