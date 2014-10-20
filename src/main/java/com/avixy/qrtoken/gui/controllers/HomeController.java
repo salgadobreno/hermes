@@ -3,14 +3,18 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -44,7 +48,7 @@ import java.util.concurrent.Callable;
  * Created on 04/08/2014.
  */
 public class HomeController {
-    /** TODO:
+    /* TODO:
      * combo de version?
      * bind version e ec level na geracao
      */
@@ -53,36 +57,63 @@ public class HomeController {
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
-    QrCodePolicy policy = new QrCodePolicy();
+    QrCodePolicy policy = new BasicQrCodePolicy();
 
     Stage zoomStage;
     Stage chavesStage;
 
+    private Version qrVersion;
+
     @FXML private VBox qrDisplayVBox;
     @FXML private ImageView qrView;
     @FXML private Slider correctionLevelSlider;
-    @FXML private ComboBox<Integer> qrVersionField = new ComboBox<>();
+//    @FXML private ComboBox<Integer> qrVersionField;
     @FXML private AnchorPane content;
     @FXML private Accordion servicesAccordion;
     @FXML private Label errorLabel;
 
-    // Mapa de categorias e lista de componentes
+    /* Controles e indicadores de QR */
+    private List<QrTokenCode> qrCodes = new ArrayList<>(); // lista dos codigos qr
+    @FXML private Label qtdQrsLabel;
+
+    private IntegerProperty currentQrCodeProperty = new SimpleIntegerProperty(0);
+    private IntegerProperty qtdQrsProperty = new SimpleIntegerProperty();
+    private StringExpression qtdQrsFormat = Bindings.format("%s/%s", currentQrCodeProperty, qtdQrsProperty);
+
+    /* Mapa de categorias e lista de componentes */
     private Map<ServiceCategory, List<Class<? extends ServiceComponent>>> serviceCategoryMap = com.avixy.qrtoken.core.ServiceLoader.getServiceComponentMap();
-    // Mapa do nome do serviço e instância do componente
+    /* Mapa do nome do serviço e instância do componente */
     private Map<String, ServiceComponent> serviceNameMap = new HashMap<>();
 
-    // Manter a lista de ListViews p/ limpar seleções
+    /* Manter a lista de ListViews p/ limpar seleções */
     List<ListView> listViewList = new ArrayList<>();
     ListView current;
 
     public void initialize(){
+        /* Controles e indicadores de QRs */
+        {
+            qtdQrsLabel.setStyle("-fx-alignment:CENTER");
+            qtdQrsLabel.textProperty().bind(qtdQrsFormat);
+            currentQrCodeProperty.addListener(new ChangeListener<Number>() { // extrair?
+                @Override
+                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number value2) {
+                    Integer newValue = (Integer) value2;
+                    if ((Integer) newValue > 0) {
+                        qrView.setImage(new Image(qrCodes.get(newValue - 1).image()));
+                    } else {
+                        qrView.setImage(null);
+                    }
+                }
+            });
+        }
         // Carrega lista de serviços
         for (ServiceCategory category : serviceCategoryMap.keySet()) {
             List<String> servicoForCategoryListNames = new ArrayList<>();
             // Add the list of services
             for (Class<? extends ServiceComponent> component : serviceCategoryMap.get(category)) {
-                // store <serviceName, component>
+                //, th store <serviceName, component>
                 ServiceComponent serviceComponent = injector.getInstance(component);
+                serviceComponent.setController(this); // Correto?
                 servicoForCategoryListNames.add(serviceComponent.getServiceName());
                 serviceNameMap.put(serviceComponent.getServiceName(), serviceComponent);
             }
@@ -111,7 +142,6 @@ public class HomeController {
             TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
             servicesAccordion.getPanes().add(titledPane);
         }
-
     }
 
     /**
@@ -133,21 +163,32 @@ public class HomeController {
         }
     }
 
-    private void resetQrView() {
-        qrView.setImage(null);
+    public void resetQrView() {
+        currentQrCodeProperty.setValue(0);
+        qtdQrsProperty.set(0);
+        qrCodes.clear();
+    }
+
+    public void rewindQrView(){
+        currentQrCodeProperty.setValue(1);
     }
 
     /**
      * runs service/updates qr
      */
-    public void gerarQr() throws GeneralSecurityException {
-        //TODO: implementação com lista
+    public void gerarQr() {
+        //TODO:
         // if getqrs > 1
         //   show setas
         //   show indicador 1/3
+
         try {
-            QrCodePolicy.QrTokenCode qrCode = policy.getQrs(serviceController.getService(), getSetup()).get(0); //FIXME
-            qrView.setImage(new Image(qrCode.image()));
+            resetQrView();
+
+            qrCodes = serviceController.getQrs(getSetup());
+
+            qtdQrsProperty.setValue(qrCodes.size());
+            currentQrCodeProperty.setValue(1);
             errorLabel.setText(null);
         } catch (Exception e) {
             handleException(e);
@@ -158,23 +199,21 @@ public class HomeController {
      * mounts the composite object
      */
     public QrSetup getSetup(){
-        return new QrSetup(getVersion(), getECLevel());
+        return new QrSetup(qrVersion, getECLevel());
+    }
+
+    public void setVersion(int version){
+        qrVersion = Version.getVersionForNumber(version);
+    }
+
+    public ErrorCorrectionLevel getECLevel(){
+        Integer ecLevel = ((Double) correctionLevelSlider.getValue()).intValue();
+        return ErrorCorrectionLevel.values()[ecLevel];
     }
 
     private void handleException(Exception e) {
         errorLabel.setText(e.getClass().toString());
         log.error("Error: ", e);
-    }
-
-    private Version getVersion() {
-        //TODO: combo de version
-        return Version.getVersionForNumber(6);
-//        return Version.getVersionForNumber(qrVersionField.getValue());
-    }
-
-    private ErrorCorrectionLevel getECLevel(){
-        Integer ecLevel = ((Double) correctionLevelSlider.getValue()).intValue();
-        return ErrorCorrectionLevel.values()[ecLevel];
     }
 
     public void gerirChaves() throws IOException {
@@ -229,4 +268,23 @@ public class HomeController {
         }
     }
 
+    public void nextQrCode() throws GeneralSecurityException {
+        if (currentQrCodeProperty.get() < qtdQrsProperty.get()) {
+            currentQrCodeProperty.set(currentQrCodeProperty.get() + 1);
+        }
+    }
+
+    public void previousQrCode() throws GeneralSecurityException {
+        if (currentQrCodeProperty.get() > 1) {
+            currentQrCodeProperty.set(currentQrCodeProperty.get() - 1);
+        }
+    }
+
+    public VBox getQrDisplayVBox() {
+        return qrDisplayVBox;
+    }
+
+    public Boolean isLastQr(){
+        return currentQrCodeProperty.get() == qtdQrsProperty.get();
+    }
 }

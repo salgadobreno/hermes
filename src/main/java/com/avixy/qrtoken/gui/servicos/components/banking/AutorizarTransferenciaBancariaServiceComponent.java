@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.servicos.components.banking;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
@@ -75,8 +76,8 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     private TimestampField timestampField = new TimestampField();
 
     @Inject
-    public AutorizarTransferenciaBancariaServiceComponent(AutorizarTransferenciaBancariaService service) {
-        super(service);
+    public AutorizarTransferenciaBancariaServiceComponent(AutorizarTransferenciaBancariaService service, QrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
         this.service = service;
 
         fxmlLoader.setController(this);

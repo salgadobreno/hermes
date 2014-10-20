@@ -3,6 +3,8 @@ package com.avixy.qrtoken.negocio.qrcode;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 
+import javax.annotation.Nullable;
+
 /**
  * Encapsula uma configuração de QR, provê métodos util sobre um set-up de QR.
  * Assume-se encoding Byte. ver: QR Code specification ISO/IEC 18004:2000.
@@ -20,7 +22,7 @@ public class QrSetup {
      * @param version Versão de QR Code do setup
      * @param ecLevel Nível de correção de erro
      */
-    public QrSetup(Version version, ErrorCorrectionLevel ecLevel) {
+    public QrSetup(@Nullable Version version, ErrorCorrectionLevel ecLevel) {
         this.version = version;
         this.ecLevel = ecLevel;
     }
@@ -44,10 +46,6 @@ public class QrSetup {
      */
     public int getTotalBytes() {
         return version.getTotalCodewords();
-    }
-
-    public Version getVersion() {
-        return version;
     }
 
     public ErrorCorrectionLevel getEcLevel() {

@@ -1,23 +1,19 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
 import com.google.inject.Inject;
-import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.apache.commons.lang.RandomStringUtils;
 import org.tbee.javafx.scene.layout.MigPane;
-
-import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Created on 01/10/2014
@@ -40,8 +36,8 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     private ComboBox<Chave> aesField = new ComboBox<>();
 
     @Inject
-    public StoreUserInfoServiceComponent(StoreUserInfoService service) {
-        super(service);
+    public StoreUserInfoServiceComponent(StoreUserInfoService service, QrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
         this.service = service;
 
         nomeField.setMaxlength(30);
@@ -118,4 +114,5 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
 
         return super.getService();
     }
+
 }

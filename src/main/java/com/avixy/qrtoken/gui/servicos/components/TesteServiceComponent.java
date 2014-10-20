@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -25,7 +26,7 @@ public class TesteServiceComponent extends ServiceComponent {
     private static final String FXML_PATH = "/fxml/dindin.fxml";
 
     @Inject
-    protected TesteServiceComponent(PingService ignored) {
+    protected TesteServiceComponent(PingService ignored, QrCodePolicy qrCodePolicy) {
         super(new AbstractService(new QrtHeaderPolicy()) {
             @Override
             public String getServiceName() {
@@ -40,7 +41,7 @@ public class TesteServiceComponent extends ServiceComponent {
             public byte[] getMessage() {
                 return new byte[0];
             }
-        });
+        }, qrCodePolicy);
     }
 
     @Override

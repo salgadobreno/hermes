@@ -1,6 +1,8 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.negocio.qrcode.DoubledQrCodePolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
@@ -21,8 +23,8 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     private TextField pinField = new TextField();
 
     @Inject
-    public EraseKtamperServiceComponent(EraseKtamperService service) {
-        super(service);
+    public EraseKtamperServiceComponent(EraseKtamperService service, DoubledQrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
         this.service = service;
     }
 

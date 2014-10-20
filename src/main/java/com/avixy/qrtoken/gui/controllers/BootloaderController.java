@@ -1,6 +1,7 @@
-/*
-package com.avixy.qrtoken.gui;
 
+package com.avixy.qrtoken.gui.controllers;
+
+import com.avixy.qrtoken.core.QrUtils;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -39,15 +40,15 @@ import java.util.concurrent.Callable;
 
 
 
-*/
+
 /**
  * @author Breno Salgado <breno.salgado@axivy.com>
  *
  * Created on 08/07/2014.
- *//*
+ */
 
 
-
+/*
 public class BootloaderController {
     private Charset CHARSET = Charset.forName("ISO-8859-1");
 
@@ -201,16 +202,16 @@ public class BootloaderController {
     }
 
     public void gerarQr() {
-//        if (getContent().length < 1){ qrView.setImage(null); return; }
-//        byte[] content = getContent();
-//        QrSlice[] qrs = policy.getQrsFor(getSetup());
-//
-//        QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
-////        System.out.println("-> " + currQr.getDados());
-////        System.out.println("--- length: " + currQr.getDados().length());
-//        Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
-//
-//        qrView.setImage(image);
+        if (getContent().length < 1){ qrView.setImage(null); return; }
+        byte[] content = getContent();
+        QrSlice[] qrs = policy.getQrsFor(getSetup());
+
+        QrSlice currQr = qrs[currentQrCodeProperty.get() - 1];
+//        System.out.println("-> " + currQr.getDados());
+//        System.out.println("--- length: " + currQr.getDados().length());
+        Image image = new Image(QrUtils.generate(currQr.getDados(), getECLevel()));
+
+        qrView.setImage(image);
     }
 
     public void resetQrDisplay() {
@@ -328,5 +329,5 @@ public class BootloaderController {
     }
 }
 
-*/
 
+*/

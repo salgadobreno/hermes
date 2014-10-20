@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
@@ -16,8 +17,8 @@ import org.tbee.javafx.scene.layout.MigPane;
 public class PingServiceComponent extends ServiceComponent {
 
     @Inject
-    public PingServiceComponent(PingService service) {
-        super(service);
+    public PingServiceComponent(PingService service, QrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
     }
 
     @Override

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -53,16 +54,40 @@
                                     <Image url="@../images/arrow-88-24.png" />
                                  </image>
                               </ImageView>
-                              <Button layoutX="119.0" layoutY="265.0" mnemonicParsing="false" onAction="#zoomQR">
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/09_Expand-128.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic></Button>
                               <Label layoutX="195.0" layoutY="145.0" rotate="-90.0" text="Error Correction level" />
                               <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="260.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                              <VBox layoutX="35.0" layoutY="253.0" prefHeight="200.0" prefWidth="204.0">
+                                 <children>
+                                    <AnchorPane prefHeight="44.0" prefWidth="204.0">
+                                       <children>
+                                          <ImageView fx:id="nextQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="162.0" layoutY="8.0" onMouseClicked="#nextQrCode" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                                             <image>
+                                                <Image url="@../images/arrow-88-24.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Button layoutX="84.0" layoutY="9.0" mnemonicParsing="false" onAction="#zoomQR">
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/09_Expand-128.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <ImageView fx:id="previousQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="14.0" layoutY="8.0" onMouseClicked="#previousQrCode" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/arrow-88-24.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                              <Label fx:id="qtdQrsLabel" layoutX="37.0" layoutY="14.0" prefHeight="17.0" prefWidth="201.0" text="X/X" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                       <AnchorPane fx:id="content" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="335.0" />

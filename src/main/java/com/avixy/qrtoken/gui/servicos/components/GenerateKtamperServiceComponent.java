@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.GenerateKtamperService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
@@ -15,8 +16,8 @@ import org.tbee.javafx.scene.layout.fxml.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class GenerateKtamperServiceComponent extends ServiceComponent {
     @Inject
-    public GenerateKtamperServiceComponent(GenerateKtamperService service) {
-        super(service);
+    public GenerateKtamperServiceComponent(GenerateKtamperService service, QrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
     }
 
     @Override

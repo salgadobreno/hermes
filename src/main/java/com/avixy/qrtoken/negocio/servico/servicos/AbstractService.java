@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
@@ -24,7 +26,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        logger.info("getData(): {}", headerPolicy.getHeader(this), getMessage());
+        logger.info("getData(): {} - {}", headerPolicy.getHeader(this), getMessage());
         return ArrayUtils.addAll(headerPolicy.getHeader(this), getMessage());
     }
 }

@@ -1,12 +1,17 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.rtc.HmacRtcService;
 import com.google.inject.Inject;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,13 +43,14 @@ public class HmacRtcServiceComponent extends ServiceComponent {
     @FXML protected ComboBox<String> fusoBox;
     @FXML protected ComboBox<Chave> keyField;
 
+
     /* TODO:
      * remover os tooltips padrao dos time fields -> CalendarTextFieldCaspianSkin.java ..
      */
 
     @Inject
-    public HmacRtcServiceComponent(HmacRtcService service) {
-        super(service);
+    public HmacRtcServiceComponent(HmacRtcService service, QrCodePolicy qrCodePolicy) {
+        super(service, qrCodePolicy);
         this.service = service;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));

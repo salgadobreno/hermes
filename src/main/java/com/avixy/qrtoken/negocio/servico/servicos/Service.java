@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;

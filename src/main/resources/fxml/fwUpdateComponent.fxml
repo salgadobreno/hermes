@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="299.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <Pane prefHeight="330.0" prefWidth="310.0" snapToPixel="false">
+         <children>
+            <Label layoutX="2.0" layoutY="6.0" text="QR Version" />
+            <ComboBox fx:id="qrVersionField" layoutX="4.0" layoutY="23.0" prefHeight="22.0" prefWidth="6.0" />
+            <Label fx:id="bytesPraEcLabel" layoutX="5.0" layoutY="72.0" text="Bytes p/ EC:" />
+            <Label fx:id="bytesPraDadosLabel" layoutX="5.0" layoutY="89.0" text="Bytes p/ Dados:" />
+            <Label fx:id="capacidadeLabel" layoutX="5.0" layoutY="55.0" text="Capacidade:" />
+            <Text layoutX="4.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temporização" />
+            <TextField fx:id="tTimerField" layoutX="58.0" layoutY="174.0" prefHeight="22.0" prefWidth="43.0" text="300" />
+            <Text layoutX="102.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
+            <Button defaultButton="true" layoutX="15.0" layoutY="217.0" mnemonicParsing="false" onAction="#zoomAndPlayQrs" style="-fx-background-image: url('../images/media-fast-forward.png');">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/media-play-pause-resume.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Text layoutX="13.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t 1º Qr:" />
+            <Text layoutX="13.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t Qrs:" />
+            <TextField fx:id="tPrimeiroQrField" layoutX="58.0" layoutY="149.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
+            <Text layoutX="102.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
+            <Button cancelButton="true" layoutX="58.0" layoutY="217.0" mnemonicParsing="false" onAction="#rewind">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                     <image>
+                        <Image url="@../images/media-fast-forward.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="92.0" layoutY="22.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="20.0" prefWidth="202.0" text="Carregar arquivo" />
+            <TextField fx:id="moduleOffsetField" layoutX="251.0" layoutY="51.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
+            <TextField fx:id="challengeField" layoutX="251.0" layoutY="85.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
+            <Text layoutX="172.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="module offset" />
+            <Text layoutX="174.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="challenge" />
+            <Text layoutX="154.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="interruption stuff" />
+            <TextField fx:id="inttuptionStuffField" layoutX="251.0" layoutY="113.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
+            <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
+         </children>
+      </Pane>
+  </children>
+</VBox>

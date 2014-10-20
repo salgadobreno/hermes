@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotNull;
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrTokenCodeTest {
-    QrCodePolicy policy = new QrCodePolicy();
+    QrCodePolicy policy = new BasicQrCodePolicy();
     byte[] header = "hhhhh".getBytes();
     byte[] dados = "dados".getBytes();
     QrSetup setup = new QrSetup(Version.getVersionForNumber(1), ErrorCorrectionLevel.L);
@@ -22,21 +22,21 @@ public class QrTokenCodeTest {
 
     @Test
     public void testConstructor(){
-        QrCodePolicy.QrTokenCode slice = policy.new QrTokenCode(dados, setup);
+        QrTokenCode slice = new QrTokenCode(dados, setup);
         assertNotNull(slice);
     }
 
     @Test(expected = IllegalArgumentException.class) @Ignore("acho que esta defasado")
     public void testGetDadosArguments() {
         /* should throw error if dados is bigger than the length of setup */
-        QrCodePolicy.QrTokenCode tokenCode = policy.new QrTokenCode(new byte[300], setup);
+        QrTokenCode tokenCode = new QrTokenCode(new byte[300], setup);
     }
 
     @Test
     public void testGetDadosPadding(){
         /* should right-pad the result */
         QrSetup bigSetup = new QrSetup(Version.getVersionForNumber(10), ErrorCorrectionLevel.L);
-        QrCodePolicy.QrTokenCode tokenCode = policy.new QrTokenCode(dados, bigSetup);
+        QrTokenCode tokenCode = new QrTokenCode(dados, bigSetup);
         assertEquals(tokenCode.getDados().charAt(tokenCode.getDados().length() - 1), '0');
     }
 }

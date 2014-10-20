@@ -11,4 +11,5 @@ public interface Param {
      * @return representação binária em String de '0' e '1' do parâmetro.
      */
     String toBinaryString();
+
 }

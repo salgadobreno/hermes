@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.core;
 
+import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
+import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
@@ -27,6 +29,8 @@ public class HermesModule extends AbstractModule {
         bind(AesKeyPolicy.class);
         bind(NullKeyPolicy.class);
         bind(DeleteSymKeyService.class);
+
+        bind(QrCodePolicy.class).to(BasicQrCodePolicy.class);
     }
 
     public static Injector getInjector(){
