@@ -8,6 +8,19 @@ import java.util.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TokenHuffman {
+    public enum Mode {
+        STREAM, // tudo junto
+        BROKEN; // \n depois de cada palavra
+    }
+
+    private Mode mode = Mode.STREAM;
+
+    public TokenHuffman(){}
+
+    public TokenHuffman(Mode mode) {
+        this.mode = mode;
+    }
+
     static String[] dictionary = {
             "a", "b", "B", "c", "C", "D", "d", "e", "E", "F", "f", "G", "g", "h", "H", "i", "I", "J", "j", "K", "k", "l", "L", "M", "m", "n", "N", "O", "o", "p", "P", "q", "Q", "r", "R", "S", "s", "t", "T", "u", "U", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "í", "A", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Banco", "Banco Avixy", "Boleto", "Botão", "Cartão de crédito", "Código", "Confirmação", "Conta corrente", "CPF", "dados", "Digite", "Favorecido", "Poupança", "Pressione o botão", "Transação", "Valor", "Confirme", "Conta", "Data", "Depositado", "Parcelas", "Pressione", "R$ ", "Senha", "Token", "Total", "Transferência", "Verifique", "/02", "/03", "/04", "/05", "/06", "/07", "/08", "/09", "/10", "/11", "/12", "/2013", "/2014", "/2015", "/2016", "/2017", "/2018", "/2019", "/2020", "Abril", "Agosto", "de 2014", "de 2015", "de 2016", "de 2017", "de 2018", "de 2019", "de 2020", "Domingo", "Fevereiro", "Janeiro", "Julho", "Junho", "Maio", "Março", "Novembro", "Outubro", "Quarta-feira", "Quinta-feira", "Sábado", "Segunda-feira", "Setembro", "Sexta-feira", "Terça-feira", "/01", "Á", "á", "À", "à", "Â", "â", "Ã", "ã", "ç", "É", "é", "È", "è", "Ê", "ê", "Í", "í", "Ì", "ì", "Î", "î", "Ó", "ó", "Ò", "ò", "Ô", "ô", "Õ", "õ", "Ú", "ú", "Ù", "ù", "Û", "û", "-", ":", " ", "!", "#", "$", "%", "(", ")", "*", ",", ".", "/", "?", "@", "[", "\'", "\"", "]", "_", "€", "+", "=", "ª", "º", "\n", "|",
 //            "arg" //arg é um caso especial
@@ -41,30 +54,36 @@ public class TokenHuffman {
         alphabetSortedDict.addAll(dictionaryCode.keySet());
     }
 
-    public static String encode(String text){
+    public String encode(String text){
 //        System.out.println("text = " + text);
         String encoded = "";
-        String encodedText = "";
+//        String encodedText = "";
         //varrendo o input
         for (int i = 0; i < text.length(); i++) {
 //            System.out.println("i = " + i);
             char c = text.charAt(i);
 //            System.out.println("char = " + c);
             //varrer o set pra pegar os elementos que iniciam com `c`
-            SortedSet<String> lengthSortedDict = new TreeSet<>(inverseLengthComparator);
+//            SortedSet<String> lengthSortedDict = new TreeSet<>(inverseLengthComparator); TODO
+            List<String> potentialMatches = new ArrayList<>();
             for (String s : alphabetSortedDict) {
                 if (s.charAt(0) == c) {
 //                    System.out.println("Dict matching = " + s);
                     //o elemento começa com `c`, vai pro inverseLengthSortedDict
-                    lengthSortedDict.add(s);
+//                    lengthSortedDict.add(s);
+                    potentialMatches.add(s);
                 }
             }
-            for (String s : lengthSortedDict) {
+            Collections.sort(potentialMatches, inverseLengthComparator);
+            for (String s : potentialMatches) {
+                // se o length do elemento é maior do que ainda falta de texto, passe à próxima iteração
+                if (i + s.length() > text.length()) { continue; }
                 String subText = text.substring(i, i + s.length());
                 if (subText.equals(s)) { //match
 //                    System.out.println("match = " + subText);
                     encoded += dictionaryCode.get(s);
-                    encodedText += s;
+                    if (this.mode == Mode.BROKEN) { encoded += "\n"; }
+//                    encodedText += s;
                     i += s.length() - 1; // -1 compensa o proximo loop
                     break;
                 }

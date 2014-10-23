@@ -8,7 +8,6 @@ import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import static com.avixy.qrtoken.negocio.servico.params.ParamFactory.*;
 
 import java.security.GeneralSecurityException;
 import java.util.Date;
@@ -47,7 +46,7 @@ public class EraseKtamperService extends AbstractService {
     }
 
     public void setTimestamp(Date date){
-        this.timestampParam = getParam(date);
+        this.timestampParam = new TimestampParam(date);
     }
 
     public void setPuk(String puk) {

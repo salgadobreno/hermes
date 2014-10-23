@@ -24,12 +24,10 @@ public class UpdateFirmwareService extends AbstractService {
 
     private QrSetup qrSetup;
 
-    // these are set
     private byte[] content;
     private byte moduleOffset;
     private String challengeParam;
     private byte interrumptionStuff;
-    // these are calculated
 
     @Inject
     public UpdateFirmwareService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -130,7 +128,6 @@ public class UpdateFirmwareService extends AbstractService {
             };
             for (int j = 0; j < bytes.length; j++) {
                 bytes[j] = ((byte) Integer.parseInt(strings[j], 2));
-//                Integer.par
             }
             return bytes;
         }

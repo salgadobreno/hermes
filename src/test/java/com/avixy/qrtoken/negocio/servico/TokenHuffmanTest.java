@@ -30,6 +30,6 @@ public class TokenHuffmanTest {
                 "1110001011" + //espaco
                 "11111101";  //transferência
 
-        assertEquals(encoded, TokenHuffman.encode(texto));
+        assertEquals(encoded, new TokenHuffman().encode(texto));
     }
 }

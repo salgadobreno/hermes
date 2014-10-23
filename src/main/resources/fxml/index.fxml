@@ -13,6 +13,7 @@
         <Menu mnemonicParsing="false" text="Edit">
                <items>
             <MenuItem mnemonicParsing="false" onAction="#gerirChaves" text="Chaves" />
+                  <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
                </items></Menu>
       </menus>
     </MenuBar>

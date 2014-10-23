@@ -1,38 +1,31 @@
-package com.avixy.qrtoken.negocio.servico.servicos.banking;
+package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.*;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created on 22/09/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EncryptedTemplateMessageService extends AbstractService {
+public abstract class AbstractEncryptedTemplateMessageService extends AbstractService {
 
     protected PinParam pin;
     protected TemplateParam template;
-    protected TimestampParam date;
-    protected List<Param> params = new ArrayList<>();
+    protected TimestampParam timestamp;
 
     private AesKeyPolicy aesKeyPolicy;
 
     @Inject
-    protected EncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+    public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
         super(headerPolicy);
         aesKeyPolicy = keyPolicy;
     }
@@ -55,25 +48,15 @@ public class EncryptedTemplateMessageService extends AbstractService {
         return 12;
     }
 
-    @Override
-    public byte[] getMessage() {
-        return BinnaryMsg.create().append(date).append(pin).append(template).append(params).toByteArray();
-    }
-
     public void setPin(String pin) { this.pin = new PinParam(pin); }
 
     public void setTemplate(byte template) { this.template = new TemplateParam(template); }
 
-    public void setParams(Param... params) {
-        this.params = Arrays.asList(params);
-    }
-
     public void setTimestamp(Date date) {
-        this.date = new TimestampParam(date);
+        this.timestamp = new TimestampParam(date);
     }
 
     public void setChaveAes(Chave chaveAes) {
         aesKeyPolicy.setKey(chaveAes.getHexValue());
     }
-
 }

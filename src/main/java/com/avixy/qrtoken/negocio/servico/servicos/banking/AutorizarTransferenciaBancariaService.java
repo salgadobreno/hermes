@@ -1,25 +1,30 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.Param;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedHmacTemplateMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import static com.avixy.qrtoken.negocio.servico.params.ParamFactory.getParam;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 15/09/2014
  */
-public class AutorizarTransferenciaBancariaService extends EncryptedHmacTemplateMessageService {
-    List<Param> paramsBuffer = new ArrayList<>();
+public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmacTemplateMessageService {
+    private HuffmanEncodedParam nomeOrigem;
+    private HuffmanEncodedParam agenciaOrigem;
+    private HuffmanEncodedParam contaOrigem;
+    private HuffmanEncodedParam nomeDestino;
+    private HuffmanEncodedParam agenciaDestino;
+    private HuffmanEncodedParam contaDestino;
+    private HuffmanEncodedParam valor;
+    private HuffmanEncodedParam data;
+    private HuffmanEncodedParam tan;
 
     @Inject
     public AutorizarTransferenciaBancariaService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -31,52 +36,42 @@ public class AutorizarTransferenciaBancariaService extends EncryptedHmacTemplate
 
     @Override
     public byte[] getMessage() {
-        this.params = paramsBuffer;
-        paramsBuffer.clear(); // múltiplas chamadas devem ter o mesmo resultado - idempotência
-        return super.getMessage();
+        return BinnaryMsg.create().append(timestamp, pin, template, nomeOrigem, agenciaOrigem, contaOrigem, nomeDestino, agenciaDestino, contaDestino, valor, data, tan).toByteArray();
     }
 
     public void setNomeOrigem(String nomeOrigem) {
-        this.paramsBuffer.add(getParam(nomeOrigem));
+        this.nomeOrigem = new HuffmanEncodedParam(nomeOrigem);
     }
 
     public void setAgenciaOrigem(String agenciaOrigem) {
-        this.paramsBuffer.add(getParam(agenciaOrigem));
+        this.agenciaOrigem = new HuffmanEncodedParam(agenciaOrigem);
     }
 
     public void setContaOrigem(String contaOrigem) {
-        this.paramsBuffer.add(getParam(contaOrigem));
+        this.contaOrigem = new HuffmanEncodedParam(contaOrigem);
     }
 
     public void setNomeDestino(String nomeDestino) {
-        this.paramsBuffer.add(getParam(nomeDestino));
+        this.nomeDestino = new HuffmanEncodedParam(nomeDestino);
     }
 
     public void setAgenciaDestino(String agenciaDestino) {
-        this.paramsBuffer.add(getParam(agenciaDestino));
+        this.agenciaDestino = new HuffmanEncodedParam(agenciaDestino);
     }
 
     public void setContaDestino(String contaDestino) {
-        this.paramsBuffer.add(getParam(contaDestino));
+        this.contaDestino = new HuffmanEncodedParam(contaDestino);
     }
 
     public void setValor(String valor) {
-        this.paramsBuffer.add(getParam(valor));
+        this.valor = new HuffmanEncodedParam(valor);
     }
 
     public void setData(Date data) {
-        this.paramsBuffer.add(getParam(data));
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.date = getParam(timestamp);
-    }
-
-    public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.data = new HuffmanEncodedParam(data.toString()); //TODO
     }
 
     public void setTan(String tan) {
-        this.paramsBuffer.add(getParam(tan));
+        this.tan = new HuffmanEncodedParam(tan);
     }
 }

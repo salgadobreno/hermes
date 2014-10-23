@@ -1,10 +1,9 @@
-package com.avixy.qrtoken.negocio.servico.servicos.banking;
+package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
@@ -17,13 +16,13 @@ import java.security.GeneralSecurityException;
  *
  * Created on 02/09/2014
  */
-public class EncryptedHmacTemplateMessageService extends EncryptedTemplateMessageService {
+public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService {
 
     private KeyPolicy hmacKeyPolicy;
     private AesKeyPolicy aesKeyPolicy;
 
     @Inject
-    public EncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy aesKeyPolicy, HmacKeyPolicy hmacKeyPolicy) {
+    public AbstractEncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy aesKeyPolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy, aesKeyPolicy);
         this.aesKeyPolicy = aesKeyPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
@@ -41,11 +40,6 @@ public class EncryptedHmacTemplateMessageService extends EncryptedTemplateMessag
         byte[] data = aesKeyPolicy.apply(hmacKeyPolicy.apply(getMessage()));
 
         return ArrayUtils.addAll(initializationVector, data);
-    }
-
-    @Override
-    public byte[] getMessage() {
-        return super.getMessage();
     }
 
     public void setChaveHmac(Chave chaveHmac) {

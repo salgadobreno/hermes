@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.EncoderController">
+   <children>
+      <TextArea fx:id="textoField" layoutX="14.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+      <TextArea fx:id="huffmanField" layoutX="303.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+      <Label layoutX="14.0" layoutY="51.0" text="Texto" />
+      <Label layoutX="303.0" layoutY="51.0" text="Huffman" />
+      <Button fx:id="encodeButton" defaultButton="true" layoutX="14.0" layoutY="275.0" mnemonicParsing="false" onAction="#encode" text="Traduzir para Huffman" />
+      <Label layoutX="15.0" layoutY="14.0" text="Huffman Encoder">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

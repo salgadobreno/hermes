@@ -26,6 +26,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -60,6 +62,7 @@ public class HomeController {
 
     Stage zoomStage;
     Stage chavesStage;
+    Stage encoderStage;
 
     private Version qrVersion;
 
@@ -176,11 +179,6 @@ public class HomeController {
      * runs service/updates qr
      */
     public void gerarQr() {
-        //TODO:
-        // if getqrs > 1
-        //   show setas
-        //   show indicador 1/3
-
         try {
             resetQrView();
 
@@ -232,6 +230,27 @@ public class HomeController {
 
             chavesStage.show();
             chavesStage.toFront();
+        } catch (IOException e) {
+            log.error(e.toString(), e);
+        }
+    }
+
+    public void huffmanEncoder() throws IOException {
+        if (encoderStage == null) {
+            encoderStage = new Stage(StageStyle.DECORATED);
+        }
+
+        //carrega o fxml
+        try {
+            String fxmlFile = "/fxml/huffmanEncoder.fxml";
+            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene scene = new Scene(parent);
+            KeyCodeCombination keyCodeCombination = new KeyCodeCombination(KeyCode.ENTER, KeyCodeCombination.CONTROL_ANY);
+            encoderStage.setResizable(false);
+            encoderStage.setScene(scene);
+
+            encoderStage.show();
+            encoderStage.toFront();
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
