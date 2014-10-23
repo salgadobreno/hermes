@@ -1,30 +1,17 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.core.extensions.binnary.ExBitSet;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.ChallengeParam;
-import com.avixy.qrtoken.negocio.servico.params.TwoBytesWrapperParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.sun.deploy.util.ArrayUtil;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.crypto.CryptoException;
-import org.hamcrest.internal.ArrayIterator;
-import sun.swing.StringUIClientPropertyKey;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * Created on 14/10/2014
@@ -142,7 +129,8 @@ public class UpdateFirmwareService extends AbstractService {
                     val.substring(val.length()/2)
             };
             for (int j = 0; j < bytes.length; j++) {
-                bytes[j] = Byte.parseByte(strings[j], 2);
+                bytes[j] = ((byte) Integer.parseInt(strings[j], 2));
+//                Integer.par
             }
             return bytes;
         }

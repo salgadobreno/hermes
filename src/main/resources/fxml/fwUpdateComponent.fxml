@@ -15,15 +15,15 @@
   <children>
       <Pane prefHeight="330.0" prefWidth="310.0" snapToPixel="false">
          <children>
-            <Label layoutX="2.0" layoutY="6.0" text="QR Version" />
-            <ComboBox fx:id="qrVersionField" layoutX="4.0" layoutY="23.0" prefHeight="22.0" prefWidth="6.0" />
-            <Label fx:id="bytesPraEcLabel" layoutX="5.0" layoutY="72.0" text="Bytes p/ EC:" />
-            <Label fx:id="bytesPraDadosLabel" layoutX="5.0" layoutY="89.0" text="Bytes p/ Dados:" />
-            <Label fx:id="capacidadeLabel" layoutX="5.0" layoutY="55.0" text="Capacidade:" />
-            <Text layoutX="4.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temporização" />
-            <TextField fx:id="tTimerField" layoutX="58.0" layoutY="174.0" prefHeight="22.0" prefWidth="43.0" text="300" />
-            <Text layoutX="102.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
-            <Button defaultButton="true" layoutX="15.0" layoutY="217.0" mnemonicParsing="false" onAction="#zoomAndPlayQrs" style="-fx-background-image: url('../images/media-fast-forward.png');">
+            <Label layoutX="11.0" layoutY="6.0" text="QR Version" />
+            <ComboBox fx:id="qrVersionField" layoutX="11.0" layoutY="24.0" prefHeight="25.0" prefWidth="59.0" />
+            <Label fx:id="bytesPraEcLabel" layoutX="11.0" layoutY="72.0" text="Bytes p/ EC:" />
+            <Label fx:id="bytesPraDadosLabel" layoutX="11.0" layoutY="89.0" text="Bytes p/ Dados:" />
+            <Label fx:id="capacidadeLabel" layoutX="11.0" layoutY="55.0" text="Capacidade:" />
+            <Text layoutX="189.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temporização" />
+            <TextField fx:id="tTimerField" layoutX="243.0" layoutY="220.0" prefHeight="22.0" prefWidth="43.0" text="300" />
+            <Text layoutX="287.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
+            <Button defaultButton="true" layoutX="207.0" layoutY="259.0" mnemonicParsing="false" onAction="#zoomAndPlayQrs" style="-fx-background-image: url('../images/media-fast-forward.png');">
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,11 +32,11 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Text layoutX="13.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t 1º Qr:" />
-            <Text layoutX="13.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t Qrs:" />
-            <TextField fx:id="tPrimeiroQrField" layoutX="58.0" layoutY="149.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
-            <Text layoutX="102.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
-            <Button cancelButton="true" layoutX="58.0" layoutY="217.0" mnemonicParsing="false" onAction="#rewind">
+            <Text layoutX="198.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t 1º Qr:" />
+            <Text layoutX="198.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t Qrs:" />
+            <TextField fx:id="tPrimeiroQrField" layoutX="243.0" layoutY="193.0" prefHeight="17.0" prefWidth="43.0" text="1000" />
+            <Text layoutX="287.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
+            <Button cancelButton="true" layoutX="250.0" layoutY="259.0" mnemonicParsing="false" onAction="#rewind">
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                      <image>
@@ -45,13 +45,14 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="92.0" layoutY="22.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="20.0" prefWidth="202.0" text="Carregar arquivo" />
-            <TextField fx:id="moduleOffsetField" layoutX="251.0" layoutY="51.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
-            <TextField fx:id="challengeField" layoutX="251.0" layoutY="85.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
-            <Text layoutX="172.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="module offset" />
-            <Text layoutX="174.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="challenge" />
-            <Text layoutX="154.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="interruption stuff" />
-            <TextField fx:id="inttuptionStuffField" layoutX="251.0" layoutY="113.0" prefHeight="22.0" prefWidth="43.0" text="2000" />
+            <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="131.0" layoutY="22.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="25.0" prefWidth="163.0" text="Carregar arquivo" />
+            <TextField fx:id="moduleOffsetField" layoutX="114.0" layoutY="208.0" prefHeight="22.0" prefWidth="43.0" text="" />
+            <Text layoutX="14.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="module offset:" />
+            <Text layoutX="14.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="challenge:" />
+            <Text layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="interruption stuff:" />
+            <Label layoutX="132.0" layoutY="6.0" text="Conteúdo" />
+            <TextField fx:id="interruptionStuffField" layoutX="114.0" layoutY="238.0" prefHeight="22.0" prefWidth="43.0" text="" />
+            <TextField fx:id="challengeField" layoutX="114.0" layoutY="177.0" prefHeight="22.0" prefWidth="43.0" text="" />
             <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
          </children>
       </Pane>

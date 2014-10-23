@@ -64,4 +64,8 @@ public class QrSetup {
             return 3;
         }
     }
+
+    public double getQrQtyFor(Integer length){
+        return Math.ceil((length.doubleValue()) / getAvailableBytes());
+    }
 }

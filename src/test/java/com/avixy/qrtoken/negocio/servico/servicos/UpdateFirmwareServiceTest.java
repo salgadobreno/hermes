@@ -5,11 +5,8 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
-import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
-
-import java.nio.charset.Charset;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -26,8 +23,7 @@ public class UpdateFirmwareServiceTest {
     public void testData() throws Exception {
         QrSetup setup = new QrSetup(Version.getVersionForNumber(1), ErrorCorrectionLevel.L);
 //        byte[] content = new byte[]{0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa};
-        byte[] content = new byte[]{0x00, 0x20, 0x47, 0x00, (byte) 0xbf, // Assembly do Diego
-                0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa }; // content
+        byte[] content = new byte[]{ 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa }; // content
         byte module_offset = 111;
         String challenge = "123456";
         byte interruption_stuff = 0;
@@ -58,7 +54,7 @@ public class UpdateFirmwareServiceTest {
         byte[] payload = {
                 0, 0, // frame
                 0, 10, // payload do frame
-                0x00, 0x20, 0x70, 0x47, 0x00, (byte)0xbf, // Assembly do Diego
+//                0x00, 0x20, 0x70, 0x47, 0x00, (byte)0xbf, // Assembly do Diego
                 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa,
                 0, 0, 0 // padding
         };
@@ -70,7 +66,6 @@ public class UpdateFirmwareServiceTest {
         service.setChallenge(challenge);
         service.setInterruptionStuff((byte)0);
 
-        byte[] theData = service.getData();
         assertArrayEquals(expectedData, service.getData());
     }
 }

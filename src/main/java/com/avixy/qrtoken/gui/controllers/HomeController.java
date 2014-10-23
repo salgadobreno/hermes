@@ -31,6 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,8 +57,6 @@ public class HomeController {
 
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
-
-    QrCodePolicy policy = new BasicQrCodePolicy();
 
     Stage zoomStage;
     Stage chavesStage;
@@ -98,7 +97,7 @@ public class HomeController {
                 @Override
                 public void changed(ObservableValue<? extends Number> observableValue, Number number, Number value2) {
                     Integer newValue = (Integer) value2;
-                    if ((Integer) newValue > 0) {
+                    if (newValue > 0) {
                         qrView.setImage(new Image(qrCodes.get(newValue - 1).image()));
                     } else {
                         qrView.setImage(null);
@@ -239,7 +238,6 @@ public class HomeController {
     }
 
     public void zoomQR(){
-        Parent root = qrView.getScene().getRoot();
         Window window = qrView.getScene().getWindow();
         if (zoomStage == null) {
             zoomStage = new Stage(StageStyle.UTILITY);
@@ -280,11 +278,13 @@ public class HomeController {
         }
     }
 
-    public VBox getQrDisplayVBox() {
-        return qrDisplayVBox;
-    }
+    public VBox getQrDisplayVBox() { return qrDisplayVBox; }
+
+    public Slider getCorrectionLevelSlider() { return correctionLevelSlider; }
 
     public Boolean isLastQr(){
         return currentQrCodeProperty.get() == qtdQrsProperty.get();
     }
+
+
 }
