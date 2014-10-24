@@ -67,6 +67,7 @@ public class Chave {
             bytes = Hex.decodeHex(valor.toCharArray());
             logger.debug("bytes: {}", bytes);
         } catch (DecoderException e) {
+            logger.error("isValid Error: {}", e);
             return false;
         }
         boolean valid = bytes.length == (length / 8);

@@ -48,9 +48,24 @@ public class GerenciaDeChavesController {
     Integer[] keyLengths = {64, 128, 160, 192, 224, 256, 320, 384, 512, 1024, 2048, 4096};
 
     public void initialize(){
+        chave = new Chave();
         chave.setKeyType(KeyType.values()[0]);
         chave.setLength(keyLengths[0]);
         Collections.addAll(algorythmList, KeyType.values());
+
+        /* basic validation */
+        valorField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+                chave.setValor(s2); //TODO NOTE: setando no listener senão dá problema
+                if (!chave.isValid()) {
+                    valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                } else {
+                    valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
+                }
+            }
+        });
+
         algoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
             @Override
             public void changed(ObservableValue<? extends KeyType> observableValue, KeyType keyType, KeyType keyType2) {
@@ -59,27 +74,15 @@ public class GerenciaDeChavesController {
             }
         });
 
-        algoComboBox.setItems(FXCollections.observableList(algorythmList));
 
-        final BeanPathAdapter<Chave> chavePA = new BeanPathAdapter<>(chave);
-        chavePA.bindBidirectional("valor", valorField.textProperty());
+        BeanPathAdapter<Chave> chavePA = new BeanPathAdapter<>(chave);
+//        chavePA.bindBidirectional("valor", valorField.textProperty()); //TODO NOTE: isso aqui deu problema só depois de compilar
         chavePA.bindBidirectional("id", idField.textProperty());
         chavePA.bindBidirectional("length", lengthComboBox.valueProperty(), Integer.class);
         chavePA.bindBidirectional("keyType", algoComboBox.valueProperty(), KeyType.class);
 
+        algoComboBox.setItems(FXCollections.observableList(algorythmList));
         algoComboBox.getSelectionModel().select(0);
-
-        /* basic validation */
-        valorField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                if (!chave.isValid()) {
-                    valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                } else {
-                    valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
-                }
-            }
-        });
 
         ChavesTableUtil.setupTable(chavesTable);
     }
