@@ -63,7 +63,9 @@ public class Chave {
     public Boolean isValid(){
         byte[] bytes;
         try {
+            logger.debug("valor: {}", valor);
             bytes = Hex.decodeHex(valor.toCharArray());
+            logger.debug("bytes: {}", bytes);
         } catch (DecoderException e) {
             return false;
         }
@@ -87,6 +89,7 @@ public class Chave {
     }
 
     public void setValor(String valor) {
+        logger.debug("setValor {}", valor);
         this.valor = valor;
     }
 
