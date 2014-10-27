@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,10 +34,11 @@ public class LoginServiceTest {
     public void testMessage() throws Exception {
         String huffmanCode = new TokenHuffman().encode(loginCode);
         String expectedBinaryString = "" +
-                "01010100000000001010100000110000" + //timestamp
+//                "01010100000000001010100000110000" + //timestamp
                 "0001" + //template 1
-                "0011000100110010001100110011010000100100" + //pin 1234$
-                huffmanCode; //codigo de login 885471
+                "00000110" + //length 6
+                huffmanCode + //codigo de login 885471
+                "0011000100110010001100110011010000000100"; //pin 1234
 
         assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }

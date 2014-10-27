@@ -27,7 +27,7 @@ public class StorePinServiceTest {
                 0b00110010, // '2'
                 0b00110011, // '3'
                 0b00110100, // '4'
-                0b00100100, // '$'
+                0b00000100, // length 4
         };
         service.setPin("1234");
 

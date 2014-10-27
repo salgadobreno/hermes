@@ -11,7 +11,8 @@ public class HuffmanEncodedParamTest {
     @Test
     public void testParam() throws Exception {
         String toEncode = "23/10/2014 Transferência x";
-        String encoded = new TokenHuffman().encode(toEncode);
+        String encoded = "00011010"; // length 26
+        encoded += new TokenHuffman().encode(toEncode);
 
         param = new HuffmanEncodedParam(toEncode);
 

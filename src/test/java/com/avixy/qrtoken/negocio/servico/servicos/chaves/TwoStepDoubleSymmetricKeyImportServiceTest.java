@@ -18,7 +18,6 @@ public class TwoStepDoubleSymmetricKeyImportServiceTest {
     public void setUp() throws Exception {
         long epoch = 1409329200000L;
         expectedBinaryString += "0101_0100_0000_0000_1010_1000_0011_0000" + //epoch
-                "0011_0001_0011_0010_0011_0011_0011_0100_0010_0100" + //pin 1234$
                 "0100" + //template4
                 "0011" + //keytype3
                 "00011" + //keylength3
@@ -26,7 +25,8 @@ public class TwoStepDoubleSymmetricKeyImportServiceTest {
                 "00100" + //keylength3
                 "0111_0011_0110_0101_0110_1110_0110_1000_0110_0001_0011_0001_0111_0011_0110_0101_0110_1110_0110_1000_0110_0001_0011_0010" + //senha1senha2
                 "1011_1100_0111_0110_" + // crc senha BC76
-                "0011_1001_0011_1000_0011_0111_0011_1001"; //desafio 9879
+                "0011_1001_0011_1000_0011_0111_0011_1001" + //desafio 9879
+                "0011_0001_0011_0010_0011_0011_0011_0100_0000_0100"; //pin 1234 length 4
 
     service.setTimestamp(new Date(epoch));
     service.setPin("1234");
