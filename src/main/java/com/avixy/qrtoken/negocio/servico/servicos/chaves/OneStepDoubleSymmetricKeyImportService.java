@@ -57,6 +57,6 @@ public class OneStepDoubleSymmetricKeyImportService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, pin, template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio).toByteArray();
+        return BinnaryMsg.create().append(timestamp, template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio, pin).toByteArray();
     }
 }

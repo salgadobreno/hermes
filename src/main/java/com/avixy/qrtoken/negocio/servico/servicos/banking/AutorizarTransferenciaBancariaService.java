@@ -7,8 +7,13 @@ import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedHmacTemplateMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.lang.text.StrSubstitutor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -16,15 +21,17 @@ import java.util.Date;
  * Created on 15/09/2014
  */
 public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmacTemplateMessageService {
-    private HuffmanEncodedParam nomeOrigem;
-    private HuffmanEncodedParam agenciaOrigem;
-    private HuffmanEncodedParam contaOrigem;
-    private HuffmanEncodedParam nomeDestino;
-    private HuffmanEncodedParam agenciaDestino;
-    private HuffmanEncodedParam contaDestino;
-    private HuffmanEncodedParam valor;
-    private HuffmanEncodedParam data;
-    private HuffmanEncodedParam tan;
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    private String origemTemplate = "${nomeOrigem}\nAgência: ${agenciaOrigem}\nConta:${contaOrigem}";
+    private String destinoTemplate = "${nomeDestino}\nAgência: ${agenciaDestino}\nConta:${contaDestino}";
+    private String dadosTemplate = "${data}\nValor: ${valor}";
+
+    private Map<String, String> templateParams = new HashMap<>();
+
+    private HuffmanEncodedParam origemParam;
+    private HuffmanEncodedParam destinoParam;
+    private HuffmanEncodedParam dadosParam;
 
     @Inject
     public AutorizarTransferenciaBancariaService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -36,42 +43,52 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, pin, template, nomeOrigem, agenciaOrigem, contaOrigem, nomeDestino, agenciaDestino, contaDestino, valor, data, tan).toByteArray();
+        StrSubstitutor substitutor = new StrSubstitutor(templateParams);
+        String resolvedOrigem = substitutor.replace(origemTemplate);
+        String resolvedDestino = substitutor.replace(destinoTemplate);
+        String resolvedDados = substitutor.replace(dadosTemplate);
+
+        origemParam = new HuffmanEncodedParam(resolvedOrigem);
+        destinoParam = new HuffmanEncodedParam(resolvedDestino);
+        dadosParam = new HuffmanEncodedParam(resolvedDados);
+
+        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, pin);
+        return msg.toByteArray();
     }
 
     public void setNomeOrigem(String nomeOrigem) {
-        this.nomeOrigem = new HuffmanEncodedParam(nomeOrigem);
+        templateParams.put("nomeOrigem", nomeOrigem);
     }
 
     public void setAgenciaOrigem(String agenciaOrigem) {
-        this.agenciaOrigem = new HuffmanEncodedParam(agenciaOrigem);
+        templateParams.put("agenciaOrigem", agenciaOrigem);
     }
 
     public void setContaOrigem(String contaOrigem) {
-        this.contaOrigem = new HuffmanEncodedParam(contaOrigem);
+        templateParams.put("contaOrigem", contaOrigem);
     }
 
     public void setNomeDestino(String nomeDestino) {
-        this.nomeDestino = new HuffmanEncodedParam(nomeDestino);
+        templateParams.put("nomeDestino", nomeDestino);
     }
 
     public void setAgenciaDestino(String agenciaDestino) {
-        this.agenciaDestino = new HuffmanEncodedParam(agenciaDestino);
+        templateParams.put("agenciaDestino", agenciaDestino);
     }
 
     public void setContaDestino(String contaDestino) {
-        this.contaDestino = new HuffmanEncodedParam(contaDestino);
+        templateParams.put("contaDestino", contaDestino);
     }
 
     public void setValor(String valor) {
-        this.valor = new HuffmanEncodedParam(valor);
+        templateParams.put("valor", valor);
     }
 
     public void setData(Date data) {
-        this.data = new HuffmanEncodedParam(data.toString()); //TODO
+        templateParams.put("data", dateFormat.format(data));
     }
 
     public void setTan(String tan) {
-        this.tan = new HuffmanEncodedParam(tan);
+        templateParams.put("tan", tan);
     }
 }

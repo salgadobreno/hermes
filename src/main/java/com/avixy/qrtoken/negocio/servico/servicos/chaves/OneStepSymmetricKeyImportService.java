@@ -54,7 +54,7 @@ public class OneStepSymmetricKeyImportService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, pin, template, keyComponent, desafio).toByteArray();
+        return BinnaryMsg.create().append(timestamp, template, keyComponent, desafio, pin).toByteArray();
     }
 
     public void setDesafio(String desafio) {

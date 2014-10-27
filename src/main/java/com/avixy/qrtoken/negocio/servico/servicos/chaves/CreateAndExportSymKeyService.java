@@ -41,7 +41,7 @@ public class CreateAndExportSymKeyService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp).append(pin).append(keyType).append(keyLength).toByteArray();
+        return BinnaryMsg.create().append(timestamp, keyType, keyLength, pin).toByteArray();
     }
 
     public void setPin(String pin) {
