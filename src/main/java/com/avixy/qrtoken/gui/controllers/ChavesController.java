@@ -51,6 +51,7 @@ public class ChavesController {
     }
 
     private void updateChave(){
+        chave.setId(idField.getText());
         chave.setValor(valorField.getText());
         chave.setLength(lengthComboBox.getValue());
         chave.setKeyType(algoComboBox.getValue());
