@@ -6,25 +6,23 @@ package com.avixy.qrtoken.negocio.servico.params;
  * Created on 11/09/2014
  */
 public class PinParam implements Param {
-    protected char[] chars;
+    protected String pin;
+    protected int length;
 
     public PinParam(String pin) {
-        if (pin.length() > 4) {
+        if (pin.length() < 4 || pin.length() > 12) {
             throw new IllegalArgumentException("Pin is 4 chars"); //TODO: msg
         }
 
-        this.chars = new char[5];
-        char[] charArray = pin.toCharArray();
-        System.arraycopy(charArray, 0, chars, 0, charArray.length);
-        chars[4] = '$';
+        this.pin = pin;
+        this.length = pin.length();
     }
 
     @Override
     public String toBinaryString() {
         String binaryString = "";
-        for (char c : chars) {
-            binaryString += new ByteWrapperParam(c).toBinaryString();
-        }
+        binaryString += new StringWrapperParam(pin).toBinaryString();
+        binaryString += new ByteWrapperParam((byte) length).toBinaryString();
         return binaryString;
     }
 }

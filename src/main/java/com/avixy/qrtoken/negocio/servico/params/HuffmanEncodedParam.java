@@ -10,11 +10,14 @@ import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 public class HuffmanEncodedParam implements Param {
     String text;
     public HuffmanEncodedParam(String toEncode) {
+        if (toEncode.length() > 255) { throw new IllegalArgumentException(); }
         this.text = toEncode;
     }
 
     @Override
     public String toBinaryString() {
-        return new TokenHuffman().encode(text);
+        String length = new ByteWrapperParam((byte) text.length()).toBinaryString();
+        String encoded = new TokenHuffman().encode(text);
+        return length + encoded;
     }
 }
