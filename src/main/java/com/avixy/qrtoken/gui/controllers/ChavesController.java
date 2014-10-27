@@ -5,7 +5,6 @@ import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,8 +30,8 @@ import java.util.List;
  *
  * Created on 21/08/2014
  */
-public class GerenciaDeChavesController {
-    private static Logger logger = LoggerFactory.getLogger(GerenciaDeChavesController.class);
+public class ChavesController {
+    private static Logger logger = LoggerFactory.getLogger(ChavesController.class);
 
     @FXML private Label errorLabel;
     @FXML private TableView<Chave> chavesTable;
@@ -41,31 +40,23 @@ public class GerenciaDeChavesController {
     @FXML private ComboBox<KeyType> algoComboBox;
     @FXML private ComboBox<Integer> lengthComboBox;
 
-    private Chave chave = new Chave();
-
+    private Chave chave;
     private List<KeyType> algorythmList = new ArrayList<>();
 
-    Integer[] keyLengths = {64, 128, 160, 192, 224, 256, 320, 384, 512, 1024, 2048, 4096};
+    private void initChave(){
+        chave = new Chave();
+        valorField.clear();
+        chave.setKeyType(algoComboBox.getValue());
+        chave.setLength(lengthComboBox.getValue());
+    }
+
+    private void updateChave(){
+        chave.setValor(valorField.getText());
+        chave.setLength(lengthComboBox.getValue());
+        chave.setKeyType(algoComboBox.getValue());
+    }
 
     public void initialize(){
-        chave = new Chave();
-        chave.setKeyType(KeyType.values()[0]);
-        chave.setLength(keyLengths[0]);
-        Collections.addAll(algorythmList, KeyType.values());
-
-        /* basic validation */
-        valorField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                chave.setValor(s2); //TODO NOTE: setando no listener senão dá problema
-                if (!chave.isValid()) {
-                    valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                } else {
-                    valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
-                }
-            }
-        });
-
         algoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
             @Override
             public void changed(ObservableValue<? extends KeyType> observableValue, KeyType keyType, KeyType keyType2) {
@@ -73,17 +64,28 @@ public class GerenciaDeChavesController {
                 lengthComboBox.getSelectionModel().select(0);
             }
         });
-
-
-        BeanPathAdapter<Chave> chavePA = new BeanPathAdapter<>(chave);
-//        chavePA.bindBidirectional("valor", valorField.textProperty()); //TODO NOTE: isso aqui deu problema só depois de compilar
-        chavePA.bindBidirectional("id", idField.textProperty());
-        chavePA.bindBidirectional("length", lengthComboBox.valueProperty(), Integer.class);
-        chavePA.bindBidirectional("keyType", algoComboBox.valueProperty(), KeyType.class);
-
+        Collections.addAll(algorythmList, KeyType.values());
         algoComboBox.setItems(FXCollections.observableList(algorythmList));
         algoComboBox.getSelectionModel().select(0);
 
+        /* basic validation */
+        valorField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+                updateChave();
+                if (valorField.getText().isEmpty()) {
+                    valorField.styleProperty().setValue("");
+                } else {
+                    if (!chave.isValid()) {
+                        valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                    } else {
+                        valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
+                    }
+                }
+            }
+        });
+
+        initChave();
         ChavesTableUtil.setupTable(chavesTable);
     }
 
@@ -95,7 +97,7 @@ public class GerenciaDeChavesController {
 
         boolean success = ChavesSingleton.getInstance().add(chave);
         if (success) {
-            chave = new Chave();
+            initChave();
         } else {
             errorLabel.setText(chave.getErrors());
         }

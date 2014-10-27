@@ -23,6 +23,10 @@ public class BinnaryMsg {
         return new BinnaryMsg();
     }
 
+    public static byte[] get(String binMsg){
+        return new BinnaryMsg(binMsg).toByteArray();
+    }
+
     public BinnaryMsg(String binMsg) {
         /* para fims de teste */
         for (char c : IGNORE) {

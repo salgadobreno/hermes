@@ -1,12 +1,14 @@
-package com.avixy.qrtoken.gui.servicos.components;
+package com.avixy.qrtoken.gui.servicos.components.banking;
 
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.servicos.LoginService;
+import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
