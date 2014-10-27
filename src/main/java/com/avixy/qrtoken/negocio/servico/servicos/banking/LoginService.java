@@ -1,10 +1,11 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedHmacTemplateMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
@@ -14,6 +15,7 @@ import com.google.inject.Inject;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
+
     private TemplateParam template;
     private HuffmanEncodedParam loginCode;
 
@@ -34,7 +36,8 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, template, pin, loginCode).toByteArray();
+//        return BinnaryMsg.create().append(timestamp, template, loginCode, pin).toByteArray();
+        return BinnaryMsg.create().append(template, loginCode, pin).toByteArray();
     }
 
     public void setTemplate(byte template) {
