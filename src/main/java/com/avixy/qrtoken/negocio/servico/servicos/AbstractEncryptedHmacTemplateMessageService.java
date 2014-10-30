@@ -18,8 +18,8 @@ import java.security.GeneralSecurityException;
  */
 public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService {
 
-    private KeyPolicy hmacKeyPolicy;
-    private AesKeyPolicy aesKeyPolicy;
+    protected KeyPolicy hmacKeyPolicy;
+    protected AesKeyPolicy aesKeyPolicy;
 
     @Inject
     public AbstractEncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, AesKeyPolicy aesKeyPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -38,8 +38,11 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
     public byte[] getData() throws GeneralSecurityException, CryptoException {
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
         byte[] data = aesKeyPolicy.apply(hmacKeyPolicy.apply(getMessage()));
+        data = ArrayUtils.addAll(initializationVector, data);
+        data = ArrayUtils.addAll(headerPolicy.getHeader(this), data);
 
-        return ArrayUtils.addAll(initializationVector, data);
+//        return ArrayUtils.addAll(headerPolicy.getHeader(this), data);
+        return data;
     }
 
     public void setChaveHmac(Chave chaveHmac) {

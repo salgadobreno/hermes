@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.banking;
 
-import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
@@ -30,23 +29,18 @@ import java.util.List;
 public class LoginServiceComponent extends ServiceComponent {
     private LoginService service;
 
-    private TextFieldLimited pinField = new TextFieldLimited();
-    private TextFieldLimited loginCodeField = new TextFieldLimited();
-    private ComboBox<Integer> templateComboBox = new ComboBox<>();
+    private PinField pinField = new PinField();
+    private TextFieldLimited loginCodeField = new TextFieldLimited(6);
+    private TemplateSelect templateComboBox = new TemplateSelect();
     private TimestampField timestampField = new TimestampField();
 
-    private ComboBox<Chave> hmacField = new ComboBox<>();
-    private ComboBox<Chave> aesField = new ComboBox<>();
+    private HmacSelect hmacField = new HmacSelect();
+    private AesSelect aesField = new AesSelect();
 
     @Inject
     protected LoginServiceComponent(LoginService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
         this.service = service;
-
-        pinField.setMaxlength(4);
-        loginCodeField.setMaxlength(6);
-        List<Integer> templates = Arrays.asList(1,2,3,4,5,6,7,8,9,1,11,12);
-        templateComboBox.setItems(FXCollections.observableList(templates));
     }
 
     @Override
@@ -65,13 +59,9 @@ public class LoginServiceComponent extends ServiceComponent {
         migPane.add(new Label("Código de Login:"));
         migPane.add(loginCodeField, "wrap");
 
-        hmacField.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.HMAC));
-        hmacField.getSelectionModel().select(0);
         migPane.add(new Label("Cifra HMAC:"));
         migPane.add(hmacField, "wrap");
 
-        aesField.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.AES));
-        aesField.getSelectionModel().select(0);
         migPane.add(new Label("Cifra AES:"));
         migPane.add(aesField, "wrap");
 

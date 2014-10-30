@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.core.extensions.components.PinField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
-import com.avixy.qrtoken.negocio.qrcode.DoubledQrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -20,10 +20,10 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private TextField pinField = new TextField();
+    private PinField pinField = new PinField();
 
     @Inject
-    public EraseKtamperServiceComponent(EraseKtamperService service, DoubledQrCodePolicy qrCodePolicy) {
+    public EraseKtamperServiceComponent(EraseKtamperService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
         this.service = service;
     }

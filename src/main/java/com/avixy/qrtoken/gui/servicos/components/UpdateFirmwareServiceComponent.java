@@ -1,7 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.core.extensions.components.QrVersionSelect;
 import com.avixy.qrtoken.negocio.qrcode.MultipleQrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateFirmwareService;
 import com.google.inject.Inject;
@@ -14,8 +16,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,8 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang.ArrayUtils;
+import org.bouncycastle.crypto.CryptoException;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,32 +51,30 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     private Boolean timerRunning = false;
     private File fileToLoad;
 
-    //fields
-    @FXML private ComboBox<Integer> qrVersionField = new ComboBox<>();
-    private Slider correctionLevelSlider; //grab from controller
-
+    /* fields */
+    @FXML private QrVersionSelect qrVersionField = new QrVersionSelect();
     @FXML private TextField tTimerField;
     @FXML private TextField tPrimeiroQrField = new TextField();
     @FXML private TextField moduleOffsetField = new TextField();
     @FXML private TextField challengeField = new TextField();
     @FXML private TextField interruptionStuffField = new TextField();
-
     @FXML private Button loadFileButton;
 
-    //labels
+    private Slider correctionLevelSlider; //grab from controller
+
+    /* labels */
     @FXML private Label capacidadeLabel;
     @FXML private Label bytesPraDadosLabel;
     @FXML private Label bytesPraEcLabel;
 
-    // Custom properties
+    /* Custom properties */
     private IntegerProperty capacidadeProperty = new SimpleIntegerProperty();
     private IntegerProperty bytesPraEcProperty = new SimpleIntegerProperty();
     private IntegerProperty bytesPraDadosProperty = new SimpleIntegerProperty();
     private IntegerProperty quantidadeDeQrsProperty = new SimpleIntegerProperty();
     private IntegerProperty contentLengthProperty = new SimpleIntegerProperty(0);
 
-
-    //formato mostrado no app
+    /* formato mostrado no app */
     private StringExpression capacidadeFormat = Bindings.format("Capacidade: %s", capacidadeProperty);
     private StringExpression bytesPraEcFormat = Bindings.format("Bytes p/ EC: %s", bytesPraEcProperty);
     private StringExpression bytesPraDadosFormat = Bindings.format("Bytes p/ Dados: %s", bytesPraDadosProperty);
@@ -99,11 +96,12 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
 
                 this.correctionLevelSlider = controller.getCorrectionLevelSlider();
 
-                // Bindar os labels ao formato de exibicao
+                /* Binds formatos de exibicao */
                 capacidadeLabel.textProperty().bind(capacidadeFormat);
                 bytesPraDadosLabel.textProperty().bind(bytesPraDadosFormat);
                 bytesPraEcLabel.textProperty().bind(bytesPraEcFormat);
 
+                /* Binds dos custom properties */
                 capacidadeProperty.bind(Bindings.createIntegerBinding(new Callable<Integer>() {
                     @Override
                     public Integer call() throws Exception {
@@ -132,20 +130,12 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
                     }
                 }, contentLengthProperty, qrVersionField.valueProperty(), correctionLevelSlider.valueProperty()));
 
-                // Setar os niveis de QR no combo
-                List<Integer> levels = new ArrayList<>();
-                for (int i = 2; i <= 40; i++) {
-                    levels.add(i);
-                }
-                ObservableList<Integer> list = FXCollections.observableList(levels);
-                qrVersionField.setItems(list);
-                qrVersionField.valueProperty().addListener(new ChangeListener<Integer>() {
+                qrVersionField.valueProperty().addListener(new ChangeListener<Version>() {
                     @Override
-                    public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer integer2) {
-                        controller.setVersion(integer2);
+                    public void changed(ObservableValue<? extends Version> observableValue, Version version, Version version2) {
+                        controller.setVersion(version2);
                     }
                 });
-                qrVersionField.getSelectionModel().select(0);
             } catch (IOException e) {
                 e.printStackTrace();
                 node = new VBox();
@@ -169,6 +159,16 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
         return service;
     }
 
+    @Override
+    public List<QrTokenCode> getQrs(QrSetup setup) throws GeneralSecurityException, CryptoException {
+        getService(); // para que os parâmetros sejam preenchidos
+        List<QrTokenCode> qrTokenCodes = new ArrayList<>();
+        qrTokenCodes.add(new QrTokenCode(service.getInitialQr(), setup));
+        qrTokenCodes.addAll(qrCodePolicy.getQrs(service, setup));
+        return qrTokenCodes;
+    }
+
+    @FXML
     public void zoomAndPlayQrs() {
         controller.zoomQR();
 
@@ -208,10 +208,12 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
         }
     }
 
+    @FXML
     public void rewind(){
         controller.rewindQrView();
     }
 
+    @FXML
     public void loadFile() throws IOException {
         Window window = controller.getQrDisplayVBox().getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
@@ -222,7 +224,7 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     }
 
     public QrSetup getSetup(){
-        Version version = Version.getVersionForNumber(qrVersionField.getValue());
+        Version version = qrVersionField.getValue();
         ErrorCorrectionLevel ecLevel = ErrorCorrectionLevel.values()[((Double) correctionLevelSlider.getValue()).intValue()];
         return new QrSetup(version, ecLevel);
     }

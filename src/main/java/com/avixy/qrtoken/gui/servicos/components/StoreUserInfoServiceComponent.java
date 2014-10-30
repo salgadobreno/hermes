@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.core.extensions.components.AesSelect;
+import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
@@ -24,31 +26,23 @@ import org.tbee.javafx.scene.layout.MigPane;
 public class StoreUserInfoServiceComponent extends ServiceComponent {
     private StoreUserInfoService service;
 
-    private TextFieldLimited nomeField = new TextFieldLimited();
-    private TextFieldLimited emailField = new TextFieldLimited();
-    private TextFieldLimited clienteField = new TextFieldLimited();
-    private TextFieldLimited cpfField = new TextFieldLimited();
-    private TextFieldLimited agenciaField = new TextFieldLimited();
-    private TextFieldLimited contaField = new TextFieldLimited();
-    private TextFieldLimited foneField = new TextFieldLimited();
+    private TextFieldLimited nomeField = new TextFieldLimited(30);
+    private TextFieldLimited emailField = new TextFieldLimited(40);
+    private TextFieldLimited clienteField = new TextFieldLimited(20);
+    private TextFieldLimited cpfField = new TextFieldLimited(20);
+    private TextFieldLimited agenciaField = new TextFieldLimited(10);
+    private TextFieldLimited contaField = new TextFieldLimited(10);
+    private TextFieldLimited foneField = new TextFieldLimited(20);
 
-    private ComboBox<Chave> hmacField = new ComboBox<>();
-    private ComboBox<Chave> aesField = new ComboBox<>();
+    private HmacSelect hmacField = new HmacSelect();
+    private AesSelect aesField = new AesSelect();
 
     @Inject
     public StoreUserInfoServiceComponent(StoreUserInfoService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
         this.service = service;
 
-        nomeField.setMaxlength(30);
-        emailField.setMaxlength(40);
-        cpfField.setMaxlength(20);
-        clienteField.setMaxlength(20);
-        contaField.setMaxlength(10);
-        agenciaField.setMaxlength(10);
-        foneField.setMaxlength(20);
-
-        //random
+        //randomize
         nomeField.setText(RandomStringUtils.randomAlphabetic(10));
         emailField.setText(RandomStringUtils.randomAlphabetic(10));
         clienteField.setText(RandomStringUtils.randomAlphabetic(6));
@@ -86,13 +80,9 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         migPane.add(new Label("Telefone:"));
         migPane.add(foneField, "wrap");
 
-        hmacField.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.HMAC));
-        hmacField.getSelectionModel().select(0);
         migPane.add(new Label("Cifra HMAC:"));
         migPane.add(hmacField, "wrap");
 
-        aesField.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.AES));
-        aesField.getSelectionModel().select(0);
         migPane.add(new Label("Cifra AES:"));
         migPane.add(aesField, "wrap");
 

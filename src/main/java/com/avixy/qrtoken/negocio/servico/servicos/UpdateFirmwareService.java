@@ -1,12 +1,11 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.core.extensions.binnary.TwoBitBitset;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.nio.charset.Charset;
@@ -24,6 +23,9 @@ public class UpdateFirmwareService extends AbstractService {
 
     private QrSetup qrSetup;
 
+    private byte[] initialQr;
+
+    /* parâmetros */
     private byte[] content;
     private byte moduleOffset;
     private String challengeParam;
@@ -36,18 +38,22 @@ public class UpdateFirmwareService extends AbstractService {
     }
 
     @Override
-    public String getServiceName() {
-        return "SERVICE_FIRMWARE_SYM_UPDATE";
-    }
+    public String getServiceName() { return "SERVICE_FIRMWARE_SYM_UPDATE"; }
 
     @Override
-    public int getServiceCode() {
-        return 63;
-    }
+    public int getServiceCode() { return 63; }
 
-    @Override
-    public byte[] getMessage() {
-        return RandomStringUtils.randomAlphabetic(200).getBytes();
+    public byte[] getInitialQr() {
+        /* Sempre chama o getData() para que initialQr esteja preenchido/atualizado */
+        try {
+            getData();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected");
+        } catch (CryptoException e) {
+            e.printStackTrace();
+        }
+        return initialQr;
     }
 
     @Override
@@ -56,7 +62,7 @@ public class UpdateFirmwareService extends AbstractService {
         int setupCapacity = qrSetup.getAvailableBytes();
         int payloadQrCapacity = setupCapacity - 4; // length do header dos qr de payload
 
-        //firstQr stuff
+        /* firstQr */
         QrtHeaderPolicy qrtHeaderPolicy = new QrtHeaderPolicy();
         int qrQty;
         qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
@@ -66,12 +72,12 @@ public class UpdateFirmwareService extends AbstractService {
         body = ArrayUtils.add(body, moduleOffset);
 
         byte[] bodyBytes = ArrayUtils.addAll(body, challengeParam.getBytes());
+        bodyBytes = ArrayUtils.add(bodyBytes, interrumptionStuff);
         byte[] header = qrtHeaderPolicy.getHeader(this);
         firstQr = ArrayUtils.addAll(header, bodyBytes);
+        initialQr = firstQr;
 
-        firstQr = StringUtils.rightPad(new String(firstQr, CHARSET), setupCapacity, (char)0).getBytes(); // add padding
-        data = firstQr;
-
+        data = new byte[0];
         for (int i = 0; i < qrQty; i++) {
             boolean last = i == qrQty - 1;
             byte[] qrIndex, payloadSize, payloadHeader;
@@ -94,42 +100,19 @@ public class UpdateFirmwareService extends AbstractService {
         return data;
     }
 
-    public void setQrSetup(QrSetup qrSetup) {
-        this.qrSetup = qrSetup;
-    }
+    @Override
+    public byte[] getMessage() { return new byte[0]; } // aqui, atravessamos o getMessage pelo getData
 
-    public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) {
-        this.hmacKeyPolicy = hmacKeyPolicy;
-    }
+    public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) { this.hmacKeyPolicy = hmacKeyPolicy; }
 
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
+    public void setQrSetup(QrSetup qrSetup) { this.qrSetup = qrSetup; }
 
-    public void setModuleOffset(byte moduleOffset) {
-        this.moduleOffset = moduleOffset;
-    }
+    public void setContent(byte[] content) { this.content = content; }
 
-    public void setChallenge(String challenge) {
-        this.challengeParam = challenge;
-    }
+    public void setModuleOffset(byte moduleOffset) { this.moduleOffset = moduleOffset; }
 
-    public void setInterruptionStuff(byte interruptionStuff) {
-        this.interrumptionStuff = interruptionStuff;
-    }
+    public void setChallenge(String challenge) { this.challengeParam = challenge; }
 
-    static class TwoBitBitset {
-        public static byte[] get(Integer i) {
-            byte[] bytes = new byte[2];
-            String val = StringUtils.leftPad(Integer.toBinaryString(i.shortValue()), 16, '0');
-            String[] strings = {
-                    val.substring(0, val.length()/2),
-                    val.substring(val.length()/2)
-            };
-            for (int j = 0; j < bytes.length; j++) {
-                bytes[j] = ((byte) Integer.parseInt(strings[j], 2));
-            }
-            return bytes;
-        }
-    }
+    public void setInterruptionStuff(byte interruptionStuff) { this.interrumptionStuff = interruptionStuff; }
+
 }

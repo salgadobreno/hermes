@@ -8,13 +8,19 @@ import javafx.scene.control.TextField;
  * Took from: http://stackoverflow.com/questions/15159988/javafx-2-2-textfield-maxlength
  */
 public class TextFieldLimited extends TextField {
-    private int maxlength;
+    protected int maxlength;
     public TextFieldLimited() {
-        this.maxlength = 10;
+        this.maxlength = 999;
     }
+
+    public TextFieldLimited(int maxlength) {
+        this.maxlength = maxlength;
+    }
+
     public void setMaxlength(int maxlength) {
         this.maxlength = maxlength;
     }
+
     @Override
     public void replaceText(int start, int end, String text) {
         // Delete or backspace user input.

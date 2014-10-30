@@ -51,10 +51,6 @@ import java.util.concurrent.Callable;
  * Created on 04/08/2014.
  */
 public class HomeController {
-    /* TODO:
-     * combo de version?
-     * bind version e ec level na geracao
-     */
     static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
     Injector injector = Guice.createInjector(new HermesModule());
@@ -199,8 +195,8 @@ public class HomeController {
         return new QrSetup(qrVersion, getECLevel());
     }
 
-    public void setVersion(int version){
-        qrVersion = Version.getVersionForNumber(version);
+    public void setVersion(Version version){
+        qrVersion = version;
     }
 
     public ErrorCorrectionLevel getECLevel(){

@@ -33,9 +33,9 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
         byte[] initializationVector = aesKeyPolicy.getInitializationVector();
-        byte[] data = aesKeyPolicy.apply(getMessage());
+        byte[] data = ArrayUtils.addAll(aesKeyPolicy.apply(getMessage()), initializationVector);
 
-        return ArrayUtils.addAll(initializationVector, data);
+        return ArrayUtils.addAll(headerPolicy.getHeader(this), data);
     }
 
     @Override

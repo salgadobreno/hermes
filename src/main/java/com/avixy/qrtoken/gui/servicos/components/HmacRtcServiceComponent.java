@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
+import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
@@ -41,7 +42,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
     @FXML protected Label title;
     @FXML protected TimestampField timestampField;
     @FXML protected ComboBox<String> fusoBox;
-    @FXML protected ComboBox<Chave> keyField;
+    @FXML protected HmacSelect keyField;
 
 
     /* TODO:
@@ -67,8 +68,6 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
         fusoBox.setItems(observableList);
         fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
-
-        keyField.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.HMAC));
     }
 
     @Override

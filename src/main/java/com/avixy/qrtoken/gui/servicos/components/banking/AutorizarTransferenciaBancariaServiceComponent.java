@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.banking;
 
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
@@ -60,10 +60,10 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     @FXML private Pane  dadosPane;
     @FXML private Button okButton;
 
-    private ComboBox<Chave> comboAes = new ComboBox<>();
-    private ComboBox<Chave> comboHmac = new ComboBox<>();
-    private ComboBox<Integer> templateComboBox = new ComboBox<>();
-    private TextField pinTextField = new TextField();
+    private AesSelect comboAes = new AesSelect();
+    private HmacSelect comboHmac = new HmacSelect();
+    private TemplateSelect templateComboBox = new TemplateSelect();
+    private PinField pinTextField = new PinField();
     private CalendarTextField dataCalendarTextField = new CalendarTextField();
     private TextField tanTextField = new TextField();
     private TextField valorTextField = new TextField();
@@ -118,13 +118,6 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             VBox vBoxChaves = new VBox();
             Label labelAes = new Label("AES:");
             Label labelHmac = new Label("HMAC:");
-
-            comboAes.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.AES));
-            comboHmac.setItems(ChavesSingleton.getInstance().observableChavesFor(KeyType.HMAC));
-
-            //template param
-            List<Integer> templates = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15);
-            templateComboBox.setItems(FXCollections.observableList(templates));
 
             vBoxChaves.getChildren().addAll(labelAes, comboAes, labelHmac, comboHmac,new Label("Template:"), templateComboBox);
             chavesPane.getChildren().add(vBoxChaves);

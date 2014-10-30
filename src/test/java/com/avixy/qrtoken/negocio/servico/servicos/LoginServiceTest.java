@@ -15,10 +15,11 @@ import java.util.Date;
 import static org.junit.Assert.assertArrayEquals;
 
 public class LoginServiceTest {
+    QrtHeaderPolicy qrtHeaderPolicy = Mockito.mock(QrtHeaderPolicy.class);
     AesKeyPolicy aesKeyPolicy =  Mockito.mock(AesKeyPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
 
-    LoginService service = new LoginService(new QrtHeaderPolicy(), aesKeyPolicy, hmacKeyPolicy);
+    LoginService service = new LoginService(qrtHeaderPolicy, aesKeyPolicy, hmacKeyPolicy);
 
     String loginCode = "885471";
 
@@ -41,6 +42,12 @@ public class LoginServiceTest {
                 "0011000100110010001100110011010000000100"; //pin 1234
 
         assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
+    }
+
+    @Test
+    public void testHeader() throws Exception {
+        service.getData();
+        Mockito.verify(qrtHeaderPolicy).getHeader(service);
     }
 
     @Test

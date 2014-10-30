@@ -14,19 +14,9 @@ import org.tbee.javafx.scene.layout.fxml.MigPane;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
-public class GenerateKtamperServiceComponent extends ServiceComponent {
+public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     @Inject
     public GenerateKtamperServiceComponent(GenerateKtamperService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
-    }
-
-    @Override
-    public Node getNode() {
-        MigPane migPane = new MigPane();
-        Label label = new Label("Esse serviço não possui parâmetros.");
-        label.setFont(new Font(18));
-        migPane.add(label, "align center");
-
-        return migPane;
     }
 }

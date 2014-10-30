@@ -6,10 +6,8 @@ import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TimeZone;
 

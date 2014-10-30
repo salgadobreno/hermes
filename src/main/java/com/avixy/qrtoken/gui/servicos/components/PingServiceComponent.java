@@ -14,20 +14,11 @@ import org.tbee.javafx.scene.layout.MigPane;
  * Created on 04/09/2014
  */
 @ServiceComponent.Category(category = ServiceCategory.OUTROS)
-public class PingServiceComponent extends ServiceComponent {
+public class PingServiceComponent extends NoParamServiceComponent {
 
     @Inject
     public PingServiceComponent(PingService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
     }
 
-    @Override
-    public Node getNode() {
-        MigPane migPane = new MigPane();
-        Label label = new Label("Esse serviço não possui parâmetros.");
-        label.setFont(new Font(18));
-        migPane.add(label, "align center");
-
-        return migPane;
-    }
 }

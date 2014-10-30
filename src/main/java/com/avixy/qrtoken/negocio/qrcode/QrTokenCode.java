@@ -32,8 +32,8 @@ public class QrTokenCode {
     }
 
     public QrTokenCode(byte[] dados, QrSetup setup, int length) {
-            this.length = setup.getAvailableBytes();
-            if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
+        this.length = setup.getAvailableBytes();
+        if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
 
         this.dados = dados;
         this.ecLevel = setup.getEcLevel();
