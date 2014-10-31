@@ -39,7 +39,7 @@ public class LoginServiceTest {
                 "0001" + //template 1
                 "00000110" + //length 6
                 huffmanCode + //codigo de login 885471
-                "0011000100110010001100110011010000000100"; //pin 1234
+                "0011000100110010001100110011010000000100"; //pin 1234 + length
 
         assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }

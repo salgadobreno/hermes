@@ -28,4 +28,11 @@ public class BinnaryMsgTest {
         assertArrayEquals(new byte[]{(byte) 0b11100000}, BinnaryMsg.create().append(irregularParam).toByteArray());
         assertArrayEquals(new byte[]{(byte) 0b11111111, (byte) 0b10000000}, BinnaryMsg.create().append(retardParam).toByteArray());
     }
+
+    @Test
+    public void testZeroesOnTheLeft() throws Exception {
+        byte[] expectedResult = {0,0,0,0};
+        String binnaryString = "00000000000000000000000000000000";
+        assertArrayEquals(new BinnaryMsg(binnaryString).toByteArray(), expectedResult);
+    }
 }

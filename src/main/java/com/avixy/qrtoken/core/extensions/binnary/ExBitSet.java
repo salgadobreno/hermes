@@ -16,21 +16,25 @@ import java.util.regex.Pattern;
  * Created on 10/09/2014
  */
 public class ExBitSet {
+    //TODO: ajeitar documentação
+    private static byte[] createFromString(String s) {
+        byte[] bytes = new byte[0];
+        int size = (int) Math.ceil(s.length()/8);
 
-    private static BitSet createFromString(String s) {
+        for (int i = 0; i < size ; i++) {
+            BitSet t = new BitSet(8);
 
-        BitSet t = new BitSet(s.length());
-        int lastBitIndex = s.length() - 1;
-        int i = lastBitIndex;
-        while ( i >= 0) {
-            if ( s.charAt(i) == '1'){
-                t.set(lastBitIndex - i);
-                i--;
-            }
-            else
-                i--;
+            int start, end;
+            start = (s.length() -1) - i * 8;
+            end = (s.length() -8) - i * 8;
+            System.out.println("start = " + start + " end = " + end );
+
+            String bite = s.substring(end, start + 1);
+            System.out.println("bite = " + bite);
+            System.out.println("Parsed = " + Integer.parseInt(bite, 2));
+            bytes = ArrayUtils.add(bytes, (byte) Integer.parseInt(bite, 2));
         }
-        return t;
+        return bytes;
     }
 
     /**
@@ -38,7 +42,7 @@ public class ExBitSet {
      * @return      Array de <code>byte</code> equivalente à string '0' e '1'.
      */
     public static byte[] bytesFromString(String s){
-        byte[] bytes = createFromString(s).toByteArray();
+        byte[] bytes = createFromString(s);
         ArrayUtils.reverse(bytes);
         return bytes;
     }

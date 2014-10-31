@@ -63,7 +63,6 @@ public class BinnaryMsg {
     }
 
     public byte[] toByteArray() {
-//        System.out.println("binMsg = " + binMsg);
         return ExBitSet.bytesFromString(padded());
     }
 
