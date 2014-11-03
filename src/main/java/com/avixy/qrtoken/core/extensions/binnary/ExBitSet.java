@@ -27,12 +27,8 @@ public class ExBitSet {
             int start, end;
             start = (s.length() -1) - i * 8;
             end = (s.length() -8) - i * 8;
-            System.out.println("start = " + start + " end = " + end );
-
-            String bite = s.substring(end, start + 1);
-            System.out.println("bite = " + bite);
-            System.out.println("Parsed = " + Integer.parseInt(bite, 2));
-            bytes = ArrayUtils.add(bytes, (byte) Integer.parseInt(bite, 2));
+            String word = s.substring(end, start + 1);
+            bytes = ArrayUtils.add(bytes, (byte) Integer.parseInt(word, 2));
         }
         return bytes;
     }
