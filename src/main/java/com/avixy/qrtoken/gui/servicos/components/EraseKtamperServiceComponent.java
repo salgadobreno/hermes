@@ -43,7 +43,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     }
 
     @Override
-    public Service getService() {
+    public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
         eraseKtamperService.setPin(pinField.getText());

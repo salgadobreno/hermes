@@ -90,7 +90,7 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     }
 
     @Override
-    public Service getService() {
+    public Service getService() throws Exception {
         service.setNome(nomeField.getText());
         service.setEmail(emailField.getText());
         service.setConta(contaField.getText());

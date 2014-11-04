@@ -39,7 +39,7 @@ import java.util.List;
         this.qrCodePolicy = qrCodePolicy;
     }
 
-    public Service getService() { return service; }
+    public Service getService() throws Exception { return service; }
 
     public abstract Node getNode();
 
@@ -53,7 +53,7 @@ import java.util.List;
         return controller;
     }
 
-    public List<QrTokenCode> getQrs(QrSetup setup) throws GeneralSecurityException, CryptoException {
+    public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
 //        QrSetup qrSetup = new QrSetup(Version.getVersionForNumber(2), ErrorCorrectionLevel.L);
         return qrCodePolicy.getQrs(getService(), setup); //TODO
     }

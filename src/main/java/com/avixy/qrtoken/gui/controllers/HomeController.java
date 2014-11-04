@@ -3,8 +3,6 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.google.inject.Guice;
@@ -28,12 +26,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +60,7 @@ public class HomeController {
 
     private Version qrVersion;
 
+    @FXML private VBox root;
     @FXML private VBox qrDisplayVBox;
     @FXML private ImageView qrView;
     @FXML private Slider correctionLevelSlider;
@@ -140,6 +139,7 @@ public class HomeController {
             TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
             servicesAccordion.getPanes().add(titledPane);
         }
+
     }
 
     /**
@@ -301,5 +301,15 @@ public class HomeController {
         return currentQrCodeProperty.get() == qtdQrsProperty.get();
     }
 
-
+    @FXML
+    public void handleKeyInput(final KeyEvent keyInput) throws GeneralSecurityException {
+        switch (keyInput.getCode()) {
+            case LEFT:
+                previousQrCode();
+                break;
+            case RIGHT:
+                nextQrCode();
+                break;
+        }
+    }
 }

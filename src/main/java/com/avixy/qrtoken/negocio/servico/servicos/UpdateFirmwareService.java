@@ -3,14 +3,17 @@ package com.avixy.qrtoken.negocio.servico.servicos;
 import com.avixy.qrtoken.core.extensions.binnary.TwoBitBitset;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.FFHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+
+import static org.apache.commons.lang.ArrayUtils.add;
+import static org.apache.commons.lang.ArrayUtils.addAll;
 
 /**
  * Created on 14/10/2014
@@ -23,13 +26,13 @@ public class UpdateFirmwareService extends AbstractService {
 
     private QrSetup qrSetup;
 
-    private byte[] initialQr;
-
     /* parâmetros */
     private byte[] content;
     private byte moduleOffset;
     private String challengeParam;
-    private byte interrumptionStuff;
+
+    private byte interruptionCounter;
+    private byte[] interruptionBytes;
 
     @Inject
     public UpdateFirmwareService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -37,46 +40,38 @@ public class UpdateFirmwareService extends AbstractService {
         this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
-    @Override
-    public String getServiceName() { return "SERVICE_FIRMWARE_SYM_UPDATE"; }
-
-    @Override
-    public int getServiceCode() { return 63; }
-
     public byte[] getInitialQr() {
-        /* Sempre chama o getData() para que initialQr esteja preenchido/atualizado */
-        try {
-            getData();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unexpected");
-        } catch (CryptoException e) {
-            e.printStackTrace();
-        }
+        byte[] initialQr;
+
+        int payloadQrCapacity = qrSetup.getAvailableBytes() - 4; // 4 == length do header dos qr de payload
+
+        int qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
+        /* firstQr */
+        byte[] header, body;
+        header = new FFHeaderPolicy().getHeader(this);
+        body = new byte[0];
+
+        body = addAll(body, TwoBitBitset.get(qrQty));
+        body = addAll(body, TwoBitBitset.get(content.length));
+        body = add(body, moduleOffset);
+
+        body = addAll(body, challengeParam.getBytes());
+        body = add(body, interruptionCounter);
+        body = addAll(body, interruptionBytes);
+        initialQr = addAll(header, body);
+        /* /firstQr */
         return initialQr;
     }
 
     @Override
     public byte[] getData() throws GeneralSecurityException, CryptoException {
-        byte[] firstQr, data;
+        byte[] data;
         int setupCapacity = qrSetup.getAvailableBytes();
-        int payloadQrCapacity = setupCapacity - 4; // length do header dos qr de payload
+        int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
 
-        /* firstQr */
-        QrtHeaderPolicy qrtHeaderPolicy = new QrtHeaderPolicy();
-        int qrQty;
-        qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
-        byte[] body = new byte[0];
-        body = ArrayUtils.addAll(body, TwoBitBitset.get(qrQty));
-        body = ArrayUtils.addAll(body, TwoBitBitset.get(content.length));
-        body = ArrayUtils.add(body, moduleOffset);
+        int qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
 
-        byte[] bodyBytes = ArrayUtils.addAll(body, challengeParam.getBytes());
-        bodyBytes = ArrayUtils.add(bodyBytes, interrumptionStuff);
-        byte[] header = qrtHeaderPolicy.getHeader(this);
-        firstQr = ArrayUtils.addAll(header, bodyBytes);
-        initialQr = firstQr;
-
+        /* payload qrs */
         data = new byte[0];
         for (int i = 0; i < qrQty; i++) {
             boolean last = i == qrQty - 1;
@@ -89,19 +84,25 @@ public class UpdateFirmwareService extends AbstractService {
             qrIndex = TwoBitBitset.get(i);
             payloadSize = TwoBitBitset.get(payload.length);
 
-            payloadHeader = ArrayUtils.addAll(qrIndex, payloadSize);
-            qr = ArrayUtils.addAll(payloadHeader, payload);
+            payloadHeader = addAll(qrIndex, payloadSize);
+            qr = addAll(payloadHeader, payload);
             for (int j = qr.length; j < setupCapacity; j++) {
-                qr = ArrayUtils.add(qr, (byte)0);
+                qr = add(qr, (byte) 0);
             }
 
-            data = ArrayUtils.addAll(data, qr);
+            data = addAll(data, qr);
         }
         return data;
     }
 
     @Override
-    public byte[] getMessage() { return new byte[0]; } // aqui, atravessamos o getMessage pelo getData
+    public byte[] getMessage() { return new byte[0]; } // esse método é atravessado pelo getData()
+
+    @Override
+    public String getServiceName() { return "SERVICE_FIRMWARE_SYM_UPDATE"; }
+
+    @Override
+    public int getServiceCode() { return 63; }
 
     public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) { this.hmacKeyPolicy = hmacKeyPolicy; }
 
@@ -113,6 +114,7 @@ public class UpdateFirmwareService extends AbstractService {
 
     public void setChallenge(String challenge) { this.challengeParam = challenge; }
 
-    public void setInterruptionStuff(byte interruptionStuff) { this.interrumptionStuff = interruptionStuff; }
+    public void setInterruptionCount(byte interruptionStuff) { this.interruptionCounter = interruptionStuff; }
 
+    public void setInterruptionBytes(byte[] interruptionBytes) { this.interruptionBytes = interruptionBytes; }
 }
