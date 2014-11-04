@@ -32,9 +32,7 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
     }
 
     @Override
-    public String getServiceName() {
-        return "Login";
-    }
+    public String getServiceName() { return "Login"; }
 
     @Override
     public byte[] getMessage() {
@@ -44,17 +42,20 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
 
     public byte[] getData(){
         byte[] message = getMessage();
-        byte[] data, header, criptedParams, iv, hmac, pinBytes;
+        byte[] data, header, tstamp, criptedParams, iv, hmac, pinBytes;
         data = new byte[0];
         try {
             //1 - header
             header = headerPolicy.getHeader(this);
+            //1.1 - Timestamp
+            tstamp = BinnaryMsg.get(timestamp.toBinaryString());
             //2- iv
             iv = aesKeyPolicy.getInitializationVector();
             //3- criptedParams
             criptedParams = aesKeyPolicy.apply(message);
             //4- hmac
-            byte[] hmacBloc = addAll(header, criptedParams);
+            byte[] hmacBloc = addAll(header, tstamp);
+            hmacBloc = addAll(hmacBloc, criptedParams);
             hmacBloc = addAll(hmacBloc, iv);
             hmac = hmacKeyPolicy.apply(hmacBloc);
             //5- pin

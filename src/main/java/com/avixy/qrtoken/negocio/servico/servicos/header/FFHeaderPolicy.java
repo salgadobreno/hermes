@@ -10,6 +10,6 @@ import com.avixy.qrtoken.negocio.servico.servicos.Service;
 public class FFHeaderPolicy implements HeaderPolicy {
     @Override
     public byte[] getHeader(Service service) {
-        return new byte[]{0xF, 0xF, (byte) service.getServiceCode()};
+        return new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) service.getServiceCode()};
     }
 }

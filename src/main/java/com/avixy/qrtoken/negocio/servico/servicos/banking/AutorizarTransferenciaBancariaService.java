@@ -7,13 +7,18 @@ import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedHmacTemplateMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.bouncycastle.crypto.CryptoException;
 
+import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.commons.lang.ArrayUtils.*;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -52,8 +57,39 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
         destinoParam = new HuffmanEncodedParam(resolvedDestino);
         dadosParam = new HuffmanEncodedParam(resolvedDados);
 
-        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, pin);
+//        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, pin);
+        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam);
         return msg.toByteArray();
+    }
+
+    @Override
+    public byte[] getData() throws GeneralSecurityException, CryptoException {
+        byte[] message = getMessage();
+        byte[] data, header, tstamp, criptedParams, iv, hmac, pinBytes;
+        data = new byte[0];
+        try {
+            //1 - header
+            header = headerPolicy.getHeader(this);
+            //1.1 - Timestamp
+            tstamp = BinnaryMsg.get(timestamp.toBinaryString());
+            //2- iv
+            iv = aesKeyPolicy.getInitializationVector();
+            //3- criptedParams
+            criptedParams = aesKeyPolicy.apply(message);
+            //4- hmac
+            byte[] hmacBloc = addAll(header, tstamp);
+            hmacBloc = addAll(hmacBloc, criptedParams);
+            hmacBloc = addAll(hmacBloc, iv);
+            hmac = hmacKeyPolicy.apply(hmacBloc);
+            //5- pin
+            pinBytes = BinnaryMsg.create().append(pin).toByteArray();
+            //6- data = hmac + pin
+            data = addAll(hmac, pinBytes);
+        } catch (CryptoException | GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 
     public void setNomeOrigem(String nomeOrigem) {

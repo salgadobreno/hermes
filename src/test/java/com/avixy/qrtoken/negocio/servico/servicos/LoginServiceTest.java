@@ -33,6 +33,7 @@ public class LoginServiceTest {
 
     @Test
     public void testMessage() throws Exception {
+        //TODO
         String huffmanCode = new TokenHuffman().encode(loginCode);
         String expectedBinaryString = "" +
 //                "01010100000000001010100000110000" + //timestamp

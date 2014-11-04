@@ -27,8 +27,8 @@ public class UpdateFirmwareServiceTest {
         byte[] interruptionInfo = new byte[]{ 0xA, 0xB, 0xC, 0xD, 0xE };
 
         serviceQr = new byte[] {
-                0xF,
-                0xF,
+                (byte) 0xFF,
+                (byte) 0xFF,
                 // SERVICE_FIRMWARE_SYM_UPDATE
                 0x3f, // header
                 // 2 bytes para indicar a quantidade de frames no update
