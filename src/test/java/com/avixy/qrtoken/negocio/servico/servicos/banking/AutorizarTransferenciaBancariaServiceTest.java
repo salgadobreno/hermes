@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
     String paraConta = "34125-X";
 
     String data = "23/10/2014";
-    String valor = "R$ 25.000,00";
+    String valor = "25.000,00";
 
     String expectedBinnaryString;
     {
@@ -127,7 +128,13 @@ public class AutorizarTransferenciaBancariaServiceTest {
                 "0110101" + //0
                 "1110110001" +//,
                 "0110101" + //0
-                "0110101";  //0
+                "0110101" +  //0
+                //tan
+                "00000100" + //comprimento 4
+                "0011001" + //1
+                "0010000" + //2
+                "0010111" + //3
+                "0011000"; //4
 //                "0011000100110010001100110011010000000100"; //pin 1234
     }
 
@@ -155,6 +162,8 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
     @Test
     public void testMessage() throws Exception {
+        System.out.println("service.getMessage() = " + ArrayUtils.toString(service.getMessage()));
+        System.out.println("new BinnaryMsg(expectedBinnaryString).toByteArray() = " + ArrayUtils.toString(new BinnaryMsg(expectedBinnaryString).toByteArray()));
         Assert.assertArrayEquals(new BinnaryMsg(expectedBinnaryString).toByteArray(), service.getMessage());
     }
 }

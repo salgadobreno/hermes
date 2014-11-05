@@ -30,13 +30,14 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
 
     private String origemTemplate = "${nomeOrigem}\nAgência: ${agenciaOrigem}\nConta:${contaOrigem}";
     private String destinoTemplate = "${nomeDestino}\nAgência: ${agenciaDestino}\nConta:${contaDestino}";
-    private String dadosTemplate = "${data}\nValor: ${valor}";
+    private String dadosTemplate = "${data}\nValor: R$ ${valor}";
 
     private Map<String, String> templateParams = new HashMap<>();
 
     private HuffmanEncodedParam origemParam;
     private HuffmanEncodedParam destinoParam;
     private HuffmanEncodedParam dadosParam;
+    private HuffmanEncodedParam tanParam;
 
     @Inject
     public AutorizarTransferenciaBancariaService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy, HmacKeyPolicy hmacKeyPolicy) {
@@ -58,7 +59,7 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
         dadosParam = new HuffmanEncodedParam(resolvedDados);
 
 //        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, pin);
-        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam);
+        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, tanParam);
         return msg.toByteArray();
     }
 
@@ -125,6 +126,6 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
     }
 
     public void setTan(String tan) {
-        templateParams.put("tan", tan);
+        this.tanParam = new HuffmanEncodedParam(tan);
     }
 }
