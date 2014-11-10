@@ -1,6 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -13,24 +17,26 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class OneStepSymmetricKeyImportService extends AbstractService {
-    protected TimestampParam timestamp;
-    protected PinParam pin;
+public class OneStepSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
     protected TemplateParam template;
     protected KeyComponentParam keyComponent;
     protected DesafioParam desafio;
 
     @Inject
-    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy) {
+    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
         super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
+        this.pinPolicy = pinPolicy;
     }
 
+    @Override
     public void setTimestamp(Date timestamp) {
-        this.timestamp = new TimestampParam(timestamp);
+        this.timestampPolicy.setDate(timestamp);
     }
 
+    @Override
     public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.pinPolicy.setPin(pin);
     }
 
     public void setTemplate(byte template) {
@@ -53,7 +59,7 @@ public class OneStepSymmetricKeyImportService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, template, keyComponent, desafio, pin).toByteArray();
+        return BinnaryMsg.create().append(template, keyComponent, desafio).toByteArray();
     }
 
     public void setDesafio(String desafio) {

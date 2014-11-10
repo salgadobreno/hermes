@@ -182,8 +182,8 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
     @Override
     public Service getService() {
-        service.setChaveAes(comboAes.getValue());
-        service.setChaveHmac(comboHmac.getValue());
+        service.setAesKey(comboAes.getValue().getHexValue());
+        service.setHmacKey(comboHmac.getValue().getHexValue());
         service.setTemplate(templateComboBox.getValue().byteValue());
         //pin e tan
         service.setPin(pinTextField.getText());

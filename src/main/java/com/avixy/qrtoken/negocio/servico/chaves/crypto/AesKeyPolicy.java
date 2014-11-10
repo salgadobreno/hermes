@@ -37,6 +37,10 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
         this.doPadding = doPadding;
     }
 
+    private void newIv(){
+        secureRandom.nextBytes(initializationVector);
+    }
+
     @Override
     public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException {
         BufferedBlockCipher blockCipher = doPadding ? new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine())) : new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
@@ -56,11 +60,15 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
     }
 
     public byte[] getInitializationVector() {
-        newIv();
+        if (this.initializationVector == null) { newIv(); }
         return Arrays.copyOf(initializationVector, initializationVector.length);
     }
 
-    private void newIv(){
-        secureRandom.nextBytes(initializationVector);
+    public void setInitializationVector(byte[] initializationVector) {
+        this.initializationVector = initializationVector.clone();
+    }
+
+    public void setDoPadding(boolean doPadding) {
+        this.doPadding = doPadding;
     }
 }

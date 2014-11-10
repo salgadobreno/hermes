@@ -1,19 +1,28 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import org.apache.commons.lang.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.mockito.Mockito.*;
+
 public class AutorizarTransferenciaBancariaServiceTest {
-    AutorizarTransferenciaBancariaService service = new AutorizarTransferenciaBancariaService(new QrtHeaderPolicy(), new AesKeyPolicy(), new HmacKeyPolicy());
+    QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
+    AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
+    PinPolicy pinPolicy = mock(PinPolicy.class);
+    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    AutorizarTransferenciaBancariaService service = new AutorizarTransferenciaBancariaService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, pinPolicy);
 
     int template = 1;
     String nome = "Ítalo Augusto";
@@ -162,8 +171,16 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        System.out.println("service.getMessage() = " + ArrayUtils.toString(service.getMessage()));
-        System.out.println("new BinnaryMsg(expectedBinnaryString).toByteArray() = " + ArrayUtils.toString(new BinnaryMsg(expectedBinnaryString).toByteArray()));
         Assert.assertArrayEquals(new BinnaryMsg(expectedBinnaryString).toByteArray(), service.getMessage());
+    }
+
+    @Test
+    public void testOperations() throws Exception {
+        service.run();
+        verify(aesCryptedMessagePolicy).get(service);
+        verify(headerPolicy).getHeader(service);
+        verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
+        verify(pinPolicy).get();
+
     }
 }

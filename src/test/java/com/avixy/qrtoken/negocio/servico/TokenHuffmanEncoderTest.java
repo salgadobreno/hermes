@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TokenHuffmanTest {
+public class TokenHuffmanEncoderTest {
 
     @Test
     public void testEncode() throws Exception {
@@ -30,6 +30,6 @@ public class TokenHuffmanTest {
                 "1110001011" + //espaco
                 "11111101";  //transferência
 
-        assertEquals(encoded, new TokenHuffman().encode(texto));
+        assertEquals(encoded, new TokenHuffmanEncoder().encode(texto));
     }
 }

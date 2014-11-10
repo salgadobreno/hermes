@@ -1,15 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedTemplateMessageService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.util.Date;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -60,7 +50,7 @@ import static org.junit.Assert.assertEquals;
 //
 //    @Test
 //    public void testCrypto() throws Exception {
-//        service.getData();
+//        service.run();
 //        Mockito.verify(aesKeyPolicy).apply(Mockito.<byte[]>anyObject());
 //    }
 //}

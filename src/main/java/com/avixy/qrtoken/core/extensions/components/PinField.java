@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.core.extensions.components;
 
 /**
+ * TextField para input de PIN
  * Created on 28/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>

@@ -79,8 +79,8 @@ public class LoginServiceComponent extends ServiceComponent {
         service.setLoginCode(loginCodeField.getText());
         service.setTimestamp(timestampField.getValue());
 
-        service.setChaveHmac(hmacField.getValue());
-        service.setChaveAes(aesField.getValue());
+        service.setHmacKey(hmacField.getValue().getHexValue());
+        service.setAesKey(aesField.getValue().getHexValue());
 
         return service;
     }

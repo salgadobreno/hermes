@@ -1,0 +1,83 @@
+package com.avixy.qrtoken.negocio.servico.operations;
+
+import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.*;
+import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import org.apache.commons.lang.ArrayUtils;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Date;
+
+import static org.junit.Assert.*;
+
+public class ServiceAssemblerTest {
+
+    byte[] expectedOut;
+    byte[] pinBytes;
+
+    HeaderPolicy headerPolicy = new QrtHeaderPolicy();
+    SettableTimestampPolicy timestampPolicy = new SettableTimestampPolicy();
+    MessagePolicy messagePolicy = new DefaultMessagePolicy();
+    HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
+    PinPolicy pinPolicy = new PinPolicy();
+
+    HeaderPolicy noHeaderPolicy = new NoHeaderPolicy();
+    TimestampPolicy noTimestampPolicy = new NoTimestampPolicy();
+    MessagePolicy noMessagePolicy = new DefaultMessagePolicy();
+    HmacKeyPolicy noMacPolicy = new NoMacPolicy();
+    PinPolicy noPinPolicy = new NoPinPolicy();
+
+    Service service = new AbstractService(headerPolicy) {
+        @Override
+        public String getServiceName() {
+            return "teste";
+        }
+
+        @Override
+        public int getServiceCode() {
+            return 0;
+        }
+
+        @Override
+        public byte[] getMessage() {
+            return "abcd1234".getBytes();
+        }
+    };
+
+    @Before
+    public void setUp() throws Exception {
+        timestampPolicy.setDate(new Date(0));
+        pinPolicy.setPin("1234");
+        pinBytes = new byte[]{'1','2','3','4',4};
+        hmacKeyPolicy.setKey("senha123".getBytes());
+    }
+
+    @Test
+    public void testGetComHeader() throws Exception {
+        expectedOut = new byte[]{0, 0, 0, 'a', 'b', 'c', 'd', '1', '2', '3', '4'};
+        assertArrayEquals(expectedOut, ServiceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, noMacPolicy, noPinPolicy));
+    }
+
+    @Test
+    public void testComHeaderETimestamp() throws Exception {
+        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4'};
+        assertArrayEquals(expectedOut, ServiceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, noPinPolicy));
+    }
+
+    @Test
+    public void testComHeaderTimestampEPin() throws Exception {
+        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',4};
+        assertArrayEquals(expectedOut, ServiceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, pinPolicy));
+    }
+
+    @Test
+    public void testComHmacEPin() throws Exception {
+        expectedOut = new byte[]{0,0,0,'a','b','c','d','1','2','3','4'};
+        byte[] outComHmac = hmacKeyPolicy.apply(expectedOut);
+        byte[] outComHmacEPin = ArrayUtils.addAll(outComHmac, pinBytes);
+        assertArrayEquals(outComHmacEPin, ServiceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, hmacKeyPolicy, pinPolicy));
+    }
+}

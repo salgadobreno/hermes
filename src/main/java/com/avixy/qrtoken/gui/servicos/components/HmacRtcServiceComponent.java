@@ -3,16 +3,9 @@ package com.avixy.qrtoken.gui.servicos.components;
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.Chave;
-import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.rtc.HmacRtcService;
+import com.avixy.qrtoken.negocio.servico.servicos.rtc.AbstractHmacRtcService;
 import com.google.inject.Inject;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,7 +43,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
      */
 
     @Inject
-    public HmacRtcServiceComponent(HmacRtcService service, QrCodePolicy qrCodePolicy) {
+    public HmacRtcServiceComponent(AbstractHmacRtcService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
         this.service = service;
 
@@ -72,7 +65,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() {
-        HmacRtcService hmacRtcService = (HmacRtcService) service;
+        AbstractHmacRtcService hmacRtcService = (AbstractHmacRtcService) service;
 
         hmacRtcService.setHmacKey(keyField.getValue().getHexValue());
         hmacRtcService.setTimestamp(timestampField.getValue());

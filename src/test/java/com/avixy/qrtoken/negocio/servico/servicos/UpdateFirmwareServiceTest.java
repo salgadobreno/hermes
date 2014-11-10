@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
@@ -12,7 +11,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class UpdateFirmwareServiceTest {
-    UpdateFirmwareService service = new UpdateFirmwareService(new QrtHeaderPolicy(), new HmacKeyPolicy());
+    UpdateFirmwareService service = new UpdateFirmwareService(new QrtHeaderPolicy());
     byte[] serviceQr;
     byte[] payloadQr;
 
@@ -33,24 +32,24 @@ public class UpdateFirmwareServiceTest {
                 0x3f, // header
                 // 2 bytes para indicar a quantidade de frames no update
                 0, 1,
-                // 2 bytes para indicar o somat�rio de bytes em todos os frames
+                // 2 bytes para indicar o somat?rio de bytes em todos os frames
                 0, 10,
-                //1 byte para indicar o offset do m�dulo
+                //1 byte para indicar o offset do m?dulo
                 111,
-                // 6 chars como challenge para confirma��o do update
+                // 6 chars como challenge para confirma??o do update
                 '1',
                 '2',
                 '3',
                 '4',
                 '5',
                 '6',
-                1, // 1 byte com o n�mero de fun��es de interrup��o/exce��o a serem atualizadas na tabela
+                1, // 1 byte com o n?mero de fun??es de interrup??o/exce??o a serem atualizadas na tabela
                 0xA, 0xB, 0xC, 0xD, 0xE,
         };
 
         // QR Version 2: 17 bytes
         payloadQr = new byte[]{
-                0, 0, // frame
+                0, 0, // offset
                 0, 10, // payload do frame
 //                0x00, 0x20, 0x70, 0x47, 0x00, (byte)0xbf, // Assembly do Diego
                 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa,
@@ -75,6 +74,45 @@ public class UpdateFirmwareServiceTest {
 
     @Test
     public void testData() throws Exception {
-        assertArrayEquals(payloadQr, service.getData());
+        assertArrayEquals(payloadQr, service.run());
+    }
+
+    @Test
+    public void testOffset() throws Exception {
+        byte[] data = new byte[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; //20 1s
+        serviceQr = new byte[] {
+                (byte) 0xFF,
+                (byte) 0xFF, // SERVICE_FIRMWARE_SYM_UPDATE
+                0x3f, // header
+                0, 2, // 2 bytes para indicar a quantidade de frames no update
+                0, 20, // 2 bytes para indicar o somat?rio de bytes em todos os frames
+                //1 byte para indicar o offset do m?dulo
+                111,
+                // 6 chars como challenge para confirma??o do update
+                '1',
+                '2',
+                '3',
+                '4',
+                '5',
+                '6',
+                1, // 1 byte com o n?mero de fun??es de interrup??o/exce??o a serem atualizadas na tabela
+                0xA, 0xB, 0xC, 0xD, 0xE,
+        };
+        // QR Version 2: 17 bytes
+        payloadQr = new byte[]{
+                0, 0, // offset
+                0, 13, // payload
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1,// first payload qr
+
+                0, 13, // offset
+                0, 7, // payload
+                1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+                0, 0, 0// second payload qr
+        };
+        service.setContent(data);
+
+        assertArrayEquals(serviceQr, service.getInitialQr());
+        assertArrayEquals(payloadQr, service.run());
     }
 }

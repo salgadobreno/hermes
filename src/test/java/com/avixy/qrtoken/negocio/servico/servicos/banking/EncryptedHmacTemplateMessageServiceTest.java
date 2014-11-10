@@ -1,11 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.TestHelper;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractEncryptedHmacTemplateMessageService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -26,8 +25,9 @@ import static org.mockito.Mockito.verify;
 //public class EncryptedHmacTemplateMessageServiceTest {
 //    AesKeyPolicy aesKeyPolicy = mock(AesKeyPolicy.class);
 //    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
+//    QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
 //
-//    AbstractEncryptedHmacTemplateMessageService service = new AbstractEncryptedHmacTemplateMessageService(TestHelper.getHeaderPolicy(), aesKeyPolicy, hmacKeyPolicy);
+//    AbstractEncryptedHmacTemplateMessageService service = new AbstractEncryptedHmacTemplateMessageService(qrtHeaderPolicy, aesKeyPolicy, hmacKeyPolicy);
 //    String expectedBinaryString;
 //
 //    @Before
@@ -66,7 +66,7 @@ import static org.mockito.Mockito.verify;
 //
 //    @Test
 //    public void testCrypto() throws Exception {
-//        service.getData();
+//        service.run();
 //        verify(aesKeyPolicy).apply(Matchers.<byte[]>anyObject());
 //        verify(hmacKeyPolicy).apply(Matchers.<byte[]>anyObject());
 //    }

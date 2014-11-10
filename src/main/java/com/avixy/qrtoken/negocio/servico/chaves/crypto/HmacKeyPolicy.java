@@ -24,9 +24,9 @@ public class HmacKeyPolicy extends AbstractKeyPolicy {
         Mac sha1Mac = Mac.getInstance("HmacSHA256");
         sha1Mac.init(secretKeySpec);
         byte[] mac = sha1Mac.doFinal(msg);
-        logger.info("key = " + Hex.encodeHexString(key));
-        logger.info("MSG: " + Hex.encodeHexString(msg));
-        logger.info("HMAC: " + Hex.encodeHexString(mac));
+        logger.trace("key = " + Hex.encodeHexString(key));
+        logger.trace("MSG: " + Hex.encodeHexString(msg));
+        logger.trace("HMAC: " + Hex.encodeHexString(mac));
         return ArrayUtils.addAll(msg, mac);
     }
 }

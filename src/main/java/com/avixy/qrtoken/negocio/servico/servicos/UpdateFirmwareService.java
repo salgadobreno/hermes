@@ -1,16 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.TwoBitBitset;
+import com.avixy.qrtoken.core.extensions.binnary.TwoBytesWrapper;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.FFHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
-import org.bouncycastle.crypto.CryptoException;
 
 import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 import static org.apache.commons.lang.ArrayUtils.add;
@@ -23,7 +20,6 @@ import static org.apache.commons.lang.ArrayUtils.addAll;
  */
 public class UpdateFirmwareService extends AbstractService {
     private static final Charset CHARSET = Charset.forName("ISO-8859-1");
-    private HmacKeyPolicy hmacKeyPolicy;
 
     private QrSetup qrSetup;
 
@@ -36,9 +32,8 @@ public class UpdateFirmwareService extends AbstractService {
     private byte[] interruptionBytes;
 
     @Inject
-    public UpdateFirmwareService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy hmacKeyPolicy) {
+    public UpdateFirmwareService(QrtHeaderPolicy headerPolicy) {
         super(headerPolicy);
-        this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
     public byte[] getInitialQr() {
@@ -52,8 +47,8 @@ public class UpdateFirmwareService extends AbstractService {
         header = new FFHeaderPolicy().getHeader(this);
         body = new byte[0];
 
-        body = addAll(body, TwoBitBitset.get(qrQty));
-        body = addAll(body, TwoBitBitset.get(content.length));
+        body = addAll(body, TwoBytesWrapper.get(qrQty));
+        body = addAll(body, TwoBytesWrapper.get(content.length));
         body = add(body, moduleOffset);
 
         body = addAll(body, challengeParam.getBytes());
@@ -65,7 +60,7 @@ public class UpdateFirmwareService extends AbstractService {
     }
 
     @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
+    public byte[] run() throws Exception {
         byte[] data;
         int setupCapacity = qrSetup.getAvailableBytes();
         int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
@@ -74,30 +69,31 @@ public class UpdateFirmwareService extends AbstractService {
 
         /* payload qrs */
         data = new byte[0];
+        int offset = 0;
         for (int i = 0; i < qrQty; i++) {
             boolean last = i == qrQty - 1;
-            byte[] qrIndex, payloadSize, payloadHeader;
+            byte[] payloadSize, payloadHeader;
             byte[] payload, qr;
 
             if (last) { payload = Arrays.copyOfRange(content, payloadQrCapacity * i, content.length); }
             else { payload = Arrays.copyOfRange(content, payloadQrCapacity * i, payloadQrCapacity * (i + 1)); }
 
-            qrIndex = TwoBitBitset.get(i);
-            payloadSize = TwoBitBitset.get(payload.length);
+            payloadSize = TwoBytesWrapper.get(payload.length);
 
-            payloadHeader = addAll(qrIndex, payloadSize);
+            payloadHeader = addAll(TwoBytesWrapper.get(offset), payloadSize);
             qr = addAll(payloadHeader, payload);
             for (int j = qr.length; j < setupCapacity; j++) {
                 qr = add(qr, (byte) 0);
             }
 
+            offset += payload.length;
             data = addAll(data, qr);
         }
         return data;
     }
 
     @Override
-    public byte[] getMessage() { return new byte[0]; } // esse método é atravessado pelo getData()
+    public byte[] getMessage() { return new byte[0]; } // esse método é atravessado pelo run()
 
     @Override
     public String getServiceName() { return "SERVICE_FIRMWARE_SYM_UPDATE"; }
@@ -105,7 +101,8 @@ public class UpdateFirmwareService extends AbstractService {
     @Override
     public int getServiceCode() { return 63; }
 
-    public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) { this.hmacKeyPolicy = hmacKeyPolicy; }
+    public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) {
+    }
 
     public void setQrSetup(QrSetup qrSetup) { this.qrSetup = qrSetup; }
 

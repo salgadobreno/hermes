@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface QrCodePolicy {
 
-    List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException;
+    List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException, Exception;
 
 }

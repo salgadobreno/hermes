@@ -1,10 +1,12 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.KeyLengthParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -16,16 +18,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class CreateAndExportSymKeyService extends AbstractService {
+public class CreateAndExportSymKeyService extends AbstractService implements PinAble, TimestampAble {
 
-    private TimestampParam timestamp;
-    private PinParam pin;
     private KeyTypeParam keyType;
     private KeyLengthParam keyLength;
 
     @Inject
-    public CreateAndExportSymKeyService(HeaderPolicy headerPolicy) {
+    public CreateAndExportSymKeyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
         super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
+        this.pinPolicy = pinPolicy;
     }
 
     @Override
@@ -40,11 +42,11 @@ public class CreateAndExportSymKeyService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, keyType, keyLength, pin).toByteArray();
+        return BinnaryMsg.create().append(keyType, keyLength).toByteArray();
     }
 
     public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.pinPolicy.setPin(pin);
     }
 
     public void setKeyType(KeyTypeParam.KeyType keyType){
@@ -55,7 +57,8 @@ public class CreateAndExportSymKeyService extends AbstractService {
         this.keyLength = new KeyLengthParam(keyLength);
     }
 
+    @Override
     public void setTimestamp(Date date){
-        this.timestamp = new TimestampParam(date);
+        this.timestampPolicy.setDate(date);
     }
 }

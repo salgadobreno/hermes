@@ -1,14 +1,9 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
-import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
-import org.apache.commons.lang.ArrayUtils;
-import org.bouncycastle.crypto.CryptoException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.security.GeneralSecurityException;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -16,17 +11,19 @@ import java.security.GeneralSecurityException;
  * Created on 03/09/2014
  */
 public abstract class AbstractService implements Service {
-    private Logger logger = LoggerFactory.getLogger(AbstractService.class);
-
-    protected HeaderPolicy headerPolicy;
+    protected HeaderPolicy headerPolicy = new NoHeaderPolicy();
+    protected TimestampPolicy timestampPolicy = new NoTimestampPolicy();
+    protected MessagePolicy messagePolicy = new DefaultMessagePolicy();
+    protected HmacKeyPolicy hmacKeyPolicy = new NoMacPolicy();
+    protected PinPolicy pinPolicy = new NoPinPolicy();
 
     public AbstractService(HeaderPolicy headerPolicy) {
         this.headerPolicy = headerPolicy;
     }
 
     @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        logger.info("getData(): {} - {}", headerPolicy.getHeader(this), getMessage());
-        return ArrayUtils.addAll(headerPolicy.getHeader(this), getMessage());
+    public byte[] run() throws Exception {
+        byte[] data = ServiceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, pinPolicy);
+        return data;
     }
 }

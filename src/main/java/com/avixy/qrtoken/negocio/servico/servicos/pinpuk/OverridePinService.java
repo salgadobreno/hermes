@@ -1,9 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -15,14 +16,15 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class OverridePinService extends AbstractService {
-    private TimestampParam timestamp;
+//TODO
+public class OverridePinService extends AbstractService implements TimestampAble {
     private PinParam pin;
     private PukParam puk;
 
     @Inject
-    public OverridePinService(HeaderPolicy headerPolicy) {
+    public OverridePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy) {
         super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class OverridePinService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp).append(puk).append(pin).toByteArray();
+        return BinnaryMsg.create().append(puk).append(pin).toByteArray();
     }
 
     public void setPin(String pin) {
@@ -49,6 +51,6 @@ public class OverridePinService extends AbstractService {
     }
 
     public void setTimestamp(Date date){
-        this.timestamp = new TimestampParam(date);
+        this.timestampPolicy.setDate(date);
     }
 }

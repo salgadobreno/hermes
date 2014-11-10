@@ -1,32 +1,39 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.TestHelper;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class TwoStepDoubleSymmetricKeyImportServiceTest {
-    TwoStepDoubleSymmetricKeyImportService service = new TwoStepDoubleSymmetricKeyImportService(TestHelper.getHeaderPolicy());
+    QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
+    PinPolicy pinPolicy = mock(PinPolicy.class);
+    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    TwoStepDoubleSymmetricKeyImportService service = new TwoStepDoubleSymmetricKeyImportService(headerPolicy, timestampPolicy, pinPolicy);
     String expectedBinaryString = "";
 
     @Before
     public void setUp() throws Exception {
         long epoch = 1409329200000L;
-        expectedBinaryString += "0101_0100_0000_0000_1010_1000_0011_0000" + //epoch
-                "0100" + //template4
+        expectedBinaryString +=  "0100" + //template4
                 "0011" + //keytype3
                 "00011" + //keylength3
                 "0010" + //keytype2
                 "00100" + //keylength3
                 "0111_0011_0110_0101_0110_1110_0110_1000_0110_0001_0011_0001_0111_0011_0110_0101_0110_1110_0110_1000_0110_0001_0011_0010" + //senha1senha2
                 "1011_1100_0111_0110_" + // crc senha BC76
-                "0011_1001_0011_1000_0011_0111_0011_1001" + //desafio 9879
-                "0011_0001_0011_0010_0011_0011_0011_0100_0000_0100"; //pin 1234 length 4
+                "0011_1001_0011_1000_0011_0111_0011_1001"; //desafio 9879
+
 
     service.setTimestamp(new Date(epoch));
     service.setPin("1234");
@@ -47,5 +54,13 @@ public class TwoStepDoubleSymmetricKeyImportServiceTest {
     @Test
     public void testMessage() throws Exception {
         assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
+    }
+
+    @Test
+    public void testOperations() throws Exception {
+        service.run();
+        verify(headerPolicy).getHeader(service);
+        verify(pinPolicy).get();
+        verify(timestampPolicy).get();
     }
 }

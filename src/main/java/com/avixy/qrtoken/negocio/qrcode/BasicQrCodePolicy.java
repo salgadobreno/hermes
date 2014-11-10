@@ -29,9 +29,9 @@ public class BasicQrCodePolicy implements QrCodePolicy {
      * @return Um <code>List</code> de <code>QrTokenCode</code>. Não necessáriamente será mais de um, o container deve
      * se virar p/ tratar 0, 1 ou muitos QRs de retorno apropriadamente.
      */
-    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException {
+    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws Exception {
         // verifica se precisa de mais de 1 qr ...
-        byte[] data = service.getData();
+        byte[] data = service.run();
         QrTokenCode tokenCode = new QrTokenCode(data, setup);
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
         tokenCodeList.add(tokenCode);

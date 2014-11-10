@@ -1,13 +1,19 @@
 package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
 import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created on 22/09/2014
@@ -15,17 +21,16 @@ import static org.junit.Assert.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class OverridePinServiceTest {
-    Injector injector = Guice.createInjector(new HermesModule());
-    OverridePinService service = injector.getInstance(OverridePinService.class);
+    QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
+    TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    OverridePinService service = new OverridePinService(qrtHeaderPolicy, timestampPolicy);
 
-    @Test
-    public void testServiceMsg() throws Exception {
+    byte[] expectedMsg;
+
+    @Before
+    public void setUp() throws Exception {
         long epoch = 1409329200000L;
-        byte[] expectedMsg = {
-                0b01010100,
-                0b00000000,
-                (byte)0b10101000,
-                0b00110000,     // timestamp
+        expectedMsg = new byte[]{
                 0b00110100, // PUK:'4'
                 0b00110100, // '4'
                 0b00110100, // '4'
@@ -40,12 +45,22 @@ public class OverridePinServiceTest {
         service.setPin("1234");
         service.setPuk("4444");
         service.setTimestamp(new Date(epoch));
+    }
 
+    @Test
+    public void testServiceMsg() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
     }
 
     @Test
     public void testServiceCode() throws Exception {
         assertEquals(24, service.getServiceCode());
+    }
+
+    @Test
+    public void testOperations() throws Exception {
+        service.run();
+        verify(qrtHeaderPolicy).getHeader(service);
+        verify(timestampPolicy).get();
     }
 }

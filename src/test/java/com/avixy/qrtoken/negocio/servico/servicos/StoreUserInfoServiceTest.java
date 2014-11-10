@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
@@ -11,13 +11,12 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class StoreUserInfoServiceTest {
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    AesKeyPolicy aesKeyPolicy = Mockito.mock(AesKeyPolicy.class);
+    AesCryptedMessagePolicy aesCryptedMessagePolicy = Mockito.mock(AesCryptedMessagePolicy.class);
     QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
-    StoreUserInfoService service = new StoreUserInfoService(headerPolicy, aesKeyPolicy, hmacKeyPolicy);
+    StoreUserInfoService service = new StoreUserInfoService(headerPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
 
     String nome = "italo";
     String email = "italo@italo.com";
@@ -60,10 +59,10 @@ public class StoreUserInfoServiceTest {
     }
 
     @Test
-    public void testCryptoAndHeader() throws Exception {
-        service.getData();
+    public void testOperations() throws Exception {
+        service.run();
         Mockito.verify(headerPolicy).getHeader(service);
-        Mockito.verify(aesKeyPolicy).apply(Mockito.<byte[]>any());
+        Mockito.verify(aesCryptedMessagePolicy).get(service);
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
     }
 

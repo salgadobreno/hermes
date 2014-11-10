@@ -1,8 +1,9 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -14,13 +15,13 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EraseKtamperService extends AbstractService {
-    private PinParam pinParam;
-    private TimestampParam timestampParam;
+public class EraseKtamperService extends AbstractService implements TimestampAble, PinAble {
 
     @Inject
-    public EraseKtamperService(HeaderPolicy headerPolicy) {
+    public EraseKtamperService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
         super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
+        this.pinPolicy = pinPolicy;
     }
 
     @Override
@@ -35,17 +36,20 @@ public class EraseKtamperService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestampParam).append(pinParam).toByteArray();
+        return new byte[0];
     }
 
+    @Override
     public void setPin(String pin){
-        this.pinParam = new PinParam(pin);
+        this.pinPolicy.setPin(pin);
     }
 
+    @Override
     public void setTimestamp(Date date){
-        this.timestampParam = new TimestampParam(date);
+        this.timestampPolicy.setDate(date);
     }
 
+    //TODO ????
     public void setPuk(String puk) {
         setPin(puk);
     }

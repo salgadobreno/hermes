@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.TestHelper;
-import com.avixy.qrtoken.negocio.servico.servicos.PingService;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -13,8 +13,8 @@ import static org.junit.Assert.assertEquals;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class PingServiceTest {
-
-    PingService pingService = new PingService(TestHelper.getHeaderPolicy());
+    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
+    PingService pingService = new PingService(headerPolicy);
 
     @Test
     public void testServiceCode() throws Exception {

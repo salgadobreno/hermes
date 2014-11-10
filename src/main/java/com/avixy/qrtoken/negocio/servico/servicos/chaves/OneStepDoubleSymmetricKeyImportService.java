@@ -1,6 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -13,9 +17,7 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class OneStepDoubleSymmetricKeyImportService extends AbstractService {
-    protected TimestampParam timestamp;
-    protected PinParam pin;
+public class OneStepDoubleSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
     protected TemplateParam template;
     protected KeyTypeParam keyType1;
     protected KeyLengthParam keyLength1;
@@ -26,12 +28,20 @@ public class OneStepDoubleSymmetricKeyImportService extends AbstractService {
     protected DesafioParam desafio;
 
     @Inject
-    public OneStepDoubleSymmetricKeyImportService(HeaderPolicy headerPolicy) {
+    public OneStepDoubleSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
         super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
+        this.pinPolicy = pinPolicy;
     }
 
-    public void setTimestamp(Date timestamp){ this.timestamp = new TimestampParam(timestamp); }
-    public void setPin(String pin) { this.pin = new PinParam(pin); }
+    @Override
+    public void setTimestamp(Date timestamp){
+        this.timestampPolicy.setDate(timestamp);
+    }
+    @Override
+    public void setPin(String pin) {
+        this.pinPolicy.setPin(pin);
+    }
     public void setTemplate(byte template) { this.template = new TemplateParam(template); }
     public void setKeyType1(KeyTypeParam.KeyType keyType){ this.keyType1 = new KeyTypeParam(keyType); }
     public void setKeyType2(KeyTypeParam.KeyType keyType){ this.keyType2 = new KeyTypeParam(keyType); }
@@ -56,6 +66,6 @@ public class OneStepDoubleSymmetricKeyImportService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp, template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio, pin).toByteArray();
+        return BinnaryMsg.create().append(template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio).toByteArray();
     }
 }

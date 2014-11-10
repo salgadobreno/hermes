@@ -1,13 +1,18 @@
 package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
-import com.avixy.qrtoken.core.HermesModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created on 22/09/2014
@@ -15,22 +20,15 @@ import static org.junit.Assert.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdatePinServiceTest {
-    Injector injector = Guice.createInjector(new HermesModule());
-    UpdatePinService service = injector.getInstance(UpdatePinService.class);
+    TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
+    UpdatePinService service = new UpdatePinService(qrtHeaderPolicy, timestampPolicy);
+    byte[] expectedMsg;
 
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(23, service.getServiceCode());
-    }
-
-    @Test
-    public void testServiceMessage() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         Long epoch = 1409329200000L;
-        byte[] expectedMsg = {
-                0b01010100,
-                0b00000000,
-                (byte)0b10101000,
-                0b00110000,     // expected_epoch gmt / timestamp
+        expectedMsg = new byte[]{
                 0b00110100, // PIN antigo:'4'
                 0b00110011, // '3'
                 0b00110010, // '2'
@@ -47,7 +45,23 @@ public class UpdatePinServiceTest {
         service.setOldPin("4321");
         service.setNewPin("1234");
         service.setTimestamp(new Date(epoch));
+    }
 
+
+    @Test
+    public void testServiceCode() throws Exception {
+        assertEquals(23, service.getServiceCode());
+    }
+
+    @Test
+    public void testServiceMessage() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
+    }
+
+    @Test
+    public void testOps() throws Exception {
+        service.run();
+        verify(qrtHeaderPolicy).getHeader(service);
+        verify(timestampPolicy).get();
     }
 }

@@ -3,6 +3,7 @@ package com.avixy.qrtoken.core.extensions.components;
 import javafx.scene.control.TextField;
 
 /**
+ * TextField com tamanho máximo de input
  * Created on 10/10/2014
  *
  * Took from: http://stackoverflow.com/questions/15159988/javafx-2-2-textfield-maxlength

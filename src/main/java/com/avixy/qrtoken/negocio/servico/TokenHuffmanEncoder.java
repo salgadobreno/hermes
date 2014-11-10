@@ -1,13 +1,19 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 /**
+ * Encoder da tabela de Huffman usada pelo Token.
  * Created on 22/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class TokenHuffman {
+public class TokenHuffmanEncoder {
+    private Logger logger = LoggerFactory.getLogger(TokenHuffmanEncoder.class);
+
     public enum Mode {
         STREAM, // tudo junto
         BROKEN; // \n depois de cada palavra
@@ -15,9 +21,9 @@ public class TokenHuffman {
 
     private Mode mode = Mode.STREAM;
 
-    public TokenHuffman(){}
+    public TokenHuffmanEncoder(){}
 
-    public TokenHuffman(Mode mode) {
+    public TokenHuffmanEncoder(Mode mode) {
         this.mode = mode;
     }
 
@@ -54,23 +60,27 @@ public class TokenHuffman {
         alphabetSortedDict.addAll(dictionaryCode.keySet());
     }
 
+    /**
+     *
+     * @param text O conteúdo a ser encodado
+     * @return String de '0' e '1' representando o resultado em binário
+     */
     public String encode(String text){
-//        System.out.println("text = " + text);
+        logger.trace("text = {}", text);
         String encoded = "";
 //        String encodedText = "";
         //varrendo o input
         for (int i = 0; i < text.length(); i++) {
-//            System.out.println("i = " + i);
+            logger.trace("i = {}", i);
             char c = text.charAt(i);
-//            System.out.println("char = " + c);
+            logger.trace("char = {}", c);
             //varrer o set pra pegar os elementos que iniciam com `c`
-//            SortedSet<String> lengthSortedDict = new TreeSet<>(inverseLengthComparator); TODO
+//            SortedSet<String> lengthSortedDict = new TreeSet<>(inverseLengthComparator); TODO: ?
             List<String> potentialMatches = new ArrayList<>();
             for (String s : alphabetSortedDict) {
                 if (s.charAt(0) == c) {
-//                    System.out.println("Dict matching = " + s);
+                    logger.trace("Dict Matching = {}", s);
                     //o elemento começa com `c`, vai pro inverseLengthSortedDict
-//                    lengthSortedDict.add(s);
                     potentialMatches.add(s);
                 }
             }
@@ -80,7 +90,7 @@ public class TokenHuffman {
                 if (i + s.length() > text.length()) { continue; }
                 String subText = text.substring(i, i + s.length());
                 if (subText.equals(s)) { //match
-//                    System.out.println("match = " + subText);
+                    logger.trace("match = {}", subText);
                     encoded += dictionaryCode.get(s);
                     if (this.mode == Mode.BROKEN) { encoded += "\n"; }
 //                    encodedText += s;
@@ -88,7 +98,7 @@ public class TokenHuffman {
                     break;
                 }
             }
-//            System.out.println("encoded = " + encoded);
+            logger.trace("encoded = {}", encoded);
         }
         return encoded;
     }

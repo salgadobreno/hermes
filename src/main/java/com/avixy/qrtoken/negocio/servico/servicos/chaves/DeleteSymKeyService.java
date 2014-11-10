@@ -1,15 +1,16 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.*;
+import com.avixy.qrtoken.negocio.servico.servicos.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
+import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
-import org.bouncycastle.crypto.CryptoException;
 
-import java.security.GeneralSecurityException;
 import java.util.Date;
 
 /**
@@ -17,18 +18,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class DeleteSymKeyService extends AbstractService {
-    private TimestampParam timestamp;
+public class DeleteSymKeyService extends AbstractService implements AesCrypted, TimestampAble {
     private TemplateParam template;
     private KeyTypeParam keyType;
 
-    private AesKeyPolicy aesKeyPolicy;
-
     @Inject
-    public DeleteSymKeyService(HeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+    public DeleteSymKeyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
         super(headerPolicy);
         this.headerPolicy = headerPolicy;
-        this.aesKeyPolicy = keyPolicy;
+        this.messagePolicy = aesCryptedMessagePolicy;
+        this.timestampPolicy = timestampPolicy;
     }
 
     @Override
@@ -42,17 +41,13 @@ public class DeleteSymKeyService extends AbstractService {
     }
 
     @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return ArrayUtils.addAll(headerPolicy.getHeader(this), aesKeyPolicy.apply(getMessage()));
+    public byte[] getMessage() {
+        return BinnaryMsg.create().append(template).append(keyType).toByteArray();
     }
 
     @Override
-    public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp).append(template).append(keyType).toByteArray();
-    }
-
     public void setTimestamp(Date date){
-        this.timestamp = new TimestampParam(date);
+        this.timestampPolicy.setDate(date);
     }
 
     public void setTemplate(byte template){
@@ -61,5 +56,10 @@ public class DeleteSymKeyService extends AbstractService {
 
     public void setKeyType(KeyTypeParam.KeyType keyType){
         this.keyType = new KeyTypeParam(keyType);
+    }
+
+    @Override
+    public void setAesKey(byte[] key) {
+        ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
     }
 }

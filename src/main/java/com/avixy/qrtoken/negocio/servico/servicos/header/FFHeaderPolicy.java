@@ -3,6 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.header;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 
 /**
+ * Header especial usado na atualização de firmware
  * Created on 03/11/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>

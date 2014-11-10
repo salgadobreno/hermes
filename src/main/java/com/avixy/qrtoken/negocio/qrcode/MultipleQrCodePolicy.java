@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class MultipleQrCodePolicy implements QrCodePolicy {
     @Override
-    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws GeneralSecurityException, CryptoException {
+    public List<QrTokenCode> getQrs(Service service, QrSetup setup) throws Exception {
         List<QrTokenCode> qrCodes = new ArrayList<>();
-        byte[] data = service.getData();
+        byte[] data = service.run();
 
         // verifica se precisa de mais de 1 qr ...
         Integer contentLength = data.length;

@@ -1,10 +1,11 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.servicos.HmacAble;
+import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractHmacService;
+import com.avixy.qrtoken.negocio.servico.operations.*;
+import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 
 import java.util.Date;
@@ -14,13 +15,13 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class ExportSymKeyService extends AbstractHmacService {
+public class ExportSymKeyService extends AbstractService implements HmacAble, TimestampAble, PinAble {
 
-    private TimestampParam timestamp;
-    private PinParam pin;
-
-    protected ExportSymKeyService(QrtHeaderPolicy headerPolicy, HmacKeyPolicy keyPolicy) {
-        super(headerPolicy, keyPolicy);
+    protected ExportSymKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy);
+        this.timestampPolicy = timestampPolicy;
+        this.pinPolicy = pinPolicy;
+        this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
     @Override
@@ -35,14 +36,21 @@ public class ExportSymKeyService extends AbstractHmacService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp).append(pin).toByteArray();
+        return new byte[0];
     }
 
+    @Override
     public void setTimestamp(Date timestamp) {
-        this.timestamp = new TimestampParam(timestamp);
+        this.timestampPolicy.setDate(timestamp);
     }
 
+    @Override
     public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.pinPolicy.setPin(pin);
+    }
+
+    @Override
+    public void setHmacKey(byte[] key) {
+        this.hmacKeyPolicy.setKey(key);
     }
 }

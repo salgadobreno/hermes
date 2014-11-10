@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.scene.control.ComboBox;
 
 /**
+ * Combobox de seleção de chave p/ AES
  * Created on 28/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>

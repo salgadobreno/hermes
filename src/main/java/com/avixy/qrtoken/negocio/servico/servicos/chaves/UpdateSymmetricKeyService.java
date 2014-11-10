@@ -1,18 +1,17 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
-import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
-import org.bouncycastle.crypto.CryptoException;
 
-import java.security.GeneralSecurityException;
 import java.util.Date;
 
 /**
@@ -20,18 +19,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateSymmetricKeyService extends AbstractService {
-    private TimestampParam timestamp;
+public class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, TimestampAble {
     private TemplateParam template;
     private KeyTypeParam keyType;
     private StringWrapperParam key;
 
-    private AesKeyPolicy aesKeyPolicy;
-
     @Inject
-    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, AesKeyPolicy keyPolicy) {
+    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy) {
         super(headerPolicy);
-        this.aesKeyPolicy = keyPolicy;
+        this.timestampPolicy = timestampPolicy;
+        this.messagePolicy = messagePolicy;
     }
 
     @Override
@@ -46,16 +43,12 @@ public class UpdateSymmetricKeyService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(timestamp).append(template).append(keyType).append(key).toByteArray();
+        return BinnaryMsg.create().append(template).append(keyType).append(key).toByteArray();
     }
 
     @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        return ArrayUtils.addAll(headerPolicy.getHeader(this), aesKeyPolicy.apply(getMessage()));
-    }
-
     public void setTimestamp(Date date){
-        this.timestamp = new TimestampParam(date);
+        timestampPolicy.setDate(date);
     }
 
     public void setTemplate(byte template){
@@ -68,5 +61,10 @@ public class UpdateSymmetricKeyService extends AbstractService {
 
     public void setKey(String key){
         this.key = new StringWrapperParam(key);
+    }
+
+    @Override
+    public void setAesKey(byte[] key) {
+        ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
     }
 }

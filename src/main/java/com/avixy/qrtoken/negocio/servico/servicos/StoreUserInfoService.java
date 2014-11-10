@@ -1,22 +1,18 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
-import org.bouncycastle.crypto.CryptoException;
-
-import java.security.GeneralSecurityException;
 
 /**
  * Created on 01/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class StoreUserInfoService extends AbstractService {
+public class StoreUserInfoService extends AbstractService implements AesCrypted, HmacAble {
     private StringWithLengthParam nome;
     private StringWithLengthParam email;
     private StringWithLengthParam cliente;
@@ -25,13 +21,10 @@ public class StoreUserInfoService extends AbstractService {
     private StringWithLengthParam conta;
     private StringWithLengthParam telefone;
 
-    private AesKeyPolicy aesKeyPolicy;
-    private HmacKeyPolicy hmacKeyPolicy;
-
     @Inject
-    protected StoreUserInfoService(QrtHeaderPolicy headerPolicy, AesKeyPolicy aesKeyPolicy, HmacKeyPolicy hmacKeyPolicy) {
+    protected StoreUserInfoService(QrtHeaderPolicy headerPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
-        this.aesKeyPolicy = aesKeyPolicy;
+        this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
@@ -43,17 +36,6 @@ public class StoreUserInfoService extends AbstractService {
     @Override
     public int getServiceCode() {
         return 2;
-    }
-
-    @Override
-    public byte[] getData() throws GeneralSecurityException, CryptoException {
-        byte[] header = headerPolicy.getHeader(this);
-        byte[] msg = getMessage();
-        byte[] vi = aesKeyPolicy.getInitializationVector();
-        byte[] body = ArrayUtils.addAll(aesKeyPolicy.apply(msg), vi);
-        byte[] data = ArrayUtils.addAll(header, body);
-        byte[] hmac = hmacKeyPolicy.apply(data);
-        return hmac;
     }
 
     @Override
@@ -96,11 +78,13 @@ public class StoreUserInfoService extends AbstractService {
         this.telefone = new StringWithLengthParam(telefone);
     }
 
-    public void setAesKey(byte[] bytes){
-        aesKeyPolicy.setKey(bytes);
+    @Override
+    public void setAesKey(byte[] key) {
+        ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
     }
 
-    public void setHmacKey(byte[] bytes){
-        hmacKeyPolicy.setKey(bytes);
+    @Override
+    public void setHmacKey(byte[] key) {
+        hmacKeyPolicy.setKey(key);
     }
 }
