@@ -47,10 +47,15 @@ public class QrTokenCode {
      */
     public String getDados(){
         String qrPayload = new String(dados, CHARSET);
-        if (qrPayload.length() < 17) { qrPayload = StringUtils.rightPad(qrPayload, 18, '0'); } // O token não lê QRs versão 1, então padding p/ 18 como mínimo para que use qr versão 2
+
+//        if (qrPayload.length() < 17) {
+//            qrPayload = StringUtils.rightPad(qrPayload, 18, '0');
+//        } // O token não lê QRs versão 1, então padding p/ 18 como mínimo para que use qr versão 2
+
         if (length != null) {
             qrPayload = StringUtils.rightPad(new String(dados, CHARSET), length, '0');
         }
+
         return qrPayload;
     }
 

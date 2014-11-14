@@ -7,7 +7,7 @@ package com.avixy.qrtoken.gui.servicos.components;
  * Created on 26/08/2014
 */
 public enum ServiceCategory {
-    CICLO_DE_VIDA("Ciclo de vida"), RTC("RTC"), BANCARIO("Serviços Bancários"), CHAVES("Chaves"), OUTROS("Outros");
+    CICLO_DE_VIDA("Ciclo de vida"), RTC("RTC"), BANCARIO("Serviços Bancários"), KTAMPER("K Tamper"), OUTROS("Outros");
 
     private String name;
     ServiceCategory(String name) { this.name = name; }

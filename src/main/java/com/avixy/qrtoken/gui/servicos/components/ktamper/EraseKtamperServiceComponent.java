@@ -1,14 +1,15 @@
-package com.avixy.qrtoken.gui.servicos.components;
+package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
 import com.avixy.qrtoken.core.extensions.components.PinField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
+import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -17,7 +18,7 @@ import org.tbee.javafx.scene.layout.MigPane;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-@ServiceComponent.Category(category = ServiceCategory.CHAVES)
+@ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
     private PinField pinField = new PinField();

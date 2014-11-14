@@ -6,7 +6,7 @@ package com.avixy.qrtoken.negocio.servico.servicos;
  *
  * Created on 31/07/2014
  */
-public interface Service extends HeaderAble, MessageAble {
+public interface Service extends MessageAble {
 
     String getServiceName();
 

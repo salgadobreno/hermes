@@ -2,6 +2,8 @@ package com.avixy.qrtoken.core;
 
 import com.avixy.qrtoken.gui.servicos.components.banking.AutorizarTransferenciaBancariaServiceComponent;
 import com.avixy.qrtoken.gui.servicos.components.*;
+import com.avixy.qrtoken.gui.servicos.components.ktamper.EraseKtamperServiceComponent;
+import com.avixy.qrtoken.gui.servicos.components.ktamper.GenerateKtamperServiceComponent;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
