@@ -34,6 +34,10 @@ public class LoginServiceTest {
         service.setPin("1234");
         service.setLoginCode(loginCode);
         service.setTimestamp(new Date(1409329200000L));
+        when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
     }
 
     @Test
@@ -58,6 +62,7 @@ public class LoginServiceTest {
 
     @Test
     public void testOperations() throws Exception {
+
         service.run();
         verify(aesCryptedMessagePolicy).get(service);
         verify(timestampPolicy).get();

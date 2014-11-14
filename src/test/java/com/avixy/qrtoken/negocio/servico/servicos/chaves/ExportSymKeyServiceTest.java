@@ -41,6 +41,10 @@ public class ExportSymKeyServiceTest {
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");
         service.setHmacKey("key".getBytes());
+
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(pinPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

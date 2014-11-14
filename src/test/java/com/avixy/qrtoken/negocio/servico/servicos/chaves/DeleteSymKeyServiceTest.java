@@ -13,6 +13,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class DeleteSymKeyServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
@@ -37,6 +38,10 @@ public class DeleteSymKeyServiceTest {
         service.setTemplate((byte) 3);
         service.setKeyType(KeyTypeParam.KeyType.TDES);
         service.setAesKey("bla".getBytes());
+
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

@@ -14,6 +14,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class OneStepDoubleSymmetricKeyImportServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
@@ -44,6 +45,10 @@ public class OneStepDoubleSymmetricKeyImportServiceTest {
         service.setKeyLength2(224);
         service.setKeys("senha1senha2");
         service.setDesafio("9879");
+
+        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

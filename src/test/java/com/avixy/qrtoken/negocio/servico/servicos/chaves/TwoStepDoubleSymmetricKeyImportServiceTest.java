@@ -14,6 +14,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TwoStepDoubleSymmetricKeyImportServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
@@ -35,15 +36,19 @@ public class TwoStepDoubleSymmetricKeyImportServiceTest {
                 "0011_1001_0011_1000_0011_0111_0011_1001"; //desafio 9879
 
 
-    service.setTimestamp(new Date(epoch));
-    service.setPin("1234");
-    service.setTemplate((byte)4);
-    service.setKeyType1(KeyTypeParam.KeyType.RSA_ENCRYPTION);
-    service.setKeyLength1(192);
-    service.setKeyType2(KeyTypeParam.KeyType.SYMMETRIC_ENCRYPTION);
-    service.setKeyLength2(224);
-    service.setKeys("senha1senha2");
-    service.setDesafio("9879");
+        service.setTimestamp(new Date(epoch));
+        service.setPin("1234");
+        service.setTemplate((byte)4);
+        service.setKeyType1(KeyTypeParam.KeyType.RSA_ENCRYPTION);
+        service.setKeyLength1(192);
+        service.setKeyType2(KeyTypeParam.KeyType.SYMMETRIC_ENCRYPTION);
+        service.setKeyLength2(224);
+        service.setKeys("senha1senha2");
+        service.setDesafio("9879");
+
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

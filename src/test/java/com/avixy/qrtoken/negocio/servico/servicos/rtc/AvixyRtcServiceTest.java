@@ -48,6 +48,9 @@ public class AvixyRtcServiceTest {
 
         service.setTimestamp(calendar.getTime());
         service.setTimezone(TimeZone.getTimeZone("GMT+7"));
+
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
     }
 
     @Test

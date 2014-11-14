@@ -45,6 +45,9 @@ public class UpdatePinServiceTest {
         service.setOldPin("4321");
         service.setNewPin("1234");
         service.setTimestamp(new Date(epoch));
+
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
     }
 
 

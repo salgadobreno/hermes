@@ -15,7 +15,8 @@ import static org.apache.commons.lang.ArrayUtils.addAll;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ServiceAssembler {
-    private ServiceAssembler() {
+
+    public ServiceAssembler() {
     }
 
     /**
@@ -29,7 +30,7 @@ public class ServiceAssembler {
      * @return                  dados para execução de um serviço no Token
      * @throws Exception
      */
-    public static byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PinPolicy pinPolicy) throws Exception {
+    public byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PinPolicy pinPolicy) throws Exception {
         byte[] data = new byte[0];
 
         byte[] header, timestamp, message_content, pin;
@@ -42,8 +43,7 @@ public class ServiceAssembler {
         // NOTE: O Token não lê QR Nível 1, então estamos verificando isso aqui e colocando um padding
         // junto da mensagem pois o PIN fica sempre no fim do conteúdo
         int total_lengh = header.length + timestamp.length + message_content.length + pin.length;
-        if (total_lengh < 18)
-        {
+        if (total_lengh < 18) {
             byte[] padding = new byte[18 - total_lengh];
             for (int i = 0; i < padding.length; i++) {
                 padding[i] = 'x'; // NOTE: padding com 'x' pq vazio deu um padrão que confundia o leitor

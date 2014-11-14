@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class UpdateSymmetricKeyServiceTest {
     SettableTimestampPolicy timestampPolicy = Mockito.mock(SettableTimestampPolicy.class);
@@ -39,6 +40,10 @@ public class UpdateSymmetricKeyServiceTest {
         service.setKeyType(KeyTypeParam.KeyType.TDES);
         service.setKey("zxcv");
         service.setAesKey("bla".getBytes());
+
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
     }
 
     @Test

@@ -33,6 +33,10 @@ public class EraseKtamperServiceTest {
         service.setPin("1234");
         service.setTimestamp(new Date(epoch));
         expectedOut = new byte[]{ };
+
+        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

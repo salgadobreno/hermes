@@ -42,6 +42,10 @@ public class CreateAndExportSymKeyServiceTest {
         service.setPin("1234");
         service.setKeyType(KeyTypeParam.KeyType.RSA_ENCRYPTION);
         service.setKeyLength(192);
+
+        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(pinPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

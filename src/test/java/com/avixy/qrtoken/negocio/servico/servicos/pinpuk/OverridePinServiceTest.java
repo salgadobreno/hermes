@@ -14,6 +14,7 @@ import java.util.Date;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created on 22/09/2014
@@ -45,6 +46,9 @@ public class OverridePinServiceTest {
         service.setPin("1234");
         service.setPuk("4444");
         service.setTimestamp(new Date(epoch));
+
+        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test

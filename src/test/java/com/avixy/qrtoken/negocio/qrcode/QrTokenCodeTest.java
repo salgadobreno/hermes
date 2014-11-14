@@ -32,7 +32,7 @@ public class QrTokenCodeTest {
         QrTokenCode tokenCode = new QrTokenCode(new byte[300], setup);
     }
 
-    @Test
+    @Test @Ignore(value = "defasado")
     public void testGetDadosPadding(){
         /* should right-pad the result */
         QrSetup bigSetup = new QrSetup(Version.getVersionForNumber(10), ErrorCorrectionLevel.L);

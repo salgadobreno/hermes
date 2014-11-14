@@ -11,6 +11,8 @@ import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
  * Created on 03/09/2014
  */
 public abstract class AbstractService implements Service {
+    private ServiceAssembler serviceAssembler = new ServiceAssembler();
+
     protected HeaderPolicy headerPolicy = new NoHeaderPolicy();
     protected TimestampPolicy timestampPolicy = new NoTimestampPolicy();
     protected MessagePolicy messagePolicy = new DefaultMessagePolicy();
@@ -23,7 +25,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public byte[] run() throws Exception {
-        byte[] data = ServiceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, pinPolicy);
+        byte[] data = serviceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, pinPolicy);
         return data;
     }
 }

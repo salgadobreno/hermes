@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class StoreUserInfoServiceTest {
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
@@ -37,6 +38,9 @@ public class StoreUserInfoServiceTest {
         service.setTelefone(telefone);
         service.setHmacKey("hmac".getBytes());
         service.setAesKey("aes".getBytes());
+
+        when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
     }
 
     @Test

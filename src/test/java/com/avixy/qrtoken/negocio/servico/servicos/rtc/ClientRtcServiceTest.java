@@ -33,6 +33,9 @@ public class ClientRtcServiceTest {
         service.setTimestamp(new Date(epoch));
         service.setTimezone(TimeZone.getTimeZone("GMT+7"));
         service.setHmacKey("key".getBytes());
+
+        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
