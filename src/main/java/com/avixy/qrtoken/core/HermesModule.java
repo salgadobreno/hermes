@@ -8,9 +8,13 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.DeleteSymKeyService;
+import com.avixy.qrtoken.negocio.servico.servicos.pinpuk.StorePinService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Configuração do Google Guice(dependency injection).
@@ -19,7 +23,7 @@ import com.google.inject.Injector;
  * Created on 03/09/2014
  */
 public class HermesModule extends AbstractModule {
-    private static Injector injector = Guice.createInjector(new HermesModule());
+
     protected void configure() {
         bind(HeaderPolicy.class).to(QrtHeaderPolicy.class);
         bind(AesKeyPolicy.class);
@@ -29,7 +33,4 @@ public class HermesModule extends AbstractModule {
         bind(TimestampPolicy.class).to(SettableTimestampPolicy.class);
     }
 
-    public static Injector getInjector(){
-        return injector;
-    }
 }

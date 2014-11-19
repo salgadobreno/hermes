@@ -205,7 +205,7 @@ public class HomeController {
     }
 
     private void handleException(Exception e) {
-        errorLabel.setText(e.getClass().toString());
+        errorLabel.setText(e.getClass().toString() + ": " + e.getMessage());
         log.error("Error: ", e);
     }
 

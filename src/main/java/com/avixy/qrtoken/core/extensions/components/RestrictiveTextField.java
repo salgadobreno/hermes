@@ -56,6 +56,11 @@ public class RestrictiveTextField extends TextField {
         });
     }
 
+    public RestrictiveTextField(int maxLength) {
+        this();
+        setMaxLength(maxLength);
+    }
+
     /**
      * The max length property.
      *

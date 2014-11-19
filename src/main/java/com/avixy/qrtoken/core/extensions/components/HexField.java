@@ -9,4 +9,9 @@ public class HexField extends RestrictiveTextField {
     public HexField() {
         setRestrict("[0-9A-f]");
     }
+
+    public HexField(int maxLength) {
+        super(maxLength);
+        setRestrict("[0-9A-f]");
+    }
 }
