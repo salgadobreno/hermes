@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -13,7 +14,7 @@ import com.google.inject.Inject;
  */
 public class StorePinService extends AbstractService {
 
-    private PinParam pin;
+    private StringWithLengthParam pin;
 
     @Inject
     public StorePinService(QrtHeaderPolicy headerPolicy) {
@@ -36,6 +37,6 @@ public class StorePinService extends AbstractService {
     }
 
     public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.pin = new StringWithLengthParam(pin);
     }
 }

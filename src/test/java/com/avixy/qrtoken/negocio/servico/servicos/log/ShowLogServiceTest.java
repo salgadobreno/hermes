@@ -1,12 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.servicos.log;
 
-import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ShowLogServiceTest {
-    ShowLogService service = HermesModule.getInjector().getInstance(ShowLogService.class);
+    ShowLogService service = new ShowLogService(new QrtHeaderPolicy());
 
     @Test
     public void testServiceCode() throws Exception {

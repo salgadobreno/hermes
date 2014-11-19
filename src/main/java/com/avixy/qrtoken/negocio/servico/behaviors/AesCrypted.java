@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.behaviors;
 
 /**
  * Define que um serviço será encriptado com AES

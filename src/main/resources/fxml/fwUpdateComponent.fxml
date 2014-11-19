@@ -12,6 +12,8 @@
 <?import javafx.scene.text.*?>
 <?import com.avixy.qrtoken.core.extensions.components.QrVersionSelect?>
 
+<?import com.avixy.qrtoken.core.extensions.components.AesSelect?>
+<?import com.avixy.qrtoken.core.extensions.components.HmacSelect?>
 <VBox fx:id="root" prefHeight="406.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <Pane prefHeight="407.0" prefWidth="403.0" snapToPixel="false">
@@ -68,6 +70,10 @@
                </children>
             </Pane>
             <VBox fx:id="interruptionDataPane" layoutX="11.0" layoutY="256.0" prefHeight="200.0" prefWidth="200.0" />
+            <Label layoutX="132.0" layoutY="55.0" text="Chave HMAC:" />
+            <Label layoutX="130.0" layoutY="96.0" text="Chave AES:" />
+            <HmacSelect fx:id="hmacSelect" layoutX="130.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
+            <AesSelect fx:id="aesSelect" layoutX="130.0" layoutY="113.0" prefWidth="150.0" />
             <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
          </children>
       </Pane>

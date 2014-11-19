@@ -2,81 +2,117 @@ package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.TwoBytesWrapper;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.FFHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
+import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.crypto.CryptoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 import static org.apache.commons.lang.ArrayUtils.add;
 import static org.apache.commons.lang.ArrayUtils.addAll;
+import static org.apache.commons.lang.ArrayUtils.nullToEmpty;
 
 /**
  * Created on 14/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateFirmwareService extends AbstractService {
+public class UpdateFirmwareService extends AbstractService implements AesCrypted, HmacAble {
+    private Logger logger = LoggerFactory.getLogger(UpdateFirmwareService.class);
     private static final Charset CHARSET = Charset.forName("ISO-8859-1");
 
     private QrSetup qrSetup;
 
     /* parâmetros */
     private byte[] content;
+    private byte[] encryptedContent;
     private byte moduleOffset;
     private String challengeParam;
 
     private byte interruptionCounter;
     private byte[] interruptionBytes;
 
+    private HmacKeyPolicy hmacKeyPolicy;
+    private AesKeyPolicy aesKeyPolicy;
+
     @Inject
-    public UpdateFirmwareService(QrtHeaderPolicy headerPolicy) {
+    public UpdateFirmwareService(QrtHeaderPolicy headerPolicy, AesKeyPolicy aesKeyPolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
+        this.aesKeyPolicy = aesKeyPolicy;
+        this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
-    public byte[] getInitialQr() {
+    public byte[] getInitialQr() throws CryptoException, GeneralSecurityException {
+        logger.trace("getInitialQr()");
         byte[] initialQr;
 
-        int payloadQrCapacity = qrSetup.getAvailableBytes() - 4; // 4 == length do header dos qr de payload
+        encryptContent(); //TODO: perigoso?
 
-        int qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
+        int payloadQrCapacity = qrSetup.getAvailableBytes() - 4; // 4 == length do header dos qr de payload
+        int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
         /* firstQr */
         byte[] header, body;
         header = new FFHeaderPolicy().getHeader(this);
         body = new byte[0];
 
         body = addAll(body, TwoBytesWrapper.get(qrQty));
-        body = addAll(body, TwoBytesWrapper.get(content.length));
+        body = addAll(body, TwoBytesWrapper.get(encryptedContent.length));
         body = add(body, moduleOffset);
 
         body = addAll(body, challengeParam.getBytes());
         body = add(body, interruptionCounter);
         body = addAll(body, interruptionBytes);
         initialQr = addAll(header, body);
+        initialQr = hmacKeyPolicy.apply(initialQr);
         /* /firstQr */
         return initialQr;
     }
 
+    private void encryptContent() throws CryptoException, GeneralSecurityException {
+        System.out.println("------------------");
+        byte[] iv;
+        iv = aesKeyPolicy.getInitializationVector();
+        encryptedContent = aesKeyPolicy.apply(content);
+        System.out.println("encryptedContent = " + Hex.encodeHexString(encryptedContent));
+        encryptedContent = addAll(encryptedContent, iv);
+        encryptedContent = hmacKeyPolicy.apply(encryptedContent);
+        System.out.println("iv = " + Hex.encodeHexString(iv));
+        System.out.println("content = " + Hex.encodeHexString(content));
+    }
+
     @Override
     public byte[] run() throws Exception {
+        logger.trace("run()");
         byte[] data;
         int setupCapacity = qrSetup.getAvailableBytes();
         int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
+        logger.trace("payloadQrCapacity = {}", payloadQrCapacity);
 
-        int qrQty = ((Double) Math.ceil((double)content.length/(double)payloadQrCapacity)).intValue();
+        encryptContent();
+
+        int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
+        logger.trace("qrQty = {}", qrQty);
 
         /* payload qrs */
         data = new byte[0];
         int offset = 0;
         for (int i = 0; i < qrQty; i++) {
-            boolean last = i == qrQty - 1;
+            boolean last = (i == qrQty - 1);
             byte[] payloadSize, payloadHeader;
             byte[] payload, qr;
 
-            if (last) { payload = Arrays.copyOfRange(content, payloadQrCapacity * i, content.length); }
-            else { payload = Arrays.copyOfRange(content, payloadQrCapacity * i, payloadQrCapacity * (i + 1)); }
+            if (last) { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, encryptedContent.length); }
+            else { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, payloadQrCapacity * (i + 1)); }
 
             payloadSize = TwoBytesWrapper.get(payload.length);
 
@@ -101,9 +137,6 @@ public class UpdateFirmwareService extends AbstractService {
     @Override
     public int getServiceCode() { return 63; }
 
-    public void setHmacKeyPolicy(HmacKeyPolicy hmacKeyPolicy) {
-    }
-
     public void setQrSetup(QrSetup qrSetup) { this.qrSetup = qrSetup; }
 
     public void setContent(byte[] content) { this.content = content; }
@@ -115,4 +148,14 @@ public class UpdateFirmwareService extends AbstractService {
     public void setInterruptionCount(byte interruptionStuff) { this.interruptionCounter = interruptionStuff; }
 
     public void setInterruptionBytes(byte[] interruptionBytes) { this.interruptionBytes = interruptionBytes; }
+
+    @Override
+    public void setAesKey(byte[] key) {
+        this.aesKeyPolicy.setKey(key);
+    }
+
+    @Override
+    public void setHmacKey(byte[] key) {
+        this.hmacKeyPolicy.setKey(key);
+    }
 }

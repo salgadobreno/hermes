@@ -23,11 +23,11 @@ public class StorePinServiceTest {
     @Test
     public void testServiceMessage() throws Exception {
         byte[] expectedMsg = {
-                0b00110001, // PIN:'1'
+                0b00000100, // length 4
+                0b00110001, // '1'
                 0b00110010, // '2'
                 0b00110011, // '3'
                 0b00110100, // '4'
-                0b00000100, // length 4
         };
         service.setPin("1234");
 

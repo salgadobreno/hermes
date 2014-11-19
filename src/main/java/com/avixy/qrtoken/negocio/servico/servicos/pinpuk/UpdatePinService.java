@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;

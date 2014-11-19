@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.QrVersionSelect;
-import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.negocio.qrcode.MultipleQrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
@@ -67,6 +66,9 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     @FXML private ComboBox<Integer> interruptionCounterField = new ComboBox<>();
     @FXML private Button loadFileButton;
 
+    @FXML private HmacSelect hmacSelect;
+    @FXML private AesSelect aesSelect;
+
     private Slider correctionLevelSlider; //grab from controller
 
     /* labels */
@@ -117,9 +119,10 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
                         } else {
                             for (int i = interruptionDataPane.getChildren().size(); i < integer2; i++){
                                 Label tfLabel = new Label("0x");
-                                TextField tfByte = new TextFieldLimited(2);
+//                                TextField tfByte = new TextFieldLimited(2);
+                                TextField tfByte = new HexField(2);
                                 tfByte.setPrefWidth(30);
-                                TextField tfContent = new TextFieldLimited(8);
+                                TextField tfContent = new HexField(8);
                                 HBox newRow = new HBox();
                                 newRow.getChildren().addAll(tfLabel, tfByte, tfContent);
                                 interruptionDataPane.getChildren().add(newRow);
@@ -181,6 +184,8 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() throws DecoderException {
+        service.setAesKey(aesSelect.getValue().getHexValue());
+        service.setHmacKey(hmacSelect.getValue().getHexValue());
         service.setQrSetup(getSetup());
         service.setModuleOffset((byte) Integer.parseInt(moduleOffsetField.getText()));
         service.setChallenge(challengeField.getText());

@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio.servico.servicos;
+package com.avixy.qrtoken.negocio.servico.behaviors;
 
 import java.util.Date;
 

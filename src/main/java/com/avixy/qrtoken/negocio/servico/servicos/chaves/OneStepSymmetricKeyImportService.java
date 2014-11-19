@@ -1,10 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;

@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.servico.behaviors.MessageAble;
+
 /**
  * Interface que modela um serviço suportado pelo Avixy QR Token
  * @author Breno Salgado <breno.salgado@avixy.com>

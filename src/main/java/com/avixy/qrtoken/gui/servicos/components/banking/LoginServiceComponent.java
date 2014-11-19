@@ -59,14 +59,14 @@ public class LoginServiceComponent extends ServiceComponent {
         migPane.add(new Label("Código de Login:"));
         migPane.add(loginCodeField, "wrap");
 
-        migPane.add(new Label("Cifra HMAC:"));
-        migPane.add(hmacField, "wrap");
-
-        migPane.add(new Label("Cifra AES:"));
-        migPane.add(aesField, "wrap");
-
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
+
+        migPane.add(new Label("Chave HMAC:"));
+        migPane.add(hmacField, "wrap");
+
+        migPane.add(new Label("Chave AES:"));
+        migPane.add(aesField, "wrap");
 
         return migPane;
     }

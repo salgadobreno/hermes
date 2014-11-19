@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.negocio.servico.servicos.AesCrypted;
-import com.avixy.qrtoken.negocio.servico.servicos.PinAble;
-import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;

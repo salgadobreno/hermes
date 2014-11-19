@@ -1,17 +1,41 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
+import org.bouncycastle.crypto.CryptoException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.security.GeneralSecurityException;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class UpdateFirmwareServiceTest {
-    UpdateFirmwareService service = new UpdateFirmwareService(new QrtHeaderPolicy());
+    AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(){
+        @Override
+        public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException {
+            return msg;
+        }
+
+        @Override
+        public byte[] getInitializationVector() {
+            return new byte[0];
+        }
+    };
+    HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy(){
+        @Override
+        public byte[] apply(byte[] msg) throws GeneralSecurityException {
+            return msg;
+        }
+    };
+    UpdateFirmwareService service = new UpdateFirmwareService(new QrtHeaderPolicy(), aesKeyPolicy, hmacKeyPolicy);
     byte[] serviceQr;
     byte[] payloadQr;
 

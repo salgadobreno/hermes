@@ -2,8 +2,8 @@ package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.HmacAble;
-import com.avixy.qrtoken.negocio.servico.servicos.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
