@@ -5,5 +5,6 @@ package com.avixy.qrtoken.negocio.servico.behaviors;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public interface PukAble extends PinAble {
+public interface PukAble {
+    void setPuk(String puk);
 }

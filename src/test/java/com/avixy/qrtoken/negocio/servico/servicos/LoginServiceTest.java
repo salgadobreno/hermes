@@ -4,7 +4,7 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.TokenHuffmanEncoder;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -19,12 +19,12 @@ import static org.mockito.Mockito.*;
 
 public class LoginServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
 
-    LoginService service = new LoginService(qrtHeaderPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, pinPolicy);
+    LoginService service = new LoginService(qrtHeaderPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
 
     String loginCode = "885471";
 
@@ -36,13 +36,12 @@ public class LoginServiceTest {
         service.setTimestamp(new Date(1409329200000L));
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
     }
 
     @Test
     public void testMessage() throws Exception {
-        //TODO
         String huffmanCode = new TokenHuffmanEncoder().encode(loginCode);
         String expectedBinaryString = "" +
                 "0001" + //template 1
@@ -63,7 +62,7 @@ public class LoginServiceTest {
         service.run();
         verify(aesCryptedMessagePolicy).get(service);
         verify(timestampPolicy).get();
-        verify(pinPolicy).get();
+        verify(passwordPolicy).get();
         verify(qrtHeaderPolicy).getHeader(service);
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>anyObject());
     }

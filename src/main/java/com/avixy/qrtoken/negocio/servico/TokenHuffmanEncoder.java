@@ -75,7 +75,6 @@ public class TokenHuffmanEncoder {
             char c = text.charAt(i);
             logger.trace("char = {}", c);
             //varrer o set pra pegar os elementos que iniciam com `c`
-//            SortedSet<String> lengthSortedDict = new TreeSet<>(inverseLengthComparator); TODO: ?
             List<String> potentialMatches = new ArrayList<>();
             for (String s : alphabetSortedDict) {
                 if (s.charAt(0) == c) {

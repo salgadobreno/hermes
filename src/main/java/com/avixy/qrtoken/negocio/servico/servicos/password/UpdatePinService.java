@@ -1,9 +1,11 @@
-package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
+package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -15,14 +17,14 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdatePinService extends AbstractService implements TimestampAble {
-    private PinParam oldPin;
-    private PinParam newPin;
+public class UpdatePinService extends AbstractService implements TimestampAble, PinAble {
+    private StringWithLengthParam newPin;
 
     @Inject
-    public UpdatePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy) {
+    public UpdatePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
+        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
@@ -37,15 +39,16 @@ public class UpdatePinService extends AbstractService implements TimestampAble {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(oldPin).append(newPin).toByteArray();
+        return BinnaryMsg.create().append(newPin).toByteArray();
     }
 
-    public void setOldPin(String oldPin) {
-        this.oldPin = new PinParam(oldPin);
+    @Override
+    public void setPin(String pin) {
+        this.passwordPolicy.setPassword(pin);
     }
 
     public void setNewPin(String newPin) {
-        this.newPin = new PinParam(newPin);
+        this.newPin = new StringWithLengthParam(newPin);
     }
 
     @Override

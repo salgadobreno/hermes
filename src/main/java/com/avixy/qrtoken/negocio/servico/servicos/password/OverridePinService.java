@@ -1,10 +1,11 @@
-package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
+package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
-import com.avixy.qrtoken.negocio.servico.params.PukParam;
+import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -17,14 +18,14 @@ import java.util.Date;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 //TODO
-public class OverridePinService extends AbstractService implements TimestampAble {
-    private PinParam pin;
-    private PukParam puk;
+public class OverridePinService extends AbstractService implements TimestampAble, PukAble {
+    private StringWithLengthParam newPin;
 
     @Inject
-    public OverridePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy) {
+    public OverridePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
+        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
@@ -39,17 +40,19 @@ public class OverridePinService extends AbstractService implements TimestampAble
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(puk).append(pin).toByteArray();
+        return BinnaryMsg.create().append(newPin).toByteArray();
     }
 
     public void setPin(String pin) {
-        this.pin = new PinParam(pin);
+        this.newPin = new StringWithLengthParam(pin);
     }
 
+    @Override
     public void setPuk(String puk) {
-        this.puk = new PukParam(puk);
+        this.passwordPolicy.setPassword(puk);
     }
 
+    @Override
     public void setTimestamp(Date date){
         this.timestampPolicy.setDate(date);
     }

@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.servico;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.MessagePolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -26,11 +26,11 @@ public class ServiceAssembler {
      * @param timestampPolicy   política de timestamp
      * @param messagePolicy     política da mensagem
      * @param hmacKeyPolicy     política de HMAC
-     * @param pinPolicy         política de PIN
+     * @param passwordPolicy         política de PIN
      * @return                  dados para execução de um serviço no Token
      * @throws Exception
      */
-    public byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PinPolicy pinPolicy) throws Exception {
+    public byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) throws Exception {
         byte[] data = new byte[0];
 
         byte[] header, timestamp, message_content, pin;
@@ -38,7 +38,7 @@ public class ServiceAssembler {
         header = headerPolicy.getHeader(service);
         timestamp = timestampPolicy.get();
         message_content = messagePolicy.get(service);
-        pin = pinPolicy.get();
+        pin = passwordPolicy.get();
 
         // NOTE: O Token não lê QR Nível 1, então estamos verificando isso aqui e colocando um padding
         // junto da mensagem pois o PIN fica sempre no fim do conteúdo
@@ -59,7 +59,7 @@ public class ServiceAssembler {
         data = addAll(data, message_content);
         //4- hmac
         data = hmacKeyPolicy.apply(data);
-        //5- pin
+        //5- password
         data = addAll(data, pin);
 
         return data;

@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 //                (byte) 0b00100000, // another param
 //        };
 //        service.setTimestamp(new Date(epoch));
-//        service.setPin("1234");
+//        service.setPassword("1234");
 //        service.setTemplate((byte) 3);
 //        service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));
 //    }

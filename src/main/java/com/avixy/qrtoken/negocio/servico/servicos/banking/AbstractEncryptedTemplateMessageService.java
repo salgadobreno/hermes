@@ -21,10 +21,10 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
     protected TemplateParam template;
 
     @Inject
-    public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PinPolicy pinPolicy) {
+    public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.messagePolicy = aesCryptedMessagePolicy;
-        this.pinPolicy = pinPolicy;
+        this.passwordPolicy = passwordPolicy;
         this.timestampPolicy = timestampPolicy;
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
 
     @Override
     public void setPin(String pin) {
-        this.pinPolicy.setPin(pin);
+        this.passwordPolicy.setPassword(pin);
     }
 
     public void setTemplate(byte template) { this.template = new TemplateParam(template); }

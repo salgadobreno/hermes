@@ -24,7 +24,6 @@ import java.util.Arrays;
 public class ClientHmacRtcServiceComponent extends HmacRtcServiceComponent {
     /* TODO: Node e getService tão hack... */
     private ComboBox<Integer> templateField = new ComboBox<>();
-
     private ClientRtcService service;
 
     @Inject

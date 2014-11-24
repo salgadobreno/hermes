@@ -8,11 +8,11 @@ import com.avixy.qrtoken.negocio.servico.params.PinParam;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class PinPolicy {
-    private PinParam pinParam;
+public class PasswordPolicy {
+    private PinParam pinParam;      /* Válido p/ PIN e PUK */
 
-    public void setPin(String pin){
-        this.pinParam = new PinParam(pin);
+    public void setPassword(String password){
+        this.pinParam = new PinParam(password);
     }
 
     public byte[] get(){

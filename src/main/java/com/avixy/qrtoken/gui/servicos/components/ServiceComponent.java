@@ -54,7 +54,6 @@ import java.util.List;
     }
 
     public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
-//        QrSetup qrSetup = new QrSetup(Version.getVersionForNumber(2), ErrorCorrectionLevel.L);
         return qrCodePolicy.getQrs(getService(), setup); //TODO
     }
 

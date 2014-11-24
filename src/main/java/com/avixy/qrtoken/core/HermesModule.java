@@ -8,13 +8,7 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.DeleteSymKeyService;
-import com.avixy.qrtoken.negocio.servico.servicos.pinpuk.StorePinService;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Configuração do Google Guice(dependency injection).

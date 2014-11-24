@@ -52,11 +52,15 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
+    /**
+     * Qr que inicializa o serviço de atualizar Firmware
+     * @return                  O QR de serviço
+     * @throws CryptoException
+     * @throws GeneralSecurityException
+     */
     public byte[] getInitialQr() throws CryptoException, GeneralSecurityException {
         logger.trace("getInitialQr()");
         byte[] initialQr;
-
-        encryptContent(); //TODO: perigoso?
 
         int payloadQrCapacity = qrSetup.getAvailableBytes() - 4; // 4 == length do header dos qr de payload
         int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
@@ -78,18 +82,13 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         return initialQr;
     }
 
-    private void encryptContent() throws CryptoException, GeneralSecurityException {
-        System.out.println("------------------");
-        byte[] iv;
-        iv = aesKeyPolicy.getInitializationVector();
-        encryptedContent = aesKeyPolicy.apply(content);
-        System.out.println("encryptedContent = " + Hex.encodeHexString(encryptedContent));
-        encryptedContent = addAll(encryptedContent, iv);
-        encryptedContent = hmacKeyPolicy.apply(encryptedContent);
-        System.out.println("iv = " + Hex.encodeHexString(iv));
-        System.out.println("content = " + Hex.encodeHexString(content));
-    }
-
+    /**
+     *
+     * @return       O payload da atualização, dividido conforme o Setup de QR atual
+     *               (e.g.: QR nível 1 com nível de correção de erro 1 -> 17 bytes de capacidade em cada QR,
+     *               o resultado terá o header de payload a cada 17 bytes)
+     * @throws       Exception
+     */
     @Override
     public byte[] run() throws Exception {
         logger.trace("run()");
@@ -97,8 +96,6 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         int setupCapacity = qrSetup.getAvailableBytes();
         int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
         logger.trace("payloadQrCapacity = {}", payloadQrCapacity);
-
-        encryptContent();
 
         int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
         logger.trace("qrQty = {}", qrQty);
@@ -139,7 +136,17 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
 
     public void setQrSetup(QrSetup qrSetup) { this.qrSetup = qrSetup; }
 
-    public void setContent(byte[] content) { this.content = content; }
+    public void setContent(byte[] content) throws CryptoException, GeneralSecurityException {
+        this.content = content;
+        byte[] iv;
+        iv = aesKeyPolicy.getInitializationVector();
+        encryptedContent = aesKeyPolicy.apply(content);
+        logger.trace("encryptedContent = {}", Hex.encodeHexString(encryptedContent));
+        encryptedContent = addAll(encryptedContent, iv);
+        encryptedContent = hmacKeyPolicy.apply(encryptedContent);
+        logger.trace("iv = {}", Hex.encodeHexString(iv));
+        logger.trace("content = {}", Hex.encodeHexString(content));
+    }
 
     public void setModuleOffset(byte moduleOffset) { this.moduleOffset = moduleOffset; }
 

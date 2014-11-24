@@ -17,10 +17,10 @@ import java.util.Date;
  */
 public class ExportSymKeyService extends AbstractService implements HmacAble, TimestampAble, PinAble {
 
-    protected ExportSymKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy, HmacKeyPolicy hmacKeyPolicy) {
+    protected ExportSymKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
-        this.pinPolicy = pinPolicy;
+        this.passwordPolicy = passwordPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
@@ -46,7 +46,7 @@ public class ExportSymKeyService extends AbstractService implements HmacAble, Ti
 
     @Override
     public void setPin(String pin) {
-        this.pinPolicy.setPin(pin);
+        this.passwordPolicy.setPassword(pin);
     }
 
     @Override

@@ -6,12 +6,9 @@ import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.chaves.Chave;
-import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.google.inject.Inject;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,7 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -32,8 +28,6 @@ import jfxtras.labs.scene.control.CalendarTextField;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -63,7 +57,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     private AesSelect comboAes = new AesSelect();
     private HmacSelect comboHmac = new HmacSelect();
     private TemplateSelect templateComboBox = new TemplateSelect();
-    private PinField pinTextField = new PinField();
+    private PasswordField pinTextField = new PasswordField();
     private CalendarTextField dataCalendarTextField = new CalendarTextField();
     private TextField tanTextField = new TextField();
     private TextField valorTextField = new TextField();

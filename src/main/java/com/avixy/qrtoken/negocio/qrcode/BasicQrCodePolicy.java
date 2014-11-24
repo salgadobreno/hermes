@@ -16,10 +16,6 @@ import java.util.List;
 public class BasicQrCodePolicy implements QrCodePolicy {
     public static int HEADER_SIZE = 3;
 
-    /** TODO:
-     * implement multiple QRs
-     */
-
     public BasicQrCodePolicy() {
     }
 

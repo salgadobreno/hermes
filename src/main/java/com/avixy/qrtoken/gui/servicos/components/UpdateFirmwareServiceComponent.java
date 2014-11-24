@@ -105,7 +105,6 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
 
                 this.correctionLevelSlider = controller.getCorrectionLevelSlider();
 
-
                 List<Integer> integers = new ArrayList<>(Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9}));
                 interruptionCounterField.setItems(FXCollections.observableList(integers));
                 interruptionCounterField.valueProperty().addListener(new ChangeListener<Integer>() {
@@ -183,7 +182,7 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     }
 
     @Override
-    public Service getService() throws DecoderException {
+    public Service getService() throws Exception {
         service.setAesKey(aesSelect.getValue().getHexValue());
         service.setHmacKey(hmacSelect.getValue().getHexValue());
         service.setQrSetup(getSetup());

@@ -23,13 +23,13 @@ public class ServiceAssemblerTest {
     SettableTimestampPolicy timestampPolicy = new SettableTimestampPolicy();
     MessagePolicy messagePolicy = new DefaultMessagePolicy();
     HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
-    PinPolicy pinPolicy = new PinPolicy();
+    PasswordPolicy passwordPolicy = new PasswordPolicy();
 
     HeaderPolicy noHeaderPolicy = new NoHeaderPolicy();
     TimestampPolicy noTimestampPolicy = new NoTimestampPolicy();
     MessagePolicy noMessagePolicy = new DefaultMessagePolicy();
     HmacKeyPolicy noMacPolicy = new NoMacPolicy();
-    PinPolicy noPinPolicy = new NoPinPolicy();
+    PasswordPolicy noPasswordPolicy = new NoPasswordPolicy();
 
     Service service = new AbstractService(headerPolicy) {
         @Override
@@ -51,7 +51,7 @@ public class ServiceAssemblerTest {
     @Before
     public void setUp() throws Exception {
         timestampPolicy.setDate(new Date(0));
-        pinPolicy.setPin("1234");
+        passwordPolicy.setPassword("1234");
         pinBytes = new byte[]{'1','2','3','4',4};
         hmacKeyPolicy.setKey("senha123".getBytes());
     }
@@ -60,20 +60,20 @@ public class ServiceAssemblerTest {
     public void testGetComHeader() throws Exception {
 //        expectedOut = new byte[]{0, 0, 0, 'a', 'b', 'c', 'd', '1', '2', '3', '4'};
         expectedOut = new byte[]{0, 0, 0, 'a', 'b', 'c', 'd', '1', '2', '3', '4', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}; // monkey patch :/
-        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, noMacPolicy, noPinPolicy));
+        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, noMacPolicy, noPasswordPolicy));
     }
 
     @Test
     public void testComHeaderETimestamp() throws Exception {
 //        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4'};
         expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4', 'x', 'x', 'x'}; // monkey patch :/
-        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, noPinPolicy));
+        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, noPasswordPolicy));
     }
 
     @Test
     public void testComHeaderTimestampEPin() throws Exception {
         expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',4}; // monkey patch :/
-        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, pinPolicy));
+        assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, passwordPolicy));
     }
 
     @Test
@@ -82,6 +82,6 @@ public class ServiceAssemblerTest {
         expectedOut = new byte[]{0,0,0,'a','b','c','d','1','2','3','4', 'x', 'x'}; // monkey patch :/
         byte[] outComHmac = hmacKeyPolicy.apply(expectedOut);
         byte[] outComHmacEPin = ArrayUtils.addAll(outComHmac, pinBytes);
-        assertArrayEquals(outComHmacEPin, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, hmacKeyPolicy, pinPolicy));
+        assertArrayEquals(outComHmacEPin, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, hmacKeyPolicy, passwordPolicy));
     }
 }

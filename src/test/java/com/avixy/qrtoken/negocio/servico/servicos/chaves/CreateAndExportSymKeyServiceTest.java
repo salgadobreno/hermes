@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -17,8 +17,8 @@ import static org.mockito.Mockito.*;
 public class CreateAndExportSymKeyServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
-    CreateAndExportSymKeyService service = new CreateAndExportSymKeyService(qrtHeaderPolicy, timestampPolicy, pinPolicy);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
+    CreateAndExportSymKeyService service = new CreateAndExportSymKeyService(qrtHeaderPolicy, timestampPolicy, passwordPolicy);
 
     String expectedBinnaryMsg;
 
@@ -45,7 +45,7 @@ public class CreateAndExportSymKeyServiceTest {
 
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CreateAndExportSymKeyServiceTest {
     public void testOperations() throws Exception {
         service.run();
         verify(qrtHeaderPolicy).getHeader(service);
-        verify(pinPolicy).get();
+        verify(passwordPolicy).get();
         verify(timestampPolicy).get();
     }
 }

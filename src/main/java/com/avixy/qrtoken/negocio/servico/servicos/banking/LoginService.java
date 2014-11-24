@@ -4,7 +4,6 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
-import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
@@ -20,8 +19,8 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
     private HuffmanEncodedParam loginCode;
 
     @Inject
-    public LoginService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PinPolicy pinPolicy) {
-        super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, pinPolicy);
+    public LoginService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+        super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
     }
 
     @Override

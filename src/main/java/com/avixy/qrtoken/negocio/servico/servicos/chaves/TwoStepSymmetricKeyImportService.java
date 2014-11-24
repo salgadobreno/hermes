@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -12,8 +12,8 @@ import com.google.inject.Inject;
  */
 public class TwoStepSymmetricKeyImportService extends OneStepSymmetricKeyImportService {
     @Inject
-    public TwoStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
-        super(headerPolicy, timestampPolicy, pinPolicy);
+    public TwoStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
+        super(headerPolicy, timestampPolicy, passwordPolicy);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.banking;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Assert;
@@ -20,9 +20,9 @@ public class AutorizarTransferenciaBancariaServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    AutorizarTransferenciaBancariaService service = new AutorizarTransferenciaBancariaService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, pinPolicy);
+    AutorizarTransferenciaBancariaService service = new AutorizarTransferenciaBancariaService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
 
     int template = 1;
     String nome = "Ítalo Augusto";
@@ -170,7 +170,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
@@ -185,7 +185,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         verify(aesCryptedMessagePolicy).get(service);
         verify(headerPolicy).getHeader(service);
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
-        verify(pinPolicy).get();
+        verify(passwordPolicy).get();
 
     }
 }

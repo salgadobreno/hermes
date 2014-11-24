@@ -6,8 +6,8 @@ package com.avixy.qrtoken.core.extensions.components;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class PinField extends TextFieldLimited {
-    public PinField() {
+public class PasswordField extends TextFieldLimited {
+    public PasswordField() {
         super(12);
     }
 

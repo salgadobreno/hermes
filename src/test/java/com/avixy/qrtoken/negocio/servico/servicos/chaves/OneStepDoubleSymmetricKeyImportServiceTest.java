@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -18,9 +18,9 @@ import static org.mockito.Mockito.when;
 
 public class OneStepDoubleSymmetricKeyImportServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService(headerPolicy, timestampPolicy, pinPolicy);
+    OneStepDoubleSymmetricKeyImportService service = new OneStepDoubleSymmetricKeyImportService(headerPolicy, timestampPolicy, passwordPolicy);
 
     String expectedMsg;
 
@@ -46,7 +46,7 @@ public class OneStepDoubleSymmetricKeyImportServiceTest {
         service.setKeys("senha1senha2");
         service.setDesafio("9879");
 
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
@@ -65,7 +65,7 @@ public class OneStepDoubleSymmetricKeyImportServiceTest {
     public void testOperations() throws Exception {
         service.run();
         verify(headerPolicy).getHeader(service);
-        verify(pinPolicy).get();
+        verify(passwordPolicy).get();
         verify(timestampPolicy).get();
     }
 }

@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
@@ -18,8 +18,8 @@ public class ExportSymKeyServiceTest {
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
-    ExportSymKeyService service = new ExportSymKeyService(headerPolicy, timestampPolicy, pinPolicy, hmacKeyPolicy);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
+    ExportSymKeyService service = new ExportSymKeyService(headerPolicy, timestampPolicy, passwordPolicy, hmacKeyPolicy);
 
     byte[] expectedMsg;
 
@@ -44,7 +44,7 @@ public class ExportSymKeyServiceTest {
 
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ExportSymKeyServiceTest {
         service.run();
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
         verify(headerPolicy).getHeader(service);
-        verify(pinPolicy).get();
+        verify(passwordPolicy).get();
         verify(timestampPolicy).get();
     }
 }

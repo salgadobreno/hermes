@@ -1,6 +1,8 @@
-package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
+package com.avixy.qrtoken.negocio.servico.servicos.password;
 
+import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
+import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -11,7 +13,7 @@ import com.google.inject.Inject;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class StorePukService extends AbstractService {
-    private PukParam puk;
+    private StringWithLengthParam puk;
 
     @Inject
     public StorePukService(HeaderPolicy headerPolicy) {
@@ -30,11 +32,11 @@ public class StorePukService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return new byte[0];
+        return BinnaryMsg.create().append(puk).toByteArray();
     }
 
     public void setPuk(String puk) {
-        this.puk = new PukParam(puk);
+        this.puk = new StringWithLengthParam(puk);
     }
 
 }

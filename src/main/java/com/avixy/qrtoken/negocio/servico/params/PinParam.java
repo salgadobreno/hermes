@@ -11,7 +11,7 @@ public class PinParam implements Param {
 
     public PinParam(String pin) {
         if (pin.length() < 4 || pin.length() > 12) {
-            throw new IllegalArgumentException("Pin is 4 chars"); //TODO: msg
+            throw new IllegalArgumentException("Pin should be at least 4 chars");
         }
 
         this.pin = pin;

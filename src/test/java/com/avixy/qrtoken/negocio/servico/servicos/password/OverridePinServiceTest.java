@@ -1,11 +1,9 @@
-package com.avixy.qrtoken.negocio.servico.servicos.pinpuk;
+package com.avixy.qrtoken.negocio.servico.servicos.password;
 
-import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +22,8 @@ import static org.mockito.Mockito.when;
 public class OverridePinServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    OverridePinService service = new OverridePinService(qrtHeaderPolicy, timestampPolicy);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
+    OverridePinService service = new OverridePinService(qrtHeaderPolicy, timestampPolicy, passwordPolicy);
 
     byte[] expectedMsg;
 
@@ -32,16 +31,11 @@ public class OverridePinServiceTest {
     public void setUp() throws Exception {
         long epoch = 1409329200000L;
         expectedMsg = new byte[]{
-                0b00110100, // PUK:'4'
-                0b00110100, // '4'
-                0b00110100, // '4'
-                0b00110100, // '4'
                 0b00000100, // length 4
                 0b00110001, // PIN:'1'
                 0b00110010, // '2'
                 0b00110011, // '3'
                 0b00110100, // '4'
-                0b00000100, // length 4
         };
         service.setPin("1234");
         service.setPuk("4444");
@@ -49,6 +43,7 @@ public class OverridePinServiceTest {
 
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -66,5 +61,6 @@ public class OverridePinServiceTest {
         service.run();
         verify(qrtHeaderPolicy).getHeader(service);
         verify(timestampPolicy).get();
+        verify(passwordPolicy).get();
     }
 }

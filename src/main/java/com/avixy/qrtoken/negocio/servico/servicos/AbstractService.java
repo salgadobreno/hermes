@@ -17,7 +17,7 @@ public abstract class AbstractService implements Service {
     protected TimestampPolicy timestampPolicy = new NoTimestampPolicy();
     protected MessagePolicy messagePolicy = new DefaultMessagePolicy();
     protected HmacKeyPolicy hmacKeyPolicy = new NoMacPolicy();
-    protected PinPolicy pinPolicy = new NoPinPolicy();
+    protected PasswordPolicy passwordPolicy = new NoPasswordPolicy();
 
     public AbstractService(HeaderPolicy headerPolicy) {
         this.headerPolicy = headerPolicy;
@@ -25,7 +25,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public byte[] run() throws Exception {
-        byte[] data = serviceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, pinPolicy);
+        byte[] data = serviceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy);
         return data;
     }
 }

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
@@ -18,10 +18,10 @@ import java.util.Date;
 public class EraseKtamperService extends AbstractService implements TimestampAble, PinAble {
 
     @Inject
-    public EraseKtamperService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
+    public EraseKtamperService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
-        this.pinPolicy = pinPolicy;
+        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class EraseKtamperService extends AbstractService implements TimestampAbl
 
     @Override
     public void setPin(String pin){
-        this.pinPolicy.setPin(pin);
+        this.passwordPolicy.setPassword(pin);
     }
 
     @Override

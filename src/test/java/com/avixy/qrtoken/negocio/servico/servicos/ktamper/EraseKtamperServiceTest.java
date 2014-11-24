@@ -1,12 +1,11 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Date;
 
@@ -21,9 +20,9 @@ import static org.mockito.Mockito.*;
  */
 public class EraseKtamperServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
-    PinPolicy pinPolicy = mock(PinPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy, pinPolicy);
+    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy, passwordPolicy);
 
     byte[] expectedOut;
 
@@ -35,7 +34,7 @@ public class EraseKtamperServiceTest {
         expectedOut = new byte[]{ };
 
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
-        when(pinPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 

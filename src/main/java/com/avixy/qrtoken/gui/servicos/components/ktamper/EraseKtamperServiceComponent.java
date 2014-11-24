@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
-import com.avixy.qrtoken.core.extensions.components.PinField;
+import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
@@ -21,7 +21,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private PinField pinField = new PinField();
+    private PasswordField passwordField = new PasswordField();
 
     @Inject
     public EraseKtamperServiceComponent(EraseKtamperService service, QrCodePolicy qrCodePolicy) {
@@ -38,7 +38,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
         migPane.add(new Label("PIN:"));
-        migPane.add(pinField);
+        migPane.add(passwordField);
 
         return migPane;
     }
@@ -47,7 +47,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-        eraseKtamperService.setPin(pinField.getText());
+        eraseKtamperService.setPin(passwordField.getText());
 
         return super.getService();
     }

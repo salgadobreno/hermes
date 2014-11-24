@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class AesCryptedMessagePolicy implements MessagePolicy {
-    private AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(); //TODO: rename
+    private AesKeyPolicy aesKeyPolicy = new AesKeyPolicy();
 
     @Override
     public byte[] get(Service service) throws CryptoException, GeneralSecurityException {

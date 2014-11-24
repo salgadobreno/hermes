@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
-import com.avixy.qrtoken.negocio.servico.operations.PinPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
@@ -23,10 +23,10 @@ public class OneStepSymmetricKeyImportService extends AbstractService implements
     protected DesafioParam desafio;
 
     @Inject
-    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PinPolicy pinPolicy) {
+    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
-        this.pinPolicy = pinPolicy;
+        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class OneStepSymmetricKeyImportService extends AbstractService implements
 
     @Override
     public void setPin(String pin) {
-        this.pinPolicy.setPin(pin);
+        this.passwordPolicy.setPassword(pin);
     }
 
     public void setTemplate(byte template) {

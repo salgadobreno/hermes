@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PinPolicyTest {
-    PinPolicy pinPolicy = new PinPolicy();
+public class PasswordPolicyTest {
+    PasswordPolicy passwordPolicy = new PasswordPolicy();
     @Test
     public void testGet() throws Exception {
         byte[] expectedRes = new byte[]{
@@ -16,7 +16,7 @@ public class PinPolicyTest {
                 0b00000100  // 4
         };
 
-        pinPolicy.setPin("abcd");
-        assertArrayEquals(expectedRes, pinPolicy.get());
+        passwordPolicy.setPassword("abcd");
+        assertArrayEquals(expectedRes, passwordPolicy.get());
     }
 }

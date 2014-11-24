@@ -41,15 +41,6 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     public StoreUserInfoServiceComponent(StoreUserInfoService service, QrCodePolicy qrCodePolicy) {
         super(service, qrCodePolicy);
         this.service = service;
-
-        //randomize
-        nomeField.setText(RandomStringUtils.randomAlphabetic(10));
-        emailField.setText(RandomStringUtils.randomAlphabetic(10));
-        clienteField.setText(RandomStringUtils.randomAlphabetic(6));
-        cpfField.setText(RandomStringUtils.randomNumeric(11));
-        contaField.setText(RandomStringUtils.randomNumeric(6));
-        agenciaField.setText(RandomStringUtils.randomNumeric(5));
-        foneField.setText(RandomStringUtils.randomNumeric(12));
     }
 
     @Override

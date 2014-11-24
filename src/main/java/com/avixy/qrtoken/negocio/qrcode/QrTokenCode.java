@@ -24,9 +24,6 @@ public class QrTokenCode {
      * @param setup configuração do QrCode
      */
     public QrTokenCode(byte[] dados, QrSetup setup) {
-//            this.length = setup.getAvailableBytes(); // TODO: QRs now can be of any size.. ?
-//            if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
-
         this.dados = dados;
         this.ecLevel = setup.getEcLevel();
     }
@@ -48,13 +45,9 @@ public class QrTokenCode {
     public String getDados(){
         String qrPayload = new String(dados, CHARSET);
 
-//        if (qrPayload.length() < 17) {
-//            qrPayload = StringUtils.rightPad(qrPayload, 18, '0');
-//        } // O token não lê QRs versão 1, então padding p/ 18 como mínimo para que use qr versão 2
-
         if (length != null) {
             qrPayload = StringUtils.rightPad(new String(dados, CHARSET), length, '0');
-        }
+        } // depreciado.. agora fazemos padding no ServiceAssembler
 
         return qrPayload;
     }
