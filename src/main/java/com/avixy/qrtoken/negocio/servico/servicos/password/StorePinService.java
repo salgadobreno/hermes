@@ -22,7 +22,7 @@ public class StorePinService extends AbstractService {
 
     @Override
     public String getServiceName() {
-        return "SERVICE_STORE_PIN";
+        return "Gravar PIN";
     }
 
     @Override

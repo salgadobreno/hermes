@@ -22,7 +22,7 @@ public class StorePukService extends AbstractService {
 
     @Override
     public String getServiceName() {
-        return "SERVICE_STORE_PUK";
+        return "Gravar PUK";
     }
 
     @Override

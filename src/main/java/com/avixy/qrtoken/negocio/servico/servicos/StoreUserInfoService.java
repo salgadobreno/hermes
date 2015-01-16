@@ -32,7 +32,7 @@ public class StoreUserInfoService extends AbstractService implements AesCrypted,
 
     @Override
     public String getServiceName() {
-        return "SERVICE_STORE_USER_INFO\n";
+        return "Gravar informações de Usuário\n";
     }
 
     @Override

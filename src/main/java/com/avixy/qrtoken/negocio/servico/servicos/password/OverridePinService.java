@@ -30,7 +30,7 @@ public class OverridePinService extends AbstractService implements TimestampAble
 
     @Override
     public String getServiceName() {
-        return "SERVICE_OVERRIDE_PIN";
+        return "Sobreescrever PIN com PUK";
     }
 
     @Override

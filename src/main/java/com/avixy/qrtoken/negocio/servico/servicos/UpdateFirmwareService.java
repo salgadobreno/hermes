@@ -129,7 +129,7 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
     public byte[] getMessage() { return new byte[0]; } // esse método é atravessado pelo run()
 
     @Override
-    public String getServiceName() { return "SERVICE_FIRMWARE_SYM_UPDATE"; }
+    public String getServiceName() { return "Atualização de Firmware"; }
 
     @Override
     public int getServiceCode() { return 63; }

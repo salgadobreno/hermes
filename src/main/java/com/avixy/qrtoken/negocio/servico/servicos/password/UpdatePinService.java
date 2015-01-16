@@ -29,7 +29,7 @@ public class UpdatePinService extends AbstractService implements TimestampAble, 
 
     @Override
     public String getServiceName() {
-        return "SERVICE_UPDATE_PIN";
+        return "Atualizar PIN";
     }
 
     @Override
