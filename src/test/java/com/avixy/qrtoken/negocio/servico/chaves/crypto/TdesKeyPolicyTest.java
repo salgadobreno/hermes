@@ -47,7 +47,7 @@ public class TdesKeyPolicyTest {
 
         testResult(key, iv, plaintext, ciphertext);
 
-        //3 keys
+        //3 chaves
         //vector1
         key1 = Hex.decodeHex("b5cb1504802326c7".toCharArray());
         key2 = Hex.decodeHex("3df186e3e352a20d".toCharArray());

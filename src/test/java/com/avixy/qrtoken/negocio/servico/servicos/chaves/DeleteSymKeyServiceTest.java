@@ -35,8 +35,7 @@ public class DeleteSymKeyServiceTest {
         };
 
         service.setTimestamp(new Date(epoch));
-        service.setTemplate((byte) 3);
-        service.setKeyType(KeyTypeParam.KeyType.TDES);
+        service.setKeySet((byte) 1);
         service.setAesKey("bla".getBytes());
 
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
