@@ -49,11 +49,6 @@ public class UpdatePinServiceTest {
 
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(23, service.getServiceCode());
-    }
-
-    @Test
     public void testServiceMessage() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
     }

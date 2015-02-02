@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.TwoBytesWrapper;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
@@ -132,7 +133,7 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
     public String getServiceName() { return "Atualização de Firmware"; }
 
     @Override
-    public int getServiceCode() { return 63; }
+    public ServiceCode getServiceCode() { return ServiceCode.SERVICE_FIRMWARE_SYM_UPDATE; }
 
     public void setQrSetup(QrSetup qrSetup) { this.qrSetup = qrSetup; }
 

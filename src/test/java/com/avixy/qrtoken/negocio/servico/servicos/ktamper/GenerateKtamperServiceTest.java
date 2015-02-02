@@ -12,9 +12,4 @@ import static org.junit.Assert.assertEquals;
  */
 public class GenerateKtamperServiceTest {
     private GenerateKtamperService service = new GenerateKtamperService(new QrtHeaderPolicy());
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(20, service.getServiceCode());
-    }
 }

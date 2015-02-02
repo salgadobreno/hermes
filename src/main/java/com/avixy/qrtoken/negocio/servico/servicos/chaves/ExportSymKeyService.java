@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -30,8 +31,8 @@ public class ExportSymKeyService extends AbstractService implements HmacAble, Ti
     }
 
     @Override
-    public int getServiceCode() {
-        return 39;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_EXPORT_SYM_KEY;
     }
 
     @Override

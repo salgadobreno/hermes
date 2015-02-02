@@ -39,11 +39,6 @@ public class EraseKtamperServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(21, service.getServiceCode());
-    }
-
-    @Test
     public void testServiceMessage() throws Exception {
         assertArrayEquals(expectedOut, service.getMessage());
     }

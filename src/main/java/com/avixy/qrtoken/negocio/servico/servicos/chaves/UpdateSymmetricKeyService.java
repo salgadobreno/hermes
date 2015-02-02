@@ -2,15 +2,14 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
-import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
+import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import com.google.inject.Inject;
 
 import java.util.Date;
 
@@ -19,31 +18,20 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, TimestampAble {
-    private TemplateParam template;
-    private KeyTypeParam keyType;
-    private StringWrapperParam key;
+public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble {
+    private KeyParam secretKey;
+    private KeyParam authKey;
 
-    @Inject
-    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy) {
+    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
-    }
-
-    @Override
-    public String getServiceName() {
-        return "SERVICE_UPDATE_SYMMETRIC_KEY";
-    }
-
-    @Override
-    public int getServiceCode() {
-        return 37;
+        this.hmacKeyPolicy = hmacKeyPolicy;
     }
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(template).append(keyType).append(key).toByteArray();
+        return BinnaryMsg.create().append(secretKey, authKey).toByteArray();
     }
 
     @Override
@@ -51,20 +39,21 @@ public class UpdateSymmetricKeyService extends AbstractService implements AesCry
         timestampPolicy.setDate(date);
     }
 
-    public void setTemplate(byte template){
-        this.template = new TemplateParam(template);
+    public void setSecretKey(byte[] key){
+        this.secretKey = new KeyParam(key);
     }
 
-    public void setKeyType(KeyTypeParam.KeyType keyType){
-        this.keyType = new KeyTypeParam(keyType);
-    }
-
-    public void setKey(String key){
-        this.key = new StringWrapperParam(key);
+    public void setAuthKey(byte[] key) {
+        this.authKey = new KeyParam(key);
     }
 
     @Override
     public void setAesKey(byte[] key) {
         ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
+    }
+
+    @Override
+    public void setHmacKey(byte[] key) {
+        hmacKeyPolicy.setKey(key);
     }
 }

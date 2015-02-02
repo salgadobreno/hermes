@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
@@ -26,8 +27,8 @@ public class StorePukService extends AbstractService {
     }
 
     @Override
-    public int getServiceCode() {
-        return 25;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_STORE_PUK;
     }
 
     @Override

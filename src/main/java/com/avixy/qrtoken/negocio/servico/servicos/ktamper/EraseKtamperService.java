@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -30,8 +31,8 @@ public class EraseKtamperService extends AbstractService implements TimestampAbl
     }
 
     @Override
-    public int getServiceCode() {
-        return 21;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_ERASE_KTAMPER;
     }
 
     @Override

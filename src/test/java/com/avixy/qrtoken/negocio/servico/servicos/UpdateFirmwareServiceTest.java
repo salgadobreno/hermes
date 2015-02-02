@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -53,7 +54,7 @@ public class UpdateFirmwareServiceTest {
                 (byte) 0xFF,
                 (byte) 0xFF,
                 // SERVICE_FIRMWARE_SYM_UPDATE
-                0x3f, // header
+                (byte)ServiceCode.SERVICE_FIRMWARE_SYM_UPDATE.ordinal(), // header
                 // 2 bytes para indicar a quantidade de frames no update
                 0, 1,
                 // 2 bytes para indicar o somat?rio de bytes em todos os frames
@@ -89,9 +90,6 @@ public class UpdateFirmwareServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception { assertEquals(63, service.getServiceCode()); }
-
-    @Test
     public void testFirstQr() throws Exception {
         assertArrayEquals(serviceQr, service.getInitialQr());
     }
@@ -107,7 +105,7 @@ public class UpdateFirmwareServiceTest {
         serviceQr = new byte[] {
                 (byte) 0xFF,
                 (byte) 0xFF, // SERVICE_FIRMWARE_SYM_UPDATE
-                0x3f, // header
+                (byte)ServiceCode.SERVICE_FIRMWARE_SYM_UPDATE.ordinal(), // header
                 0, 2, // 2 bytes para indicar a quantidade de frames no update
                 0, 20, // 2 bytes para indicar o somat?rio de bytes em todos os frames
                 //1 byte para indicar o offset do m?dulo

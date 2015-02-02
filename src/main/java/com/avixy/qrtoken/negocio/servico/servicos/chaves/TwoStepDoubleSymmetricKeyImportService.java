@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -17,8 +18,8 @@ public class TwoStepDoubleSymmetricKeyImportService extends OneStepDoubleSymmetr
     }
 
     @Override
-    public int getServiceCode() {
-        return 35;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_TWO_STEP_DOUBLE_SYM_KEY_IMPORT;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.servicos.header.FFHeaderPolicy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
@@ -12,8 +13,7 @@ import static org.junit.Assert.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class StorePukServiceTest {
-    Injector injector = Guice.createInjector(new HermesModule());
-    StorePukService service = injector.getInstance(StorePukService.class);
+    StorePukService service = new StorePukService(new FFHeaderPolicy());
 
     @Test
     public void testServiceMsg() throws Exception {
@@ -25,10 +25,5 @@ public class StorePukServiceTest {
                 0b00100100, // '$'
         };
         service.setPuk("4444");
-    }
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(25, service.getServiceCode());
     }
 }

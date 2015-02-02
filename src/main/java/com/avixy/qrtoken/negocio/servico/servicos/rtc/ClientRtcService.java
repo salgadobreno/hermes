@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.Param;
@@ -25,8 +26,8 @@ public class ClientRtcService extends AbstractHmacRtcService {
 
 
     @Override
-    public int getServiceCode() {
-        return 52;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_CLIENT_RTC_SYM_UPDATE;
     }
 
     @Override

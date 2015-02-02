@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -34,8 +35,8 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
     }
 
     @Override
-    public int getServiceCode() {
-        return 12;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_EMPTY;
     }
 
     @Override

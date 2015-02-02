@@ -12,6 +12,6 @@ public class QrtHeaderPolicy implements HeaderPolicy {
 
     @Override
     public byte[] getHeader(Service service) {
-        return new byte[]{0, 0, (byte) service.getServiceCode()};
+        return new byte[]{0, 0, (byte) service.getServiceCode().ordinal()};
     }
 }

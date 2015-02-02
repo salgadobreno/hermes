@@ -9,13 +9,13 @@ public class KeyLengthParamTest {
 
     @Test
     public void testBinaryString() throws Exception {
-        param = new KeyLengthParam(64);
+        param = new KeyLengthParam(8);
         assertEquals("00000", param.toBinaryString());
 
-        param = new KeyLengthParam(128);
+        param = new KeyLengthParam(16);
         assertEquals("00001", param.toBinaryString());
 
-        param = new KeyLengthParam(1024);
+        param = new KeyLengthParam(128);
         assertEquals("01001", param.toBinaryString());
     }
 

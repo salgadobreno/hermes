@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
@@ -9,7 +10,6 @@ import com.google.inject.Inject;
  * Created on 03/09/2014
  */
 public class PingService extends AbstractService {
-    private int SERVICE_CODE = 0b00000001;
 
     @Inject
     public PingService(QrtHeaderPolicy headerPolicy) {
@@ -22,8 +22,8 @@ public class PingService extends AbstractService {
     }
 
     @Override
-    public int getServiceCode() {
-        return SERVICE_CODE;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_PING;
     }
 
     @Override

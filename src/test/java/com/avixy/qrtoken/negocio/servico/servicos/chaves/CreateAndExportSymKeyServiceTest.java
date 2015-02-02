@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
@@ -30,7 +31,7 @@ public class CreateAndExportSymKeyServiceTest {
 //                "00000000" +
 //                "10101000" +
 //                "00110000" +// timestamp
-                "0011" + //keytype3
+                "0010" + //keytype2
                 "00011"; // 192bits
 //                "00110001" +// '1' PIN
 //                "00110010" +// '2'
@@ -40,17 +41,12 @@ public class CreateAndExportSymKeyServiceTest {
 
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");
-        service.setKeyType(KeyTypeParam.KeyType.RSA_ENCRYPTION);
-        service.setKeyLength(192);
+        service.setKeyType(KeyType.HMAC);
+        service.setKeyLength(24);
 
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
-    }
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(38, service.getServiceCode());
     }
 
     @Test

@@ -17,11 +17,6 @@ public class PingServiceTest {
     PingService pingService = new PingService(headerPolicy);
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(1, pingService.getServiceCode());
-    }
-
-    @Test
     public void testMessage() throws Exception {
         byte[] expectedBytes = {}; // Esse serviço é apenas o seu header
 

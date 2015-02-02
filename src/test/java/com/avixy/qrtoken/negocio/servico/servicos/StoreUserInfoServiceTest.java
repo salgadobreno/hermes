@@ -44,11 +44,6 @@ public class StoreUserInfoServiceTest {
     }
 
     @Test
-    public void testGetServiceCode() throws Exception {
-        assertEquals(2, service.getServiceCode());
-    }
-
-    @Test
     public void testGetMessage() throws Exception {
         String expectedBinaryString =
                 "00000101_0110100101110100011000010110110001101111" + //5 italo

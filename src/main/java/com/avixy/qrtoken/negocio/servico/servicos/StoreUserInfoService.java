@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
@@ -36,8 +37,8 @@ public class StoreUserInfoService extends AbstractService implements AesCrypted,
     }
 
     @Override
-    public int getServiceCode() {
-        return 2;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_STORE_USER_INFO;
     }
 
     @Override

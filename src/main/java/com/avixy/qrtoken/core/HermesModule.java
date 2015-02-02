@@ -20,8 +20,6 @@ public class HermesModule extends AbstractModule {
 
     protected void configure() {
         bind(HeaderPolicy.class).to(QrtHeaderPolicy.class);
-        bind(AesKeyPolicy.class);
-        bind(DeleteSymKeyService.class);
 
         bind(QrCodePolicy.class).to(BasicQrCodePolicy.class);
         bind(TimestampPolicy.class).to(SettableTimestampPolicy.class);

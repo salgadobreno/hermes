@@ -39,11 +39,6 @@ public class ClientRtcServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(52, service.getServiceCode());
-    }
-
-    @Test
     public void testMessage() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
     }

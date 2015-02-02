@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
@@ -25,7 +26,7 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
     public String getServiceName() { return "Encrypted Template Message"; }
 
     @Override
-    public int getServiceCode() { return 10; }
+    public ServiceCode getServiceCode() { return ServiceCode.SERVICE_EMPTY; }
 
     @Override
     public void setHmacKey(byte[] key) {

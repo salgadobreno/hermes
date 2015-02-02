@@ -47,16 +47,6 @@ public class OverridePinServiceTest {
     }
 
     @Test
-    public void testServiceMsg() throws Exception {
-        assertArrayEquals(expectedMsg, service.getMessage());
-    }
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(24, service.getServiceCode());
-    }
-
-    @Test
     public void testOperations() throws Exception {
         service.run();
         verify(qrtHeaderPolicy).getHeader(service);

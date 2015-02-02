@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.operations;
 
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.*;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -38,8 +39,8 @@ public class ServiceAssemblerTest {
         }
 
         @Override
-        public int getServiceCode() {
-            return 0;
+        public ServiceCode getServiceCode() {
+            return ServiceCode.SERVICE_EMPTY;
         }
 
         @Override

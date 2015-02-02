@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -21,8 +22,8 @@ public class GenerateKtamperService extends AbstractService {
     }
 
     @Override
-    public int getServiceCode() {
-        return 20;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_GENERATE_KTAMPER;
     }
 
     @Override

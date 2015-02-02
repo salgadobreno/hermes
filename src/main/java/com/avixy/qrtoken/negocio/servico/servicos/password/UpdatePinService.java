@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -33,8 +34,8 @@ public class UpdatePinService extends AbstractService implements TimestampAble, 
     }
 
     @Override
-    public int getServiceCode() {
-        return 23;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_UPDATE_PIN;
     }
 
     @Override

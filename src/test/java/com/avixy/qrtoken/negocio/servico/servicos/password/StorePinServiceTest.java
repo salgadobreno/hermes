@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.HermesModule;
+import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
@@ -12,13 +13,7 @@ import static org.junit.Assert.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class StorePinServiceTest {
-    Injector injector = Guice.createInjector(new HermesModule());
-    StorePinService service = injector.getInstance(StorePinService.class);
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(22, service.getServiceCode());
-    }
+    StorePinService service = new StorePinService(new QrtHeaderPolicy());
 
     @Test
     public void testServiceMessage() throws Exception {

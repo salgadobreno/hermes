@@ -1,17 +1,19 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
+
 /**
  * Created on 23/09/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class KeyTypeParam implements Param {
-    public enum KeyType {
-        /*
-        4 bits para seleção de chave, os valores são fixos e ordenados. Esse enum seta eles na ordem.
-         */
-        RNG, TDES, SYMMETRIC_ENCRYPTION, RSA_ENCRYPTION, RSA_SIGNATURE, ECC_ENCRYPTION, ECC_SIGNATURE, SYMMETRIC_AUTHENTICATION;
-    }
+//    public enum KeyType {
+//        /*
+//        4 bits para seleção de chave, os valores são fixos e ordenados. Esse enum seta eles na ordem.
+//         */
+//        RNG, TDES, SYMMETRIC_ENCRYPTION, RSA_ENCRYPTION, RSA_SIGNATURE, ECC_ENCRYPTION, ECC_SIGNATURE, SYMMETRIC_AUTHENTICATION;
+//    }
     private KeyType keyType;
 
     public KeyTypeParam(KeyType keyType) {

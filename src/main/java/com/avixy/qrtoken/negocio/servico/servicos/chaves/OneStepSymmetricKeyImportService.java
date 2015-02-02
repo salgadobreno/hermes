@@ -2,10 +2,10 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
-import com.avixy.qrtoken.negocio.servico.params.*;
+import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -17,10 +17,9 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class OneStepSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
-    protected TemplateParam template;
-    protected KeyComponentParam keyComponent;
-    protected DesafioParam desafio;
+public abstract class OneStepSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
+    private KeyParam secrecyKey;
+    private KeyParam authKey;
 
     @Inject
     public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
@@ -39,30 +38,16 @@ public class OneStepSymmetricKeyImportService extends AbstractService implements
         this.passwordPolicy.setPassword(pin);
     }
 
-    public void setTemplate(byte template) {
-        this.template = new TemplateParam(template);
+    public void setAuthKey(byte[] key) {
+        this.authKey = new KeyParam(key);
     }
 
-    public void setKeyComponent(KeyTypeParam.KeyType keyType, int keyLength, String key) {
-        this.keyComponent = new KeyComponentParam(keyType, keyLength, key);
-    }
-
-    @Override
-    public String getServiceName() {
-        return "SERVICE_ONE_STEP_CLEARTEXT_SYM_KEY_IMPORT";
-    }
-
-    @Override
-    public int getServiceCode() {
-       return 32;
+    public void setSecrecyKey(byte[] key) {
+        this.secrecyKey = new KeyParam(key);
     }
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(template, keyComponent, desafio).toByteArray();
-    }
-
-    public void setDesafio(String desafio) {
-        this.desafio = new DesafioParam(desafio);
+        return BinnaryMsg.create().append(secrecyKey, authKey).toByteArray();
     }
 }

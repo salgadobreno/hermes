@@ -78,7 +78,7 @@ public class Chave {
 
     @Override
     public String toString() {
-        return getId();
+        return getId() + " - " + getAlgoritmo();
     }
 
     public String getErrors() {

@@ -54,11 +54,6 @@ public class AvixyRtcServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(50, service.getServiceCode());
-    }
-
-    @Test
     public void testMsg() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
     }

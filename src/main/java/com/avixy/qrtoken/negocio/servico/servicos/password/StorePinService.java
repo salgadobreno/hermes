@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -26,8 +27,8 @@ public class StorePinService extends AbstractService {
     }
 
     @Override
-    public int getServiceCode() {
-        return 22;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_STORE_PIN;
     }
 
     @Override

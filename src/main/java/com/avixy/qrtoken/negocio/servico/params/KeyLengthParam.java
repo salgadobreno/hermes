@@ -14,33 +14,41 @@ public class KeyLengthParam implements Param {
      No token teremos 5 bits para seleção de chave, os valores são fixos e ordenados(1, 2, 3..), esse enum seta eles na ordem e têm um Map<Integer, KeyLength> pra fazer reverse lookup
      */
     private enum KeyLength {
-        K64(64), K128(128), K160(160), K192(192), K224(224), K256(256), K320(320), K384(384), K512(512), K1024(1024), K2048(2048), K4096(4096);
+        //in bits
+        K64(8), K128(16), K160(20), K192(24), K224(28), K256(32), K320(40), K384(48), K512(64), K1024(128), K2048(256), K4096(512);
 
-        private static final Map<Integer, KeyLength> reverseLookup = new HashMap<>();
         private int length;
-
-        /* popula o map p/ reverse lookup */
-        static {
-            for (KeyLength k : EnumSet.allOf(KeyLength.class)){
-                reverseLookup.put(k.getLength(), k);
-            }
-        }
-
         KeyLength(int i) {
             this.length = i;
         }
 
         public int getLength(){ return length; }
 
-        public static KeyLength lookup(int i){ return reverseLookup.get(i); }
+        /* reverse lookup */
+        private static final Map<Integer, KeyLength> reverseLookup = new HashMap<>();
+
+        static {
+            for (KeyLength k : EnumSet.allOf(KeyLength.class)){
+                reverseLookup.put(k.getLength(), k);
+            }
+        }
+
+        public static KeyLength lookup(int i){
+            return reverseLookup.get(i);
+        }
+        /* /reverse lookup */
     }
 
     private KeyLength keyLength;
 
-    public KeyLengthParam(int i) {
-        this.keyLength = KeyLength.lookup(i);
-        if (this.keyLength == null) {
-            throw new IllegalArgumentException("Invalid key length.");
+    public KeyLengthParam(KeyLength keyLength) {
+        this.keyLength = keyLength;
+    }
+
+    public KeyLengthParam(int length) {
+        keyLength = KeyLength.lookup(length);
+        if (keyLength == null) {
+            throw new IllegalArgumentException("Invalid Key Length");
         }
     }
 

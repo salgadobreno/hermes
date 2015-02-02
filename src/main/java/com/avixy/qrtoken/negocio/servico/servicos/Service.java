@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.MessageAble;
 
 /**
@@ -12,7 +13,7 @@ public interface Service extends MessageAble {
 
     String getServiceName();
 
-    int getServiceCode();
+    ServiceCode getServiceCode();
 
     /** @return Dados a serem convertidos em um código QR p/ executar uma função no Avixy QR Token */
     byte[] run() throws Exception;

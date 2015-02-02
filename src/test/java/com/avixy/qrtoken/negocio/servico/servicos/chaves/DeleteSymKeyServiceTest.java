@@ -2,7 +2,6 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,16 +9,13 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DeleteSymKeyServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    DeleteSymKeyService service = new DeleteSymKeyService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy);
+    DeleteSymKeyService service = new DeleteSymKeyAvixyService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy);
 
     byte[] expectedMsg;
 
@@ -31,21 +27,15 @@ public class DeleteSymKeyServiceTest {
 //                0b00000000,
 //                (byte) 0b10101000,
 //                0b00110000,     //timestamp
-                0b0011_0001, //template_
+//                0b0000_0001, //template_
         };
 
         service.setTimestamp(new Date(epoch));
-        service.setKeySet((byte) 1);
         service.setAesKey("bla".getBytes());
 
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-    }
-
-    @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(36, service.getServiceCode());
     }
 
     @Test

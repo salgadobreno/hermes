@@ -48,11 +48,6 @@ public class ExportSymKeyServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(39, service.getServiceCode());
-    }
-
-    @Test
     public void testMessage() throws Exception {
         assertArrayEquals(expectedMsg, service.getMessage());
     }

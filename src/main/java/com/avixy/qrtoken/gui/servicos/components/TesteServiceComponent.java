@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.PingService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -32,8 +33,8 @@ public class TesteServiceComponent extends ServiceComponent {
             }
 
             @Override
-            public int getServiceCode() {
-                return 666;
+            public ServiceCode getServiceCode() {
+                return ServiceCode.SERVICE_00000100;
             }
             @Override
             public byte[] getMessage() {

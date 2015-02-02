@@ -3,8 +3,8 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import org.bouncycastle.util.encoders.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,40 +12,31 @@ import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class OneStepSymmetricKeyImportServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportService(headerPolicy, timestampPolicy, passwordPolicy);
+    OneStepSymmetricKeyImportService service = new OneStepSymmetricKeyImportAvixyService(headerPolicy, timestampPolicy, passwordPolicy);
     String expectedMsg;
 
     @Before
     public void setUp() throws Exception {
         long epoch = 1409329200000L;
-        expectedMsg =  "0100" +  //template4_
-                "0011" +  //keytype3
-                "00011" + //_keylength3
-                "01110011" + // 's'
-                "01100101" + // 'e'
-                "01101110" + // 'n'
-                "01101000" + // 'h'
-                "01100001" + // 'a'
-                "01111001" + // crc
-                "10100001" + // crc-ccitt 'senha' -> 0x79A1 == 31137 http://www.lammertbies.nl/comm/info/crc-calculation.html
-                "00110000" + // desafio 0372
-                "00110011" +
-                "00110111" +
-                "00110010";
+        //http://binary.online-toolz.com/tools/hex-binary-convertor.php
+        //http://www.lammertbies.nl/comm/info/crc-calculation.html -> CRC-CCITT (0xFFFF)
+        expectedMsg = "00000" + // keylength 0 - 8 bytes
+                "1010111000001010101010101111100100100010100101011110110111100101" + // key
+                "1010100000000010" + // crc
+                "00000" + // auth keylength 0 - 8 bytes
+                "1101111000111000101110101110010001101111001101110001011001111000" + // key
+                "0000011100001101"; // crc
 
         service.setTimestamp(new Date(epoch));
         service.setPin("1234");
-        service.setTemplate((byte)4);
-        service.setKeyComponent(KeyTypeParam.KeyType.RSA_ENCRYPTION, 192, "senha");
-        service.setDesafio("0372");
+        service.setSecrecyKey(Hex.decode("ae0aaaf92295ede5"));
+        service.setAuthKey(Hex.decode("de38bae46f371678"));
 
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
@@ -58,16 +49,10 @@ public class OneStepSymmetricKeyImportServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(32, service.getServiceCode());
-    }
-
-    @Test
     public void testOperations() throws Exception {
         service.run();
         verify(headerPolicy).getHeader(service);
         verify(passwordPolicy).get();
         verify(timestampPolicy).get();
-
     }
 }

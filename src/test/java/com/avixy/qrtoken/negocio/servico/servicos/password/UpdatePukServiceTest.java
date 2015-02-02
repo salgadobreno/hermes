@@ -49,11 +49,6 @@ public class UpdatePukServiceTest {
     }
 
     @Test
-    public void testServiceCode() throws Exception {
-        assertEquals(26, service.getServiceCode());
-    }
-
-    @Test
     public void testOperations() throws Exception {
         service.run();
         Mockito.verify(headerPolicy).getHeader(service);

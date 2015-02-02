@@ -1,7 +1,9 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -36,8 +38,8 @@ public class CreateAndExportSymKeyService extends AbstractService implements Pin
     }
 
     @Override
-    public int getServiceCode() {
-        return 38;
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_CREATE_AND_EXPORT_SYM_KEY;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class CreateAndExportSymKeyService extends AbstractService implements Pin
         this.passwordPolicy.setPassword(pin);
     }
 
-    public void setKeyType(KeyTypeParam.KeyType keyType){
+    public void setKeyType(KeyType keyType){
         this.keyType = new KeyTypeParam(keyType);
     }
 

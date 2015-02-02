@@ -5,8 +5,19 @@ package com.avixy.qrtoken.negocio.servico.params;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class KeyParam extends StringWrapperParam {
-    public KeyParam(String string) {
-        super(string);
+public class KeyParam extends BinaryWrapperParam {
+    // Includes CRC and key length
+    private KeyLengthParam keyLength;
+    private CrcParam crc;
+
+    public KeyParam(byte[] key) {
+        super(key);
+        keyLength = new KeyLengthParam(key.length);
+        crc = new CrcParam(key);
+    }
+
+    @Override
+    public String toBinaryString() {
+        return keyLength.toBinaryString() + super.toBinaryString() + crc.toBinaryString();
     }
 }
