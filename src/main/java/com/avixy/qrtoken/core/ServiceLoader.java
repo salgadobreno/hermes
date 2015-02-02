@@ -36,6 +36,14 @@ public class ServiceLoader {
                 if (componentAnnotation != null) {
                     if (component.getAnnotation(ServiceComponent.Category.class).category() == category) {
                         categoryListMap.get(category).add(component);
+                        //sort list by class name
+                        Collections.sort(categoryListMap.get(category), new Comparator<Class<? extends ServiceComponent>>() {
+                            @Override
+                            public int compare(Class<? extends ServiceComponent> o1, Class<? extends ServiceComponent> o2) {
+                                return o1.getName().compareTo(o2.getName());
+                            }
+                        });
+                        //\sort list by class name
                     }
                 }
             }
