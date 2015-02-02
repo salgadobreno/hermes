@@ -3,9 +3,11 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
@@ -18,15 +20,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble {
-    private KeyParam secretKey;
-    private KeyParam authKey;
+public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble {
+    protected KeyParam secretKey;
+    protected KeyParam authKey;
 
-    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
+        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
@@ -55,5 +58,10 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
     @Override
     public void setHmacKey(byte[] key) {
         hmacKeyPolicy.setKey(key);
+    }
+
+    @Override
+    public void setPin(String pin) {
+        this.passwordPolicy.setPassword(pin);
     }
 }

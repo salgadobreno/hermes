@@ -1,12 +1,10 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
 import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.UpdateSymmetricKeyService;
-import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -25,6 +23,8 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
 
     private ChaveSelect keySelect = new ChaveSelect();
     private ChaveSelect authSelect = new ChaveSelect();
+
+    private PasswordField pinField = new PasswordField();
 
     private HmacSelect currentAuth = new HmacSelect();
     private AesSelect currentSecret = new AesSelect();
@@ -48,6 +48,9 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
 
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
+
+        migPane.add(new Label("PIN:"));
+        migPane.add(pinField, "wrap");
 
         migPane.add(new Label("Aes Key:"));
         migPane.add(keySelect, "wrap");
@@ -73,6 +76,8 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
         service.setTimestamp(timestampField.getValue());
         service.setAesKey(currentSecret.getValue().getHexValue());
         service.setHmacKey(currentAuth.getValue().getHexValue());
+
+        service.setPin(pinField.getText());
 
         service.setSecretKey(keySelect.getValue().getHexValue());
         service.setAuthKey(authSelect.getValue().getHexValue());

@@ -2,9 +2,11 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsgTest;
+import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -23,7 +25,8 @@ public class UpdateSymmetricKeyServiceTest {
     QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = Mockito.mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    UpdateSymmetricKeyService service = new UpdateSymmetricKeyAvixyService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
+    PasswordPolicy passwordPolicy = Mockito.mock(PasswordPolicy.class);
+    UpdateSymmetricKeyService service = new UpdateSymmetricKeyAvixyService(headerPolicy, timestampPolicy, passwordPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
     String expectedMsg;
 
     @Before
@@ -39,6 +42,7 @@ public class UpdateSymmetricKeyServiceTest {
         service.setTimestamp(new Date(epoch));
         service.setHmacKey("zxcv".getBytes());
         service.setAesKey("bla".getBytes());
+        service.setPin("123456");
 
         service.setSecretKey(Hex.decodeHex("ae0aaaf92295ede5".toCharArray()));
         service.setAuthKey(Hex.decodeHex("de38bae46f371678".toCharArray()));
@@ -46,6 +50,7 @@ public class UpdateSymmetricKeyServiceTest {
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -60,5 +65,7 @@ public class UpdateSymmetricKeyServiceTest {
         Mockito.verify(timestampPolicy).get();
         Mockito.verify(headerPolicy).getHeader(service);
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
+        Mockito.verify(passwordPolicy).setPassword(Mockito.anyString());
+        Mockito.verify(passwordPolicy).get();
     }
 }

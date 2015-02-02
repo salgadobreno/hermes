@@ -3,6 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -14,8 +15,8 @@ import com.google.inject.Inject;
  */
 public class UpdateSYmmetricKeyClientService extends UpdateSymmetricKeyService {
     @Inject
-    protected UpdateSYmmetricKeyClientService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
-        super(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy);
+    protected UpdateSYmmetricKeyClientService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy, timestampPolicy, passwordPolicy, messagePolicy, hmacKeyPolicy);
     }
 
     @Override
