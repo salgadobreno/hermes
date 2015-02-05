@@ -4,7 +4,6 @@ import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.password.OverridePinService;
 import com.google.inject.Inject;
@@ -29,8 +28,8 @@ public class OverridePinServiceComponent extends ServiceComponent {
      * @param qrCodePolicy
      */
     @Inject
-    protected OverridePinServiceComponent(OverridePinService service, BasicQrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected OverridePinServiceComponent(OverridePinService service) {
+        super(service);
         this.service = service;
     }
 

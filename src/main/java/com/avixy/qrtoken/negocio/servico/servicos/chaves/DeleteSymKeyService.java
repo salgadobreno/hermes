@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
+import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
-import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
@@ -16,14 +16,13 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class DeleteSymKeyService extends AbstractService implements AesCrypted, TimestampAble {
-    private TemplateParam template;
+public abstract class DeleteSymKeyService extends AbstractService implements HmacAble, TimestampAble {
 
     @Inject
-    public DeleteSymKeyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
+    public DeleteSymKeyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy) {
         super(headerPolicy);
         this.headerPolicy = headerPolicy;
-        this.messagePolicy = aesCryptedMessagePolicy;
+        this.hmacKeyPolicy = hmacKeyPolicy;
         this.timestampPolicy = timestampPolicy;
     }
 
@@ -33,12 +32,13 @@ public abstract class DeleteSymKeyService extends AbstractService implements Aes
     }
 
     @Override
+    public void setHmacKey(byte[] key) {
+        this.hmacKeyPolicy.setKey(key);
+    }
+
+    @Override
     public void setTimestamp(Date date){
         this.timestampPolicy.setDate(date);
     }
 
-    @Override
-    public void setAesKey(byte[] key) {
-        ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
-    }
 }

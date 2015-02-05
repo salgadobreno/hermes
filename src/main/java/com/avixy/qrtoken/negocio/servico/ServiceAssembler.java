@@ -31,13 +31,18 @@ public class ServiceAssembler {
      * @throws Exception
      */
     public byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) throws Exception {
+        byte[] message_content = messagePolicy.get(service);
+        return get(service, message_content, headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy);
+    }
+
+    public byte[] get(Service service, byte[] message, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) throws Exception {
         byte[] data = new byte[0];
 
         byte[] header, timestamp, message_content, pin;
+        message_content = message;
 
         header = headerPolicy.getHeader(service);
         timestamp = timestampPolicy.get();
-        message_content = messagePolicy.get(service);
         pin = passwordPolicy.get();
 
         // NOTE: O Token não lê QR Nível 1, então estamos verificando isso aqui e colocando um padding

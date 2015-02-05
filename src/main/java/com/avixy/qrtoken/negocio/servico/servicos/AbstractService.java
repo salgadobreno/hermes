@@ -1,9 +1,17 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -11,6 +19,8 @@ import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
  * Created on 03/09/2014
  */
 public abstract class AbstractService implements Service {
+    static Logger log = LoggerFactory.getLogger(AbstractService.class);
+
     private ServiceAssembler serviceAssembler = new ServiceAssembler();
 
     protected HeaderPolicy headerPolicy = new NoHeaderPolicy();
@@ -26,6 +36,15 @@ public abstract class AbstractService implements Service {
     @Override
     public byte[] run() throws Exception {
         byte[] data = serviceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy);
+        log.info("SERVICE DATA: {}", Hex.encodeHex(data));
         return data;
+    }
+
+    @Override
+    public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
+        List<QrTokenCode> tokenCodeList = new ArrayList<>();
+        QrTokenCode tokenCode = new QrTokenCode(serviceAssembler.get(this, getMessage(), headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy), setup);
+        tokenCodeList.add(tokenCode);
+        return tokenCodeList;
     }
 }

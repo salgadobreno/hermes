@@ -8,7 +8,6 @@ import java.util.Date;
  * Created on 10/09/2014
  */
 public class TimestampParam implements Param {
-    private static int LENGTH = 32;
     private Integer timestamp;
 
     public TimestampParam(Date timestamp) {

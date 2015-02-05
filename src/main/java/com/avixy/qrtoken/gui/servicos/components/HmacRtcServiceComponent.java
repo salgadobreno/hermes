@@ -2,7 +2,6 @@ package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.rtc.AbstractHmacRtcService;
 import com.google.inject.Inject;
@@ -43,8 +42,8 @@ public class HmacRtcServiceComponent extends ServiceComponent {
      */
 
     @Inject
-    public HmacRtcServiceComponent(AbstractHmacRtcService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public HmacRtcServiceComponent(AbstractHmacRtcService service) {
+        super(service);
         this.service = service;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));

@@ -1,11 +1,15 @@
 package com.avixy.qrtoken.negocio.servico.operations;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +36,8 @@ public class AesCryptedMessagePolicyTest {
             public ServiceCode getServiceCode() { return ServiceCode.SERVICE_EMPTY; }
             @Override
             public byte[] run() throws Exception { return new byte[0]; }
+            @Override
+            public List<QrTokenCode> getQrs(QrSetup setup) throws Exception { return null; }
             @Override
             public byte[] getMessage() {
                 return text128;

@@ -23,4 +23,3 @@ public class CRC16CCITT {
         return crc;
     }
 }
-

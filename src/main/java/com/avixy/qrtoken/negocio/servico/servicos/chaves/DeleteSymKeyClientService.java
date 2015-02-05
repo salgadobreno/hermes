@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -13,8 +14,8 @@ import com.google.inject.Inject;
  */
 public class DeleteSymKeyClientService extends DeleteSymKeyService {
     @Inject
-    public DeleteSymKeyClientService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
-        super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy);
+    public DeleteSymKeyClientService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy, timestampPolicy, hmacKeyPolicy);
     }
 
     @Override

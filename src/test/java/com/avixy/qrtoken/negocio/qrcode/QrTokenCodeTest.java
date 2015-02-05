@@ -13,7 +13,6 @@ import static org.junit.Assert.assertNotNull;
  * @author Breno Salgado <breno.salgado@axivy.com>
  */
 public class QrTokenCodeTest {
-    QrCodePolicy policy = new BasicQrCodePolicy();
     byte[] header = "hhhhh".getBytes();
     byte[] dados = "dados".getBytes();
     QrSetup setup = new QrSetup(Version.getVersionForNumber(1), ErrorCorrectionLevel.L);

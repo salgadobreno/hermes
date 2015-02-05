@@ -1,24 +1,15 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
+import com.avixy.qrtoken.core.extensions.components.ChaveSelect;
+import com.avixy.qrtoken.core.extensions.components.PasswordField;
+import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.OneStepSymmetricKeyImportService;
-import com.google.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-import org.apache.commons.codec.binary.Hex;
 import org.tbee.javafx.scene.layout.MigPane;
-
-import java.util.Collections;
 
 
 /**
@@ -39,8 +30,8 @@ public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceC
      * @param service
      * @param qrCodePolicy
      */
-    public OneStepSymmetricKeyImportServiceComponent(OneStepSymmetricKeyImportService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public OneStepSymmetricKeyImportServiceComponent(OneStepSymmetricKeyImportService service) {
+        super(service);
         this.service = service;
     }
 

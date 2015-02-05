@@ -1,7 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.negocio.qrcode.MultipleQrCodePolicy;
+import com.avixy.qrtoken.core.extensions.components.AesSelect;
+import com.avixy.qrtoken.core.extensions.components.HexField;
+import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.QrVersionSelect;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -25,7 +27,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -89,10 +90,9 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     private StringExpression bytesPraDadosFormat = Bindings.format("Bytes p/ Dados: %s", bytesPraDadosProperty);
 
     @Inject
-    protected UpdateFirmwareServiceComponent(final UpdateFirmwareService service, MultipleQrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected UpdateFirmwareServiceComponent(final UpdateFirmwareService service) {
+        super(service);
         this.service = service;
-
     }
 
     @Override
@@ -207,10 +207,11 @@ public class UpdateFirmwareServiceComponent extends ServiceComponent {
     @Override
     public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
         getService(); // para que os parâmetros sejam preenchidos
-        List<QrTokenCode> qrTokenCodes = new ArrayList<>();
-        qrTokenCodes.add(new QrTokenCode(service.getInitialQr(), setup));
-        qrTokenCodes.addAll(qrCodePolicy.getQrs(service, setup));
-        return qrTokenCodes;
+//        List<QrTokenCode> qrTokenCodes = new ArrayList<>();
+//        qrTokenCodes.add(new QrTokenCode(service.getInitialQr(), setup));
+//        qrTokenCodes.addAll(qrCodePolicy.getQrs(service, setup));
+//        return qrTokenCodes;
+        return service.getQrs(setup);
     }
 
     @FXML

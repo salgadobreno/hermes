@@ -3,7 +3,6 @@ package com.avixy.qrtoken.gui.servicos.components.banking;
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
@@ -30,8 +29,8 @@ public class LoginServiceComponent extends ServiceComponent {
     private AesSelect aesField = new AesSelect();
 
     @Inject
-    protected LoginServiceComponent(LoginService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected LoginServiceComponent(LoginService service) {
+        super(service);
         this.service = service;
     }
 

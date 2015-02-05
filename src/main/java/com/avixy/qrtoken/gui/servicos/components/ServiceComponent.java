@@ -1,22 +1,16 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.gui.controllers.HomeController;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
-import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.google.zxing.qrcode.decoder.Version;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import org.bouncycastle.crypto.CryptoException;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 /**
@@ -25,18 +19,16 @@ import java.util.List;
  *
  * Created on 08/08/2014
  */
- public abstract class ServiceComponent extends VBox {
+public abstract class ServiceComponent extends VBox {
     protected Service service;
-    protected QrCodePolicy qrCodePolicy;
     protected HomeController controller;
 
     /**
      *
      * @param service
      */
-    protected ServiceComponent(Service service, QrCodePolicy qrCodePolicy) {
+    protected ServiceComponent(Service service) {
         this.service = service;
-        this.qrCodePolicy = qrCodePolicy;
     }
 
     public Service getService() throws Exception { return service; }
@@ -49,12 +41,8 @@ import java.util.List;
         this.controller = controller;
     }
 
-    public HomeController getController() {
-        return controller;
-    }
-
     public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
-        return qrCodePolicy.getQrs(getService(), setup); //TODO
+        return getService().getQrs(setup); //TODO
     }
 
     /**

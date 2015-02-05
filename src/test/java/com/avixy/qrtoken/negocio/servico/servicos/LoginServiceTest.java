@@ -52,12 +52,6 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void testHeader() throws Exception {
-        service.run();
-        verify(qrtHeaderPolicy).getHeader(service);
-    }
-
-    @Test
     public void testOperations() throws Exception {
         service.run();
         verify(aesCryptedMessagePolicy).get(service);

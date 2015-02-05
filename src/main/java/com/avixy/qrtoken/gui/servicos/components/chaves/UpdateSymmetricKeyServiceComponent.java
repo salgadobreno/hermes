@@ -2,7 +2,6 @@ package com.avixy.qrtoken.gui.servicos.components.chaves;
 
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.UpdateSymmetricKeyService;
 import javafx.scene.Node;
@@ -33,8 +32,8 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
      * @param service
      * @param qrCodePolicy
      */
-    protected UpdateSymmetricKeyServiceComponent(UpdateSymmetricKeyService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected UpdateSymmetricKeyServiceComponent(UpdateSymmetricKeyService service) {
+        super(service);
         this.service = service;
     }
 

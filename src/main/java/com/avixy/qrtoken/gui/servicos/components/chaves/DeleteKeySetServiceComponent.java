@@ -1,14 +1,10 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.AesSelect;
-import com.avixy.qrtoken.core.extensions.components.KeySetSelect;
+import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
-import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.DeleteSymKeyService;
-import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
@@ -21,10 +17,10 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
 
     private DeleteSymKeyService service;
     private TimestampField timestampField = new TimestampField();
-    private AesSelect aesSelect = new AesSelect();
+    private HmacSelect hmacSelect = new HmacSelect();
 
-    public DeleteKeySetServiceComponent(DeleteSymKeyService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public DeleteKeySetServiceComponent(DeleteSymKeyService service) {
+        super(service);
         this.service = service;
     }
 
@@ -39,8 +35,8 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
 
-        migPane.add(new Label("Chave AES:"));
-        migPane.add(aesSelect, "wrap");
+        migPane.add(new Label("Chave HMAC:"));
+        migPane.add(hmacSelect, "wrap");
 
         return migPane;
     }
@@ -49,7 +45,7 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
     public Service getService()
     {
         service.setTimestamp(timestampField.getValue());
-        service.setAesKey(aesSelect.getValue().getHexValue());
+        service.setHmacKey(hmacSelect.getValue().getHexValue());
 
         return service;
     }

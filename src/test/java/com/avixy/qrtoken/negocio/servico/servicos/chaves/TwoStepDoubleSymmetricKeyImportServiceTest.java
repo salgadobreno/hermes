@@ -4,20 +4,15 @@ import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.nio.charset.Charset;
 import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 //TODO defasated
 //public class TwoStepDoubleSymmetricKeyImportServiceTest {
@@ -53,11 +48,6 @@ import static org.mockito.Mockito.when;
 //        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
 //        when(passwordPolicy.get()).thenReturn(new byte[0]);
 //        when(timestampPolicy.get()).thenReturn(new byte[0]);
-//    }
-//
-//    @Test
-//    public void testServiceCode() throws Exception {
-//        assertEquals(35, service.getServiceCode());
 //    }
 //
 //    @Test

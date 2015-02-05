@@ -64,7 +64,6 @@ public class HomeController {
     @FXML private VBox qrDisplayVBox;
     @FXML private ImageView qrView;
     @FXML private Slider correctionLevelSlider;
-//    @FXML private ComboBox<Integer> qrVersionField;
     @FXML private AnchorPane content;
     @FXML private Accordion servicesAccordion;
     @FXML private Label errorLabel;

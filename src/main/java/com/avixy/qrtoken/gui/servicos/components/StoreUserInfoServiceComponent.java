@@ -3,18 +3,12 @@ package com.avixy.qrtoken.gui.servicos.components;
 import com.avixy.qrtoken.core.extensions.components.AesSelect;
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.Chave;
-import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
-import org.apache.commons.lang.RandomStringUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
 /**
@@ -38,8 +32,8 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     private AesSelect aesField = new AesSelect();
 
     @Inject
-    public StoreUserInfoServiceComponent(StoreUserInfoService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public StoreUserInfoServiceComponent(StoreUserInfoService service) {
+        super(service);
         this.service = service;
     }
 

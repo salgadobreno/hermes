@@ -3,7 +3,6 @@ package com.avixy.qrtoken.gui.servicos.components.password;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.password.StorePinService;
 import com.google.inject.Inject;
@@ -28,8 +27,8 @@ public class StorePinServiceComponent extends ServiceComponent {
      * @param qrCodePolicy
      */
     @Inject
-    protected StorePinServiceComponent(StorePinService service, BasicQrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected StorePinServiceComponent(StorePinService service) {
+        super(service);
         this.service = service;
     }
 

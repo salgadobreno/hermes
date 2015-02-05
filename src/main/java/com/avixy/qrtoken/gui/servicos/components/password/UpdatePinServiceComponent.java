@@ -4,13 +4,11 @@ import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.password.UpdatePinService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -30,8 +28,8 @@ public class UpdatePinServiceComponent extends ServiceComponent {
      * @param qrCodePolicy
      */
     @Inject
-    protected UpdatePinServiceComponent(UpdatePinService service, BasicQrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected UpdatePinServiceComponent(UpdatePinService service) {
+        super(service);
         this.service = service;
     }
 

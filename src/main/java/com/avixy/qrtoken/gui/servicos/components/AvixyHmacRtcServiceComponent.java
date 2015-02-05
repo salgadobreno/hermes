@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.rtc.AvixyRtcService;
@@ -15,7 +14,7 @@ import com.google.inject.Inject;
 @AcceptsKey(keyType = KeyType.HMAC)
 public class AvixyHmacRtcServiceComponent extends HmacRtcServiceComponent {
     @Inject
-    public AvixyHmacRtcServiceComponent(AvixyRtcService service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public AvixyHmacRtcServiceComponent(AvixyRtcService service) {
+        super(service);
     }
 }

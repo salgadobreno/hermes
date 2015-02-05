@@ -1,10 +1,12 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 
 import java.util.Date;
 
@@ -13,28 +15,22 @@ import static org.mockito.Mockito.*;
 
 public class DeleteSymKeyServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
-    AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    DeleteSymKeyService service = new DeleteSymKeyAvixyService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy);
+    DeleteSymKeyService service = new DeleteSymKeyAvixyService(headerPolicy, timestampPolicy, hmacKeyPolicy);
 
     byte[] expectedMsg;
 
     @Before
     public void setUp() throws Exception {
         long epoch = 1409329200000L;
-        expectedMsg = new byte[]{
-//                0b01010100,
-//                0b00000000,
-//                (byte) 0b10101000,
-//                0b00110000,     //timestamp
-//                0b0000_0001, //template_
-        };
+        expectedMsg = new byte[]{ };
 
         service.setTimestamp(new Date(epoch));
-        service.setAesKey("bla".getBytes());
+        service.setHmacKey("bla".getBytes());
 
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
-        when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
+        when(hmacKeyPolicy.apply(Matchers.<byte[]>any())).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
 
@@ -46,7 +42,7 @@ public class DeleteSymKeyServiceTest {
     @Test
     public void testOps() throws Exception {
         service.run();
-        verify(aesCryptedMessagePolicy).get(service);
+        verify(hmacKeyPolicy).apply(Matchers.<byte[]>any());
         verify(timestampPolicy).get();
         verify(headerPolicy).getHeader(service);
     }

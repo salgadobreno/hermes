@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -13,8 +12,8 @@ import org.tbee.javafx.scene.layout.MigPane;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public abstract class NoParamServiceComponent extends ServiceComponent {
-    public NoParamServiceComponent(Service service, QrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    public NoParamServiceComponent(Service service) {
+        super(service);
     }
 
     @Override

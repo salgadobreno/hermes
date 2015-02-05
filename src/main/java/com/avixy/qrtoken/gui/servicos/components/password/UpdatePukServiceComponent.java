@@ -4,9 +4,7 @@ import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.qrcode.BasicQrCodePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.password.UpdatePinService;
 import com.avixy.qrtoken.negocio.servico.servicos.password.UpdatePukService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
@@ -30,8 +28,8 @@ public class UpdatePukServiceComponent extends ServiceComponent {
      * @param qrCodePolicy
      */
     @Inject
-    protected UpdatePukServiceComponent(UpdatePukService service, BasicQrCodePolicy qrCodePolicy) {
-        super(service, qrCodePolicy);
+    protected UpdatePukServiceComponent(UpdatePukService service) {
+        super(service);
         this.service = service;
     }
 
