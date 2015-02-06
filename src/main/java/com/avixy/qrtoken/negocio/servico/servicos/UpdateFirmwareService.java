@@ -15,22 +15,20 @@ import org.bouncycastle.crypto.CryptoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 import static org.apache.commons.lang.ArrayUtils.add;
 import static org.apache.commons.lang.ArrayUtils.addAll;
-import static org.apache.commons.lang.ArrayUtils.nullToEmpty;
 
 /**
  * Created on 14/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
+//TODO: atualizar p/ remoção do QrCodePolicy
 public class UpdateFirmwareService extends AbstractService implements AesCrypted, HmacAble {
     private Logger logger = LoggerFactory.getLogger(UpdateFirmwareService.class);
-    private static final Charset CHARSET = Charset.forName("ISO-8859-1");
 
     private QrSetup qrSetup;
 

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+//TODO
 public class UpdateFirmwareServiceTest {
     AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(){
         @Override
@@ -83,7 +84,7 @@ public class UpdateFirmwareServiceTest {
 
         service.setQrSetup(setup);
         service.setContent(content);
-        service.setModuleOffset((byte) moduleOffset);
+        service.setModuleOffset(moduleOffset);
         service.setChallenge(challenge);
         service.setInterruptionCount(interruptionCounter);
         service.setInterruptionBytes(interruptionInfo);
