@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.core.extensions.binnary.CRC16CCITT;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
@@ -9,14 +8,11 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
-import com.avixy.qrtoken.negocio.servico.operations.RandomProxy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.BinaryWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.CrcParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.FFHeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
@@ -34,9 +30,9 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
     private byte[] secrecyKey;
     private byte[] authKey;
 
-    private byte[] k;
-    private byte[] k1;
-    private byte[] k2;
+    private byte[] k; // k é a concatenação das duas chaves
+    private byte[] randomComponent;
+    private byte[] keyComponent;
 
     private RandomGenerator randomGenerator;
 
@@ -66,37 +62,37 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
         this.passwordPolicy.setPassword(pin);
     }
 
-    private void generateK1() {
+    private void generateRandomComponent() {
         k = ArrayUtils.addAll(secrecyKey, authKey);
-        k1 = new byte[k.length];
-        randomGenerator.nextBytes(k1);
+        randomComponent = new byte[k.length];
+        randomGenerator.nextBytes(randomComponent);
     }
 
-    private void generateK2() {
-        k2 = new byte[k.length];
+    private void generateKeyComponent() {
+        keyComponent = new byte[k.length];
         for (int i = 0; i < k.length; i++) {
-            k2[i] = (byte) (k[i] ^ k1[i]);
+            keyComponent[i] = (byte) (k[i] ^ randomComponent[i]);
         }
     }
 
     public byte[] getQr1(){
-        generateK1();
+        generateRandomComponent();
 
         KeyLengthParam sKeyLengthParam = new KeyLengthParam(secrecyKey.length);
         KeyLengthParam aKeyLengthParam = new KeyLengthParam(authKey.length);
-        BinaryWrapperParam k1Param = new BinaryWrapperParam(k1);
-        CrcParam crcParam = new CrcParam(k1);
+        BinaryWrapperParam k1Param = new BinaryWrapperParam(randomComponent);
+        CrcParam crcParam = new CrcParam(randomComponent);
 
         return BinnaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k1Param.toBinaryString() + crcParam.toBinaryString());
     }
 
     public byte[] getQr2(){
-        generateK2();
+        generateKeyComponent();
 
         KeyLengthParam sKeyLengthParam = new KeyLengthParam(secrecyKey.length);
         KeyLengthParam aKeyLengthParam = new KeyLengthParam(authKey.length);
-        BinaryWrapperParam k2Param = new BinaryWrapperParam(k2);
-        CrcParam crcParam = new CrcParam(k2);
+        BinaryWrapperParam k2Param = new BinaryWrapperParam(keyComponent);
+        CrcParam crcParam = new CrcParam(keyComponent);
 
         return BinnaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k2Param.toBinaryString() + crcParam.toBinaryString());
     }
