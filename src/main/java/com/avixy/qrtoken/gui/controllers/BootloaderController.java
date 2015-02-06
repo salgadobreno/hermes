@@ -1,8 +1,6 @@
-
 package com.avixy.qrtoken.gui.controllers;
 
 import com.avixy.qrtoken.core.QrUtils;
-import com.avixy.qrtoken.negocio.qrcode.QrCodePolicy;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
