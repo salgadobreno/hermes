@@ -12,8 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,33 +29,19 @@ import java.util.TimeZone;
 public class HmacRtcServiceComponent extends ServiceComponent {
     protected Logger logger = LoggerFactory.getLogger(HmacRtcServiceComponent.class);
 
-    protected final String FXML_PATH = "/fxml/rtcservice.fxml";
-
     protected Node node;
 
-    @FXML protected Label title;
-    @FXML protected TimestampField timestampField;
-    @FXML protected ComboBox<String> fusoBox;
-    @FXML protected HmacSelect keyField;
+    protected Label title = new Label();
+    protected TimestampField timestampField = new TimestampField();
+    protected ComboBox<String> fusoBox = new ComboBox<>();
+    protected HmacSelect keyField = new HmacSelect();
 
-
-    /* TODO:
-     * remover os tooltips padrao dos time fields -> CalendarTextFieldCaspianSkin.java ..
-     */
 
     @Inject
     public HmacRtcServiceComponent(AbstractHmacRtcService service) {
         super(service);
         this.service = service;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
-        fxmlLoader.setController(this);
-
-        try {
-            node = (Node) fxmlLoader.load();
-        } catch (IOException e) {
-            logger.error("FXML Error: ", e);
-        }
         title.setText(service.getServiceName());
 
         ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
@@ -74,7 +62,23 @@ public class HmacRtcServiceComponent extends ServiceComponent {
     }
 
     @Override
-    public Node getNode() { return node; }
+    public Node getNode() {
+        MigPane migPane = new MigPane();
+
+        title.setFont(new Font(18));
+        migPane.add(title, "wrap, span");
+
+        migPane.add(new Label("Timestamp:"));
+        migPane.add(timestampField, "wrap");
+
+        migPane.add(new Label("Fuso horário:"));
+        migPane.add(fusoBox, "wrap");
+
+        migPane.add(new Label("HMAC Key:"));
+        migPane.add(keyField, "wrap");
+
+        return migPane;
+    }
 
     @Override
     public String getServiceName() { return service.getServiceName(); }

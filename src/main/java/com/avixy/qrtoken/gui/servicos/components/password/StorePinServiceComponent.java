@@ -37,7 +37,7 @@ public class StorePinServiceComponent extends ServiceComponent {
         MigPane migPane = new MigPane();
         Label label = new Label("Armazenar PIN");
         label.setFont(new Font(18));
-        migPane.add(label, "wrap");
+        migPane.add(label, "wrap, span");
         migPane.add(new Label("PIN:"));
         migPane.add(pinField, "wrap");
         return migPane;

@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import jfxtras.labs.scene.control.CalendarTextField;
+import jfxtras.scene.control.CalendarTextField;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
@@ -185,7 +185,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
         //timestamp
         service.setTimestamp(timestampField.getValue());
         //data
-        service.setData(dataCalendarTextField.getValue().getTime());
+        service.setData(dataCalendarTextField.getCalendar().getTime());
         //origem
         service.setNomeOrigem(origemNomeTextField.getText());
         service.setAgenciaOrigem(origemAgenciaTextField.getText());

@@ -38,7 +38,7 @@ public class UpdatePukServiceComponent extends ServiceComponent {
         MigPane migPane = new MigPane();
         Label title = new Label("Alterar PUK");
         title.setFont(new Font(18));
-        migPane.add(title, "wrap");
+        migPane.add(title, "wrap, span");
         migPane.add(new Label("PUK Atual:"));
         migPane.add(pukField, "wrap");
         migPane.add(new Label("Novo PUK:"));

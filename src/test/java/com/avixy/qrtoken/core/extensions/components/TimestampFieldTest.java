@@ -1,13 +1,19 @@
 package com.avixy.qrtoken.core.extensions.components;
 
+import com.avixy.qrtoken.JavaFXThreadingRule;
+import org.junit.Rule;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
 public class TimestampFieldTest {
+    @Rule
+    public JavaFXThreadingRule javaFXThreadingRule = new JavaFXThreadingRule();
 
     @Test
     public void testValue() throws Exception {
@@ -22,10 +28,9 @@ public class TimestampFieldTest {
         inputCalendarTime.set(Calendar.HOUR_OF_DAY, 16);
         inputCalendarTime.set(Calendar.MINUTE, 20); // seta a hora
 
-        timestampField.getCalendarTextField().setValue(inputCalendarDate);
-        timestampField.getCalendarTimeTextField().setValue(inputCalendarTime);
+        timestampField.getDatePicker().setValue(LocalDate.of(2014, Month.JULY, 19));
+        timestampField.getTimeTextField().setText("16:20");
 
         assertEquals(new Date(expectedTimestamp), timestampField.getValue());
-
     }
 }

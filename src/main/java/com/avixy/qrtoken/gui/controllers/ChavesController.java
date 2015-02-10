@@ -16,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
-import jfxtras.labs.scene.control.BeanPathAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -36,9 +36,9 @@ public class UpdatePinServiceComponent extends ServiceComponent {
     @Override
     public Node getNode() {
         MigPane migPane = new MigPane();
-        Label label = new Label("Alterar PIN");
-        label.setFont(new Font(18));
-        migPane.add(label, "wrap");
+        Label title = new Label("Alterar PIN");
+        title.setFont(new Font(18));
+        migPane.add(title, "wrap, span");
         migPane.add(new Label("PIN Atual:"));
         migPane.add(pinField, "wrap");
         migPane.add(new Label("Novo PIN:"));

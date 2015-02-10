@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -12,12 +13,12 @@
       <menus>
         <Menu mnemonicParsing="false" text="Edit">
                <items>
-            <MenuItem mnemonicParsing="false" onAction="#gerirChaves" text="Chaves" />
+            <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
                   <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
                </items></Menu>
       </menus>
     </MenuBar>
-      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="122.0" prefWidth="900.0">
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="94.0" prefWidth="900.0">
          <children>
             <ImageView fitHeight="88.0" fitWidth="112.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -26,77 +27,81 @@
             </ImageView>
          </children>
       </AnchorPane>
-    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="508.0" prefWidth="900.0">
+    <SplitPane dividerPositions="0.5" focusTraversable="true">
       <items>
-        <AnchorPane SplitPane.resizableWithParent="false">
-               <children>
-                  <Accordion id="servicesAccordion" fx:id="servicesAccordion" maxHeight="-Infinity" prefHeight="479.0" prefWidth="222.0" />
-               </children>
-        </AnchorPane>
-        <ScrollPane onKeyPressed="#handleKeyInput" prefHeight="-1.0" prefWidth="-1.0">
-          <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="479.0" prefWidth="670.0">
-                     <children>
-                        <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="324.0" textFill="RED" />
-                        <AnchorPane layoutX="345.0" prefHeight="479.0" prefWidth="311.0">
-                           <children>
-                              <VBox fx:id="qrDisplayVBox" layoutX="35.0" layoutY="34.0" prefHeight="145.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-border-style: dashed;">
-                                 <children>
-                                    <ImageView fx:id="qrView" fitHeight="211.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </VBox>
-                              <ImageView fx:id="previousQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="35.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                                 <image>
-                                    <Image url="@../images/arrow-88-24.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="nextQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="210.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" rotate="180" visible="false">
-                                 <image>
-                                    <Image url="@../images/arrow-88-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label layoutX="195.0" layoutY="145.0" rotate="-90.0" text="Error Correction level" />
-                              <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="260.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-                              <VBox layoutX="35.0" layoutY="253.0" prefHeight="200.0" prefWidth="204.0">
-                                 <children>
-                                    <AnchorPane prefHeight="44.0" prefWidth="204.0">
-                                       <children>
-                                          <ImageView fx:id="nextQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="162.0" layoutY="8.0" onMouseClicked="#nextQrCode" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                                             <image>
-                                                <Image url="@../images/arrow-88-24.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Button layoutX="84.0" layoutY="9.0" mnemonicParsing="false" onAction="#zoomQR">
-                                             <graphic>
-                                                <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../images/09_Expand-128.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </Button>
-                                          <ImageView fx:id="previousQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="14.0" layoutY="8.0" onMouseClicked="#previousQrCode" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/arrow-88-24.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </VBox>
-                              <Label fx:id="qtdQrsLabel" layoutX="37.0" layoutY="14.0" prefHeight="17.0" prefWidth="201.0" text="X/X" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane fx:id="content" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="335.0" />
-                        <Button defaultButton="true" layoutX="300.0" layoutY="130.0" mnemonicParsing="false" onAction="#gerarQr" text="Gerar -&gt;" />
-                     </children>
-            </AnchorPane>
-          </content>
+        <ScrollPane SplitPane.resizableWithParent="false">
+           <content>
+               <AnchorPane>
+                  <children>
+                     <Accordion id="servicesAccordion" fx:id="servicesAccordion" prefHeight="479.0" prefWidth="222.0" />
+                  </children>
+               </AnchorPane>
+           </content>
         </ScrollPane>
+        <AnchorPane onKeyPressed="#handleKeyInput" prefHeight="-1.0" prefWidth="-1.0">
+           <children>
+               <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="479.0" prefWidth="670.0">
+                        <children>
+                           <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="324.0" textFill="RED" />
+                           <AnchorPane layoutX="345.0" prefHeight="479.0" prefWidth="324.0">
+                              <children>
+                                 <VBox fx:id="qrDisplayVBox" layoutX="35.0" layoutY="34.0" prefHeight="145.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-border-style: dashed;">
+                                    <children>
+                                       <ImageView fx:id="qrView" fitHeight="211.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                 </VBox>
+                                 <ImageView fx:id="previousQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="35.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../images/arrow-88-24.png" />
+                                    </image>
+                                 </ImageView>
+                                 <ImageView fx:id="nextQrImage" fitHeight="28.0" fitWidth="28.0" layoutX="210.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" rotate="180" visible="false">
+                                    <image>
+                                       <Image url="@../images/arrow-88-24.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label layoutX="195.0" layoutY="145.0" rotate="-90.0" text="Error Correction level" />
+                                 <Slider fx:id="correctionLevelSlider" blockIncrement="1.0" layoutX="260.0" layoutY="81.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" orientation="VERTICAL" prefHeight="145.0" prefWidth="28.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                 <VBox layoutX="35.0" layoutY="253.0" prefHeight="200.0" prefWidth="204.0">
+                                    <children>
+                                       <AnchorPane prefHeight="44.0" prefWidth="204.0">
+                                          <children>
+                                             <ImageView fx:id="nextQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="162.0" layoutY="8.0" onMouseClicked="#nextQrCode" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                                                <image>
+                                                   <Image url="@../images/arrow-88-24.png" />
+                                                </image>
+                                             </ImageView>
+                                             <Button layoutX="84.0" layoutY="9.0" mnemonicParsing="false" onAction="#zoomQR">
+                                                <graphic>
+                                                   <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                      <image>
+                                                         <Image url="@../images/09_Expand-128.png" />
+                                                      </image>
+                                                   </ImageView>
+                                                </graphic>
+                                             </Button>
+                                             <ImageView fx:id="previousQrImage1" fitHeight="28.0" fitWidth="28.0" layoutX="14.0" layoutY="8.0" onMouseClicked="#previousQrCode" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                   <Image url="@../images/arrow-88-24.png" />
+                                                </image>
+                                             </ImageView>
+                                          </children>
+                                       </AnchorPane>
+                                    </children>
+                                 </VBox>
+                                 <Label fx:id="qtdQrsLabel" layoutX="37.0" layoutY="14.0" prefHeight="17.0" prefWidth="201.0" text="X/X" textAlignment="CENTER">
+                                    <font>
+                                       <Font name="System Bold" size="12.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </AnchorPane>
+                         <AnchorPane fx:id="content" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="335.0" />
+                           <Button defaultButton="true" layoutX="300.0" layoutY="130.0" mnemonicParsing="false" onAction="#gerarQr" text="Gerar -&gt;" />
+                        </children>
+               </AnchorPane>
+           </children>
+        </AnchorPane>
       </items>
     </SplitPane>
   </children>

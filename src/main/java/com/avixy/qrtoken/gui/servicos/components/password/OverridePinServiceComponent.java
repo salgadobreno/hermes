@@ -38,7 +38,7 @@ public class OverridePinServiceComponent extends ServiceComponent {
         MigPane migPane = new MigPane();
         Label title = new Label("Sobreescrever PIN");
         title.setFont(new Font(18));
-        migPane.add(title, "wrap");
+        migPane.add(title, "wrap, span");
         migPane.add(new Label("PUK Atual:"));
         migPane.add(pukField, "wrap");
         migPane.add(new Label("Novo PIN:"));

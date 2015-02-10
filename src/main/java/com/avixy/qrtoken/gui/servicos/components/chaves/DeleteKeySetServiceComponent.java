@@ -27,10 +27,10 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
     @Override
     public Node getNode() {
         MigPane migPane = new MigPane();
-        Label title = new Label("Deletar chaves");
+        Label title = new Label(service.getServiceName());
 
         title.setFont(new Font(18));
-        migPane.add(title, "wrap");
+        migPane.add(title, "wrap, span");
 
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");

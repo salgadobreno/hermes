@@ -37,7 +37,7 @@ public class StorePukServiceComponent extends ServiceComponent {
         MigPane migPane = new MigPane();
         Label label = new Label("Armazenar PUK");
         label.setFont(new Font(18));
-        migPane.add(label, "wrap");
+        migPane.add(label, "wrap, span");
         migPane.add(new Label("PUK:"));
         migPane.add(pukField, "wrap");
         return migPane;

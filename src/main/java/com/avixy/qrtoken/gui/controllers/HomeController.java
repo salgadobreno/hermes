@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -114,14 +116,15 @@ public class HomeController {
                 serviceNameMap.put(serviceComponent.getServiceName(), serviceComponent);
             }
             // Cria ListViews de serviços
-            AnchorPane anchorPane = new AnchorPane();
-            ListView<String> list = new ListView<>();
-            list.setId("listView");
+            VBox vBox = new VBox(0);
+            vBox.setPadding(Insets.EMPTY);
+            final ListView<String> listView = new ListView<>();
+            listView.setId("listView");
             ObservableList<String> items = FXCollections.observableList(servicoForCategoryListNames);
-            list.setItems(items);
-            anchorPane.getChildren().add(list);
+            listView.setItems(items);
+            vBox.getChildren().add(listView);
             // Adiciona o callback de seleção
-            list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                     if (newValue != null) {
@@ -132,13 +135,12 @@ public class HomeController {
                     }
                 }
             });
-            listViewList.add(list);
+            listViewList.add(listView);
 
             // Adiciona a categoria
-            TitledPane titledPane = new TitledPane(category.toString(), anchorPane);
+            TitledPane titledPane = new TitledPane(category.toString(), vBox);
             servicesAccordion.getPanes().add(titledPane);
         }
-
     }
 
     /**
@@ -208,7 +210,7 @@ public class HomeController {
         log.error("Error: ", e);
     }
 
-    public void gerirChaves() throws IOException {
+    public void gerenciaDeChaves() throws IOException {
         // se chavesStage for nulo, pega o stage de ChavesStage
         // -> mostra o chavesStage
 
@@ -260,8 +262,8 @@ public class HomeController {
         try {
             String fxmlFile = "/fxml/qrcodezoom.fxml";
             Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            zoomStage.setX(window.getX() + window.getWidth());
-            zoomStage.setY(window.getY());
+//            zoomStage.setX(window.getX() + window.getWidth());
+//            zoomStage.setY(window.getY());
             zoomStage.setResizable(false);
             zoomStage.setScene(new Scene(parent));
             zoomStage.show();
