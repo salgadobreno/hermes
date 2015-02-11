@@ -2,12 +2,15 @@ package com.avixy.qrtoken.core.extensions.components;
 
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+import javafx.util.converter.FormatStringConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,7 +21,7 @@ import java.util.Date;
  * Created on 16/09/2014
  */
 public class TimestampField extends HBox {
-    private DatePicker datePicker = new DatePicker();
+    private DatePicker datePicker = new FormattedDatePicker();
 
     static private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
     private RestrictiveTextField timeTextField = new RestrictiveTextField(5);
@@ -29,6 +32,7 @@ public class TimestampField extends HBox {
 
         datePicker.setMaxWidth(100);
         timeTextField.setMaxWidth(44);
+
 
         datePicker.setValue(LocalDate.now());
         timeTextField.setText(simpleDateFormat.format(new Date()));

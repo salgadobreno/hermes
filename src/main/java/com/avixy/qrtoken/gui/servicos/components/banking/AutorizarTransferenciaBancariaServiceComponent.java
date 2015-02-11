@@ -3,10 +3,10 @@ package com.avixy.qrtoken.gui.servicos.components.banking;
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
-import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
+import com.avixy.qrtoken.negocio.servico.servicos.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -23,10 +24,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import jfxtras.scene.control.CalendarTextField;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.ZoneOffset;
 
 /**
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -57,7 +59,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     private HmacSelect comboHmac = new HmacSelect();
     private TemplateSelect templateComboBox = new TemplateSelect();
     private PasswordField pinTextField = new PasswordField();
-    private CalendarTextField dataCalendarTextField = new CalendarTextField();
+    private DatePicker datePicker = new FormattedDatePicker();
     private TextField tanTextField = new TextField();
     private TextField valorTextField = new TextField();
     private TextField origemNomeTextField = new TextField();
@@ -123,7 +125,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             migPane.add(new Label("TAN:"));
             migPane.add(tanTextField, "wrap");
             migPane.add(new Label("Data:"));
-            migPane.add(dataCalendarTextField);
+            migPane.add(datePicker);
 
             migPane.add(new Label("Timestamp:"));
             migPane.add(timestampField, "wrap");
@@ -185,7 +187,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
         //timestamp
         service.setTimestamp(timestampField.getValue());
         //data
-        service.setData(dataCalendarTextField.getCalendar().getTime());
+        service.setData(Date.from(datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
         //origem
         service.setNomeOrigem(origemNomeTextField.getText());
         service.setAgenciaOrigem(origemAgenciaTextField.getText());
