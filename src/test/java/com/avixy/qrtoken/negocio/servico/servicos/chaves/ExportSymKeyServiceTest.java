@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
@@ -54,7 +55,7 @@ public class ExportSymKeyServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
         verify(headerPolicy).getHeader(service);
         verify(passwordPolicy).get();

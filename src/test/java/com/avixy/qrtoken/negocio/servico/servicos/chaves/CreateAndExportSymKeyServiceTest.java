@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
@@ -56,7 +57,7 @@ public class CreateAndExportSymKeyServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(qrtHeaderPolicy).getHeader(service);
         verify(passwordPolicy).get();
         verify(timestampPolicy).get();

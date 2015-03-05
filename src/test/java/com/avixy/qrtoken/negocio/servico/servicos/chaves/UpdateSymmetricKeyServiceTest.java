@@ -3,6 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsgTest;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -18,14 +19,15 @@ import org.mockito.Mockito;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class UpdateSymmetricKeyServiceTest {
-    SettableTimestampPolicy timestampPolicy = Mockito.mock(SettableTimestampPolicy.class);
-    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
-    AesCryptedMessagePolicy aesCryptedMessagePolicy = Mockito.mock(AesCryptedMessagePolicy.class);
-    HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    PasswordPolicy passwordPolicy = Mockito.mock(PasswordPolicy.class);
+    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
+    AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     UpdateSymmetricKeyService service = new UpdateSymmetricKeyAvixyService(headerPolicy, timestampPolicy, passwordPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
     String expectedMsg;
 
@@ -60,7 +62,7 @@ public class UpdateSymmetricKeyServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         Mockito.verify(aesCryptedMessagePolicy).get(service);
         Mockito.verify(timestampPolicy).get();
         Mockito.verify(headerPolicy).getHeader(service);

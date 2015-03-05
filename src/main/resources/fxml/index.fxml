@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="root" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.HomeController">
+<VBox fx:id="root" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -15,6 +15,7 @@
                <items>
             <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
                   <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
+                  <MenuItem mnemonicParsing="false" onAction="#templates" text="Templates" />
                </items></Menu>
       </menus>
     </MenuBar>

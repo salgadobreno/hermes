@@ -81,48 +81,48 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         return initialQr;
     }
 
-    /**
-     *
-     * @return       O payload da atualização, dividido conforme o Setup de QR atual
-     *               (e.g.: QR nível 1 com nível de correção de erro 1 -> 17 bytes de capacidade em cada QR,
-     *               o resultado terá o header de payload a cada 17 bytes)
-     * @throws       Exception
-     */
-    @Override
-    public byte[] run() throws Exception {
-        logger.trace("run()");
-        byte[] data;
-        int setupCapacity = qrSetup.getAvailableBytes();
-        int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
-        logger.trace("payloadQrCapacity = {}", payloadQrCapacity);
-
-        int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
-        logger.trace("qrQty = {}", qrQty);
-
-        /* payload qrs */
-        data = new byte[0];
-        int offset = 0;
-        for (int i = 0; i < qrQty; i++) {
-            boolean last = (i == qrQty - 1);
-            byte[] payloadSize, payloadHeader;
-            byte[] payload, qr;
-
-            if (last) { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, encryptedContent.length); }
-            else { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, payloadQrCapacity * (i + 1)); }
-
-            payloadSize = TwoBytesWrapper.get(payload.length);
-
-            payloadHeader = addAll(TwoBytesWrapper.get(offset), payloadSize);
-            qr = addAll(payloadHeader, payload);
-            for (int j = qr.length; j < setupCapacity; j++) {
-                qr = add(qr, (byte) 0);
-            }
-
-            offset += payload.length;
-            data = addAll(data, qr);
-        }
-        return data;
-    }
+//    /**
+//     *
+//     * @return       O payload da atualização, dividido conforme o Setup de QR atual
+//     *               (e.g.: QR nível 1 com nível de correção de erro 1 -> 17 bytes de capacidade em cada QR,
+//     *               o resultado terá o header de payload a cada 17 bytes)
+//     * @throws       Exception
+//     */
+//    @Override
+//    public byte[] run() throws Exception {
+//        logger.trace("run()");
+//        byte[] data;
+//        int setupCapacity = qrSetup.getAvailableBytes();
+//        int payloadQrCapacity = setupCapacity - 4; // 4 == length do header dos qr de payload
+//        logger.trace("payloadQrCapacity = {}", payloadQrCapacity);
+//
+//        int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
+//        logger.trace("qrQty = {}", qrQty);
+//
+//        /* payload qrs */
+//        data = new byte[0];
+//        int offset = 0;
+//        for (int i = 0; i < qrQty; i++) {
+//            boolean last = (i == qrQty - 1);
+//            byte[] payloadSize, payloadHeader;
+//            byte[] payload, qr;
+//
+//            if (last) { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, encryptedContent.length); }
+//            else { payload = Arrays.copyOfRange(encryptedContent, payloadQrCapacity * i, payloadQrCapacity * (i + 1)); }
+//
+//            payloadSize = TwoBytesWrapper.get(payload.length);
+//
+//            payloadHeader = addAll(TwoBytesWrapper.get(offset), payloadSize);
+//            qr = addAll(payloadHeader, payload);
+//            for (int j = qr.length; j < setupCapacity; j++) {
+//                qr = add(qr, (byte) 0);
+//            }
+//
+//            offset += payload.length;
+//            data = addAll(data, qr);
+//        }
+//        return data;
+//    }
 
     @Override
     public byte[] getMessage() { return new byte[0]; } // esse método é atravessado pelo run()

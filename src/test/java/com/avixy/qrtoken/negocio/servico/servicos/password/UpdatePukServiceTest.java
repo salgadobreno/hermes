@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -19,9 +21,9 @@ import static org.mockito.Mockito.when;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdatePukServiceTest {
-    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
-    PasswordPolicy passwordPolicy = Mockito.mock(PasswordPolicy.class);
-    TimestampPolicy timestampPolicy = Mockito.mock(TimestampPolicy.class);
+    QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
+    TimestampPolicy timestampPolicy = mock(TimestampPolicy.class);
     UpdatePukService service = new UpdatePukService(headerPolicy, timestampPolicy, passwordPolicy);
 
     @Before
@@ -50,7 +52,7 @@ public class UpdatePukServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         Mockito.verify(headerPolicy).getHeader(service);
         Mockito.verify(timestampPolicy).get();
         Mockito.verify(passwordPolicy).get();

@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -42,6 +43,11 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
 
     @Override
     public String getServiceName() { return "Encrypted Template Message\nAutorizar Transferência Bancária"; }
+
+    @Override
+    public ServiceCode getServiceCode() {
+        return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
+    }
 
     @Override
     public byte[] getMessage() {

@@ -1,25 +1,21 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
+import com.avixy.qrtoken.negocio.template.Template;
+
 /**
- * Created on 23/09/2014
+ * Created on 03/03/2015
  *
- * @author Breno Salgado <breno.salgado@avixy.com>
+ * @author I7
  */
 public class TemplateParam implements Param {
-    private byte template;
-    public TemplateParam(byte template) {
-        if (template > 15 || template < 0){
-            throw new IllegalArgumentException("Template value must be between 0 and 31.");
-        }
+    private Template template;
+
+    public TemplateParam(Template template) {
         this.template = template;
     }
 
     @Override
     public String toBinaryString() {
-        /*
-            & 0xFF preserva os 8 bits do byte sem transformar em número negativo caso o primeiro bit esteja ligado
-            + 0x10 liga o quinto bit para que o toBinaryString não perca os zero à esquerda, e remove o quinto bit com o substring.
-         */
-        return Integer.toBinaryString((template & 0xFF) + 0x10).substring(1);
+        return template.toBinary();
     }
 }

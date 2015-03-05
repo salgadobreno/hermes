@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -181,7 +182,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(aesCryptedMessagePolicy).get(service);
         verify(headerPolicy).getHeader(service);
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());

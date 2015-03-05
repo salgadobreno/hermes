@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
-import com.avixy.qrtoken.negocio.servico.TokenHuffmanEncoder;
+import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 
 /**
  * Created on 23/10/2014
@@ -17,7 +17,7 @@ public class HuffmanEncodedParam implements Param {
     @Override
     public String toBinaryString() {
         String length = new ByteWrapperParam((byte) text.length()).toBinaryString();
-        String encoded = new TokenHuffmanEncoder().encode(text);
+        String encoded = new TokenHuffman().encode(text);
         return length + encoded;
     }
 }

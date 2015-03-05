@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -19,7 +18,7 @@ import java.util.Date;
  */
 public abstract class AbstractEncryptedTemplateMessageService extends AbstractService implements PinAble, TimestampAble, AesCrypted {
 
-    protected TemplateParam template;
+    protected TemplateSlotParam template;
 
     @Inject
     public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
@@ -35,16 +34,11 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
     }
 
     @Override
-    public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_EMPTY;
-    }
-
-    @Override
     public void setPin(String pin) {
         this.passwordPolicy.setPassword(pin);
     }
 
-    public void setTemplate(byte template) { this.template = new TemplateParam(template); }
+    public void setTemplate(byte template) { this.template = new TemplateSlotParam(template); }
 
     @Override
     public void setTimestamp(Date date) {

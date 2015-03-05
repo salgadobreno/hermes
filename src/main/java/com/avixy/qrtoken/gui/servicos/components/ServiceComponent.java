@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.gui.controllers.HomeController;
+import com.avixy.qrtoken.gui.controllers.MainController;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public abstract class ServiceComponent extends VBox {
     protected Service service;
-    protected HomeController controller;
+    protected MainController controller;
 
     /**
      *
@@ -37,7 +37,7 @@ public abstract class ServiceComponent extends VBox {
 
     public String getServiceName() { return service.getServiceName(); }
 
-    public void setController(HomeController controller) {
+    public void setController(MainController controller) {
         this.controller = controller;
     }
 

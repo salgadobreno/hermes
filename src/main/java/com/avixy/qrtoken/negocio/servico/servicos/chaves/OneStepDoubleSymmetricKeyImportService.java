@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -20,7 +19,7 @@ import java.util.Date;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public abstract class OneStepDoubleSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
-    protected TemplateParam template;
+    protected TemplateSlotParam template;
     protected KeyTypeParam keyType1;
     protected KeyLengthParam keyLength1;
     protected KeyTypeParam keyType2;
@@ -44,7 +43,7 @@ public abstract class OneStepDoubleSymmetricKeyImportService extends AbstractSer
     public void setPin(String pin) {
         this.passwordPolicy.setPassword(pin);
     }
-    public void setTemplate(byte template) { this.template = new TemplateParam(template); }
+    public void setTemplate(byte template) { this.template = new TemplateSlotParam(template); }
     public void setKeyType1(KeyType keyType){ this.keyType1 = new KeyTypeParam(keyType); }
     public void setKeyType2(KeyType keyType){ this.keyType2 = new KeyTypeParam(keyType); }
     public void setKeyLength1(int keyLength){ this.keyLength1 = new KeyLengthParam(keyLength); }

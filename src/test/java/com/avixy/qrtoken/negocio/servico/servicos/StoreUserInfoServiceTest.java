@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -11,12 +12,13 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class StoreUserInfoServiceTest {
-    HmacKeyPolicy hmacKeyPolicy = Mockito.mock(HmacKeyPolicy.class);
-    AesCryptedMessagePolicy aesCryptedMessagePolicy = Mockito.mock(AesCryptedMessagePolicy.class);
-    QrtHeaderPolicy headerPolicy = Mockito.mock(QrtHeaderPolicy.class);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
+    AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
+    QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     StoreUserInfoService service = new StoreUserInfoService(headerPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
 
     String nome = "italo";
@@ -59,7 +61,7 @@ public class StoreUserInfoServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         Mockito.verify(headerPolicy).getHeader(service);
         Mockito.verify(aesCryptedMessagePolicy).get(service);
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());

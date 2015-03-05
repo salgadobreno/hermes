@@ -29,7 +29,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,8 +49,8 @@ import java.util.concurrent.Callable;
  *
  * Created on 04/08/2014.
  */
-public class HomeController {
-    static final Logger log = LoggerFactory.getLogger(HomeController.class);
+public class MainController {
+    static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
@@ -59,6 +58,7 @@ public class HomeController {
     Stage zoomStage;
     Stage chavesStage;
     Stage encoderStage;
+    Stage templateStage;
 
     private Version qrVersion;
 
@@ -253,6 +253,23 @@ public class HomeController {
         }
     }
 
+    public void templates() throws IOException {
+        if (templateStage == null) {
+            templateStage = new Stage(StageStyle.DECORATED);
+        }
+
+        String fxmlFile = "/fxml/templates.fxml";
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+
+        Scene scene = new Scene(root);
+
+        templateStage.setTitle("Hermes - Avixy QR Token");
+        templateStage.setScene(scene);
+        templateStage.setResizable(false);
+        templateStage.centerOnScreen();
+        templateStage.show();
+    }
+
     public void zoomQR(){
         Window window = qrView.getScene().getWindow();
         if (zoomStage == null) {
@@ -262,8 +279,6 @@ public class HomeController {
         try {
             String fxmlFile = "/fxml/qrcodezoom.fxml";
             Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
-//            zoomStage.setX(window.getX() + window.getWidth());
-//            zoomStage.setY(window.getY());
             zoomStage.setResizable(false);
             zoomStage.setScene(new Scene(parent));
             zoomStage.show();

@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
@@ -60,8 +61,7 @@ public class AvixyRtcServiceTest {
 
     @Test
     public void testCrypto() throws Exception {
-//        service.setHmacKey("key".getBytes());
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(headerPolicy).getHeader(Matchers.<Service>anyObject());
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
         verify(timestampPolicy).get();

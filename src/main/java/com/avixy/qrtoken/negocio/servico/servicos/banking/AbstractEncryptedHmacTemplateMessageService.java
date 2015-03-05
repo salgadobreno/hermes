@@ -26,9 +26,6 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
     public String getServiceName() { return "Encrypted Template Message"; }
 
     @Override
-    public ServiceCode getServiceCode() { return ServiceCode.SERVICE_EMPTY; }
-
-    @Override
     public void setHmacKey(byte[] key) {
         this.hmacKeyPolicy.setKey(key);
     }

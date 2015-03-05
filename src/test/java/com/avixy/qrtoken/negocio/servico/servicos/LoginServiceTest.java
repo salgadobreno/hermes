@@ -1,7 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.TokenHuffmanEncoder;
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -42,7 +43,7 @@ public class LoginServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        String huffmanCode = new TokenHuffmanEncoder().encode(loginCode);
+        String huffmanCode = new TokenHuffman().encode(loginCode);
         String expectedBinaryString = "" +
                 "0001" + //template 1
                 "00000110" + //length 6
@@ -53,7 +54,7 @@ public class LoginServiceTest {
 
     @Test
     public void testOperations() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(aesCryptedMessagePolicy).get(service);
         verify(timestampPolicy).get();
         verify(passwordPolicy).get();

@@ -19,9 +19,6 @@ public interface Service extends MessageAble {
 
     ServiceCode getServiceCode();
 
-    /** @return Dados a serem convertidos em um código QR p/ executar uma função no Avixy QR Token */
-    byte[] run() throws Exception;
-
     List<QrTokenCode> getQrs(QrSetup setup) throws Exception;
 
     /** @return Dados em claro do serviço */

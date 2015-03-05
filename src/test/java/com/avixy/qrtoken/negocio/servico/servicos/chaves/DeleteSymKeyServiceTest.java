@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
@@ -41,7 +42,7 @@ public class DeleteSymKeyServiceTest {
 
     @Test
     public void testOps() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(hmacKeyPolicy).apply(Matchers.<byte[]>any());
         verify(timestampPolicy).get();
         verify(headerPolicy).getHeader(service);

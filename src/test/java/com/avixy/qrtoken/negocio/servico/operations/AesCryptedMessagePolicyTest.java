@@ -35,8 +35,6 @@ public class AesCryptedMessagePolicyTest {
             @Override
             public ServiceCode getServiceCode() { return ServiceCode.SERVICE_EMPTY; }
             @Override
-            public byte[] run() throws Exception { return new byte[0]; }
-            @Override
             public List<QrTokenCode> getQrs(QrSetup setup) throws Exception { return null; }
             @Override
             public byte[] getMessage() {

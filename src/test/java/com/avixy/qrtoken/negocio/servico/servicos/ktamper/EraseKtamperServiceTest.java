@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
+import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
@@ -54,7 +55,7 @@ public class EraseKtamperServiceTest {
 
     @Test
     public void testOps() throws Exception {
-        service.run();
+        service.getQrs(mock(QrSetup.class));
         verify(qrtHeaderPolicy).getHeader(service);
         verify(timestampPolicy).get();
     }
