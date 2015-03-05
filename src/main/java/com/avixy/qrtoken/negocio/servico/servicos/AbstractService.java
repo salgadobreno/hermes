@@ -43,7 +43,8 @@ public abstract class AbstractService implements Service {
     @Override
     public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
         List<QrTokenCode> tokenCodeList = new ArrayList<>();
-        QrTokenCode tokenCode = new QrTokenCode(serviceAssembler.get(this, getMessage(), headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy), setup);
+        //QrTokenCode tokenCode = new QrTokenCode(serviceAssembler.get(this, getMessage(), headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy), setup);
+        QrTokenCode tokenCode = new QrTokenCode(serviceAssembler.get(this, headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy), setup);
         tokenCodeList.add(tokenCode);
         return tokenCodeList;
     }
