@@ -1,6 +1,6 @@
-package com.avixy.qrtoken.core.extensions.components;
+package com.avixy.qrtoken.core.extensions.components.templates;
 
-import com.avixy.qrtoken.core.extensions.hacks.CustomColorDialog;
+import com.avixy.qrtoken.core.extensions.hacks.CustomColorPopOver;
 import com.avixy.qrtoken.negocio.template.TemplateColor;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import org.apache.commons.lang.ArrayUtils;
@@ -18,9 +19,10 @@ import org.apache.commons.lang.ArrayUtils;
  * @author I7
  */
 public class TemplateColorPicker extends ComboBox<TemplateColor> {
+    private TemplateColor rgbTemplateColor;
+
     public TemplateColorPicker() {
         Object[] presets = ArrayUtils.removeElement(TemplateColor.Preset.values(), TemplateColor.Preset.TEMPLATE_COLOR_RGB);
-//        presets = ArrayUtils.removeElement(presets, TemplateColor.Preset.TEMPLATE_COLOR_FETCH_FROM_MESSAGE);
         for (Object preset : presets) {
             getItems().add(TemplateColor.get((TemplateColor.Preset) preset));
             setCellFactory(new Callback<ListView<TemplateColor>, ListCell<TemplateColor>>() {
@@ -40,6 +42,10 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
                             if (item == null || empty) {
                                 setGraphic(null);
                             } else {
+                                if (item.getPreset() == TemplateColor.Preset.TEMPLATE_COLOR_RGB) {
+                                    System.out.println("RGB");
+                                    System.out.println("item.toColor() = " + item.toColor());
+                                }
                                 rectangle.setFill(item.toColor());
                                 setGraphic(rectangle);
 
@@ -70,22 +76,39 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
                 }
             });
         }
-        TemplateColor rgbTemplateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, 0, 0, 0);
+        rgbTemplateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, 0, 0, 0);
         getItems().add(rgbTemplateColor);
-        getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TemplateColor>() {
+
+        ChangeListener<TemplateColor> templateColorChangeListener = new ChangeListener<TemplateColor>() {
             @Override
             public void changed(ObservableValue<? extends TemplateColor> observable, TemplateColor oldValue, TemplateColor newValue) {
                 if (newValue == rgbTemplateColor) {
-                    CustomColorDialog customColorDialog = new CustomColorDialog(getScene().getWindow());
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customColorDialog.show();
-                        }
+                    CustomColorPopOver customColorPopOver = new CustomColorPopOver(TemplateColorPicker.this);
+                    customColorPopOver.setOnCancel(() -> {
+                        customColorPopOver.hide();
+                        getSelectionModel().select(oldValue);
                     });
+                    customColorPopOver.setOnOk(() -> {
+                        customColorPopOver.hide();
+                        Color color = customColorPopOver.getCustomColor();
+                        TemplateColor templateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, color.getRed() * 255, color.getGreen() * 255, color.getBlue() * 255);
+                        setRgbColor(templateColor);
+                        getSelectionModel().selectedItemProperty().removeListener(this);
+                        getSelectionModel().select(templateColor);
+                        getSelectionModel().selectedItemProperty().addListener(this);
+                    });
+                    Platform.runLater(customColorPopOver::show);
                 }
             }
-        });
+        };
+
+        getSelectionModel().selectedItemProperty().addListener(templateColorChangeListener);
         getSelectionModel().select(0);
+    }
+
+    public void setRgbColor(TemplateColor templateColor) {
+        getItems().remove(rgbTemplateColor);
+        getItems().add(templateColor);
+        this.rgbTemplateColor = templateColor;
     }
 }

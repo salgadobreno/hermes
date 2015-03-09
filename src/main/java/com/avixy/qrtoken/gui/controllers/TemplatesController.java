@@ -1,7 +1,9 @@
 package com.avixy.qrtoken.gui.controllers;
 
 import com.avixy.qrtoken.core.extensions.components.NumberField;
-import com.avixy.qrtoken.core.extensions.components.TemplateColorPicker;
+import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
+import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextArea;
+import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextField;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -60,18 +62,21 @@ public class TemplatesController extends Application {
         headerForm = new MigPane();
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateColorPicker textColorPicker = new TemplateColorPicker();
-        TextField textField = new TextField();
+//        TextField textField = new TextField();
+        TemplateTextTextField textField = new TemplateTextTextField();
         Button okButton = new Button("OK");
         headerForm.add(new Label("BG COLOR:"));
         headerForm.add(bgColorPicker, "wrap");
         headerForm.add(new Label("TEXT COLOR:"));
         headerForm.add(textColorPicker, "wrap");
         headerForm.add(new Label("TEXT:"));
+//        headerForm.add(textField, "wrap");
         headerForm.add(textField, "wrap");
         okButton.setOnAction(event1 -> {
             String text1;
             TemplateColor bgColor, textColor;
-            text1 = textField.getText();
+//            text1 = textField.getText();
+            text1 = textField.getValue();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
             canvas.add(new Header(bgColor, textColor, text1));
@@ -84,21 +89,27 @@ public class TemplatesController extends Application {
         footerForm = new MigPane();
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateColorPicker textColorPicker = new TemplateColorPicker();
-        TextField textField = new TextField();
-        TextField textField2 = new TextField();
+//        TextField textField = new TextField();
+        TemplateTextTextField templateTextField = new TemplateTextTextField();
+//        TextField textField2 = new TextField();
+        TemplateTextTextField templateTextField2 = new TemplateTextTextField();
         Button okButton = new Button("OK");
         footerForm.add(new Label("BG COLOR:"));
         footerForm.add(bgColorPicker, "wrap");
         footerForm.add(new Label("TEXT COLOR:"));
         footerForm.add(textColorPicker, "wrap");
         footerForm.add(new Label("TEXT:"));
-        footerForm.add(textField, "wrap");
-        footerForm.add(textField2, "skip 1, wrap");
+//        footerForm.add(textField, "wrap");
+//        footerForm.add(textField2, "skip 1, wrap");
+        footerForm.add(templateTextField, "wrap");
+        footerForm.add(templateTextField2, "skip 1, wrap");
         okButton.setOnAction(event1 -> {
             String text1, text2;
             TemplateColor bgColor, textColor;
-            text1 = textField.getText();
-            text2 = textField2.getText();
+//            text1 = textField.getText();
+//            text2 = textField2.getText();
+            text1 = templateTextField.getValue();
+            text2 = templateTextField2.getValue();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
             canvas.add(new Footer(bgColor, textColor, text1, text2));
@@ -110,9 +121,14 @@ public class TemplatesController extends Application {
     {
         textForm = new MigPane();
         TemplateColorPicker textColorPicker = new TemplateColorPicker();
-        TextArea textArea = new TextArea();
-        textArea.setPrefRowCount(2);
-        textArea.setPrefColumnCount(10);
+//        TextArea textArea = new TextArea();
+//        textArea.setPrefRowCount(2);
+//        textArea.setPrefColumnCount(10);
+        TemplateTextTextArea templateTextArea = new TemplateTextTextArea(2, 10);
+//        CheckBox checkBox = new CheckBox("Texto por argumento");
+//        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//            textArea.setDisable(newValue);
+//        });
         NumberField yField = new NumberField();
         ComboBox<Text.Size> sizeComboBox = new ComboBox<>();
 //        sizeComboBox.setItems(FXCollections.observableArrayList(Arrays.asList(Text.Size.values())));
@@ -128,7 +144,9 @@ public class TemplatesController extends Application {
         textForm.add(new Label("Y:"));
         textForm.add(yField, "wrap");
         textForm.add(new Label("TEXT:"));
-        textForm.add(textArea, "wrap");
+//        textForm.add(textArea, "wrap");
+//        textForm.add(checkBox, "wrap, span");
+        textForm.add(templateTextArea, "wrap");
         textForm.add(new Label("SIZE:"));
         textForm.add(sizeComboBox, "wrap");
         textForm.add(new Label("ALIGNMENT:"));
@@ -139,7 +157,8 @@ public class TemplatesController extends Application {
             String text1;
             TemplateColor textColor;
             y = Integer.parseInt(yField.getText());
-            text1 = textArea.getText();
+//            text1 = textArea.getText();
+            text1 = templateTextArea.getValue();
             Text.Size size = sizeComboBox.getValue();
             Text.Alignment alignment = alignmentComboBox.getValue();
             textColor = textColorPicker.getValue();
@@ -182,11 +201,13 @@ public class TemplatesController extends Application {
     {
         stripeForm = new MigPane();
         TemplateColorPicker colorPicker = new TemplateColorPicker();
+//        TemplateColorPickerComponent colorPickerComponent = new TemplateColorPickerComponent();
         NumberField yField = new NumberField();
         NumberField hField = new NumberField();
         Button okButton = new Button("OK");
         stripeForm.add(new Label("COLOR:"));
         stripeForm.add(colorPicker, "wrap");
+//        stripeForm.add(colorPickerComponent, "wrap");
         stripeForm.add(new Label("Y:"));
         stripeForm.add(yField, "wrap");
         stripeForm.add(new Label("HEIGHT:"));
@@ -198,6 +219,7 @@ public class TemplatesController extends Application {
                     Integer.parseInt(yField.getText()),
                     Integer.parseInt(hField.getText()),
                     colorPicker.getValue()
+//                    colorPickerComponent.getTemplateColorPicker().getValue()
             ));
             popOver.hide();
         });

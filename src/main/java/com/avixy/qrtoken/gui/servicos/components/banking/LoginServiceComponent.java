@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components.banking;
 
 import com.avixy.qrtoken.core.extensions.components.*;
+import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;

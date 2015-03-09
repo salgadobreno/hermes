@@ -25,78 +25,48 @@ package com.avixy.qrtoken.core.extensions.hacks;
  * questions.
  */
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.stage.*;
 import org.controlsfx.control.PopOver;
 
 /**
  *
  * @author paru
  */
-public class CustomColorDialog extends HBox {
-
-    private final Stage dialog = new Stage();
+public class CustomColorPopOver extends HBox {
+    private Control owner;
     private ColorRectPane colorRectPane;
     private ControlsPane controlsPane;
+    private PopOver popOver;
+
+    private Runnable onOk;
+    private Runnable onCancel;
 
     private ObjectProperty<Color> currentColorProperty = new SimpleObjectProperty<>(Color.WHITE);
     private ObjectProperty<Color> customColorProperty = new SimpleObjectProperty<>(Color.TRANSPARENT);
-    private Runnable onSave;
-    private Runnable onUse;
-    private Runnable onCancel;
 
-//    private WebColorField webField = null;
-    private Scene customScene;
-
-    public CustomColorDialog(Window owner) {
+    public CustomColorPopOver(Control control) {
+        this.owner = control;
         getStyleClass().add("custom-color-dialog");
-        if (owner != null) dialog.initOwner(owner);
-        dialog.setTitle("Custom Colors");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initStyle(StageStyle.UTILITY);
         colorRectPane = new ColorRectPane();
         controlsPane = new ControlsPane();
-        setHgrow(controlsPane, Priority.ALWAYS);
 
-        customScene = new Scene(this);
         getChildren().addAll(colorRectPane, controlsPane);
-
-        dialog.setScene(customScene);
-        dialog.addEventHandler(KeyEvent.ANY, keyEventListener);
     }
-
-    private final EventHandler<KeyEvent> keyEventListener = new EventHandler<KeyEvent>() {
-        @Override public void handle(KeyEvent e) {
-            switch (e.getCode()) {
-                case ESCAPE :
-                    dialog.setScene(null);
-                    dialog.close();
-                default:
-                    break;
-            }
-        }
-    };
 
     public void setCurrentColor(Color currentColor) {
         this.currentColorProperty.set(currentColor);
@@ -114,24 +84,19 @@ public class CustomColorDialog extends HBox {
         customColorProperty.set(color);
     }
 
-    Color getCustomColor() {
+    public Color getCustomColor() {
         return customColorProperty.get();
     }
 
-    public Runnable getOnSave() {
-        return onSave;
+    public void show() {
+        colorRectPane.updateValues();
+        popOver = new PopOver(this);
+        popOver.setDetachable(false);
+        popOver.show(owner);
     }
 
-    public void setOnSave(Runnable onSave) {
-        this.onSave = onSave;
-    }
-
-    public Runnable getOnUse() {
-        return onUse;
-    }
-
-    public void setOnUse(Runnable onUse) {
-        this.onUse = onUse;
+    public void hide(){
+        if (popOver != null) popOver.hide();
     }
 
     public Runnable getOnCancel() {
@@ -142,65 +107,12 @@ public class CustomColorDialog extends HBox {
         this.onCancel = onCancel;
     }
 
-    Stage getDialog() {
-        return dialog;
+    public Runnable getOnOk() {
+        return onOk;
     }
 
-    public void show() {
-        if (dialog.getOwner() != null) {
-            // Workaround of RT-29871: Instead of just invoking fixPosition()
-            // here need to use listener that fixes dialog position once both
-            // width and height are determined
-            dialog.widthProperty().addListener(positionAdjuster);
-            dialog.heightProperty().addListener(positionAdjuster);
-            positionAdjuster.invalidated(null);
-        }
-        if (dialog.getScene() == null) dialog.setScene(customScene);
-        colorRectPane.updateValues();
-        dialog.show();
-    }
-
-    private InvalidationListener positionAdjuster = new InvalidationListener() {
-
-        @Override
-        public void invalidated(Observable ignored) {
-            if (Double.isNaN(dialog.getWidth()) || Double.isNaN(dialog.getHeight())) {
-                return;
-            }
-            dialog.widthProperty().removeListener(positionAdjuster);
-            dialog.heightProperty().removeListener(positionAdjuster);
-            fixPosition();
-        }
-
-    };
-
-    private void fixPosition() {
-        Window w = dialog.getOwner();
-        Screen s = com.sun.javafx.Utils.getScreen(w);
-        Rectangle2D sb = s.getBounds();
-        double xR = w.getX() + w.getWidth();
-        double xL = w.getX() - dialog.getWidth();
-        double x, y;
-        if (sb.getMaxX() >= xR + dialog.getWidth()) {
-            x = xR;
-        } else if (sb.getMinX() <= xL) {
-            x = xL;
-        } else {
-            x = Math.max(sb.getMinX(), sb.getMaxX() - dialog.getWidth());
-        }
-        y = Math.max(sb.getMinY(), Math.min(sb.getMaxY() - dialog.getHeight(), w.getY()));
-        dialog.setX(x);
-        dialog.setY(y);
-    }
-
-    @Override public void layoutChildren() {
-        super.layoutChildren();
-        if (dialog.getMinWidth() > 0 && dialog.getMinHeight() > 0) {
-            // don't recalculate min size once it's set
-            return;
-        }
-        dialog.setMinWidth(computeMinWidth(getHeight()) + (dialog.getWidth() - customScene.getWidth()));
-        dialog.setMinHeight(computeMinHeight(getWidth()) + (dialog.getHeight() - customScene.getHeight()));
+    public void setOnOk(Runnable onOk) {
+        this.onOk = onOk;
     }
 
     /* ------------------------------------------------------------------------*/
@@ -272,22 +184,7 @@ public class CustomColorDialog extends HBox {
             }
         };
 
-//        private DoubleProperty alpha = new SimpleDoubleProperty(100) {
-//            @Override protected void invalidated() {
-//                if (!changeIsLocal) {
-//                    changeIsLocal = true;
-//                    setCustomColor(new Color(
-//                            getCustomColor().getRed(),
-//                            getCustomColor().getGreen(),
-//                            getCustomColor().getBlue(),
-//                            clamp(alpha.get() / 100)));
-//                    changeIsLocal = false;
-//                }
-//            }
-//        };
-
         private void updateRGBColor() {
-//            Color newColor = Color.rgb(red.get(), green.get(), blue.get(), clamp(alpha.get() / 100));
             Color newColor = Color.rgb(red.get(), green.get(), blue.get(), 1);
             hue.set(newColor.getHue());
             sat.set(newColor.getSaturation() * 100);
@@ -296,8 +193,6 @@ public class CustomColorDialog extends HBox {
         }
 
         private void updateHSBColor() {
-//            Color newColor = Color.hsb(hue.get(), clamp(sat.get() / 100),
-//                    clamp(bright.get() / 100), clamp(alpha.get() / 100));
             Color newColor = Color.hsb(hue.get(), clamp(sat.get() / 100),
                     clamp(bright.get() / 100), 1);
             red.set(doubleToInt(newColor.getRed()));
@@ -414,7 +309,6 @@ public class CustomColorDialog extends HBox {
             colorRectIndicator.layoutXProperty().bind(sat.divide(100).multiply(colorRect.widthProperty()));
             colorRectIndicator.layoutYProperty().bind(Bindings.subtract(1, bright.divide(100)).multiply(colorRect.heightProperty()));
             colorBarIndicator.layoutYProperty().bind(hue.divide(360).multiply(colorBar.heightProperty()));
-//            colorRectOpacityContainer.opacityProperty().bind(alpha.divide(100));
 
             EventHandler<MouseEvent> barMouseHandler = new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent event) {
@@ -476,9 +370,9 @@ public class CustomColorDialog extends HBox {
         private Region currentTransparent; // for opacity
         private GridPane currentAndNewColor;
         private Region currentNewColorBorder;
-//        private ToggleButton hsbButton;
+        //        private ToggleButton hsbButton;
         private ToggleButton rgbButton;
-//        private ToggleButton webButton;
+        //        private ToggleButton webButton;
         private HBox hBox;
 
         private Label labels[] = new Label[4];
@@ -529,17 +423,12 @@ public class CustomColorDialog extends HBox {
             whiteBox = new Region();
             whiteBox.getStyleClass().add("customcolor-controls-background");
 
-//            hsbButton = new ToggleButton("HSB");
-//            hsbButton.getStyleClass().add("left-pill");
             rgbButton = new ToggleButton("RGB");
             rgbButton.getStyleClass().add("center-pill");
-//            webButton = new ToggleButton("Web");
-//            webButton.getStyleClass().add("right-pill");
             final ToggleGroup group = new ToggleGroup();
 
             hBox = new HBox();
             hBox.setAlignment(Pos.CENTER);
-//            hBox.getChildren().addAll(hsbButton, rgbButton, webButton);
             hBox.getChildren().addAll(rgbButton);
 
             Region spacer1 = new Region();
@@ -625,11 +514,7 @@ public class CustomColorDialog extends HBox {
                 settingsPane.add(units[i], 4, row);
             }
 
-//            set(3, "Opacity:", 100, colorRectPane.alpha);
-
-//            hsbButton.setToggleGroup(group);
             rgbButton.setToggleGroup(group);
-//            webButton.setToggleGroup(group);
             group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
                 @Override
@@ -637,10 +522,7 @@ public class CustomColorDialog extends HBox {
                     if (newValue == null) {
                         group.selectToggle(oldValue);
                     } else {
-//                        if (newValue == hsbButton) {
-//                            showHSBSettings();
-//                        } else if (newValue == rgbButton) {
-                    if (newValue == rgbButton) {
+                        if (newValue == rgbButton) {
                             showRGBSettings();
                         } else {
                             showWebSettings();
@@ -648,53 +530,21 @@ public class CustomColorDialog extends HBox {
                     }
                 }
             });
-//            group.selectToggle(hsbButton);
 
             buttonBox = new HBox();
             buttonBox.setId("buttons-hbox");
 
-            Button saveButton = new Button("Save");
-            saveButton.setDefaultButton(true);
-            saveButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent t) {
-                    if (onSave != null) {
-                        onSave.run();
-                    }
-                    dialog.hide();
-                }
-            });
-
-            Button useButton = new Button("Use");
-            useButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent t) {
-                    if (onUse != null) {
-                        onUse.run();
-                    }
-                    dialog.hide();
-                }
-            });
+            Button okButton = new Button("Ok");
+            okButton.setDefaultButton(true);
+            okButton.setOnAction(event -> onOk.run());
 
             Button cancelButton = new Button("Cancel");
             cancelButton.setCancelButton(true);
-            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent e) {
-                    customColorProperty.set(getCurrentColor());
-                    if (onCancel != null) {
-                        onCancel.run();
-                    }
-                    dialog.hide();
-                }
-            });
-            buttonBox.getChildren().addAll(saveButton, useButton, cancelButton);
+            cancelButton.setOnAction(e -> onCancel.run());
+            buttonBox.getChildren().addAll(okButton, cancelButton);
 
             getChildren().addAll(currentAndNewColor, settingsPane, buttonBox);
             showRGBSettings();
-        }
-
-        private void showHSBSettings() {
-            set(0, "Hue:", 360, colorRectPane.hue);
-            set(1, "Saturation:", 100, colorRectPane.sat);
-            set(2, "Brightness:", 100, colorRectPane.bright);
         }
 
         private void showRGBSettings() {

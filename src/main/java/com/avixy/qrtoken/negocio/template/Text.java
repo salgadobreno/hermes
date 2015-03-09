@@ -5,8 +5,9 @@ import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.params.NBitsParam;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.Objects;
 
 /**
  * Created on 12/02/2015
@@ -68,6 +69,11 @@ public class Text implements TemplateObj {
     private String text;
     private Text.Size size;
     private Text.Alignment alignment;
+    private boolean textFromArgument = false;
+
+    public static final String ARG_TEXT_FOR_DISPLAY = "{arg}";
+    public static final String TEXT_FROM_ARGUMENT_BINARY = "0011010010";
+    public static final String TEXT_FROM_ARGUMENT = "0011010010";
 
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
@@ -77,13 +83,20 @@ public class Text implements TemplateObj {
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
         this.alignment = alignment;
+        if (Objects.equals(text, TEXT_FROM_ARGUMENT_BINARY)) {
+            text = ARG_TEXT_FOR_DISPLAY;
+            textFromArgument = true;
+        } else {
+            this.text = text;
+        }
     }
 
     @Override
     public void render(GraphicsContext gc) {
         gc.setFont(font);
         gc.setFill(color.toColor());
-        gc.fillText(text, calcAlignment(text.length(), size, alignment), y + size.getHeight() - 3); //TODO
+        String renderText = textFromArgument ? ARG_TEXT_FOR_DISPLAY : text;
+        gc.fillText(renderText, calcAlignment(renderText.length(), size, alignment), y + size.getHeight() - 3); //TODO
     }
 
     @Override
@@ -94,7 +107,7 @@ public class Text implements TemplateObj {
                 bgColor.toBinaryString() +
                 size.toBinaryString() +
                 alignment.toBinaryString() +
-                new HuffmanEncodedParam(text).toBinaryString();
+                (textFromArgument ? TEXT_FROM_ARGUMENT_BINARY : new HuffmanEncodedParam(text).toBinaryString());
     }
 
     static int calcAlignment(int textLength, Text.Size size, Text.Alignment alignment) {

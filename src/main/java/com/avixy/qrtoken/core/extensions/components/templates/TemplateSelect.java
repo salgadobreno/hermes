@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.core.extensions.components;
+package com.avixy.qrtoken.core.extensions.components.templates;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;

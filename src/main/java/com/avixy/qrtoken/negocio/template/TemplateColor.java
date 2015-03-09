@@ -16,6 +16,10 @@ import java.util.Map;
  */
 public class TemplateColor {
 
+    public TemplateColor(Preset templateColorRgb, Double red, Double green, Double blue) {
+        this(templateColorRgb, red.intValue(), green.intValue(), blue.intValue());
+    }
+
     public enum Preset{
         TEMPLATE_COLOR_WHITE(0xff, 0xff, 0xff),       /**< 0000 - Branco R:0xFF G:0xFF B:0xFF */
         TEMPLATE_COLOR_LIGHT_GRAY(0xdc, 0xdc, 0xdc),  /**< 0001 - Cinza claro R:0xDC G:0xDC B:0xDC */
@@ -82,10 +86,10 @@ public class TemplateColor {
     }
 
     public Color toColor() {
-        switch (preset){
-            case TEMPLATE_COLOR_RGB:return Color.rgb(r,g,b);
-//            case TEMPLATE_COLOR_FETCH_FROM_MESSAGE:return Color.MINTCREAM;
-            default:return preset.toColor();
+        if (preset == Preset.TEMPLATE_COLOR_RGB) {
+            return Color.rgb(r, g, b);
+        } else {
+            return preset.toColor();
         }
     }
 
