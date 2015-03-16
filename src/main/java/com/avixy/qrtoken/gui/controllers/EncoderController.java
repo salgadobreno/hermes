@@ -35,7 +35,7 @@ public class EncoderController {
     }
 
     public void encode(){
-        huffmanField.setText(new TokenHuffman(TokenHuffman.Mode.BROKEN).encode(textoField.getText()));
+        huffmanField.setText(new TokenHuffman(TokenHuffman.Mode.SPLIT).encode(textoField.getText()));
     }
 
 }

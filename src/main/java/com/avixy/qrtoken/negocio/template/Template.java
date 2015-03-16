@@ -1,11 +1,15 @@
 package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import org.apache.commons.csv.CSVFormat;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,20 +23,115 @@ public class Template {
     private String prevBin = "";
     private String prevName = "";
 
-    private List<TemplateObj> templateObjs = new LinkedList<>();
+    private ObservableList<SubTemplate> subTemplates = FXCollections.observableArrayList();
+
     private String name = "";
 
-    public void add(TemplateObj templateObj) {
-        templateObjs.add(templateObj);
+    //TODO
+    public IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
+    {
+        screenQtyProperty.bind(Bindings.createIntegerBinding(subTemplates::size, subTemplates));
+    }
+
+    public void add(TemplateObj templateObj) { //TODO
+        subTemplates.get(subTemplates.size()).add(templateObj);
         dirty = true;
+    }
+
+    public void clear() {
+        storeState();
+        subTemplates.clear();
+        subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+    }
+
+    public class SubTemplate extends Template {
+        ObservableList<TemplateObj> templateObjs;
+        WaitForButton terminator;
+
+        public SubTemplate(ObservableList<TemplateObj> templateObjs) {
+            for (TemplateObj templateObj : templateObjs) {
+                if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
+                    terminator = (WaitForButton) templateObj;
+                }
+            }
+            this.templateObjs = templateObjs;
+        }
+
+        public void add(TemplateObj templateObj) {
+            if (terminator != null) {
+                templateObjs.add(templateObjs.indexOf(terminator), templateObj);
+            } else {
+                templateObjs.add(templateObj);
+            }
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
+                terminator = (WaitForButton) templateObj;
+                Template.this.getSubTemplates().add(new SubTemplate(FXCollections.observableArrayList()));
+            }
+        }
+
+        @Override
+        public void render(GraphicsContext gc) {
+            templateObjs.stream().forEach(x -> {
+                x.render(gc);
+            });
+        }
+
+        public void remove(TemplateObj templateObj) {
+            templateObjs.remove(templateObj);
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
+                Template.this.subTemplates.remove(Template.this.subTemplates.indexOf(this) + 1);
+            }
+            dirty = true;
+        }
+
+        @Override
+        public ObservableList<TemplateObj> getTemplateObjs() {
+            return templateObjs;
+        }
+    }
+
+    public List<TemplateObj> getTemplateObjs() {
+        List<TemplateObj> templateObjs = new ArrayList<>();
+        for (SubTemplate subTemplate : subTemplates) {
+            templateObjs.addAll(subTemplate.getTemplateObjs());
+        }
+        return templateObjs;
+    }
+
+    {
+//        templateObjs.addListener(new ListChangeListener<TemplateObj>() {
+//            @Override
+//            public void onChanged(Change<? extends TemplateObj> c) {
+//                subTemplates = new ArrayList<>();
+//                ObservableList<TemplateObj> subTemplateObjs = FXCollections.observableArrayList();
+//                int i;
+//                for (i = 0; i < templateObjs.size(); i++) {
+//                    TemplateObj templateObj = templateObjs.get(i);
+//                    if (templateObj instanceof WaitForButton && ((WaitForButton) templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
+//                        subTemplateObjs.add(templateObj);
+//                        subTemplates.add(new SubTemplate(subTemplateObjs, i));
+//                        subTemplateObjs = FXCollections.observableArrayList();
+//                    } else {
+//                        subTemplateObjs.add(templateObj);
+//                    }
+//                }
+//                subTemplates.add(new SubTemplate(subTemplateObjs, i));
+//            }
+//        });
+    }
+    public SubTemplate subTemplate(int subTemplateIndex) {
+        if (subTemplates.isEmpty()) subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+        return subTemplates.get(subTemplateIndex - 1);
     }
 
     public String toBinary(){
         String bin = "";
-        for (TemplateObj templateObj : templateObjs) {
+        for (TemplateObj templateObj : getTemplateObjs()) {
             try {
                 bin += templateObj.toBinary();
-            } catch (NullPointerException ignored) {};
+            } catch (NullPointerException e) {
+            //Ignored TODO: comentar rs
+            };
         };
 
         return bin + TemplateFunction.TEMPLATE_FUNCTION_EOM.toBinaryString();
@@ -54,12 +153,12 @@ public class Template {
         return template;
     }
 
-    public List<TemplateObj> getTemplateObjs() { //TODO paia?
-        return templateObjs;
+    public List<SubTemplate> getSubTemplates() {
+        return subTemplates;
     }
 
     public void render(GraphicsContext gc) {
-        templateObjs.stream().forEach(x -> {
+        getTemplateObjs().stream().forEach(x -> {
             x.render(gc);
         });
     }
@@ -96,7 +195,8 @@ public class Template {
     }
 
     public void restoreState(){ //todo
-        templateObjs = new TemplateParser(prevBin).getTemplateObjs();
+//        subTemplates = FXCollections.observableArrayList(new TemplateParser(prevBin).getSubTemplates(this));
+        subTemplates.setAll(FXCollections.observableArrayList(new TemplateParser(prevBin).getSubTemplates(this)));
         this.name = prevName;
         dirty = false;
     }
@@ -115,37 +215,53 @@ class TemplateParser {
     private static final int DIMENSION_LENGTH = 8;
     private static final int LENGTH_LENGTH = 8;
 
-    private String bin;
+    private StringBuilder bin;
 
     public TemplateParser(String bin) {
-        this.bin = bin;
+        this.bin = new StringBuilder(bin);
     }
 
     public Template parse() { //TODO
         Template template = new Template();
+        ObservableList<TemplateObj> templateObjs = FXCollections.observableArrayList();
         while (bin.length() > 0){
-            bin = getTemplateObj(template.getTemplateObjs());
+            TemplateObj templateObj = getTemplateObj();
+            if (templateObj == null) continue;
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
+                templateObjs.add(templateObj);
+                template.getSubTemplates().add(template.new SubTemplate(templateObjs));
+                templateObjs = FXCollections.observableArrayList();
+            } else {
+                templateObjs.add(templateObj);
+            }
         }
+        template.getSubTemplates().add(template.new SubTemplate(templateObjs));
 
         return template;
     }
 
-    public List<TemplateObj> getTemplateObjs() {
-        List<TemplateObj> templateObjs = new ArrayList<>();
+    public List<Template.SubTemplate> getSubTemplates(Template template) {
+        ObservableList<Template.SubTemplate> subTemplates = FXCollections.observableArrayList();
+        ObservableList<TemplateObj> templateObjs = FXCollections.observableArrayList();
         while (bin.length() > 0){
-            bin = getTemplateObj(templateObjs);
+            TemplateObj templateObj = getTemplateObj();
+            if (templateObj == null) continue;
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
+                templateObjs.add(templateObj);
+                subTemplates.add(template.new SubTemplate(templateObjs));
+                templateObjs = FXCollections.observableArrayList();
+            } else {
+                templateObjs.add(templateObj);
+            }
         }
-        return templateObjs;
+        subTemplates.add(template.new SubTemplate(templateObjs));
+
+        return subTemplates;
     }
 
-    private String getTemplateObj(List<TemplateObj> templateObjs) { //TODO: templateObjs..
-        TemplateObj templateObj = new TemplateObj() { //TODO: ineficiente
-            @Override
-            public void render(GraphicsContext gc) { }
-            @Override
-            public String toBinary() { return ""; }
-        };
+    private TemplateObj getTemplateObj() { //TODO: templateObjs..
         TemplateFunction templateFunction = getFunction();
+        TemplateObj templateObj;
 
         switch (templateFunction) {
             case TEMPLATE_FUNCTION_STRIPE:
@@ -163,49 +279,67 @@ class TemplateParser {
             case TEMPLATE_FUNCTION_TEXT:
                 templateObj = new Text(getDimension() * 2, getColor(), getColor(), getSize(), getAlignment(), getText());
                 break;
-            //TemplateFunction.TEMPLATE_FUNCTION_EOM ignored, already added automatically
+            case TEMPLATE_FUNCTION_WAIT_FOR_BUTTON:
+                templateObj = new WaitForButton(getDimension(5), getNextAction());
+                break;
+            case TEMPLATE_FUNCTION_EOM:
+                templateObj = null;
+//                TemplateFunction.TEMPLATE_FUNCTION_EOM ignored
+                break;
+            default:
+                assert false;
+                throw new RuntimeException("Err");
         }
-        templateObjs.add(templateObj);
 
-        return bin;
+        return templateObj;
     }
 
     private TemplateFunction getFunction(){
         int templateFunctionCode = Integer.parseInt(bin.substring(0, FUNCTION_LENGTH), 2);
-        bin = bin.substring(FUNCTION_LENGTH);
+        bin.delete(0, FUNCTION_LENGTH);
         return TemplateFunction.values()[templateFunctionCode];
     }
 
     private int getDimension() {
+        //default: 8, param: n
         int dimension = Integer.parseInt(bin.substring(0, DIMENSION_LENGTH), 2);
-        bin = bin.substring(DIMENSION_LENGTH);
+        bin.delete(0, DIMENSION_LENGTH);
+        return dimension;
+    }
+    private int getDimension(int n) {
+        int dimension = Integer.parseInt(bin.substring(0, n), 2);
+        bin.delete(0, n);
         return dimension;
     }
 
     private TemplateColor getColor() {
         TemplateColor templateColor = TemplateColor.get(TemplateColor.Preset.values()[Integer.parseInt(bin.substring(0, COLOR_LENGTH), 2)]);
-        bin = bin.substring(COLOR_LENGTH);
+        bin.delete(0, COLOR_LENGTH);
         return templateColor;
     }
 
     private String getText(){
         TokenHuffman tokenHuffman = new TokenHuffman();
         int length = Integer.parseInt(bin.substring(0, LENGTH_LENGTH), 2);
-        bin = bin.substring(LENGTH_LENGTH);
-        String text = tokenHuffman.decode(bin, length);
-        bin = bin.substring(tokenHuffman.getDecodedBinary().length());
+        bin.delete(0, LENGTH_LENGTH);
+        String text = tokenHuffman.decode(bin.toString(), length);
+        bin.delete(0, tokenHuffman.getDecodedBinary().length());
         return text;
     }
 
     private Text.Size getSize(){
         Text.Size size = Text.Size.values()[Integer.parseInt(bin.substring(0, SIZE_LENGTH), 2)];
-        bin = bin.substring(SIZE_LENGTH);
+        bin.delete(0, SIZE_LENGTH);
         return size;
     }
 
     private Text.Alignment getAlignment(){
         Text.Alignment alignment = Text.Alignment.values()[Integer.parseInt(bin.substring(0, ALIGNMENT_LENGTH), 2)];
-        bin = bin.substring(ALIGNMENT_LENGTH);
+        bin.delete(0, ALIGNMENT_LENGTH);
         return alignment;
+    }
+
+    private WaitForButton.NextAction getNextAction(){
+        return WaitForButton.NextAction.values()[getDimension(3)];
     }
 }

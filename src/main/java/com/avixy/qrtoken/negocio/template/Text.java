@@ -5,6 +5,7 @@ import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.params.NBitsParam;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.Objects;
@@ -16,12 +17,6 @@ import java.util.Objects;
  */
 public class Text implements TemplateObj {
     public enum Size {
-//        MINIMAL(0,0,0),
-//        MICRO(0,0,0),
-//        SMALL(17, 10, 16),
-//        MEDIUM(0,0,0),
-//        LARGE(21, 13, 20),
-//        HUGE(33, 20, 30);
         MINIMAL(0,0,0), /**< 0000 - Minima: 6x8 - 40 linhas de 40 caracteres*/
         MICRO(0,0,0), /**< 0001 - Micro: 7x12 - 26 linhas de 34 caracteres*/
         SMALL(17,10,16), /**< 0010 - Pequena: 10x16 - 20 linhas de 24 caracteres*/
@@ -72,23 +67,23 @@ public class Text implements TemplateObj {
     private boolean textFromArgument = false;
 
     public static final String ARG_TEXT_FOR_DISPLAY = "{arg}";
-    public static final String TEXT_FROM_ARGUMENT_BINARY = "0011010010";
-    public static final String TEXT_FROM_ARGUMENT = "0011010010";
+//    public static final String TEXT_FROM_ARGUMENT_BINARY = "0011010010";
+    public static final String TEXT_FROM_ARGUMENT = ARG_TEXT_FOR_DISPLAY;
 
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
         this.color = color;
-        this.bgColor = bgColor;
+        this.bgColor = color; //TODO: bgColor ainda eh ignorado..
         this.text = text;
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
         this.alignment = alignment;
-        if (Objects.equals(text, TEXT_FROM_ARGUMENT_BINARY)) {
-            text = ARG_TEXT_FOR_DISPLAY;
-            textFromArgument = true;
-        } else {
-            this.text = text;
-        }
+//        if (text.equals(TEXT_FROM_ARGUMENT)) {
+//            this.text = ARG_TEXT_FOR_DISPLAY;
+//            textFromArgument = true; //TODO: not needed
+//        } else {
+//            this.text = text;
+//        }
     }
 
     @Override
@@ -100,6 +95,12 @@ public class Text implements TemplateObj {
     }
 
     @Override
+    public Rectangle getBounds() {
+        Rectangle rectangle = new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
+        return rectangle;
+    }
+
+    @Override
     public String toBinary() {
         return TemplateFunction.TEMPLATE_FUNCTION_TEXT.toBinaryString() +
                 new ByteWrapperParam((byte) (y / 2)).toBinaryString() +
@@ -107,7 +108,8 @@ public class Text implements TemplateObj {
                 bgColor.toBinaryString() +
                 size.toBinaryString() +
                 alignment.toBinaryString() +
-                (textFromArgument ? TEXT_FROM_ARGUMENT_BINARY : new HuffmanEncodedParam(text).toBinaryString());
+//                (textFromArgument ? TEXT_FROM_ARGUMENT_BINARY : new HuffmanEncodedParam(text).toBinaryString());
+                new HuffmanEncodedParam(text).toBinaryString();
     }
 
     static int calcAlignment(int textLength, Text.Size size, Text.Alignment alignment) {
@@ -123,5 +125,76 @@ public class Text implements TemplateObj {
             default:
                 throw new IllegalArgumentException("Unexpected alignment");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Text{" +
+               '\'' + text + '\'' +
+                '}';
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public TemplateColor getColor() {
+        return color;
+    }
+
+    public void setColor(TemplateColor color) {
+        this.color = color;
+    }
+
+    public TemplateColor getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(TemplateColor bgColor) {
+        this.bgColor = bgColor;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+//        if (text.equals(TEXT_FROM_ARGUMENT)) {
+//            text = ARG_TEXT_FOR_DISPLAY;
+//            textFromArgument = true;
+//        } else {
+//            textFromArgument = false;
+//            this.text = text;
+//        }
+        this.text = text;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.font = new Font("lucida console", size.getValue());
+        this.size = size;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(Alignment alignment) {
+        this.alignment = alignment;
     }
 }

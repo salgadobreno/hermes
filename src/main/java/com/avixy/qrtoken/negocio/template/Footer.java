@@ -3,6 +3,7 @@ package com.avixy.qrtoken.negocio.template;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Created on 12/02/2015
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
  */
 public class Footer implements TemplateObj {
     private Stripe stripe;
-    private Text text, text2; //TODO rename essa merda
+    private Text text, text2; //TODO rename
     private TemplateColor bgColor, textColor;
     private int FOOTER_HEIGHT = 40;
     private int VERTICAL_MARGIN = Token.DISPLAY_HEIGHT - 40;
@@ -36,11 +37,60 @@ public class Footer implements TemplateObj {
     }
 
     @Override
+    public Rectangle getBounds() {
+        Rectangle rectangle = new Rectangle(0, FOOTER_Y - FOOTER_HEIGHT, Token.DISPLAY_WIDTH, FOOTER_HEIGHT);
+        return rectangle;
+    }
+
+    @Override
     public String toBinary() {
         return TemplateFunction.TEMPLATE_FUNCTION_FOOTER.toBinaryString() +
                 bgColor.toBinaryString() +
                 textColor.toBinaryString() +
                 new HuffmanEncodedParam(textContent).toBinaryString() +
                 new HuffmanEncodedParam(textContent2).toBinaryString();
+    }
+
+    @Override
+    public String toString() {
+        return "Footer{" +
+               '\'' + (textContent + " " + textContent2) +
+                '}';
+    }
+
+    public void setTextColor(TemplateColor color) {
+        textColor = color;
+        text.setColor(color);
+    }
+
+    public void setBgColor(TemplateColor color){
+        bgColor = color;
+        stripe.setColor(color);
+    }
+
+    public void setText(String text) {
+        textContent = text;
+        this.text.setText(text);
+    }
+
+    public void setText2(String text) {
+        textContent2 = text;
+        this.text2.setText(text);
+    }
+
+    public String getText2() {
+        return textContent2;
+    }
+
+    public String getText() {
+        return textContent;
+    }
+
+    public TemplateColor getTextColor() {
+        return textColor;
+    }
+
+    public TemplateColor getBgColor() {
+        return bgColor;
     }
 }

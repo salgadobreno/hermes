@@ -19,4 +19,9 @@ public class Stripe extends Rect {
                 new ByteWrapperParam((byte) (height/2)).toBinaryString() +
                 color.toBinaryString();
     }
+
+    @Override
+    public String toString() {
+        return "Stripe";
+    }
 }

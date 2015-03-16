@@ -34,4 +34,13 @@ public class TemplateTextTextArea extends VBox {
             return textArea.getText();
         }
     }
+
+    public void setValue(String value) {
+        if (Text.TEXT_FROM_ARGUMENT.equals(value)) {
+            checkBox.setSelected(true);
+        } else {
+            textArea.setText(value);
+            checkBox.setSelected(false);
+        }
+    }
 }

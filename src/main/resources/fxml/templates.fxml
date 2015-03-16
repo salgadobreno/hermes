@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
@@ -8,7 +9,7 @@
 
 <?import com.avixy.qrtoken.negocio.template.TokenCanvas?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.TemplatesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.TemplatesController">
    <children>
       <VBox layoutX="201.0" layoutY="29.0" prefHeight="320.0" prefWidth="75.0" spacing="10.0">
          <children>
@@ -17,6 +18,8 @@
              <Button fx:id="header" mnemonicParsing="false" prefWidth="65.0" text="Header" />
              <Button fx:id="footer" mnemonicParsing="false" prefWidth="65.0" text="Footer" />
              <Button fx:id="text" mnemonicParsing="false" prefWidth="65.0" text="Texto" />
+            <Separator prefWidth="200.0" />
+            <Button fx:id="waitButton" layoutX="10.0" layoutY="150.0" mnemonicParsing="false" prefWidth="65.0" text="Wait for Button" />
          </children>
       </VBox>
       <AnchorPane layoutX="321.0" layoutY="29.0" prefHeight="377.0" prefWidth="242.0">
@@ -28,16 +31,28 @@
                </children>
             </Pane>
              <Button fx:id="clearButton" layoutX="177.0" layoutY="351.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Limpar" />
-             <Button fx:id="saveButton" onAction="#saveSelected" defaultButton="true" layoutY="351.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Salvar" />
+             <Button fx:id="saveButton" defaultButton="true" layoutY="351.0" mnemonicParsing="false" onAction="#saveSelected" prefHeight="25.0" prefWidth="65.0" text="Salvar" />
             <Label layoutX="4.0" layoutY="322.0" text="X/Y:" fx:id="xyLabel" />
             <CheckBox fx:id="showGrid" layoutX="156.0" layoutY="322.0" mnemonicParsing="false" onAction="#toggleGrid" selected="true" text="Display grid" />
          </children>
       </AnchorPane>
-      <ListView fx:id="listView" layoutY="29.0" prefHeight="397.0" prefWidth="157.0" />
+      <ListView fx:id="templateListView" layoutY="29.0" prefHeight="397.0" prefWidth="157.0" />
       <Label layoutX="7.0" layoutY="6.0" text="Templates">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <ListView fx:id="templateObjListView" layoutX="563.0" layoutY="29.0" prefHeight="322.0" prefWidth="157.0" />
+      <Label fx:id="screenQty" layoutX="634.0" layoutY="351.0" text="x/x" />
+      <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="686.0" layoutY="349.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#nextScreen" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/arrow-88-24.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="580.0" layoutY="349.0" onMouseClicked="#previousScreen" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/arrow-88-24.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

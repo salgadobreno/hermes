@@ -31,4 +31,13 @@ public class TemplateTextTextField extends HBox {
             return textField.getText();
         }
     }
+
+    public void setValue(String value){
+        if (Text.TEXT_FROM_ARGUMENT.equals(value)) {
+            checkBox.setSelected(true);
+        } else {
+            checkBox.setSelected(false);
+            textField.setText(value);
+        }
+    }
 }

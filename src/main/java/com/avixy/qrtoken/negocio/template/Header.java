@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Created on 12/02/2015
@@ -32,10 +32,50 @@ public class Header implements TemplateObj {
     }
 
     @Override
+    public Rectangle getBounds() {
+        Rectangle rectangle = new Rectangle(0, 0 , Token.DISPLAY_WIDTH, HEADER_HEIGHT);
+        return rectangle;
+    }
+
+    @Override
     public String toBinary() {
         return TemplateFunction.TEMPLATE_FUNCTION_HEADER.toBinaryString() +
                 bgColor.toBinaryString() +
                 textColor.toBinaryString() +
                 new HuffmanEncodedParam(textContent).toBinaryString();
+    }
+
+    @Override
+    public String toString() {
+        return "Header{" +
+               '\'' + textContent + '\'' +
+                '}';
+    }
+
+    public void setTextColor(TemplateColor color) {
+        this.textColor = color;
+        text.setColor(color);
+    }
+
+    public void setBgColor(TemplateColor color) {
+        this.bgColor = color;
+        stripe.setColor(color);
+    }
+
+    public void setText(String text) {
+        this.textContent = text;
+        this.text.setText(text);
+    }
+
+    public String getText() {
+        return textContent;
+    }
+
+    public TemplateColor getBgColor() {
+        return bgColor;
+    }
+
+    public TemplateColor getTextColor() {
+        return textColor;
     }
 }
