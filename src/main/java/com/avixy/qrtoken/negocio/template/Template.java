@@ -46,25 +46,31 @@ public class Template {
 
     public class SubTemplate extends Template {
         ObservableList<TemplateObj> templateObjs;
-        WaitForButton terminator;
+        WaitForButton endOfSubTemplate;
 
         public SubTemplate(ObservableList<TemplateObj> templateObjs) {
+            this.templateObjs = templateObjs;
+            refreshEndOfSubTemplate();
+        }
+
+        private void refreshEndOfSubTemplate() {
             for (TemplateObj templateObj : templateObjs) {
                 if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
-                    terminator = (WaitForButton) templateObj;
+                    endOfSubTemplate = (WaitForButton) templateObj;
+                    return;
                 }
             }
-            this.templateObjs = templateObjs;
+            endOfSubTemplate = null;
         }
 
         public void add(TemplateObj templateObj) {
-            if (terminator != null) {
-                templateObjs.add(templateObjs.indexOf(terminator), templateObj);
+            if (endOfSubTemplate != null) {
+                templateObjs.add(templateObjs.indexOf(endOfSubTemplate), templateObj);
             } else {
                 templateObjs.add(templateObj);
             }
             if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
-                terminator = (WaitForButton) templateObj;
+                endOfSubTemplate = (WaitForButton) templateObj;
                 Template.this.getSubTemplates().add(new SubTemplate(FXCollections.observableArrayList()));
             }
         }
@@ -82,6 +88,7 @@ public class Template {
                 Template.this.subTemplates.remove(Template.this.subTemplates.indexOf(this) + 1);
             }
             dirty = true;
+            refreshEndOfSubTemplate();
         }
 
         @Override
