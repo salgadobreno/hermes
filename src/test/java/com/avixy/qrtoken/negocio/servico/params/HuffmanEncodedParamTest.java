@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class HuffmanEncodedParamTest {
-    HuffmanEncodedParam param;
 
     @Test
     public void testParam() throws Exception {
@@ -14,8 +13,14 @@ public class HuffmanEncodedParamTest {
         String encoded = "00011010"; // length 26
         encoded += new TokenHuffman().encode(toEncode);
 
-        param = new HuffmanEncodedParam(toEncode);
+        String argEncode = "{arg}";
+        String argEncoded = "11111111";
+        argEncoded += new TokenHuffman().encode(argEncode);
+
+        HuffmanEncodedParam param = new HuffmanEncodedParam(toEncode);
+        HuffmanEncodedParam argParam = new HuffmanEncodedParam(argEncode);
 
         assertEquals(encoded, param.toBinaryString());
+        assertEquals(argEncoded, argParam.toBinaryString());
     }
 }
