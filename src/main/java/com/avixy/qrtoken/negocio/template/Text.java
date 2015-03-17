@@ -8,14 +8,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import java.util.Objects;
-
 /**
  * Created on 12/02/2015
  *
  * @author I7
  */
 public class Text implements TemplateObj {
+
     public enum Size {
         MINIMAL(0,0,0), /**< 0000 - Minima: 6x8 - 40 linhas de 40 caracteres*/
         MICRO(0,0,0), /**< 0001 - Micro: 7x12 - 26 linhas de 34 caracteres*/
@@ -48,6 +47,7 @@ public class Text implements TemplateObj {
         public String toBinaryString() {
             return new FourBitParam((byte) ordinal()).toBinaryString();
         }
+        public boolean isArg() { return this == ARGUMENT; };
     }
     public enum Alignment {
         LEFT, CENTER, RIGHT, ARGUMENT;
@@ -55,6 +55,8 @@ public class Text implements TemplateObj {
         public String toBinaryString() {
             return new NBitsParam((byte)2, (byte)ordinal()).toBinaryString();
         }
+
+        public boolean isArg() { return this == ARGUMENT; };
     }
 
     private int y;
@@ -78,12 +80,6 @@ public class Text implements TemplateObj {
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
         this.alignment = alignment;
-//        if (text.equals(TEXT_FROM_ARGUMENT)) {
-//            this.text = ARG_TEXT_FOR_DISPLAY;
-//            textFromArgument = true; //TODO: not needed
-//        } else {
-//            this.text = text;
-//        }
     }
 
     @Override
@@ -108,7 +104,6 @@ public class Text implements TemplateObj {
                 bgColor.toBinaryString() +
                 size.toBinaryString() +
                 alignment.toBinaryString() +
-//                (textFromArgument ? TEXT_FROM_ARGUMENT_BINARY : new HuffmanEncodedParam(text).toBinaryString());
                 new HuffmanEncodedParam(text).toBinaryString();
     }
 
@@ -125,6 +120,10 @@ public class Text implements TemplateObj {
             default:
                 throw new IllegalArgumentException("Unexpected alignment");
         }
+    }
+
+    public boolean isArg() {
+        return text.equals(TEXT_FROM_ARGUMENT);
     }
 
     @Override

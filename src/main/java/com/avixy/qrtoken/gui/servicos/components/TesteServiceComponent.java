@@ -16,7 +16,6 @@ import java.io.IOException;
  *
  * Created on 13/08/2014
  */
-@ServiceComponent.Category
 public class TesteServiceComponent extends ServiceComponent {
     private Logger logger = LoggerFactory.getLogger(TesteServiceComponent.class);
 

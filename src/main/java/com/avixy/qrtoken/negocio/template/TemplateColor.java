@@ -51,6 +51,10 @@ public class TemplateColor {
         public Color toColor(){
             return Color.rgb(r,g,b);
         }
+
+        public boolean isArg() {
+            return this == TEMPLATE_COLOR_FETCH_FROM_MESSAGE;
+        }
     }
 
     private final Preset preset;
@@ -105,5 +109,9 @@ public class TemplateColor {
 
     public Preset getPreset() {
         return preset;
+    }
+
+    public boolean isArg(){
+        return preset.isArg();
     }
 }
