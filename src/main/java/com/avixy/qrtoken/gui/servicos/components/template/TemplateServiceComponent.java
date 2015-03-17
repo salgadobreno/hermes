@@ -23,10 +23,7 @@ import com.google.inject.Inject;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -54,6 +51,9 @@ public class TemplateServiceComponent extends ServiceComponent {
     private Label timestampLabel = new Label("Timestamp:");
     private PasswordField passwordField = new PasswordField();
     private Label passwordLabel = new Label("PIN:");
+    private ComboBox<Integer> slotCombobox = new ComboBox<>();
+    private Label slotLabel = new Label("Slot:");
+    private Label templateLabel = new Label("Template:");
 
     private List<Control> controlList;
 
@@ -65,10 +65,18 @@ public class TemplateServiceComponent extends ServiceComponent {
         super(service);
         this.service = service;
 
+        for (int i = 0; i <= 10; i++) {
+            slotCombobox.getItems().add(i);
+        }
+        slotCombobox.getSelectionModel().select(0);
+
         title.setText(service.getServiceName());
         title.setFont(new Font(18));
         mainNode.add(title, "span");
-        mainNode.add(templateSelect, "span, wrap");
+        mainNode.add(templateLabel);
+        mainNode.add(templateSelect, "wrap");
+        mainNode.add(slotLabel);
+        mainNode.add(slotCombobox, "wrap");
         mainNode.add(aesSelectLabel);
         mainNode.add(aesSelect, "wrap");
         mainNode.add(hmacSelectLabel);
@@ -84,7 +92,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, slotCombobox, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator);
                 if (newValue != null) {
                     Template template = TemplatesSingleton.getInstance().getObservableTemplates().get(newValue);
                     for (TemplateObj templateObj : template.getTemplateObjs()) {
@@ -168,6 +176,7 @@ public class TemplateServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() throws Exception {
+        service.setTemplateSlot(slotCombobox.getValue());
         service.setAesKey(aesSelect.getValue().getHexValue());
         service.setHmacKey(hmacSelect.getValue().getHexValue());
         service.setTimestamp(timestampField.getValue());
