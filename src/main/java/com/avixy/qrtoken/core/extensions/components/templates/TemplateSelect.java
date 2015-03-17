@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.core.extensions.components.templates;
 
+import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
@@ -35,5 +36,9 @@ public class TemplateSelect extends ComboBox<Integer> {
                 return Integer.parseInt(string.substring(0, 1));
             }
         });
+    }
+
+    public Template getTemplate(){
+        return TemplatesSingleton.getInstance().getObservableTemplates().get(getValue());
     }
 }

@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.servicos.components;
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
 import com.avixy.qrtoken.negocio.template.Template;
@@ -27,7 +28,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     private UpdateTemplateService service;
 
     private TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
-    private ComboBox<Template> templatesCombobox = new ComboBox<>(templatesSingleton.getObservableTemplates());
+    private TemplateSelect templateSelect = new TemplateSelect();
     private ComboBox<Integer> slotCombobox = new ComboBox<>();
     private HmacSelect hmacSelect = new HmacSelect();
     private TimestampField timestampField = new TimestampField();
@@ -41,10 +42,9 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         super(service);
         this.service = service;
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 0; i <= 10; i++) {
             slotCombobox.getItems().add(i);
         }
-        templatesCombobox.getSelectionModel().select(0);
         slotCombobox.getSelectionModel().select(0);
     }
 
@@ -57,7 +57,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(new Label("Slot:"));
         migPane.add(slotCombobox, "wrap");
         migPane.add(new Label("Template:"));
-        migPane.add(templatesCombobox, "wrap");
+        migPane.add(templateSelect, "wrap");
         migPane.add(new Label("HMAC Key:"));
         migPane.add(hmacSelect, "wrap");
         migPane.add(new Label("Timestamp:"));
@@ -85,7 +85,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         service.setTemplateSlot(slotCombobox.getValue().byteValue());
         service.setTimestamp(timestampField.getValue());
         service.setHmacKey(hmacSelect.getValue().getHexValue());
-        service.setTemplate(templatesCombobox.getValue());
+        service.setTemplate(templateSelect.getTemplate());
 
         return service;
     }

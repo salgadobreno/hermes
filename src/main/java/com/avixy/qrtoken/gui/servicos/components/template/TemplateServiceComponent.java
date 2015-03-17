@@ -85,9 +85,11 @@ public class TemplateServiceComponent extends ServiceComponent {
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 controlList = new ArrayList<>();
                 mainNode.getChildren().retainAll(title, templateSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator);
-                Template template = TemplatesSingleton.getInstance().getObservableTemplates().get(newValue);
-                for (TemplateObj templateObj : template.getTemplateObjs()) {
-                    parseTemplateObj(templateObj);
+                if (newValue != null) {
+                    Template template = TemplatesSingleton.getInstance().getObservableTemplates().get(newValue);
+                    for (TemplateObj templateObj : template.getTemplateObjs()) {
+                        parseTemplateObj(templateObj);
+                    }
                 }
             }
         });
