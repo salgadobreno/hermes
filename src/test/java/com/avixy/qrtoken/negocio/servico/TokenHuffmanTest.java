@@ -34,6 +34,16 @@ public class TokenHuffmanTest {
     }
 
     @Test
+    public void testArg() throws Exception {
+        String texto = TokenHuffman.ARG;
+        String encoded = "0011010010";
+
+        assertEquals(encoded, new TokenHuffman().encode(texto));
+
+        assertEquals(texto, new TokenHuffman().decode(encoded, TokenHuffman.ARG_LENGTH));
+    }
+
+    @Test
     public void testDecode() throws Exception {
         String encoded = "1000111" + //H
                 "0111110" + //o

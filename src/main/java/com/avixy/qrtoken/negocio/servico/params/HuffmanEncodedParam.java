@@ -17,7 +17,7 @@ public class HuffmanEncodedParam implements Param {
     @Override
     public String toBinaryString() {
         String length;
-        if (text == TokenHuffman.arg) {
+        if (text.equals(TokenHuffman.ARG)) {
             length = "11111111";
         } else {
             length = new ByteWrapperParam((byte) text.length()).toBinaryString();
