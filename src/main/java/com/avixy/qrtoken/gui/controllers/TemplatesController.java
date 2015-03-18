@@ -32,7 +32,6 @@ import org.tbee.javafx.scene.layout.MigPane;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created on 12/02/2015
@@ -78,18 +77,18 @@ public class TemplatesController extends Application {
         templateObjListView.setItems(newValue.subTemplate(currScreenProperty.get()).getTemplateObjs());
         screenQtyProperty.bind(newValue.screenQtyProperty);
 
-        if (oldValue != null && oldValue.isDirty()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Descartar alterações feitas no template?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                oldValue.restoreState();
-                templateListView.setItems(null);
-                templateListView.setItems(templatesSingleton.getObservableTemplates());
-            } else {
-                templateListView.getSelectionModel().select(oldValue);
-                return;
-            }
-        }
+//        if (oldValue != null && oldValue.isDirty()) {
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Descartar alterações feitas no template?");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+//                oldValue.restoreState();
+//                templateListView.setItems(null);
+//                templateListView.setItems(templatesSingleton.getObservableTemplates());
+//            } else {
+//                templateListView.getSelectionModel().select(oldValue);
+//                return;
+//            }
+//        }
         canvas.setTemplate(newValue, currScreenProperty.get());
     };
     private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> {
@@ -135,7 +134,6 @@ public class TemplatesController extends Application {
             template.clear();
             template.setDirty(true);
             canvas.redraw(currScreenProperty.get());
-            forceRefresh(templateObjListView);
         });
 
         templateListView.setItems(templatesSingleton.getObservableTemplates());
@@ -231,7 +229,7 @@ public class TemplatesController extends Application {
     }
 
     public void toggleGrid(){
-        canvas.setGridOn(showGrid.isSelected());
+        canvas.setGridOn(showGrid.isSelected(), currScreenProperty.get());
     }
 
     private void attachPopOver(Button button, Parent parent){
@@ -351,6 +349,7 @@ public class TemplatesController extends Application {
     }
     class TextForm extends MigPane {
         TemplateColorPicker textColorPicker = new TemplateColorPicker();
+        TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateTextTextArea templateTextArea = new TemplateTextTextArea(2, 10);
         NumberField yField = new NumberField();
         ComboBox<Text.Size> sizeComboBox = new ComboBox<>();
@@ -364,6 +363,8 @@ public class TemplatesController extends Application {
             alignmentComboBox.getSelectionModel().select(0);
             add(new Label("TEXT COLOR:"));
             add(textColorPicker, "wrap");
+            add(new Label("BG COLOR:"));
+            add(bgColorPicker, "wrap");
             add(new Label("Y:"));
             add(yField, "wrap");
             add(new Label("TEXT:"));
@@ -381,6 +382,7 @@ public class TemplatesController extends Application {
                 t.setY(Integer.parseInt(yField.getText()));
                 t.setText(templateTextArea.getValue());
                 t.setColor(textColorPicker.getValue());
+                t.setBgColor(bgColorPicker.getValue());
                 t.setAlignment(alignmentComboBox.getValue());
                 t.setSize(sizeComboBox.getValue());
                 canvas.redraw(currScreenProperty.get());
@@ -404,12 +406,14 @@ public class TemplatesController extends Application {
             int y;
             String text1;
             TemplateColor textColor;
+            TemplateColor bgColor;
             y = Integer.parseInt(yField.getText());
             text1 = templateTextArea.getValue();
             Text.Size size = sizeComboBox.getValue();
             Text.Alignment alignment = alignmentComboBox.getValue();
             textColor = textColorPicker.getValue();
-            canvas.add(new Text(y, textColor, null, size, alignment, text1), currScreenProperty.get());
+            bgColor = bgColorPicker.getValue();
+            canvas.add(new Text(y, textColor, bgColor, size, alignment, text1), currScreenProperty.get());
             popOver.hide();
         };
     }

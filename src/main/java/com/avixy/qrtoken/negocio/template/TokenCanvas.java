@@ -62,9 +62,9 @@ public class TokenCanvas extends Canvas {
         getGraphicsContext2D().fillRect(0, 0, Token.DISPLAY_WIDTH, Token.DISPLAY_HEIGHT);
     }
 
-    public void setGridOn(boolean gridOn) {
+    public void setGridOn(boolean gridOn, int currTemplate) {
         this.gridOn = gridOn;
-        drawGrid();
+        redraw(currTemplate);
     }
 
     public void setTemplate(Template template, int subTemplate) {
@@ -86,5 +86,4 @@ public class TokenCanvas extends Canvas {
             }
         }
     }
-
 }

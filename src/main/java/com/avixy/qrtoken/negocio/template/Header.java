@@ -19,7 +19,7 @@ public class Header implements TemplateObj {
 
     public Header(TemplateColor bgColor, TemplateColor textColor, String text) {
         this.stripe = new Stripe(0, HEADER_HEIGHT, bgColor);
-        this.text = new Text(VERTICAL_MARGIN, textColor, null, Text.Size.LARGE, Text.Alignment.CENTER, text);
+        this.text = new Text(VERTICAL_MARGIN, textColor, bgColor, Text.Size.LARGE, Text.Alignment.CENTER, text);
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.textContent = text;
@@ -59,6 +59,7 @@ public class Header implements TemplateObj {
 
     public void setBgColor(TemplateColor color) {
         this.bgColor = color;
+        text.setBgColor(color);
         stripe.setColor(color);
     }
 

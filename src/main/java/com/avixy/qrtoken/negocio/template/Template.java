@@ -40,7 +40,9 @@ public class Template {
 
     public void clear() {
         storeState();
-        subTemplates.clear();
+        for (SubTemplate subTemplate : subTemplates) {
+            subTemplate.getTemplateObjs().clear();
+        }
         subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
     }
 

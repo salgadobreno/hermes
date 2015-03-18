@@ -12,7 +12,7 @@ import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
+import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateColorParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TextAlignmentParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TextSizeParam;
@@ -54,6 +54,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     private ComboBox<Integer> slotCombobox = new ComboBox<>();
     private Label slotLabel = new Label("Slot:");
     private Label templateLabel = new Label("Template:");
+    private Label paramsTitle = new Label("Parâmetros do template");
 
     private List<Control> controlList;
 
@@ -87,12 +88,14 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(passwordField, "wrap");
         separator.setPrefWidth(280);
         mainNode.add(separator, "span");
+        paramsTitle.setFont(new Font(14));
+        mainNode.add(paramsTitle, "span");
 
         templateSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, slotCombobox, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, slotCombobox, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, paramsTitle);
                 if (newValue != null) {
                     Template template = TemplatesSingleton.getInstance().getObservableTemplates().get(newValue);
                     for (TemplateObj templateObj : template.getTemplateObjs()) {
@@ -148,13 +151,16 @@ public class TemplateServiceComponent extends ServiceComponent {
 
     private void addTextArg() {
         TextField textField = new TextField();
+//        TextArea textField = new TextArea();
+//        textField.setPrefColumnCount(10);
+//        textField.setPrefRowCount(3);
         controlList.add(textField);
         mainNode.add(new Label("Text Arg:"));
         mainNode.add(textField, "wrap");
     }
 
     private void addColorArg() {
-        TemplateColorPicker colorPicker = new TemplateColorPicker();
+        TemplateColorPicker colorPicker = new TemplateColorPicker(false);
         controlList.add(colorPicker);
         mainNode.add(new Label("Color Arg:"));
         mainNode.add(colorPicker, "wrap");
@@ -184,7 +190,9 @@ public class TemplateServiceComponent extends ServiceComponent {
         service.setParams(new ArrayList<>());
         for (Control control : controlList) {
             if (control instanceof TextField) {
-                service.getParams().add(new StringWrapperParam(((TextField)control).getText()));
+//            if (control instanceof TextArea) {
+                service.getParams().add(new HuffmanEncodedParam(((TextField)control).getText()));
+//                service.getParams().add(new HuffmanEncodedParam(((TextArea)control).getText()));
             } else if (control instanceof TemplateColorPicker) {
                 service.getParams().add(new TemplateColorParam(((TemplateColorPicker) control).getValue()));
             } else if (control instanceof TextAlignmentSelect) {

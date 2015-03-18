@@ -75,7 +75,7 @@ public class Text implements TemplateObj {
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
         this.color = color;
-        this.bgColor = color; //TODO: bgColor ainda eh ignorado..
+        this.bgColor = bgColor; //TODO: bgColor ainda eh ignorado?
         this.text = text;
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
@@ -84,6 +84,9 @@ public class Text implements TemplateObj {
 
     @Override
     public void render(GraphicsContext gc) {
+        Rectangle r = getBounds();
+        gc.setFill(bgColor.toColor());
+        gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         gc.setFont(font);
         gc.setFill(color.toColor());
         String renderText = textFromArgument ? ARG_TEXT_FOR_DISPLAY : text;

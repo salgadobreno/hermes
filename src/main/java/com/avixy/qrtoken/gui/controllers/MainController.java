@@ -206,8 +206,12 @@ public class MainController {
     }
 
     private void handleException(Exception e) {
-        errorLabel.setText(e.getClass().toString() + ": " + e.getMessage());
         log.error("Error: ", e);
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(e.getMessage());
+        alert.showAndWait();
     }
 
     public void gerenciaDeChaves() throws IOException {

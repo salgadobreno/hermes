@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.template;
 
+import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -39,12 +40,7 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
 
     @Override
     public byte[] getMessage() {
-        String string = "";
-        for (Param param : params) {
-            string += param.toBinaryString();
-        }
-
-        return string.getBytes();
+        return BinnaryMsg.create().append(templateSlotParam).append(params).toByteArray();
     }
 
     public List<Param> getParams() {

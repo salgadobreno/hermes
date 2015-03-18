@@ -21,8 +21,9 @@ import org.apache.commons.lang.ArrayUtils;
 public class TemplateColorPicker extends ComboBox<TemplateColor> {
     private TemplateColor rgbTemplateColor;
 
-    public TemplateColorPicker() {
+    public TemplateColorPicker(boolean includeFetchFromMessage) {
         Object[] presets = ArrayUtils.removeElement(TemplateColor.Preset.values(), TemplateColor.Preset.TEMPLATE_COLOR_RGB);
+        if (!includeFetchFromMessage) presets = ArrayUtils.removeElement(presets, TemplateColor.Preset.TEMPLATE_COLOR_FETCH_FROM_MESSAGE);
         for (Object preset : presets) {
             getItems().add(TemplateColor.get((TemplateColor.Preset) preset));
             setCellFactory(new Callback<ListView<TemplateColor>, ListCell<TemplateColor>>() {
@@ -42,10 +43,6 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
                             if (item == null || empty) {
                                 setGraphic(null);
                             } else {
-                                if (item.getPreset() == TemplateColor.Preset.TEMPLATE_COLOR_RGB) {
-                                    System.out.println("RGB");
-                                    System.out.println("item.toColor() = " + item.toColor());
-                                }
                                 rectangle.setFill(item.toColor());
                                 setGraphic(rectangle);
 
@@ -104,6 +101,10 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
 
         getSelectionModel().selectedItemProperty().addListener(templateColorChangeListener);
         getSelectionModel().select(0);
+    }
+
+    public TemplateColorPicker() {
+        this(true);
     }
 
     public void setRgbColor(TemplateColor templateColor) {

@@ -21,8 +21,8 @@ public class Footer implements TemplateObj {
 
     public Footer(TemplateColor bgColor, TemplateColor textColor, String text1, String text2) {
         this.stripe = new Stripe(FOOTER_Y - FOOTER_HEIGHT, FOOTER_HEIGHT, bgColor);
-        this.text = new Text(VERTICAL_MARGIN + 3, textColor, null, Text.Size.SMALL, Text.Alignment.CENTER, text1); //TODO
-        this.text2 = new Text(VERTICAL_MARGIN + Text.Size.SMALL.getHeight() + 3, textColor, null, Text.Size.SMALL, Text.Alignment.CENTER, text2); //TODO
+        this.text = new Text(VERTICAL_MARGIN + 3, textColor, bgColor, Text.Size.SMALL, Text.Alignment.CENTER, text1); //TODO
+        this.text2 = new Text(VERTICAL_MARGIN + Text.Size.SMALL.getHeight() + 3, textColor, bgColor, Text.Size.SMALL, Text.Alignment.CENTER, text2); //TODO
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.textContent = text1;
@@ -61,11 +61,14 @@ public class Footer implements TemplateObj {
     public void setTextColor(TemplateColor color) {
         textColor = color;
         text.setColor(color);
+        text2.setColor(color);
     }
 
     public void setBgColor(TemplateColor color){
         bgColor = color;
         stripe.setColor(color);
+        text.setBgColor(color);
+        text2.setBgColor(color);
     }
 
     public void setText(String text) {
