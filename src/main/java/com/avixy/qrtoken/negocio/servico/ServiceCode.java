@@ -7,54 +7,53 @@ package com.avixy.qrtoken.negocio.servico;
  */
 // from token firmware
 public enum ServiceCode {
-    SERVICE_EMPTY,										/**< 00000000 - Vazio para sempre */
-    SERVICE_PING,										/**< 00000001 - Ping: mostra data e hora, fuso, versão de HW, FW,SN lógico */
-    SERVICE_STORE_USER_INFO,							/**< 00000010 - Serviço para armazenar as informa??es do usuário*/
-    SERVICE_HMAC_TEMPLATE_MESSAGE,						/**< 00001010 - Mensagem segura (cifrada, com PIN) com um template */
-    SERVICE_SIGNED_TEMPLATE_MESSAGE,					/**< 00001011 - Mensagem segura (cifrada, com PIN) com um template */
-    SERVICE_HMAC_FORMATTED_MESSAGE,						/**< 00001101 - Mensagem segura (cifrada, com PIN) com formatação */
-    SERVICE_SIGNED_FORMATTED_MESSAGE,					/**< 00001110 - Mensagem segura (cifrada, com PIN) com formatação */
-    SERVICE_DIGITAL_SIGNATURE,							/**< 00010000 - Assinatura digital */
-    SERVICE_SESSION_KEY_DECRYPT,						/**< 00010001 - Chave de sessão, encriptada com chave assimétrica */
-    SERVICE_GENERATE_KTAMPER,							/**< 00010100 - Crie K_Tamper */
-    SERVICE_ERASE_KTAMPER,								/**< 00010101 - Apague K_Tamper */
-    SERVICE_STORE_PIN,									/**< 00010110 - Armazene o PIN */
-    SERVICE_UPDATE_PIN,									/**< 00010111 - Alterar o PIN */
-    SERVICE_OVERRIDE_PIN,								/**< 00011000 - Novo PIN */
-    SERVICE_STORE_PUK,									/**< 00011001 - Armazene o PUK */
-    SERVICE_UPDATE_PUK,									/**< 00011010 - Alterar o PUK */
-    SERVICE_ONE_STEP_ENCRYPTED_SYM_KEY_IMPORT,			/**< 00011110 - Importação de chave simétrica em 1 passo - canal inseguro */
-    SERVICE_ONE_STEP_ENCRYPTED_DOUBLE_SYM_KEY_IMPORT,	/**< 00011111 - Importação de chave simétrica em 1 passo - canal inseguro - Modelo BB code */
-    SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT,	/**< 00100000 - Importação de chave simétrica em 1 passo - canal seguro */
-    SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT,	/**< 00100000 - Importação de chave simétrica em 1 passo - canal seguro */
-    SERVICE_ONE_STEP_CLEARTEXT_DOUBLE_SYM_KEY_IMPORT,	/**< 00100001 - Importação de chave simétrica em 1 passo - canal seguro - Modelo BB code */
-    SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT,				/**< 00100010 - Importação de chave simétrica em 2 passos */
-    SERVICE_TWO_STEP_CLIENT_KEY_IMPORT,					/**< 00100010 - Importação de chave simétrica em 2 passos */
-    SERVICE_TWO_STEP_DOUBLE_SYM_KEY_IMPORT,				/**< 00100011 - Importação de chave simétrica em 2 passos - modelo BB Code */
-    SERVICE_DELETE_SYM_KEY_AVIXY,						/**< 00100100 - Deleção de chave simétrica */
-    SERVICE_DELETE_SYM_KEY_CLIENT,
-    SERVICE_UPDATE_AVIXY_SYM_KEY,						/**< 00100101 - Troca de chave simétrica */
-    SERVICE_UPDATE_CLIENT_SYM_KEY,
-    SERVICE_CREATE_AND_EXPORT_SYM_KEY,					/**< 00100110 - Criação de chave simétrica e exportação em claro */
-    SERVICE_EXPORT_SYM_KEY,								/**< 00100111 - Exportação de chave simétrica em claro */
-    SERVICE_CREATE_AND_EXPORT_ASY_KEY,					/**< 00101010 - Criação de par de chaves com exportação de K_Pub */
-    SERVICE_EXPORT_ASY_KEY,								/**< 00101011 - Exportação de K_Pub */
-    SERVICE_IMPORT_DIGITAL_CERTIFICATE,					/**< 00101100 - Importação de Certificado Digital, cuja K_Priv é do token */
-    SERVICE_DELETE_DIGITAL_CERTIFICATE,					/**< 00101101 - Deleção de Certificado Digital, cuja K_Priv é do token */
-    SERVICE_SHOW_DEVICES_DIGITAL_CERTIFICATE,			/**< 00101110 - Exibição dos certificados de chaves que pertencem ao token */
-    SERVICE_SHOW_EXTERNAL_DIGITAL_CERTIFICATE,			/**< 00101111 - Exibição dos certificados externos armazenados no token */
-    SERVICE_ASY_SIGNATURE_TEST,							/**< 00110000 - Teste de chaves assimétricas - assinatura */
-    SERVICE_ASY_DECRYPT_TEST,							/**< 00110001 - Teste de chaves assimétricas - decriptação */
-    SERVICE_AVIXY_RTC_SYM_UPDATE,						/**< 00110010 - Atualizar RTC - Avixy com HMAC */
-    SERVICE_AVIXY_RTC_ASY_UPDATE,						/**< 00110011 - Atualizar RTC - Avixy com certificado */
-    SERVICE_CLIENT_RTC_SYM_UPDATE,						/**< 00110100 - Atualizar RTC - cliente com HMAC */
-    SERVICE_CLIENT_RTC_ASY_UPDATE,						/**< 00110101 - Atualizar RTC - cliente com certificado */
-    SERVICE_SHOW_LOG,									/**< 00111001 - Exibição do log de operações */
-    SERVICE_SHOW_LOG_PARAMS,							/**< 00111010 - Exibição do log de operações - busca com parâmetros */
-    SERVICE_IMPORT_CLIENT_CERTIFICATE,					/**< 00111011 - Importação de Certificado Digital do cliente, para atualização de template, assinado pela Avixy */
-    SERVICE_TEMPLATE_ASY_UPDATE,						/**< 00111100 - Atualização de template com certificado */
-    SERVICE_TEMPLATE_SYM_UPDATE,						/**< 00111101 - Atualização de template com HMAC */
-    SERVICE_FIRMWARE_ASY_UPDATE,						/**< 00111110 - Atualização de firmware/bibliotecas do token com certificado */
-    SERVICE_FIRMWARE_SYM_UPDATE,						/**< 00111111 - Atualização de firmware/bibliotecas do token com HMAC */
-    SERVICE_LANGUAGE_SELECTION,							/**< 01000000 - Selecão de idioma */
+    SERVICE_EMPTY,										/**< Vazio para sempre */
+    SERVICE_WHOIS,										/**< Ping: mostra data e hora, fuso, versão de HW, FW,SN lógico */
+    SERVICE_STORE_USER_INFO,							/**< Serviço para armazenar as informa??es do usuário*/
+    SERVICE_HMAC_TEMPLATE_MESSAGE,						/**< Mensagem segura (cifrada, com PIN) com um template */
+    SERVICE_SIGNED_TEMPLATE_MESSAGE,					/**< Mensagem segura (cifrada, com PIN) com um template */
+    SERVICE_HMAC_FORMATTED_MESSAGE,						/**< Mensagem segura (cifrada, com PIN) com formatação */
+    SERVICE_SIGNED_FORMATTED_MESSAGE,					/**< Mensagem segura (cifrada, com PIN) com formatação */
+    SERVICE_DIGITAL_SIGNATURE,							/**< Assinatura digital */
+    SERVICE_SESSION_KEY_DECRYPT,						/**< Chave de sessão, encriptada com chave assimétrica */
+    SERVICE_GENERATE_KTAMPER,							/**< Crie K_Tamper */
+    SERVICE_ERASE_KTAMPER,								/**< Apague K_Tamper */
+    SERVICE_STORE_PIN,									/**< Armazene o PIN */
+    SERVICE_UPDATE_PIN,									/**< Alterar o PIN */
+    SERVICE_OVERRIDE_PIN,								/**< Novo PIN */
+    SERVICE_STORE_PUK,									/**< Armazene o PUK */
+    SERVICE_UPDATE_PUK,									/**< Alterar o PUK */
+    SERVICE_ONE_STEP_ENCRYPTED_SYM_KEY_IMPORT,			/**< Importação de chave simétrica em 1 passo - canal inseguro */
+    SERVICE_ONE_STEP_ENCRYPTED_DOUBLE_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal inseguro - Modelo BB code */
+    SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal seguro */
+    SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal seguro */
+    SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT,				/**< Importação de chave simétrica em 2 passos */
+    SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT,				/**< Importação de chave simétrica em 2 passos */
+    SERVICE_DELETE_SYM_KEY_AVIXY,						/**< Deleção de chave simétrica */
+    SERVICE_DELETE_SYM_KEY_CLIENT,						/**< Deleção de chave simétrica */
+    SERVICE_UPDATE_AVIXY_SYM_KEY,						/**< Troca de chave simétrica */
+    SERVICE_UPDATE_CLIENT_SYM_KEY,						/**< Troca de chave simétrica */
+    SERVICE_CREATE_AND_EXPORT_SYM_KEY,					/**< Criação de chave simétrica e exportação em claro */
+    SERVICE_EXPORT_SYM_KEY,								/**< Exportação de chave simétrica em claro */
+    SERVICE_CREATE_AND_EXPORT_ASY_KEY,					/**< Criação de par de chaves com exportação de K_Pub */
+    SERVICE_EXPORT_ASY_KEY,								/**< Exportação de K_Pub */
+    SERVICE_IMPORT_DIGITAL_CERTIFICATE,					/**< Importação de Certificado Digital, cuja K_Priv é do token */
+    SERVICE_DELETE_DIGITAL_CERTIFICATE,					/**< Deleção de Certificado Digital, cuja K_Priv é do token */
+    SERVICE_SHOW_DEVICES_DIGITAL_CERTIFICATE,			/**< Exibição dos certificados de chaves que pertencem ao token */
+    SERVICE_SHOW_EXTERNAL_DIGITAL_CERTIFICATE,			/**< Exibição dos certificados externos armazenados no token */
+    SERVICE_ASY_SIGNATURE_TEST,							/**< Teste de chaves assimétricas - assinatura */
+    SERVICE_ASY_DECRYPT_TEST,							/**< Teste de chaves assimétricas - decriptação */
+    SERVICE_AVIXY_RTC_SYM_UPDATE,						/**< Atualizar RTC - Avixy com HMAC */
+    SERVICE_AVIXY_RTC_ASY_UPDATE,						/**< Atualizar RTC - Avixy com certificado */
+    SERVICE_CLIENT_RTC_SYM_UPDATE,						/**< Atualizar RTC - cliente com HMAC */
+    SERVICE_CLIENT_RTC_ASY_UPDATE,						/**< Atualizar RTC - cliente com certificado */
+    SERVICE_SHOW_USAGE_STATISTICS,						/**< Exibe as estatísticas de uso do token */
+    SERVICE_SHOW_LOG,									/**< Exibição do log de operações */
+    SERVICE_SHOW_LOG_PARAMS,							/**< Exibição do log de operações - busca com parâmetros */
+    SERVICE_IMPORT_CLIENT_CERTIFICATE,					/**< Importação de Certificado Digital do cliente, para atualização de template, assinado pela Avixy */
+    SERVICE_TEMPLATE_ASY_UPDATE,						/**< Atualização de template com certificado */
+    SERVICE_TEMPLATE_SYM_UPDATE,						/**< Atualização de template com HMAC */
+    SERVICE_FIRMWARE_ASY_UPDATE,						/**< Atualização de firmware/bibliotecas do token com certificado */
+    SERVICE_FIRMWARE_SYM_UPDATE,						/**< Atualização de firmware/bibliotecas do token com HMAC */
+    SERVICE_LANGUAGE_SELECTION,							/**< Selecão de idioma */
 }

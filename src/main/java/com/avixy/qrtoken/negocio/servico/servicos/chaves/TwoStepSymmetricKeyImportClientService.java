@@ -25,6 +25,6 @@ public class TwoStepSymmetricKeyImportClientService extends TwoStepSymmetricKeyI
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_TWO_STEP_CLIENT_KEY_IMPORT;
+        return ServiceCode.SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT;
     }
 }

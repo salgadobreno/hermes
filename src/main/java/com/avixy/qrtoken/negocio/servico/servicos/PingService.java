@@ -23,7 +23,7 @@ public class PingService extends AbstractService {
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_PING;
+        return ServiceCode.SERVICE_WHOIS;
     }
 
     @Override
