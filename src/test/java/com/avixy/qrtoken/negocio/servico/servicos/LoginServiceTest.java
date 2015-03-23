@@ -31,7 +31,7 @@ public class LoginServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        service.setTemplate((byte) 1);
+        service.setTemplateSlot((byte) 1);
         service.setPin("1234");
         service.setLoginCode(loginCode);
         service.setTimestamp(new Date(1409329200000L));

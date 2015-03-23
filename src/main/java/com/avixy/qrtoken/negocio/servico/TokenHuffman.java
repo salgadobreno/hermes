@@ -109,7 +109,7 @@ public class TokenHuffman {
     private static final int MIN_HUFFMAN_LENGTH = 7;
     private static final int MAX_HUFFMAN_LENGTH = 10;
 
-    private String decodedBinary; //this field stores the last decoded binary
+    private String decodedBinary; //stores the last decoded binary
 
     public static final int ARG_LENGTH = 0b11111111;
     public String decode(String binary, int length) {
@@ -131,7 +131,6 @@ public class TokenHuffman {
                     decoded += codeDictionary.get(code);
                     decodedBinary += code;
                     binary = binary.substring(currHuffmanLength);
-//                    System.out.println("decoded = " + decoded);
                     break;
                 }
                 currHuffmanLength++;

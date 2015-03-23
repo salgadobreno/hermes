@@ -34,7 +34,7 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(template, loginCode).toByteArray();
+        return BinnaryMsg.create().append(templateSlot, loginCode).toByteArray();
     }
 
     public void setLoginCode(String loginCode) {

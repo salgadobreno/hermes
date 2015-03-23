@@ -12,10 +12,16 @@ import javafx.scene.shape.Rectangle;
  */
 public class TokenCanvas extends Canvas {
     private Template template = new Template();
-    boolean gridOn = true;
+    private boolean gridOn = true;
+    private double scaleY;
+    private double scaleX;
 
     public TokenCanvas() {
         clear();
+    }
+
+    public void redraw(){
+        redraw(1);
     }
 
     public void redraw(int subTemplate) {
@@ -30,6 +36,7 @@ public class TokenCanvas extends Canvas {
 //        this.template.add(templateObj, subTemplate);
         this.template.subTemplate(subTemplate).add(templateObj);
         redraw(subTemplate);
+
     }
 
     public void remove(TemplateObj templateObj, int subTemplate) {
@@ -72,8 +79,13 @@ public class TokenCanvas extends Canvas {
         redraw(subTemplate);
     }
 
-    public void highlight(TemplateObj templateObj, int subTemplate) {
-        redraw(subTemplate);
+    public void setTemplate(Template template) {
+        this.template = template;
+        redraw();
+    }
+
+    public void highlight(TemplateObj templateObj) {
+        redraw(template.subTemplateOf(templateObj));
         if (templateObj != null) {
             Rectangle rectangle = templateObj.getBounds();
             if (rectangle != null) {

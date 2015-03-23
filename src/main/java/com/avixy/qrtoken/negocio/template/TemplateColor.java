@@ -76,17 +76,14 @@ public class TemplateColor {
 
     private static Map<Preset, TemplateColor> flyweight = new HashMap<>();
     public static TemplateColor get(Preset preset) {
-            if (preset == Preset.TEMPLATE_COLOR_RGB) {
-                throw new IllegalArgumentException("RGB template colors are unique");
-            } else {
-                if (flyweight.get(preset) == null) {
-                    TemplateColor templateColor = new TemplateColor(preset);
-                    flyweight.put(preset, templateColor);
-                    return templateColor;
-                } else {
-                    return flyweight.get(preset);
-                }
-            }
+        //NOTE: método que deve fazer próprio tratamento p/ o RGB
+        if (flyweight.get(preset) == null) {
+            TemplateColor templateColor = new TemplateColor(preset);
+            flyweight.put(preset, templateColor);
+            return templateColor;
+        } else {
+            return flyweight.get(preset);
+        }
     }
 
     public Color toColor() {
@@ -102,7 +99,6 @@ public class TemplateColor {
             case TEMPLATE_COLOR_RGB:
                 return new FourBitParam((byte)preset.ordinal()).toBinaryString() +
                         new RGB565Param(r,g,b).toBinaryString();
-
         }
         return new FourBitParam((byte) preset.ordinal()).toBinaryString();
     }

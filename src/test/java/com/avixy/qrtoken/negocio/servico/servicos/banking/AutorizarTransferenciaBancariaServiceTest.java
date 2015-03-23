@@ -153,7 +153,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         Calendar date = Calendar.getInstance();
         date.set(2014, Calendar.OCTOBER, 23);
         //nome, conta, agencia de origem
-        service.setTemplate((byte) template);
+        service.setTemplateSlot((byte) template);
         service.setNomeOrigem(nome);
         service.setAgenciaOrigem(agencia);
         service.setContaOrigem(conta);

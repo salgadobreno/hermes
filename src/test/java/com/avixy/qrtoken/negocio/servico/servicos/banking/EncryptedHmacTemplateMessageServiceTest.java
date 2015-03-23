@@ -50,7 +50,7 @@ import static org.mockito.Mockito.verify;
 //
 //        service.setTimestamp(calendar.getTime());
 //        service.setPassword("1234");
-//        service.setTemplate((byte) 1);
+//        service.setTemplateSlot((byte) 1);
 //        service.setParams(new ByteWrapperParam((byte) 40), new ByteWrapperParam((byte) 50));
 //    }
 //

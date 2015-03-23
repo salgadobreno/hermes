@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.components.NumberField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextArea;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextField;
+import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -22,11 +23,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.apache.commons.lang.StringUtils;
-import org.controlsfx.control.PopOver;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.util.ArrayList;
@@ -92,7 +94,7 @@ public class TemplatesController extends Application {
         canvas.setTemplate(newValue, currScreenProperty.get());
     };
     private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> {
-        canvas.highlight(newValue, currScreenProperty.get());
+        canvas.highlight(newValue);
     };
 
     public static void main(String[] args) throws Exception {
@@ -140,7 +142,6 @@ public class TemplatesController extends Application {
         templateListView.setEditable(true);
         templateListView.setCellFactory(param -> new IndexedTemplateCell());
         popOver1 = new PopOver();
-        popOver1.setDetachable(false);
         templateObjListView.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -240,7 +241,6 @@ public class TemplatesController extends Application {
             popOver = new PopOver(parent);
             popOver.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
             popOver.setAutoHide(true);
-            popOver.setDetachable(false);
             popOver.show(button);
         });
     }
@@ -248,12 +248,24 @@ public class TemplatesController extends Application {
     public void saveSelected() {
         Template selected = templateListView.getSelectionModel().getSelectedItem();
 
-        templatesSingleton.persist(selected);
+        try {
+            templatesSingleton.persist(selected);
+        } catch (TemplatesSingleton.TemplateOverflowException e) {
+            handleException(e);
+        }
+    }
+
+    private void handleException(Exception e) {
+        e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(e.getMessage());
+        alert.showAndWait();
     }
 
     class HeaderForm extends MigPane {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
-        TemplateColorPicker textColorPicker = new TemplateColorPicker();
+        TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
         TemplateTextTextField textField = new TemplateTextTextField();
         Button okButton = new Button("OK");
         public HeaderForm() {
@@ -265,6 +277,7 @@ public class TemplatesController extends Application {
             add(textField, "wrap");
             okButton.setOnAction(saveEvent);
             add(okButton, "skip 1, right");
+            attachSubmitEvent(this, okButton);
         }
 
         public void edit(Header h) {
@@ -275,12 +288,10 @@ public class TemplatesController extends Application {
                 canvas.redraw(currScreenProperty.get());
                 popOver.hide();
             };
-            textColorPicker.setValue(h.getTextColor());
-            bgColorPicker.setValue(h.getBgColor());
             textField.setValue(h.getText());
             okButton.setOnAction(editEvent);
-            textColorPicker.setValue(h.getTextColor());
-            bgColorPicker.setValue(h.getBgColor());
+            textColorPicker.setTemplateColor(h.getTextColor());
+            bgColorPicker.setTemplateColor(h.getBgColor());
             textField.setValue(h.getText());
             header.getOnAction().handle(new ActionEvent());
             popOver.setOnHidden(e -> {
@@ -301,7 +312,7 @@ public class TemplatesController extends Application {
     }
     class FooterForm extends MigPane {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
-        TemplateColorPicker textColorPicker = new TemplateColorPicker();
+        TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
         TemplateTextTextField templateTextField = new TemplateTextTextField();
         TemplateTextTextField templateTextField2 = new TemplateTextTextField();
         Button okButton = new Button("OK");
@@ -315,6 +326,7 @@ public class TemplatesController extends Application {
             add(templateTextField2, "skip 1, wrap");
             okButton.setOnAction(saveEvent);
             add(okButton, "skip 1, right");
+            attachSubmitEvent(this, okButton);
         }
         public void edit(Footer f) {
             okButton.setOnAction(e -> {
@@ -325,8 +337,8 @@ public class TemplatesController extends Application {
                 canvas.redraw(currScreenProperty.get());
                 popOver.hide();
             });
-            textColorPicker.setValue(f.getTextColor());
-            bgColorPicker.setValue(f.getBgColor());
+            textColorPicker.setTemplateColor(f.getTextColor());
+            bgColorPicker.setTemplateColor(f.getBgColor());
             templateTextField.setValue(f.getText());
             templateTextField2.setValue(f.getText2());
             footer.getOnAction().handle(new ActionEvent());
@@ -348,8 +360,8 @@ public class TemplatesController extends Application {
         };
     }
     class TextForm extends MigPane {
-        TemplateColorPicker textColorPicker = new TemplateColorPicker();
-        TemplateColorPicker bgColorPicker = new TemplateColorPicker();
+        TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
+        TemplateColorPicker bgColorPicker = new TemplateColorPicker(TemplateColorPicker.BG_TEXT_COLOR);
         TemplateTextTextArea templateTextArea = new TemplateTextTextArea(2, 10);
         NumberField yField = new NumberField();
         ComboBox<Text.Size> sizeComboBox = new ComboBox<>();
@@ -375,6 +387,8 @@ public class TemplatesController extends Application {
             add(alignmentComboBox, "wrap");
             add(okButton, "skip 1, right");
             okButton.setOnAction(saveEvent);
+
+            attachSubmitEvent(this, okButton);
         }
 
         public void edit(Text t) {
@@ -391,7 +405,8 @@ public class TemplatesController extends Application {
             okButton.setOnAction(editEvent);
             yField.setText(String.valueOf(t.getY()));
             templateTextArea.setValue(t.getText());
-            textColorPicker.setValue(t.getColor());
+            textColorPicker.setTemplateColor(t.getColor());
+            bgColorPicker.setTemplateColor(t.getBgColor());
             sizeComboBox.setValue(t.getSize());
             alignmentComboBox.setValue(t.getAlignment());
 
@@ -438,6 +453,7 @@ public class TemplatesController extends Application {
             add(okButton, "skip 1, right");
 
             okButton.setOnAction(saveEvent);
+            attachSubmitEvent(this, okButton);
         }
         public void edit(Rect r) {
             EventHandler<ActionEvent> editEvent = e -> {
@@ -450,7 +466,7 @@ public class TemplatesController extends Application {
                 popOver.hide();
             };
             okButton.setOnAction(editEvent);
-            colorPicker.setValue(r.getColor());
+            colorPicker.setTemplateColor(r.getColor());
             yField.setText(String.valueOf(r.getY().intValue()));
             xField.setText(String.valueOf(r.getX().intValue()));
             hField.setText(String.valueOf(r.getHeight().intValue()));
@@ -489,6 +505,7 @@ public class TemplatesController extends Application {
             add(okButton, "skip 1, right");
 
             okButton.setOnAction(saveEvent);
+            attachSubmitEvent(this, okButton);
         }
         public void edit(Stripe s){
             EventHandler<ActionEvent> editEvent = e -> {
@@ -499,7 +516,7 @@ public class TemplatesController extends Application {
                 popOver.hide();
             };
             okButton.setOnAction(editEvent);
-            colorPicker.setValue(s.getColor());
+            colorPicker.setTemplateColor(s.getColor());
             yField.setText(String.valueOf(s.getY().intValue()));
             hField.setText(String.valueOf(s.getHeight().intValue()));
             stripe.getOnAction().handle(new ActionEvent());
@@ -536,6 +553,7 @@ public class TemplatesController extends Application {
             add(new Label("NEXT ACTION:"));
             add(nextActionComboBox, "wrap");
             add(okButton, "skip 1, right");
+            attachSubmitEvent(this, okButton);
         }
         public void edit(WaitForButton waitForButton) {
             nextActionComboBox.setValue(waitForButton.getNextAction());
@@ -559,6 +577,16 @@ public class TemplatesController extends Application {
         };
     }
 
+    private void attachSubmitEvent(MigPane form, Button okButton) {
+        EventHandler<KeyEvent> submitEvent = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
+            }
+        };
+        form.setOnKeyPressed(submitEvent);
+    }
+
     private void forceRefresh(ListView listView) {
         Object selected = listView.getSelectionModel().getSelectedItem();
         ObservableList<Object> items = listView.getItems();
@@ -572,6 +600,7 @@ public class TemplatesController extends Application {
         if (currScreenProperty.get() < screenQtyProperty.get()) {
             currScreenProperty.set(currScreenProperty.getValue() + 1);
         }
+        templateObjListView.getSelectionModel().select(null);
         canvas.redraw(currScreenProperty.get());
         templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
         popOver1.hide();
@@ -582,6 +611,7 @@ public class TemplatesController extends Application {
         if (currScreenProperty.get() > 1) {
             currScreenProperty.set(currScreenProperty.getValue() - 1);
         }
+        templateObjListView.getSelectionModel().select(null);
         canvas.redraw(currScreenProperty.get());
         templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
         popOver1.hide();
@@ -597,7 +627,7 @@ class IndexedTemplateCell extends TextFieldListCell<Template> {
                 if (editingProperty().get()) {
                     return object.toString();
                 } else {
-                    return (getIndex() + 1) + "- " + object.toString();
+                    return (getIndex()) + "- " + object.toString();
                 }
             }
             @Override

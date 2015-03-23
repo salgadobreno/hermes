@@ -19,7 +19,34 @@ import org.apache.commons.lang.ArrayUtils;
  * @author I7
  */
 public class TemplateColorPicker extends ComboBox<TemplateColor> {
+    public static final TemplateColor TEXT_COLOR = TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_BLACK);
+    public static final TemplateColor BG_TEXT_COLOR = TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_WHITE);
     private TemplateColor rgbTemplateColor;
+
+    ChangeListener<TemplateColor> templateColorChangeListener = new ChangeListener<TemplateColor>() {
+        @Override
+        public void changed(ObservableValue<? extends TemplateColor> observable, TemplateColor oldValue, TemplateColor newValue) {
+            if (newValue == rgbTemplateColor) {
+                CustomColorPopOver customColorPopOver = new CustomColorPopOver(TemplateColorPicker.this);
+                customColorPopOver.setOnCancel(() -> {
+                    customColorPopOver.hide();
+                    getSelectionModel().select(oldValue);
+                });
+                customColorPopOver.setOnOk(() -> {
+                    customColorPopOver.hide();
+                    Color color = customColorPopOver.getCustomColor();
+                    TemplateColor templateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, color.getRed() * 255, color.getGreen() * 255, color.getBlue() * 255);
+                    setRgbColor(templateColor);
+                    getSelectionModel().selectedItemProperty().removeListener(this);
+                    getSelectionModel().select(templateColor);
+                    getSelectionModel().selectedItemProperty().addListener(this);
+                });
+                Platform.runLater(customColorPopOver::show);
+            } else {
+                getSelectionModel().select(newValue);
+            }
+        }
+    };
 
     public TemplateColorPicker(boolean includeFetchFromMessage) {
         Object[] presets = ArrayUtils.removeElement(TemplateColor.Preset.values(), TemplateColor.Preset.TEMPLATE_COLOR_RGB);
@@ -76,28 +103,6 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
         rgbTemplateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, 0, 0, 0);
         getItems().add(rgbTemplateColor);
 
-        ChangeListener<TemplateColor> templateColorChangeListener = new ChangeListener<TemplateColor>() {
-            @Override
-            public void changed(ObservableValue<? extends TemplateColor> observable, TemplateColor oldValue, TemplateColor newValue) {
-                if (newValue == rgbTemplateColor) {
-                    CustomColorPopOver customColorPopOver = new CustomColorPopOver(TemplateColorPicker.this);
-                    customColorPopOver.setOnCancel(() -> {
-                        customColorPopOver.hide();
-                        getSelectionModel().select(oldValue);
-                    });
-                    customColorPopOver.setOnOk(() -> {
-                        customColorPopOver.hide();
-                        Color color = customColorPopOver.getCustomColor();
-                        TemplateColor templateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, color.getRed() * 255, color.getGreen() * 255, color.getBlue() * 255);
-                        setRgbColor(templateColor);
-                        getSelectionModel().selectedItemProperty().removeListener(this);
-                        getSelectionModel().select(templateColor);
-                        getSelectionModel().selectedItemProperty().addListener(this);
-                    });
-                    Platform.runLater(customColorPopOver::show);
-                }
-            }
-        };
 
         getSelectionModel().selectedItemProperty().addListener(templateColorChangeListener);
         getSelectionModel().select(0);
@@ -105,6 +110,26 @@ public class TemplateColorPicker extends ComboBox<TemplateColor> {
 
     public TemplateColorPicker() {
         this(true);
+    }
+
+    public TemplateColorPicker(TemplateColor select) {
+        this();
+        getSelectionModel().select(select);
+    }
+
+    public TemplateColorPicker(boolean includeFetchFromMessage, TemplateColor select){
+        this(includeFetchFromMessage);
+        getSelectionModel().select(select);
+    }
+
+    public void setTemplateColor(TemplateColor templateColor){
+        if (templateColor.getPreset() == TemplateColor.Preset.TEMPLATE_COLOR_RGB) {
+            setRgbColor(templateColor);
+        }
+
+        getSelectionModel().selectedItemProperty().removeListener(templateColorChangeListener);
+        getSelectionModel().select(templateColor);
+        getSelectionModel().selectedItemProperty().addListener(templateColorChangeListener);
     }
 
     public void setRgbColor(TemplateColor templateColor) {

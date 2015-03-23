@@ -60,7 +60,7 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
         destinoParam = new HuffmanEncodedParam(resolvedDestino);
         dadosParam = new HuffmanEncodedParam(resolvedDados);
 
-        BinnaryMsg msg = BinnaryMsg.create().append(template, origemParam, destinoParam, dadosParam, tanParam);
+        BinnaryMsg msg = BinnaryMsg.create().append(templateSlot, origemParam, destinoParam, dadosParam, tanParam);
         return msg.toByteArray();
     }
 

@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.banking;
 
 import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
@@ -58,7 +57,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
     private AesSelect comboAes = new AesSelect();
     private HmacSelect comboHmac = new HmacSelect();
-    private TemplateSelect templateComboBox = new TemplateSelect();
+    private TemplateSlotSelect templateComboBox = new TemplateSlotSelect();
     private PasswordField pinTextField = new PasswordField();
     private DatePicker datePicker = new FormattedDatePicker();
     private TextField tanTextField = new TextField();
@@ -115,7 +114,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             Label labelAes = new Label("AES:");
             Label labelHmac = new Label("HMAC:");
 
-            vBoxChaves.getChildren().addAll(labelAes, comboAes, labelHmac, comboHmac,new Label("Template:"), templateComboBox);
+            vBoxChaves.getChildren().addAll(labelAes, comboAes, labelHmac, comboHmac,new Label("Slot:"), templateComboBox);
             chavesPane.getChildren().add(vBoxChaves);
             //endchaves
 
@@ -180,7 +179,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     public Service getService() {
         service.setAesKey(comboAes.getValue().getHexValue());
         service.setHmacKey(comboHmac.getValue().getHexValue());
-        service.setTemplate(templateComboBox.getValue().byteValue());
+        service.setTemplateSlot(templateComboBox.getValue().byteValue());
         //pin e tan
         service.setPin(pinTextField.getText());
         service.setTan(tanTextField.getText());

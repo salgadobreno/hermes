@@ -9,6 +9,7 @@ public class NBitsParam implements Param {
     private byte size;
     private byte value;
     public NBitsParam(byte size, byte value) {
+        if (value < 0) throw new IllegalArgumentException("Value overflows 127");
         this.size = size;
         this.value = value;
     }

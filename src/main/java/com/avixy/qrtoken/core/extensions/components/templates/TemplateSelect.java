@@ -18,27 +18,23 @@ import java.util.List;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class TemplateSelect extends ComboBox<Integer> {
-    //TODO: make ComboBox<Template>?
+public class TemplateSelect extends ComboBox<Template> {
+    TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
+
     public TemplateSelect() {
-        List<Integer> templates = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        setItems(FXCollections.observableList(templates));
+        setItems(FXCollections.observableList(TemplatesSingleton.getInstance().getObservableTemplates()));
         getSelectionModel().selectFirst();
 
-        setConverter(new StringConverter<Integer>() {
-            @Override
-            public String toString(Integer number) {
-                return number + " - " + TemplatesSingleton.getInstance().getObservableTemplates().get(number).getName();
-            }
-
-            @Override
-            public Integer fromString(String string) {
-                return Integer.parseInt(string.substring(0, 1));
-            }
-        });
-    }
-
-    public Template getTemplate(){
-        return TemplatesSingleton.getInstance().getObservableTemplates().get(getValue());
+//        setConverter(new StringConverter<Template>() {
+//            @Override
+//            public String toString(Template template) {
+//                return templatesSingleton.getObservableTemplates().indexOf(template) + " - " + template.getName();
+//            }
+//
+//            @Override
+//            public Template fromString(String string) {
+//                return templatesSingleton.getObservableTemplates().get(Integer.parseInt(string.substring(0, 1)));
+//            }
+//        });
     }
 }

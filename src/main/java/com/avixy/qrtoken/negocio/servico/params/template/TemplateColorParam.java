@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.params.template;
 
 import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
+import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.template.TemplateColor;
 
 /**
@@ -8,8 +9,15 @@ import com.avixy.qrtoken.negocio.template.TemplateColor;
  *
  * @author I7
  */
-public class TemplateColorParam extends FourBitParam {
+public class TemplateColorParam implements Param {
+    private TemplateColor templateColor;
     public TemplateColorParam(TemplateColor templateColor) {
-        super((byte) templateColor.getPreset().ordinal());
+        this.templateColor = templateColor;
+    }
+
+
+    @Override
+    public String toBinaryString() {
+        return templateColor.toBinaryString();
     }
 }

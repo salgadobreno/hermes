@@ -40,7 +40,7 @@ public class OneStepDoubleSymmetricKeyImportServiceTest {
 //
 //        service.setTimestamp(new Date(epoch));
 //        service.setPin("1234");
-//        service.setTemplate((byte)4);
+//        service.setTemplateSlot((byte)4);
 //        service.setKeyType1(KeyType.HMAC);
 //        service.setKeyLength1(192/8);
 //        service.setKeyType2(KeyType.HMAC);

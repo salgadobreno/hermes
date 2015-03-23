@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import org.apache.commons.csv.CSVFormat;
 
 import java.util.ArrayList;
@@ -44,6 +45,13 @@ public class Template {
             subTemplate.getTemplateObjs().clear();
         }
         subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+    }
+
+    public int subTemplateOf(TemplateObj templateObj) {
+        for (SubTemplate subTemplate : subTemplates) {
+            if (subTemplate.getTemplateObjs().contains(templateObj)) return subTemplates.indexOf(subTemplate) + 1;
+        }
+        return 1;
     }
 
     public class SubTemplate extends Template {
@@ -219,6 +227,7 @@ public class Template {
 class TemplateParser {
     private static final int FUNCTION_LENGTH = 4;
     private static final int COLOR_LENGTH = 4;
+    private static final int RGB_COLOR_LENGTH = 16;
     private static final int SIZE_LENGTH = 4;
     private static final int ALIGNMENT_LENGTH = 2;
     private static final int DIMENSION_LENGTH = 8;
@@ -324,7 +333,22 @@ class TemplateParser {
     private TemplateColor getColor() {
         TemplateColor templateColor = TemplateColor.get(TemplateColor.Preset.values()[Integer.parseInt(bin.substring(0, COLOR_LENGTH), 2)]);
         bin.delete(0, COLOR_LENGTH);
+        if (templateColor.getPreset() == TemplateColor.Preset.TEMPLATE_COLOR_RGB) {
+            Color color = getRGBColor();
+            templateColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_RGB, color.getRed() * 255, color.getGreen() * 255, color.getBlue() * 255);
+        }
         return templateColor;
+    }
+
+    private Color getRGBColor() {
+        int r,g,b;
+        String rgbBin = bin.substring(0, RGB_COLOR_LENGTH);
+        bin.delete(0, RGB_COLOR_LENGTH);
+        r = 250 * (Integer.parseInt(rgbBin.substring(0,5), 2))/((1 << 5) - 1);
+        g = 250 * (Integer.parseInt(rgbBin.substring(6,11), 2))/((1 << 6) - 1);
+        b = 250 * (Integer.parseInt(rgbBin.substring(11,16), 2))/((1 << 5) - 1);
+
+        return Color.rgb(r,g,b);
     }
 
     private String getText(){

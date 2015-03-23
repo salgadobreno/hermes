@@ -1,13 +1,12 @@
 package com.avixy.qrtoken.gui.servicos.components.template;
 
-import com.avixy.qrtoken.core.extensions.components.AesSelect;
-import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.core.extensions.components.templates.TextAlignmentSelect;
 import com.avixy.qrtoken.core.extensions.components.templates.TextSizeSelect;
+import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
@@ -24,6 +23,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -40,21 +40,50 @@ import java.util.List;
 public class TemplateServiceComponent extends ServiceComponent {
     private TemplateService service;
     private MigPane mainNode = new MigPane();
+
+    /* component elements */
     private Label title = new Label();
-    private TemplateSelect templateSelect = new TemplateSelect();
-    private AesSelect aesSelect = new AesSelect();
-    private HmacSelect hmacSelect = new HmacSelect();
-    private TimestampField timestampField = new TimestampField();
-    private Separator separator = new Separator();
-    private Label hmacSelectLabel = new Label("HMAC Key:");
-    private Label aesSelectLabel = new Label("AES Key:");
-    private Label timestampLabel = new Label("Timestamp:");
-    private PasswordField passwordField = new PasswordField();
-    private Label passwordLabel = new Label("PIN:");
-    private ComboBox<Integer> slotCombobox = new ComboBox<>();
-    private Label slotLabel = new Label("Slot:");
+
     private Label templateLabel = new Label("Template:");
+    private TemplateSelect templateSelect = new TemplateSelect();
+
+    private Label aesSelectLabel = new Label("AES Key:");
+    private AesSelect aesSelect = new AesSelect();
+
+    private Label hmacSelectLabel = new Label("HMAC Key:");
+    private HmacSelect hmacSelect = new HmacSelect();
+
+    private Label timestampLabel = new Label("Timestamp:");
+    private TimestampField timestampField = new TimestampField();
+
+    private Separator separator = new Separator();
+
+    private Label passwordLabel = new Label("PIN:");
+    private PasswordField passwordField = new PasswordField();
+
+    private Label slotLabel = new Label("Slot:");
+    private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
+
     private Label paramsTitle = new Label("Parâmetros do template");
+
+    private TokenCanvas tokenCanvas = new TokenCanvas();
+    private Pane canvasPane = new Pane();
+    private PopOver canvasPopOver = new PopOver();
+    /* \component elements */
+
+    //setup tokenCanvas, pane & popover
+    {
+        tokenCanvas.setWidth(Token.DISPLAY_WIDTH);
+        tokenCanvas.setHeight(Token.DISPLAY_HEIGHT);
+        canvasPane.getChildren().add(tokenCanvas);
+        canvasPane.setPrefWidth((Token.DISPLAY_WIDTH / 2) + 10);
+        canvasPane.setPrefHeight((Token.DISPLAY_HEIGHT / 2) + 10);
+        tokenCanvas.setScaleX(0.5);
+        tokenCanvas.setScaleY(0.5);
+        tokenCanvas.setTranslateY((-Token.DISPLAY_HEIGHT / 4) + 5);
+        tokenCanvas.setTranslateX((-Token.DISPLAY_WIDTH / 4) + 5);
+        canvasPopOver.setContentNode(canvasPane);
+    }
 
     private List<Control> controlList;
 
@@ -66,18 +95,13 @@ public class TemplateServiceComponent extends ServiceComponent {
         super(service);
         this.service = service;
 
-        for (int i = 0; i <= 10; i++) {
-            slotCombobox.getItems().add(i);
-        }
-        slotCombobox.getSelectionModel().select(0);
-
         title.setText(service.getServiceName());
         title.setFont(new Font(18));
         mainNode.add(title, "span");
         mainNode.add(templateLabel);
         mainNode.add(templateSelect, "wrap");
         mainNode.add(slotLabel);
-        mainNode.add(slotCombobox, "wrap");
+        mainNode.add(templateSlotSelect, "wrap");
         mainNode.add(aesSelectLabel);
         mainNode.add(aesSelect, "wrap");
         mainNode.add(hmacSelectLabel);
@@ -91,14 +115,13 @@ public class TemplateServiceComponent extends ServiceComponent {
         paramsTitle.setFont(new Font(14));
         mainNode.add(paramsTitle, "span");
 
-        templateSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
+        templateSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Template>() {
             @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+            public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, slotCombobox, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, paramsTitle);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, paramsTitle);
                 if (newValue != null) {
-                    Template template = TemplatesSingleton.getInstance().getObservableTemplates().get(newValue);
-                    for (TemplateObj templateObj : template.getTemplateObjs()) {
+                    for (TemplateObj templateObj : newValue.getTemplateObjs()) {
                         parseTemplateObj(templateObj);
                     }
                 }
@@ -111,78 +134,96 @@ public class TemplateServiceComponent extends ServiceComponent {
     private void parseTemplateObj(TemplateObj templateObj) {
         if (templateObj instanceof Text) {
             Text text = (Text) templateObj;
-            if (text.getColor().isArg()) addColorArg();
-            if (text.getBgColor().isArg()) addColorArg();
-            if (text.getSize().isArg()) addSizeArg();
-            if (text.getAlignment().isArg()) addAlignmentArg();
-            if (text.isArg()) addTextArg();
+            if (text.getColor().isArg()) addColorArg(templateObj);
+            if (text.getBgColor().isArg()) addColorArg(templateObj);
+            if (text.getSize().isArg()) addSizeArg(templateObj);
+            if (text.getAlignment().isArg()) addAlignmentArg(templateObj);
+            if (text.isArg()) addTextArg(templateObj);
             return;
         }
 
         if (templateObj instanceof Header) {
             Header header = (Header) templateObj;
-            if (header.getBgColor().isArg()) addColorArg();
-            if (header.getTextColor().isArg()) addColorArg();
-            if (header.getText().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg();
+            if (header.getBgColor().isArg()) addColorArg(templateObj);
+            if (header.getTextColor().isArg()) addColorArg(templateObj);
+            if (header.getText().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg(templateObj);
             return;
         }
 
         if (templateObj instanceof Footer) {
             Footer footer = (Footer) templateObj;
-            if (footer.getBgColor().isArg()) addColorArg();
-            if (footer.getTextColor().isArg()) addColorArg();
-            if (footer.getText().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg();
-            if (footer.getText2().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg();
+            if (footer.getBgColor().isArg()) addColorArg(templateObj);
+            if (footer.getTextColor().isArg()) addColorArg(templateObj);
+            if (footer.getText().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg(templateObj);
+            if (footer.getText2().equals(Text.TEXT_FROM_ARGUMENT)) addTextArg(templateObj);
             return;
         }
 
         if (templateObj instanceof Stripe) {
             Stripe stripe = (Stripe) templateObj;
-            if (stripe.getColor().isArg()) addColorArg();
+            if (stripe.getColor().isArg()) addColorArg(templateObj);
             return;
         }
 
         if (templateObj instanceof Rect) {
             Rect rect = (Rect) templateObj;
-            if (rect.getColor().isArg()) addColorArg();
-            return;
+            if (rect.getColor().isArg()) addColorArg(templateObj);
         }
     }
 
-    private void addTextArg() {
+    private void addTextArg(TemplateObj templateObj) {
         TextField textField = new TextField();
-//        TextArea textField = new TextArea();
-//        textField.setPrefColumnCount(10);
-//        textField.setPrefRowCount(3);
         controlList.add(textField);
         mainNode.add(new Label("Text Arg:"));
         mainNode.add(textField, "wrap");
+        attachCanvasPopOverTo(textField, templateObj);
     }
 
-    private void addColorArg() {
+    private void addColorArg(TemplateObj templateObj) {
         TemplateColorPicker colorPicker = new TemplateColorPicker(false);
         controlList.add(colorPicker);
         mainNode.add(new Label("Color Arg:"));
         mainNode.add(colorPicker, "wrap");
+        attachCanvasPopOverTo(colorPicker, templateObj);
     }
 
-    private void addSizeArg() {
+    private void addSizeArg(TemplateObj templateObj) {
         TextSizeSelect sizeSelect = new TextSizeSelect();
         controlList.add(sizeSelect);
         mainNode.add(new Label("Size Arg:"));
         mainNode.add(sizeSelect, "wrap");
+
+        attachCanvasPopOverTo(sizeSelect, templateObj);
     }
 
-    private void addAlignmentArg() {
+    private void addAlignmentArg(TemplateObj templateObj) {
         TextAlignmentSelect alignmentSelect = new TextAlignmentSelect();
         controlList.add(alignmentSelect);
         mainNode.add(new Label("Alignment Arg:"));
         mainNode.add(alignmentSelect, "wrap");
+
+        attachCanvasPopOverTo(alignmentSelect, templateObj);
+    }
+
+    private void attachCanvasPopOverTo(Control control, TemplateObj templateObj) {
+        control.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    canvasPopOver = new PopOver(canvasPane);
+                    tokenCanvas.setTemplate(templateSelect.getValue(), 1);
+                    tokenCanvas.highlight(templateObj);
+                    canvasPopOver.show(control);
+                } else {
+                    canvasPopOver.hide();
+                }
+            }
+        });
     }
 
     @Override
     public Service getService() throws Exception {
-        service.setTemplateSlot(slotCombobox.getValue());
+        service.setTemplateSlot(templateSlotSelect.getValue());
         service.setAesKey(aesSelect.getValue().getHexValue());
         service.setHmacKey(hmacSelect.getValue().getHexValue());
         service.setTimestamp(timestampField.getValue());
@@ -190,9 +231,7 @@ public class TemplateServiceComponent extends ServiceComponent {
         service.setParams(new ArrayList<>());
         for (Control control : controlList) {
             if (control instanceof TextField) {
-//            if (control instanceof TextArea) {
                 service.getParams().add(new HuffmanEncodedParam(((TextField)control).getText()));
-//                service.getParams().add(new HuffmanEncodedParam(((TextArea)control).getText()));
             } else if (control instanceof TemplateColorPicker) {
                 service.getParams().add(new TemplateColorParam(((TemplateColorPicker) control).getValue()));
             } else if (control instanceof TextAlignmentSelect) {

@@ -2,16 +2,15 @@ package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
+import com.avixy.qrtoken.core.extensions.components.TemplateSlotSelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
-import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
@@ -29,7 +28,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
 
     private TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
     private TemplateSelect templateSelect = new TemplateSelect();
-    private ComboBox<Integer> slotCombobox = new ComboBox<>();
+    private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private HmacSelect hmacSelect = new HmacSelect();
     private TimestampField timestampField = new TimestampField();
     private PasswordField passwordField = new PasswordField();
@@ -41,11 +40,6 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     public UpdateTemplateServiceComponent(UpdateTemplateService service) {
         super(service);
         this.service = service;
-
-        for (int i = 0; i <= 10; i++) {
-            slotCombobox.getItems().add(i);
-        }
-        slotCombobox.getSelectionModel().select(0);
     }
 
     @Override
@@ -55,7 +49,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         title.setFont(new Font(18));
         migPane.add(title, "wrap, span");
         migPane.add(new Label("Slot:"));
-        migPane.add(slotCombobox, "wrap");
+        migPane.add(templateSlotSelect, "wrap");
         migPane.add(new Label("Template:"));
         migPane.add(templateSelect, "wrap");
         migPane.add(new Label("HMAC Key:"));
@@ -82,10 +76,10 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     @Override
     public Service getService() throws Exception {
         service.setPin(passwordField.getText());
-        service.setTemplateSlot(slotCombobox.getValue().byteValue());
+        service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setTimestamp(timestampField.getValue());
         service.setHmacKey(hmacSelect.getValue().getHexValue());
-        service.setTemplate(templateSelect.getTemplate());
+        service.setTemplate(templateSelect.getValue());
 
         return service;
     }

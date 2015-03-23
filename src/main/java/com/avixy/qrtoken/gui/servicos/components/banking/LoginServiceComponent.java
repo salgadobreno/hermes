@@ -1,14 +1,12 @@
 package com.avixy.qrtoken.gui.servicos.components.banking;
 
 import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
+import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
@@ -24,8 +22,7 @@ public class LoginServiceComponent extends ServiceComponent {
 
     private PasswordField passwordField = new PasswordField();
     private TextFieldLimited loginCodeField = new TextFieldLimited(6);
-//    private TemplateSelect templateComboBox = new TemplateSelect();
-    private ComboBox<Integer> slotSelect = new ComboBox<>();
+    private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private TimestampField timestampField = new TimestampField();
 
     private HmacSelect hmacField = new HmacSelect();
@@ -44,13 +41,8 @@ public class LoginServiceComponent extends ServiceComponent {
         title.setFont(new Font(18));
         migPane.add(title, "span, wrap");
 
-        migPane.add(new Label("Template:"));
-        for (int i = 0; i <= 10; i++) {
-            slotSelect.getItems().add(i);
-        }
-        slotSelect.getSelectionModel().select(0);
-        migPane.add(slotSelect, "wrap");
-//        migPane.add(templateComboBox, "wrap");
+        migPane.add(new Label("Slot:"));
+        migPane.add(templateSlotSelect, "wrap");
 
         migPane.add(new Label("PIN:"));
         migPane.add(passwordField, "wrap");
@@ -72,8 +64,8 @@ public class LoginServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() {
-//        service.setTemplate(templateComboBox.getValue().byteValue());
-        service.setTemplate(slotSelect.getValue().byteValue());
+//        service.setTemplateSlot(templateComboBox.getValue().byteValue());
+        service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setPin(passwordField.getText());
 
         service.setLoginCode(loginCodeField.getText());

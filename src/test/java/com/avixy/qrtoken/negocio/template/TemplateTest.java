@@ -171,7 +171,6 @@ public class TemplateTest {
     public void testFromBinary() throws Exception {
         Template template1 = Template.fromBinary(expectedBinary);
         List<TemplateObj> templateObjs = template1.getTemplateObjs();
-//        assertEquals(6, templateObjs.size());
         assertTrue(templateObjs.get(0) instanceof Header);
         assertTrue(templateObjs.get(1) instanceof Text);
         assertTrue(templateObjs.get(2) instanceof Stripe);

@@ -25,6 +25,7 @@ package com.avixy.qrtoken.core.extensions.hacks;
  * questions.
  */
 
+import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
@@ -41,7 +42,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import org.controlsfx.control.PopOver;
 
 /**
  *
@@ -91,7 +91,6 @@ public class CustomColorPopOver extends HBox {
     public void show() {
         colorRectPane.updateValues();
         popOver = new PopOver(this);
-        popOver.setDetachable(false);
         popOver.show(owner);
     }
 

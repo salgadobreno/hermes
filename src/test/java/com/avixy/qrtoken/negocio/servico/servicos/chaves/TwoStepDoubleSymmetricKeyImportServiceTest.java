@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 //
 //        service.setTimestamp(new Date(epoch));
 //        service.setPin("1234");
-//        service.setTemplate((byte) 4);
+//        service.setTemplateSlot((byte) 4);
 //        service.setKeyType1(KeyType.TDES);
 //        service.setKeyLength1(8);
 //        service.setKeyType2(KeyType.HMAC);

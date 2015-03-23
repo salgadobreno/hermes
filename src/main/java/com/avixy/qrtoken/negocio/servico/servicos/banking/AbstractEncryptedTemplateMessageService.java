@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public abstract class AbstractEncryptedTemplateMessageService extends AbstractService implements PinAble, TimestampAble, AesCrypted {
 
-    protected TemplateSlotParam template;
+    protected TemplateSlotParam templateSlot;
 
     @Inject
     public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
@@ -38,7 +38,7 @@ public abstract class AbstractEncryptedTemplateMessageService extends AbstractSe
         this.passwordPolicy.setPassword(pin);
     }
 
-    public void setTemplate(byte template) { this.template = new TemplateSlotParam(template); }
+    public void setTemplateSlot(byte template) { this.templateSlot = new TemplateSlotParam(template); }
 
     @Override
     public void setTimestamp(Date date) {
