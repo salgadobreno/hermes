@@ -6,9 +6,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
+ * A canvas which is able to render a {@link com.avixy.qrtoken.negocio.template.Template} the way QR Token would
+ *
  * Created on 26/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TokenCanvas extends Canvas {
     private Template template = new Template();

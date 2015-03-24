@@ -7,7 +7,7 @@ import javafx.scene.control.ComboBox;
 /**
  * Created on 27/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ChaveSelect extends ComboBox<Chave> {
     public ChaveSelect() {

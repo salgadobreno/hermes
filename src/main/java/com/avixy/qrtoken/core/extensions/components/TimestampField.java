@@ -15,7 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Componente que encapsula setagem de data + hora
+ * Encapsulates input of Date + Hour/Minutes
+ *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 16/09/2014

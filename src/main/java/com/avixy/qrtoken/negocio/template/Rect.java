@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Rect implements TemplateObj {
     protected double x;

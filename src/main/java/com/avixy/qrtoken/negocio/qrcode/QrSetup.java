@@ -6,8 +6,9 @@ import com.google.zxing.qrcode.decoder.Version;
 import javax.annotation.Nullable;
 
 /**
- * Encapsula uma configuração de QR, provê métodos util sobre um set-up de QR.
- * Assume-se encoding Byte. ver: QR Code specification ISO/IEC 18004:2000.
+ * Encapsulates a QR Code configuration
+ * Byte encoding assumed, see: QR Code specification ISO/IEC 18004:2000
+ *
  * @author Breno Salgado <breno.salgado@axivy.com>
  *
  * Created on 08/07/2014.
@@ -19,8 +20,8 @@ public class QrSetup {
     private ErrorCorrectionLevel ecLevel;
 
     /**
-     * @param version Versão de QR Code do setup
-     * @param ecLevel Nível de correção de erro
+     * @param version QR Code version
+     * @param ecLevel Error Correction level
      */
     public QrSetup(@Nullable Version version, ErrorCorrectionLevel ecLevel) {
         this.version = version;
@@ -28,21 +29,21 @@ public class QrSetup {
     }
 
     /**
-     * @return O número de bytes disponível para inclusão de dados nesse setup
+     * @return Number of <code>bytes</code> available for data in this setup
      */
     public int getAvailableBytes(){
         return version.getTotalCodewords() - getEcBytes() - getBytesForModeAndCharCount();
     }
 
     /**
-     * @return O número de bytes reservados pra correção de erro nesse setup
+     * @return Number of <code>bytes</code> reserved for Error Correction in this setup
      */
     public int getEcBytes(){
         return version.getECBlocksForLevel(ecLevel).getTotalECCodewords();
     }
 
     /**
-     * @return O número total de palavras-chave de 8 bits possível em um QR nesse setup
+     * @return Total number of keywords(bytes) possible in this setup
      */
     public int getTotalBytes() {
         return version.getTotalCodewords();
@@ -65,6 +66,10 @@ public class QrSetup {
         }
     }
 
+    /**
+     * @param length size of the data
+     * @return Number of QR Codes needed to send a message with size <code>length</code> in this setup
+     */
     public double getQrQtyFor(Integer length){
         return Math.ceil((length.doubleValue()) / getAvailableBytes());
     }

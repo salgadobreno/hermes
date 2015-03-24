@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * Created on 18/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class PopOver extends org.controlsfx.control.PopOver {
     public PopOver() { super(); }

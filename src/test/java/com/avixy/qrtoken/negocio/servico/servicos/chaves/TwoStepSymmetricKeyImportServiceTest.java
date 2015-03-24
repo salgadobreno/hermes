@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
@@ -70,12 +70,12 @@ public class TwoStepSymmetricKeyImportServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        assertArrayEquals(BinnaryMsg.get(expectedQr1), service.getQr1());
-        assertArrayEquals(BinnaryMsg.get(expectedQr2), service.getQr2());
+        assertArrayEquals(BinaryMsg.get(expectedQr1), service.getQr1());
+        assertArrayEquals(BinaryMsg.get(expectedQr2), service.getQr2());
 
         //qr1 xor qr2 deve ser igual a key1+key2
         byte[] q1XorQ2 = new byte[32];
-        byte[] k1 = BinnaryMsg.get(expectedQr1.substring(10));
+        byte[] k1 = BinaryMsg.get(expectedQr1.substring(10));
         for (int i = 0; i < k2.length; i++) {
             q1XorQ2[i] = (byte) (k1[i] ^ k2[i]);
         }

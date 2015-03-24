@@ -1,4 +1,6 @@
-package com.avixy.qrtoken.negocio.servico.params;
+package com.avixy.qrtoken.negocio.servico.params.template;
+
+import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 
 /**
  * Created on 23/09/2014

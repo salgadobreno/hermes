@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.template;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,21 +11,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Singleton that manages the {@link com.avixy.qrtoken.negocio.template.Template} database
+ *
  * Created on 26/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplatesSingleton {
 
+    /**
+     * Thrown when {@link com.avixy.qrtoken.negocio.template.Template} size exceeds {@link com.avixy.qrtoken.negocio.template.TemplatesSingleton.templateSize}
+     */
+    public class TemplateOverflowException extends Exception {
+        public TemplateOverflowException(String message) {
+            super(message);
+        }
+    }
+
+
+    enum templateSize {
+        SHORT(10, 200), LONG(15, 400);
+        private final int indexUpTo;
+        private final int size;
+
+        templateSize(int indexUpTo, int size) {
+            this.indexUpTo = indexUpTo;
+            this.size = size;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int getIndexUpTo() {
+            return indexUpTo;
+        }
+    }
+
     private final List<Template> templates = new ArrayList<>();
+    /** Reference to the database templates */
     private final ObservableList<Template> observableTemplates = FXCollections.observableList(templates);
     private final File csv = new File("templates.csv");
 
     private static TemplatesSingleton instance = new TemplatesSingleton();
     private TemplatesSingleton(){}
 
+    /* Reads or creates CSV file */
     {
-        /* le/cria arquivo */
         try {
             if (!csv.exists()) {
                 csv.createNewFile();
@@ -61,7 +93,9 @@ public class TemplatesSingleton {
         persist();
     }
 
-    /** Salva o CSV */
+    /**
+     * Updates the CSV file with the current state of <code>ObservableTemplates</code>
+     * */
     private void persist() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv));
@@ -77,6 +111,12 @@ public class TemplatesSingleton {
         }
     }
 
+    /**
+     * Updates a single line the CSV file with the template
+     *
+     * @param template
+     * @throws TemplateOverflowException if <code>Template</code> size exceeds {@link com.avixy.qrtoken.negocio.template.TemplatesSingleton.templateSize} limit
+     */
     enum TEMPLATE_SIZE {
         SHORT(10, 200), LONG(15, 400);
         private final int indexUpTo;

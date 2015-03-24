@@ -1,13 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.servicos.template;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.Param;
-import com.avixy.qrtoken.negocio.servico.params.TemplateSlotParam;
+import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AbstractEncryptedHmacTemplateMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created on 16/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateService extends AbstractEncryptedHmacTemplateMessageService {
     TemplateSlotParam templateSlotParam;
@@ -40,7 +40,7 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(templateSlotParam).append(params).toByteArray();
+        return BinaryMsg.create().append(templateSlotParam).append(params).toByteArray();
     }
 
     public List<Param> getParams() {

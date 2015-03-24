@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Footer implements TemplateObj {
     private Stripe stripe;

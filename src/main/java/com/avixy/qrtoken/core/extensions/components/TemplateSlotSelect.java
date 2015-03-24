@@ -8,7 +8,7 @@ import javafx.scene.control.ComboBox;
 /**
  * Created on 19/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateSlotSelect extends ComboBox<Integer> {
     public TemplateSlotSelect() {

@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 /**
  * Created on 06/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateTextTextField extends HBox {
     private CheckBox checkBox;

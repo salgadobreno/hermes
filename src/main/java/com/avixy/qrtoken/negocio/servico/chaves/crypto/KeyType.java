@@ -1,7 +1,8 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
 /**
- * Operações criptográficas usadas pelo Token
+ * Cryptographic operations used in the Token
+ *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 26/08/2014

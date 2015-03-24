@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Created on 11/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class FormattedDatePicker extends DatePicker {
     public FormattedDatePicker() {

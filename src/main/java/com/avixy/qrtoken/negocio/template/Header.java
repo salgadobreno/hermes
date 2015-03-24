@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Header implements TemplateObj {
     static final int HEADER_HEIGHT = 40;

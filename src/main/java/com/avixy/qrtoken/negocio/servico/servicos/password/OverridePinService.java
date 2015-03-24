@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -41,7 +41,7 @@ public class OverridePinService extends AbstractService implements TimestampAble
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(newPin).toByteArray();
+        return BinaryMsg.create().append(newPin).toByteArray();
     }
 
     public void setPin(String pin) {

@@ -1,8 +1,8 @@
-package com.avixy.qrtoken.core.extensions.binnary;
+package com.avixy.qrtoken.core.extensions.binary;
 
 /**
- * Implementação do CRC 16 bit CCITT.
- * Tirado de: http://introcs.cs.princeton.edu/java/51data/CRC16CCITT.java.html
+ * CRC 16 bit CCITT implementation
+ * Source: http://introcs.cs.princeton.edu/java/51data/CRC16CCITT.java.html
  */
 public class CRC16CCITT {
 

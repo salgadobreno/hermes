@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
@@ -34,7 +34,7 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(secretKey, authKey).toByteArray();
+        return BinaryMsg.create().append(secretKey, authKey).toByteArray();
     }
 
     @Override

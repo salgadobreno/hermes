@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
+import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

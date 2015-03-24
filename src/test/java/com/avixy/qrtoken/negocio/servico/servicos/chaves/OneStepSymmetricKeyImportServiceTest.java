@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
@@ -46,7 +46,7 @@ public class OneStepSymmetricKeyImportServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        assertArrayEquals(BinnaryMsg.get(expectedMsg), service.getMessage());
+        assertArrayEquals(BinaryMsg.get(expectedMsg), service.getMessage());
     }
 
     @Test

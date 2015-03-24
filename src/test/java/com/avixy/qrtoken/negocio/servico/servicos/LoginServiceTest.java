@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
@@ -49,7 +49,7 @@ public class LoginServiceTest {
                 "00000110" + //length 6
                 huffmanCode; //codigo de login 885471
 
-        assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
+        assertArrayEquals(new BinaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }
 
     @Test

@@ -15,7 +15,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 /**
  * Created on 26/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceComponent {
     private OneStepSymmetricKeyImportService service;

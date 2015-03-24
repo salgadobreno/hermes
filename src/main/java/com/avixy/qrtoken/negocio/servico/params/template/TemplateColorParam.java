@@ -7,7 +7,7 @@ import com.avixy.qrtoken.negocio.template.TemplateColor;
 /**
  * Created on 17/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateColorParam implements Param {
     private TemplateColor templateColor;

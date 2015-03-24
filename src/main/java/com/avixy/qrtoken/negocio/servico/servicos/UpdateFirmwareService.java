@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.TwoBytesWrapper;
+import com.avixy.qrtoken.core.extensions.binary.TwoBytesWrapper;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
 
 import static org.apache.commons.lang.ArrayUtils.add;
 import static org.apache.commons.lang.ArrayUtils.addAll;

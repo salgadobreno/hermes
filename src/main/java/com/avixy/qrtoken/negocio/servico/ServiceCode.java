@@ -1,11 +1,12 @@
 package com.avixy.qrtoken.negocio.servico;
 
 /**
+ * Service codes as they are set up in Token Firmware
+ *
  * Created on 29/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
-// from token firmware
 public enum ServiceCode {
     SERVICE_EMPTY,										/**< Vazio para sempre */
     SERVICE_WHOIS,										/**< Ping: mostra data e hora, fuso, versão de HW, FW,SN lógico */

@@ -1,13 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
-import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import org.bouncycastle.crypto.CryptoException;
 
 import java.security.GeneralSecurityException;
 
 /**
- * Representa uma estratégia de aplicação de uma operação criptográfica a ser executada em um {@link Service}.
- * Cada operação criptográfica nova deve ser gerar um novo <code>KeyPolicy</code> e.g.: AESKeyPolicy, DESKeyPolicy, TDESKeyPolicy...
+ * Represents a kind of cryptographic operation to be run in {@link com.avixy.qrtoken.negocio.servico.servicos.Service}
+ * Each new cryptographic operation generates a new <code>KeyPolicy</code> e.g.: AESKeyPolicy, DESKeyPolicy, TDESKeyPolicy...
+ *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 22/08/2014

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ComboBox de seleção de versão de QR
+ * QR Version <code>ComboBox</code> selection field
+ *
  * Created on 28/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>

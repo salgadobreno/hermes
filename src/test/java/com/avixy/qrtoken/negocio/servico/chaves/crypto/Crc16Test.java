@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.chaves.crypto;
 
-import com.avixy.qrtoken.core.extensions.binnary.CRC16CCITT;
-import com.avixy.qrtoken.negocio.servico.params.CrcParam;
+import com.avixy.qrtoken.core.extensions.binary.CRC16CCITT;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

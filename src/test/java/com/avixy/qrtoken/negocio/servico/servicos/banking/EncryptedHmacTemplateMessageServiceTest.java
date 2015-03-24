@@ -1,17 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Matchers;
-
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

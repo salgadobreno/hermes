@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
-* POJO de Chave
+* Generic Key POJO
 * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 28/08/2014
@@ -102,7 +102,7 @@ public class Chave {
         this.length = length;
     }
 
-    /** Representa um algoritmo + tamanho de chave */
+    /** Represents a Cryptography algorythm with Key Size */
     public static class KeyTypeWrap {
         private KeyType keyType;
         private int length;

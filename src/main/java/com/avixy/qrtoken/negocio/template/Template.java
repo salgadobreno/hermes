@@ -15,9 +15,14 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Instructions to render one or more QR Token screens
+ * <code>Template</code> is made of {@link com.avixy.qrtoken.negocio.template.Template.SubTemplate}s and it will always have at least one,
+ * the {@link com.avixy.qrtoken.negocio.template.Template.SubTemplate} holds the {@link com.avixy.qrtoken.negocio.template.TemplateObj}s which
+ * both {@link com.avixy.qrtoken.negocio.template.TokenCanvas} or QR Token can render.
+ *
  * Created on 24/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Template {
     private boolean dirty = false;
@@ -206,6 +211,9 @@ public class Template {
     }
 }
 
+/**
+ * A parser capable of parsing binary <code>String</code>s and building a {@link com.avixy.qrtoken.negocio.template.Template} out of it
+ */
 class TemplateParser {
     private static final int FUNCTION_LENGTH = 4;
     private static final int COLOR_LENGTH = 4;

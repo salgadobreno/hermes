@@ -3,7 +3,7 @@ package com.avixy.qrtoken.negocio.template;
 /**
  * Created on 19/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public enum TemplateFunction {
     TEMPLATE_FUNCTION_STRIPE, 			/**< 0000 - Faixa */

@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Responsável pela persistência e recuperação das Chaves.
+ * Singleton that manages the {@link com.avixy.qrtoken.negocio.servico.chaves.Chave} database
+ *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 21/08/2014
@@ -34,8 +35,8 @@ public class ChavesSingleton {
     private static ChavesSingleton instance = new ChavesSingleton();
     private ChavesSingleton(){}
 
+    /* Reads/creates chaves CSV */
     {
-        /* le/cria arquivo de chaves */
         try {
             if (!csv.exists()) {
                 csv.createNewFile();
@@ -97,7 +98,7 @@ public class ChavesSingleton {
         LoggerFactory.getLogger(ChavesSingleton.class).info("Removed {}", chave);
     }
 
-    /** Salva o CSV */
+    /** Saves the CSV file */
     private void persist() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv));

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
@@ -44,7 +44,7 @@ public class CreateAndExportSymKeyService extends AbstractService implements Pin
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(keyType, keyLength).toByteArray();
+        return BinaryMsg.create().append(keyType, keyLength).toByteArray();
     }
 
     public void setPin(String pin) {

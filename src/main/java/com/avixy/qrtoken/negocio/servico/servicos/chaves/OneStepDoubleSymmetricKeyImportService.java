@@ -1,12 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
+import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
@@ -57,6 +58,6 @@ public abstract class OneStepDoubleSymmetricKeyImportService extends AbstractSer
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio).toByteArray();
+        return BinaryMsg.create().append(template, keyType1, keyLength1, keyType2, keyLength2, key, crc, desafio).toByteArray();
     }
 }

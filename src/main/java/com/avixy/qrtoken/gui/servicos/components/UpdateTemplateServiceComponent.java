@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * Created on 03/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 @ServiceComponent.Category(category = ServiceCategory.OUTROS)
 public class UpdateTemplateServiceComponent extends ServiceComponent {

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
@@ -8,8 +8,8 @@ import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.TemplateParam;
-import com.avixy.qrtoken.negocio.servico.params.TemplateSlotParam;
+import com.avixy.qrtoken.negocio.servico.params.template.TemplateParam;
+import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
 import com.google.inject.Inject;
@@ -19,7 +19,7 @@ import java.util.Date;
 /**
  * Created on 03/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble, PinAble {
     private TemplateSlotParam templateSlotParam;
@@ -45,7 +45,7 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(templateSlotParam, templateParam).toByteArray();
+        return BinaryMsg.create().append(templateSlotParam, templateParam).toByteArray();
     }
 
     public void setTemplateSlot(byte slot) {

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
-import com.avixy.qrtoken.core.extensions.binnary.CRC16CCITT;
+import com.avixy.qrtoken.core.extensions.binary.CRC16CCITT;
 
 /**
  * Created on 23/09/2014

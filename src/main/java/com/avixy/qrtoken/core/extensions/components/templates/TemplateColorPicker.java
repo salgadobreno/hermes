@@ -16,7 +16,7 @@ import org.apache.commons.lang.ArrayUtils;
 /**
  * Created on 23/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateColorPicker extends ComboBox<TemplateColor> {
     public static final TemplateColor TEXT_COLOR = TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_BLACK);

@@ -13,7 +13,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 /**
  * Created on 29/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponent {
     UpdateSymmetricKeyService service;

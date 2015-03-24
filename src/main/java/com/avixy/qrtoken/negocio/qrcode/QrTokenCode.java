@@ -16,12 +16,11 @@ public class QrTokenCode {
     Charset CHARSET = Charset.forName("ISO-8859-1");
 
     private byte[] dados;
-    private Integer length;
     private ErrorCorrectionLevel ecLevel;
 
     /**
-     * @param dados conteúdo do QrCode
-     * @param setup configuração do QrCode
+     * @param dados QR Code data
+     * @param setup QR Code configuration
      */
     public QrTokenCode(byte[] dados, QrSetup setup) {
         this.dados = dados;
@@ -29,7 +28,6 @@ public class QrTokenCode {
     }
 
     public QrTokenCode(byte[] dados, QrSetup setup, int length) {
-        this.length = setup.getAvailableBytes();
         if ((dados.length) > length) { throw new IllegalArgumentException("Length can't be shorter than the data"); }
 
         this.dados = dados;
@@ -37,23 +35,17 @@ public class QrTokenCode {
     }
 
     /**
-     * @return A new String with <code>dados</code> padded to the right with zeros
-     * @return <code>String</code> com os dados definitivo desse Qr Code. A <code>String</code> tem padding
-     * à direita com zeros pra forçar o ZXing a usar a versão do <code>setup</code> definida, e usa o
-     * <code>CHARSET</code> ISO-8859-1 pra assegurar que os bytes originais não são perdidos na transição p/ String
+     * @return A new String with <code>dados</code> padded to the right with zeros(forcing ZXing to use the {@link com.avixy.qrtoken.negocio.qrcode.QrSetup}s version)
+     *
+     * <code>CHARSET</code> ISO-8859-1 is used to assure that original <code>bytes</code> are not lost in translation
      */
     public String getDados(){
-        String qrPayload = new String(dados, CHARSET);
 
-        if (length != null) {
-            qrPayload = StringUtils.rightPad(new String(dados, CHARSET), length, '0');
-        } // depreciado.. agora fazemos padding no ServiceAssembler
-
-        return qrPayload;
+        return new String(dados, CHARSET);
     }
 
     /**
-     * @return Um <code>ByteArrayInputStream</code> que é a imagem desse <code>QrTokenCode</code>
+     * @return A <code>ByteArrayInputStream</code> which is this <code>QrTokenCode</code>s image
      */
     public InputStream image(){
         return QrUtils.generate(getDados(), ecLevel);

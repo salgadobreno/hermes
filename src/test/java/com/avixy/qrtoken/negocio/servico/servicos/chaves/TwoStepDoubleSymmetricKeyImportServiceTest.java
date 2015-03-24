@@ -1,18 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import org.apache.commons.codec.binary.Hex;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Date;
-
 import static org.junit.Assert.assertArrayEquals;
-import static org.mockito.Mockito.*;
 
 //TODO defasated
 //public class TwoStepDoubleSymmetricKeyImportServiceTest {

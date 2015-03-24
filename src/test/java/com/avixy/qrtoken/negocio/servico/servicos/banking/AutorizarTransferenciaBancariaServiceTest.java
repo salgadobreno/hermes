@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -177,7 +177,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        Assert.assertArrayEquals(new BinnaryMsg(expectedBinnaryString).toByteArray(), service.getMessage());
+        Assert.assertArrayEquals(new BinaryMsg(expectedBinnaryString).toByteArray(), service.getMessage());
     }
 
     @Test

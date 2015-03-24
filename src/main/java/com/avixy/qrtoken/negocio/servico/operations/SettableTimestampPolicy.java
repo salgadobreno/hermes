@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.operations;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 
 import java.util.Date;
@@ -16,7 +16,7 @@ public class SettableTimestampPolicy implements TimestampPolicy {
     @Override
     public byte[] get(){
         TimestampParam param = new TimestampParam(date);
-        return BinnaryMsg.get(param.toBinaryString());
+        return BinaryMsg.get(param.toBinaryString());
     }
 
     @Override

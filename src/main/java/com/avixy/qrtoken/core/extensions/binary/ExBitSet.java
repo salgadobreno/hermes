@@ -1,14 +1,12 @@
-package com.avixy.qrtoken.core.extensions.binnary;
+package com.avixy.qrtoken.core.extensions.binary;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.BitSet;
-import java.util.regex.Pattern;
 
 /**
- * Util que transforma String de '0' e '1' em array de byte.
- * <code>' '</code>, <code>'_'</code> e <code>'.'</code> são ignorados e podem ser usados como forma de marcação.
+ * Utility class that turns a '0' and '1' <code>String</code> into a <code>byte</code> array
+ * <code>' '</code>, <code>'_'</code> and <code>'.'</code> are ignored
  *
  * Ex.: <code>ExBitSet.bytesFromString("0000_0001_0000_0010"); # -> [1, 2] </code>
  * @author Breno Salgado <breno.salgado@avixy.com>

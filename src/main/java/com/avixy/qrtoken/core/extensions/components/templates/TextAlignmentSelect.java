@@ -7,7 +7,7 @@ import javafx.scene.control.ComboBox;
 /**
  * Created on 17/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TextAlignmentSelect extends ComboBox<Text.Alignment> {
     public TextAlignmentSelect() {

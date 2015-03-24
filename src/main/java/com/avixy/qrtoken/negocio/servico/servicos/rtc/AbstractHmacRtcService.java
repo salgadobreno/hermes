@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.rtc;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -32,7 +32,7 @@ public abstract class AbstractHmacRtcService extends AbstractService implements 
 
     @Override
     public byte[] getMessage(){
-        return BinnaryMsg.create().append(timezone).toByteArray();
+        return BinaryMsg.create().append(timezone).toByteArray();
     }
 
     public void setTimezone(TimeZone timezone) {

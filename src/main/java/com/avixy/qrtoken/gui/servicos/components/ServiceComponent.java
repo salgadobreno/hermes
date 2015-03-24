@@ -14,7 +14,8 @@ import java.lang.annotation.Target;
 import java.util.List;
 
 /**
- * O <code>ServiceComponent</code> é o componente gráfico e controller para uma implementação de um serviço do Token
+ * Graphic component for a {@link com.avixy.qrtoken.negocio.servico.servicos.Service} implementation
+ *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 08/08/2014

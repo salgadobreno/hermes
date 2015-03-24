@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * Encoder da tabela de Huffman usada pelo Token.
+ * Huffman strings encoder/decoder
+ *
  * Created on 22/10/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -109,7 +110,8 @@ public class TokenHuffman {
     private static final int MIN_HUFFMAN_LENGTH = 7;
     private static final int MAX_HUFFMAN_LENGTH = 10;
 
-    private String decodedBinary; //stores the last decoded binary
+    /** stores the last decoded binary */
+    private String decodedBinary;
 
     public static final int ARG_LENGTH = 0b11111111;
     public String decode(String binary, int length) {

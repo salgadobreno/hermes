@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
@@ -43,7 +43,7 @@ public class StoreUserInfoService extends AbstractService implements AesCrypted,
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(nome, email, cpf, cliente, agencia, conta, telefone).toByteArray();
+        return BinaryMsg.create().append(nome, email, cpf, cliente, agencia, conta, telefone).toByteArray();
     }
 
     public void setNome(String nome) {

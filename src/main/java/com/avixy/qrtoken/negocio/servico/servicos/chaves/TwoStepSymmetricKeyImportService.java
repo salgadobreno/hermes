@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
@@ -83,7 +83,7 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
         BinaryWrapperParam k1Param = new BinaryWrapperParam(randomComponent);
         CrcParam crcParam = new CrcParam(randomComponent);
 
-        return BinnaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k1Param.toBinaryString() + crcParam.toBinaryString());
+        return BinaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k1Param.toBinaryString() + crcParam.toBinaryString());
     }
 
     public byte[] getQr2(){
@@ -94,7 +94,7 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
         BinaryWrapperParam k2Param = new BinaryWrapperParam(keyComponent);
         CrcParam crcParam = new CrcParam(keyComponent);
 
-        return BinnaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k2Param.toBinaryString() + crcParam.toBinaryString());
+        return BinaryMsg.get(sKeyLengthParam.toBinaryString() + aKeyLengthParam.toBinaryString() + k2Param.toBinaryString() + crcParam.toBinaryString());
     }
 
     @Override

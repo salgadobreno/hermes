@@ -1,15 +1,11 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsgTest;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.KeyTypeParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
@@ -57,7 +53,7 @@ public class UpdateSymmetricKeyServiceTest {
 
     @Test
     public void testMsg() throws Exception {
-        assertArrayEquals(BinnaryMsg.get(expectedMsg), service.getMessage());
+        assertArrayEquals(BinaryMsg.get(expectedMsg), service.getMessage());
     }
 
     @Test

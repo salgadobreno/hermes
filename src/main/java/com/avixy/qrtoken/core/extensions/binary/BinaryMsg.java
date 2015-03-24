@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.core.extensions.binnary;
+package com.avixy.qrtoken.core.extensions.binary;
 
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import org.apache.commons.lang.StringUtils;
@@ -6,28 +6,29 @@ import org.apache.commons.lang.StringUtils;
 import java.util.List;
 
 /**
- * BinnaryMsg encapsula a criação de uma mensagem construída atravéz de <code>Params</code>, que possuem representação binaria, em API fluida.
- * Ex.: <code>BinnaryMsg.create().append(param1).append(param2).toByArray();</code>
+ * Encapsulates the creation of a <code>byte</code> array from a binary <code>String</code> message or {@link com.avixy.qrtoken.negocio.servico.params.Param}.
+ * Ex.: <code>BinnaryMsg.create().append(param1).append(param2).toByArray()</code>
+ * Ex2.: <code>BinnaryMsg.get("0001").toByteArray()</code>
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 12/09/2014
  */
-public class BinnaryMsg {
+public class BinaryMsg {
     private String binMsg = "";
     private static final char[] IGNORE = {'_', '.', ' '};
 
-    private BinnaryMsg() { }
+    private BinaryMsg() { }
 
-    public static BinnaryMsg create(){
-        return new BinnaryMsg();
+    public static BinaryMsg create(){
+        return new BinaryMsg();
     }
 
     public static byte[] get(String binMsg){
-        return new BinnaryMsg(binMsg).toByteArray();
+        return new BinaryMsg(binMsg).toByteArray();
     }
 
-    public BinnaryMsg(String binMsg) {
+    public BinaryMsg(String binMsg) {
         /* para fims de teste */
         for (char c : IGNORE) {
             binMsg = StringUtils.remove(binMsg, c);
@@ -36,32 +37,39 @@ public class BinnaryMsg {
     }
 
     /**
-     * @param param     Um <code>Param</code>
-     * @return          A mesma instância de <code>BinnaryMsg</code> em que o append foi chamado
+     * @param param
+     * @return The same <code>BinnaryMsg</code> instance
      */
-    public BinnaryMsg append(Param param){
+    public BinaryMsg append(Param param){
         binMsg += param.toBinaryString();
         return this;
     }
 
     /**
-     * @param params    Uma lista de <code>Param</code>
-     * @return          A mesma instância de <code>BinnaryMsg</code> em que o append foi chamado
+     * @param params
+     * @return The same <code>BinnaryMsg</code> instance
      */
-    public BinnaryMsg append(List<Param> params){
+    public BinaryMsg append(List<Param> params){
         for (Param param: params) {
             append(param);
         }
         return this;
     }
 
-    public BinnaryMsg append(Param ... params){
+    /**
+     * @param params
+     * @return The same <code>BinnaryMsg</code> instance
+     */
+    public BinaryMsg append(Param ... params){
         for (Param param : params) {
             append(param);
         }
         return this;
     }
 
+    /**
+     * @return Binary message converted into a <code>byte</code> array
+     */
     public byte[] toByteArray() {
         return ExBitSet.bytesFromString(padded());
     }

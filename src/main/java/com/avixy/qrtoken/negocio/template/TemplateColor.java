@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created on 19/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateColor {
 

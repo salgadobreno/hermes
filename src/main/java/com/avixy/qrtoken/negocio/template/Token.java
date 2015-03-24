@@ -1,9 +1,11 @@
 package com.avixy.qrtoken.negocio.template;
 
 /**
+ * Stores QR Token constants
+ *
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Token {
     public final static int DISPLAY_WIDTH = 240;

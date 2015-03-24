@@ -1,8 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.password;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
-import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -33,7 +32,7 @@ public class StorePukService extends AbstractService {
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(puk).toByteArray();
+        return BinaryMsg.create().append(puk).toByteArray();
     }
 
     public void setPuk(String puk) {

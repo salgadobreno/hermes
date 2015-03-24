@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -48,6 +48,6 @@ public abstract class OneStepSymmetricKeyImportService extends AbstractService i
 
     @Override
     public byte[] getMessage() {
-        return BinnaryMsg.create().append(secrecyKey, authKey).toByteArray();
+        return BinaryMsg.create().append(secrecyKey, authKey).toByteArray();
     }
 }

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.operations;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.params.PinParam;
 
 /**
@@ -16,6 +16,6 @@ public class PasswordPolicy {
     }
 
     public byte[] get(){
-        return BinnaryMsg.get(pinParam.toBinaryString());
+        return BinaryMsg.get(pinParam.toBinaryString());
     }
 }

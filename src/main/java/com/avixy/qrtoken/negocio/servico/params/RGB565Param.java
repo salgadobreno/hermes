@@ -3,7 +3,7 @@ package com.avixy.qrtoken.negocio.servico.params;
 /**
  * Created on 20/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class RGB565Param implements Param {
     private NBitsParam r,g,b;

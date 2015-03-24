@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -45,7 +45,7 @@ public class UpdateTemplateServiceTest {
 
     @Test
     public void testMessage() throws Exception {
-        assertArrayEquals(BinnaryMsg.get(expectedBinaryMsg), service.getMessage());
+        assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
     }
 
     @Test

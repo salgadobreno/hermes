@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 /**
  * Created on 30/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdateSYmmetricKeyClientService extends UpdateSymmetricKeyService {
     @Inject

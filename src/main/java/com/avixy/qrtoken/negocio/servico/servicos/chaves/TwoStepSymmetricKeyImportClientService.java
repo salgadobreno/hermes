@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 /**
  * Created on 02/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TwoStepSymmetricKeyImportClientService extends TwoStepSymmetricKeyImportService {
     @Inject

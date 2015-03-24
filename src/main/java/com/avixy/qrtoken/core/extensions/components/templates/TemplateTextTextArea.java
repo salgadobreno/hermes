@@ -10,7 +10,7 @@ import org.controlsfx.control.MasterDetailPane;
 /**
  * Created on 06/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplateTextTextArea extends VBox {
     private CheckBox checkBox;

@@ -1,9 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
 /**
+ *
  * Created on 27/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class BinaryWrapperParam implements Param {
     byte[] binary;

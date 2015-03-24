@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.core;
 
-import com.avixy.qrtoken.core.extensions.binnary.ExBitSet;
+import com.avixy.qrtoken.core.extensions.binary.ExBitSet;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

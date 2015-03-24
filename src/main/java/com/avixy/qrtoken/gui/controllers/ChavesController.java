@@ -104,7 +104,8 @@ public class ChavesController {
     }
 
     /**
-     * Helper p/ criação da tabela de chaves
+     * Util for setting up the {@link com.avixy.qrtoken.negocio.servico.chaves.Chave} table
+     *
      * @author Breno Salgado <breno.salgado@avixy.com>
      *
      * Created on 20/08/2014

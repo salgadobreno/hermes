@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 /**
  * Created on 30/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class OneStepSymmetricKeyImportClientServiceComponent extends OneStepSymmetricKeyImportServiceComponent {

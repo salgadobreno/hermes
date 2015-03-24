@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Text implements TemplateObj {
 

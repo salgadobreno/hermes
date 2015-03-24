@@ -3,7 +3,7 @@ package com.avixy.qrtoken.core.extensions.components;
 /**
  * Created on 26/01/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class ChallengeField extends RestrictiveTextField {
     public ChallengeField() { super(6); }

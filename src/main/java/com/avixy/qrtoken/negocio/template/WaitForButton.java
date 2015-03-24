@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created on 11/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class WaitForButton implements TemplateObj {
     public enum NextAction {

@@ -5,7 +5,7 @@ import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Stripe extends Rect {
     public Stripe(double y, double height, TemplateColor color) {

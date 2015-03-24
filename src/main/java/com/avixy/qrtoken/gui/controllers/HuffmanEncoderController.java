@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EncoderController {
+public class HuffmanEncoderController {
     @FXML private TextArea textoField;
     @FXML private TextArea huffmanField;
     @FXML private Button encodeButton;

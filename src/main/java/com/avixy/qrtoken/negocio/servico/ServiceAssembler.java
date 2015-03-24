@@ -16,18 +16,15 @@ import static org.apache.commons.lang.ArrayUtils.addAll;
  */
 public class ServiceAssembler {
 
-    public ServiceAssembler() {
-    }
-
     /**
-     * Monta um código QR
-     * @param service           serviço
-     * @param headerPolicy      política de header
-     * @param timestampPolicy   política de timestamp
-     * @param messagePolicy     política da mensagem
-     * @param hmacKeyPolicy     política de HMAC
-     * @param passwordPolicy         política de PIN
-     * @return                  dados para execução de um serviço no Token
+     * Assembles a QR Code
+     * @param service
+     * @param headerPolicy
+     * @param timestampPolicy
+     * @param messagePolicy
+     * @param hmacKeyPolicy
+     * @param passwordPolicy
+     * @return                  Token formatted QR Code data
      * @throws Exception
      */
     public byte[] get(Service service, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, MessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) throws Exception {
@@ -35,6 +32,17 @@ public class ServiceAssembler {
         return get(service, message_content, headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy);
     }
 
+    /**
+     * Overloaded get() allows passing the message directly
+     * @param service
+     * @param message           <code>byte</code> array of the message
+     * @param headerPolicy
+     * @param timestampPolicy
+     * @param hmacKeyPolicy
+     * @param passwordPolicy
+     * @return                  Token formatted QR Code data
+     * @throws Exception
+     */
     public byte[] get(Service service, byte[] message, HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) throws Exception {
         byte[] data = new byte[0];
 

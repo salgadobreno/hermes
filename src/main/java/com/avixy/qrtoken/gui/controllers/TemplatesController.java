@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created on 12/02/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TemplatesController extends Application {
     @FXML public CheckBox showGrid;

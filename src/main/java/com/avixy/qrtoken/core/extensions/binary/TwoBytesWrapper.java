@@ -1,9 +1,9 @@
-package com.avixy.qrtoken.core.extensions.binnary;
+package com.avixy.qrtoken.core.extensions.binary;
 
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Utilitário para devolver um número em 2 bytes, usado pela atualização de firmware.
+ * Wraps an <code>int</code> in two <code>byte</code>s.
  *
  * Created on 28/10/2014
  *

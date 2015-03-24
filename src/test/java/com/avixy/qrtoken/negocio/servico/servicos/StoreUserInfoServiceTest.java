@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.core.extensions.binnary.BinnaryMsg;
+import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -56,7 +56,7 @@ public class StoreUserInfoServiceTest {
                 "00000110_001100100011011000111000001100100011001100110010" + //6 conta
                 "00001010_00110110001100010011010100110101001101010011010100111000001101110011001000110010"; //10 telefone
 
-        assertArrayEquals(new BinnaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
+        assertArrayEquals(new BinaryMsg(expectedBinaryString).toByteArray(), service.getMessage());
     }
 
     @Test

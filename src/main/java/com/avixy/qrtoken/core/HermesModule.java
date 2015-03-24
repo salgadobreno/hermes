@@ -9,7 +9,7 @@ import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.AbstractModule;
 
 /**
- * Configuração do Google Guice(dependency injection).
+ * Configuração do Google Guice
  * @author Breno Salgado <breno.salgado@avixy.com>
  *
  * Created on 03/09/2014
