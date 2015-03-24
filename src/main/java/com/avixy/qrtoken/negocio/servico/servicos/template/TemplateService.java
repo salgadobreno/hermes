@@ -30,7 +30,7 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
 
     @Override
     public String getServiceName() {
-        return "Executar Template";
+        return "Executar Aplicação";
     }
 
     @Override

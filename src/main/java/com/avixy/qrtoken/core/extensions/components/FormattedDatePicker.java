@@ -33,5 +33,6 @@ public class FormattedDatePicker extends DatePicker {
                 return LocalDate.parse(dateString,dateTimeFormatter);
             }
         });
+        setValue(LocalDate.now());
     }
 }

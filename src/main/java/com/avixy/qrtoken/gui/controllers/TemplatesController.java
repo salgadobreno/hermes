@@ -79,18 +79,6 @@ public class TemplatesController extends Application {
         templateObjListView.setItems(newValue.subTemplate(currScreenProperty.get()).getTemplateObjs());
         screenQtyProperty.bind(newValue.screenQtyProperty);
 
-//        if (oldValue != null && oldValue.isDirty()) {
-//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Descartar alterações feitas no template?");
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if (result.get() == ButtonType.OK) {
-//                oldValue.restoreState();
-//                templateListView.setItems(null);
-//                templateListView.setItems(templatesSingleton.getObservableTemplates());
-//            } else {
-//                templateListView.getSelectionModel().select(oldValue);
-//                return;
-//            }
-//        }
         canvas.setTemplate(newValue, currScreenProperty.get());
     };
     private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> {

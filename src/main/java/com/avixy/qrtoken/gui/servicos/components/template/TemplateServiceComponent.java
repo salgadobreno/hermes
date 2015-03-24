@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created on 16/03/2015
  *
- * @author I7
+ * @author Breno Salgado <breno.salgado@avixy.com>
  */
 @ServiceComponent.Category(category = ServiceCategory.OUTROS)
 @AcceptsKey(keyType = KeyType.HMAC)
@@ -44,7 +44,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     /* component elements */
     private Label title = new Label();
 
-    private Label templateLabel = new Label("Template:");
+    private Label templateLabel = new Label("Aplicação:");
     private TemplateSelect templateSelect = new TemplateSelect();
 
     private Label aesSelectLabel = new Label("AES Key:");
@@ -64,7 +64,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     private Label slotLabel = new Label("Slot:");
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
 
-    private Label paramsTitle = new Label("Parâmetros do template");
+    private Label paramsTitle = new Label("Parâmetros da aplicação");
 
     private TokenCanvas tokenCanvas = new TokenCanvas();
     private Pane canvasPane = new Pane();

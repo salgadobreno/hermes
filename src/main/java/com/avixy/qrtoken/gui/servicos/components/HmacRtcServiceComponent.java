@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.rtc.AbstractHmacRtcService;
@@ -33,7 +34,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
     protected Label title = new Label();
     protected TimestampField timestampField = new TimestampField();
-    protected ComboBox<String> fusoBox = new ComboBox<>();
+    protected TimeZoneField timeZoneField = new TimeZoneField();
     protected HmacSelect keyField = new HmacSelect();
 
 
@@ -46,8 +47,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
         ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
 
-        fusoBox.setItems(observableList);
-        fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
+        timeZoneField.getSelectionModel().select("Brasilia");
     }
 
     @Override
@@ -56,7 +56,8 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
         hmacRtcService.setHmacKey(keyField.getValue().getHexValue());
         hmacRtcService.setTimestamp(timestampField.getValue());
-        hmacRtcService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
+//        hmacRtcService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
+        hmacRtcService.setTimezone(timeZoneField.getTimeZone());
 
         return hmacRtcService;
     }
@@ -72,7 +73,8 @@ public class HmacRtcServiceComponent extends ServiceComponent {
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("Fuso horário:"));
-        migPane.add(fusoBox, "wrap");
+//        migPane.add(fusoBox, "wrap");
+        migPane.add(timeZoneField, "wrap");
 
         migPane.add(new Label("HMAC Key:"));
         migPane.add(keyField, "wrap");

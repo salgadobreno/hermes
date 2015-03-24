@@ -35,7 +35,7 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
 
     @Override
     public String getServiceName() {
-        return "Atualizar Template";
+        return "Atualizar Aplicações";
     }
 
     @Override

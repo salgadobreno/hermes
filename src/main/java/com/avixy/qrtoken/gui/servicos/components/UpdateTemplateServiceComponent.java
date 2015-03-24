@@ -50,7 +50,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(title, "wrap, span");
         migPane.add(new Label("Slot:"));
         migPane.add(templateSlotSelect, "wrap");
-        migPane.add(new Label("Template:"));
+        migPane.add(new Label("Aplicação:"));
         migPane.add(templateSelect, "wrap");
         migPane.add(new Label("HMAC Key:"));
         migPane.add(hmacSelect, "wrap");
@@ -59,7 +59,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(new Label("PIN:"));
         migPane.add(passwordField, "wrap");
 
-        Button button = new Button("Abrir editor de templates");
+        Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
             try {
                 controller.templates();

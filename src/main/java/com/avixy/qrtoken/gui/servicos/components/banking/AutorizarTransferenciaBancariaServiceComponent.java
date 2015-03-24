@@ -8,8 +8,6 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AutorizarTransferenciaBancariaService;
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -61,14 +59,20 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     private PasswordField pinTextField = new PasswordField();
     private DatePicker datePicker = new FormattedDatePicker();
     private TextField tanTextField = new TextField();
-    private TextField valorTextField = new TextField();
+    private RestrictiveTextField valorTextField = new RestrictiveTextField();
     private TextField origemNomeTextField = new TextField();
-    private TextField origemAgenciaTextField = new TextField();
+    private RestrictiveTextField origemAgenciaTextField = new RestrictiveTextField();
     private TextField destinoNomeTextField = new TextField();
     private TextField origemContaTextField = new TextField();
     private TextField destinoContaTextField = new TextField();
-    private TextField destinoAgenciaTextField = new TextField();
+    private RestrictiveTextField destinoAgenciaTextField = new RestrictiveTextField();
     private TimestampField timestampField = new TimestampField();
+
+    {
+        valorTextField.setRestrict("[0-9,.rR$\\s]");
+        origemAgenciaTextField.setRestrict("[0-9\\-]");
+        destinoAgenciaTextField.setRestrict("[0-9\\-]");
+    }
 
     @Inject
     public AutorizarTransferenciaBancariaServiceComponent(AutorizarTransferenciaBancariaService service) {
@@ -77,7 +81,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
         fxmlLoader.setController(this);
         try {
-            Parent parent = (Parent) fxmlLoader.load();
+            Parent parent = fxmlLoader.load();
             formStage.setScene(new Scene(parent));
 
             // setup the formStage
@@ -135,12 +139,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             dadosPane.getChildren().add(migPane);
             //end
 
-            okButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    formStage.close();
-                }
-            });
+            okButton.setOnAction(actionEvent -> formStage.close());
             //endsetup
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,12 +153,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
         label.setFont(new Font(18));
         Button button = new Button("Clique para setar os parâmetros");
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                openForm();
-            }
-        });
+        button.setOnAction(actionEvent -> openForm());
         migPane.add(label, "wrap");
         migPane.add(button);
 
@@ -169,10 +163,6 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     public void openForm(){
         formStage.show();
         formStage.toFront();
-    }
-
-    public void okForm(){
-        formStage.close();
     }
 
     @Override

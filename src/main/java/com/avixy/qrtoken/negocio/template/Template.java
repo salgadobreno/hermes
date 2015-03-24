@@ -35,7 +35,10 @@ public class Template {
     }
 
     public void add(TemplateObj templateObj) { //TODO
-        subTemplates.get(subTemplates.size()).add(templateObj);
+        if (subTemplates.size() == 0) {
+            subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+        }
+        subTemplates.get(subTemplates.size() - 1).add(templateObj);
         dirty = true;
     }
 
@@ -115,27 +118,6 @@ public class Template {
         return templateObjs;
     }
 
-    {
-//        templateObjs.addListener(new ListChangeListener<TemplateObj>() {
-//            @Override
-//            public void onChanged(Change<? extends TemplateObj> c) {
-//                subTemplates = new ArrayList<>();
-//                ObservableList<TemplateObj> subTemplateObjs = FXCollections.observableArrayList();
-//                int i;
-//                for (i = 0; i < templateObjs.size(); i++) {
-//                    TemplateObj templateObj = templateObjs.get(i);
-//                    if (templateObj instanceof WaitForButton && ((WaitForButton) templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
-//                        subTemplateObjs.add(templateObj);
-//                        subTemplates.add(new SubTemplate(subTemplateObjs, i));
-//                        subTemplateObjs = FXCollections.observableArrayList();
-//                    } else {
-//                        subTemplateObjs.add(templateObj);
-//                    }
-//                }
-//                subTemplates.add(new SubTemplate(subTemplateObjs, i));
-//            }
-//        });
-    }
     public SubTemplate subTemplate(int subTemplateIndex) {
         if (subTemplates.isEmpty()) subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
         return subTemplates.get(subTemplateIndex - 1);

@@ -8,7 +8,7 @@ package com.avixy.qrtoken.core.extensions.components;
  */
 public class PasswordField extends TextFieldLimited {
     public PasswordField() {
-        super(12);
+        super(16);
     }
 
     @Override

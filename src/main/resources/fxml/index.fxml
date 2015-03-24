@@ -15,7 +15,7 @@
                <items>
             <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
                   <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
-                  <MenuItem mnemonicParsing="false" onAction="#templates" text="Templates" />
+                  <MenuItem mnemonicParsing="false" onAction="#templates" text="Aplicações" />
                </items></Menu>
       </menus>
     </MenuBar>

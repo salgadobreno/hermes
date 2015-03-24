@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
+import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.NoParamServiceComponent;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
@@ -25,16 +26,12 @@ import java.util.TimeZone;
  */
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
-    protected ComboBox<String> fusoBox = new ComboBox<>();
     private TimestampField timestampField = new TimestampField();
+    private TimeZoneField timeZoneField = new TimeZoneField();
 
     @Inject
     public GenerateKtamperServiceComponent(GenerateKtamperService service) {
         super(service);
-
-        ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
-        fusoBox.setItems(observableList);
-        fusoBox.getSelectionModel().select(TimeZone.getDefault().getID());
     }
 
     @Override
@@ -46,7 +43,7 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
         migPane.add(new Label("Fuso horário:"));
-        migPane.add(fusoBox, "wrap");
+        migPane.add(timeZoneField, "wrap");
 
         return migPane;
     }
@@ -55,7 +52,7 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     public Service getService() throws Exception {
         GenerateKtamperService generateKtamperService = (GenerateKtamperService) service;
         generateKtamperService.setTimestamp(timestampField.getValue());
-        generateKtamperService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
+        generateKtamperService.setTimezone(timeZoneField.getTimeZone());
 
         return super.getService();
     }

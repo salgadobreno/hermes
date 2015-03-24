@@ -33,7 +33,6 @@ public class TokenCanvas extends Canvas {
     }
 
     public void add(TemplateObj templateObj, int subTemplate){
-//        this.template.add(templateObj, subTemplate);
         this.template.subTemplate(subTemplate).add(templateObj);
         redraw(subTemplate);
 
