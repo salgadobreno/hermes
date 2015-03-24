@@ -1,11 +1,13 @@
 package com.avixy.qrtoken.core.extensions.customControls;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
 /**
+ * <code>PopOver</code> which is not detachable by default
+ *
  * Created on 18/03/2015
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
@@ -16,15 +18,11 @@ public class PopOver extends org.controlsfx.control.PopOver {
     public PopOver(Node content) { super(content); }
 
     {
-        setDetachable(false);
-        setOnAutoHide(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                event.consume();
-                if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                    getScene().getOnMouseClicked().handle((MouseEvent)event);
-                }
+        focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isFocused()) {
+                hide();
             }
         });
+        setDetachable(false);
     }
 }

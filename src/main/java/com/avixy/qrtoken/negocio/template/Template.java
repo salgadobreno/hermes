@@ -52,7 +52,7 @@ public class Template {
         for (SubTemplate subTemplate : subTemplates) {
             subTemplate.getTemplateObjs().clear();
         }
-        subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+        subTemplates.retainAll(subTemplate(1));
     }
 
     public int subTemplateOf(TemplateObj templateObj) {

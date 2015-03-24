@@ -69,7 +69,6 @@ public class Text implements TemplateObj {
     private boolean textFromArgument = false;
 
     public static final String ARG_TEXT_FOR_DISPLAY = "{arg}";
-//    public static final String TEXT_FROM_ARGUMENT_BINARY = "0011010010";
     public static final String TEXT_FROM_ARGUMENT = ARG_TEXT_FOR_DISPLAY;
 
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
@@ -90,7 +89,7 @@ public class Text implements TemplateObj {
         gc.setFont(font);
         gc.setFill(color.toColor());
         String renderText = textFromArgument ? ARG_TEXT_FOR_DISPLAY : text;
-        gc.fillText(renderText, calcAlignment(renderText.length(), size, alignment), y + size.getHeight() - 3); //TODO
+        gc.fillText(renderText, calcAlignment(this), y + size.getHeight() - 3); //TODO
     }
 
     @Override
@@ -110,14 +109,20 @@ public class Text implements TemplateObj {
                 new HuffmanEncodedParam(text).toBinaryString();
     }
 
-    static int calcAlignment(int textLength, Text.Size size, Text.Alignment alignment) {
-        switch (alignment) {
+    static int calcAlignment(Text textObj)  {
+        int maxTextLength = 0;
+        String[] lines = textObj.getText().split("\\n");
+        for (String line : lines) {
+            if (maxTextLength < line.length()) maxTextLength = line.length();
+        }
+
+        switch (textObj.getAlignment()) {
             case CENTER:
-                return (Token.DISPLAY_WIDTH - (textLength * size.getWidth())) >> 1;
+                return (Token.DISPLAY_WIDTH - (maxTextLength * textObj.getSize().getWidth())) >> 1;
             case LEFT:
                 return Token.HORIZONTAL_MARGIN;
             case RIGHT:
-                return (Token.DISPLAY_WIDTH - (size.getWidth() * textLength));
+                return (Token.DISPLAY_WIDTH - (textObj.getSize().getWidth() * maxTextLength));
             case ARGUMENT:
                 return Token.HORIZONTAL_MARGIN;
             default:
@@ -173,13 +178,6 @@ public class Text implements TemplateObj {
     }
 
     public void setText(String text) {
-//        if (text.equals(TEXT_FROM_ARGUMENT)) {
-//            text = ARG_TEXT_FOR_DISPLAY;
-//            textFromArgument = true;
-//        } else {
-//            textFromArgument = false;
-//            this.text = text;
-//        }
         this.text = text;
     }
 

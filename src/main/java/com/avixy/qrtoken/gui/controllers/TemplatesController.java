@@ -3,7 +3,6 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.extensions.components.NumberField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextArea;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextField;
 import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
@@ -251,10 +250,50 @@ public class TemplatesController extends Application {
         alert.showAndWait();
     }
 
+    private void attachSubmitEvent(MigPane form, Button okButton) {
+        EventHandler<KeyEvent> submitEvent = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
+            }
+        };
+        form.setOnKeyPressed(submitEvent);
+    }
+
+    private void forceRefresh(ListView listView) {
+        Object selected = listView.getSelectionModel().getSelectedItem();
+        ObservableList<Object> items = listView.getItems();
+        listView.setItems(null);
+        listView.setItems(items);
+        listView.getSelectionModel().select(selected);
+    }
+
+    @FXML
+    private void nextScreen() {
+        if (currScreenProperty.get() < screenQtyProperty.get()) {
+            currScreenProperty.set(currScreenProperty.getValue() + 1);
+        }
+        templateObjListView.getSelectionModel().select(null);
+        canvas.redraw(currScreenProperty.get());
+        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
+        popOver1.hide();
+    }
+
+    @FXML
+    private void previousScreen(){
+        if (currScreenProperty.get() > 1) {
+            currScreenProperty.set(currScreenProperty.getValue() - 1);
+        }
+        templateObjListView.getSelectionModel().select(null);
+        canvas.redraw(currScreenProperty.get());
+        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
+        popOver1.hide();
+    }
+
     class HeaderForm extends MigPane {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
-        TemplateTextTextField textField = new TemplateTextTextField();
+        TextField textField = new TextField();
         Button okButton = new Button("OK");
         public HeaderForm() {
             add(new Label("BG COLOR:"));
@@ -272,15 +311,15 @@ public class TemplatesController extends Application {
             EventHandler<ActionEvent> editEvent = e -> {
                 h.setTextColor(textColorPicker.getValue());
                 h.setBgColor(bgColorPicker.getValue());
-                h.setText(textField.getValue());
+                h.setText(textField.getText());
                 canvas.redraw(currScreenProperty.get());
                 popOver.hide();
             };
-            textField.setValue(h.getText());
+            textField.setText(h.getText());
             okButton.setOnAction(editEvent);
             textColorPicker.setTemplateColor(h.getTextColor());
             bgColorPicker.setTemplateColor(h.getBgColor());
-            textField.setValue(h.getText());
+            textField.setText(h.getText());
             header.getOnAction().handle(new ActionEvent());
             popOver.setOnHidden(e -> {
                 popOver.setOnHidden(null);
@@ -291,7 +330,7 @@ public class TemplatesController extends Application {
         EventHandler<ActionEvent> saveEvent = e -> {
             String text1;
             TemplateColor bgColor, textColor;
-            text1 = textField.getValue();
+            text1 = textField.getText();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
             canvas.add(new Header(bgColor, textColor, text1), currScreenProperty.get());
@@ -301,8 +340,8 @@ public class TemplatesController extends Application {
     class FooterForm extends MigPane {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
-        TemplateTextTextField templateTextField = new TemplateTextTextField();
-        TemplateTextTextField templateTextField2 = new TemplateTextTextField();
+        TextField templateTextField = new TextField();
+        TextField templateTextField2 = new TextField();
         Button okButton = new Button("OK");
         public FooterForm() {
             add(new Label("BG COLOR:"));
@@ -320,15 +359,15 @@ public class TemplatesController extends Application {
             okButton.setOnAction(e -> {
                 f.setTextColor(textColorPicker.getValue());
                 f.setBgColor(bgColorPicker.getValue());
-                f.setText(templateTextField.getValue());
-                f.setText2(templateTextField2.getValue());
+                f.setText(templateTextField.getText());
+                f.setText2(templateTextField2.getText());
                 canvas.redraw(currScreenProperty.get());
                 popOver.hide();
             });
             textColorPicker.setTemplateColor(f.getTextColor());
             bgColorPicker.setTemplateColor(f.getBgColor());
-            templateTextField.setValue(f.getText());
-            templateTextField2.setValue(f.getText2());
+            templateTextField.setText(f.getText());
+            templateTextField2.setText(f.getText2());
             footer.getOnAction().handle(new ActionEvent());
             popOver.setOnHidden(e -> {
                 popOver.setOnHidden(null);
@@ -339,8 +378,8 @@ public class TemplatesController extends Application {
         EventHandler<ActionEvent> saveEvent = e -> {
             String text1, text2;
             TemplateColor bgColor, textColor;
-            text1 = templateTextField.getValue();
-            text2 = templateTextField2.getValue();
+            text1 = templateTextField.getText();
+            text2 = templateTextField2.getText();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
             canvas.add(new Footer(bgColor, textColor, text1, text2), currScreenProperty.get());
@@ -565,64 +604,24 @@ public class TemplatesController extends Application {
         };
     }
 
-    private void attachSubmitEvent(MigPane form, Button okButton) {
-        EventHandler<KeyEvent> submitEvent = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
-            }
-        };
-        form.setOnKeyPressed(submitEvent);
-    }
-
-    private void forceRefresh(ListView listView) {
-        Object selected = listView.getSelectionModel().getSelectedItem();
-        ObservableList<Object> items = listView.getItems();
-        listView.setItems(null);
-        listView.setItems(items);
-        listView.getSelectionModel().select(selected);
-    }
-
-    @FXML
-    private void nextScreen() {
-        if (currScreenProperty.get() < screenQtyProperty.get()) {
-            currScreenProperty.set(currScreenProperty.getValue() + 1);
-        }
-        templateObjListView.getSelectionModel().select(null);
-        canvas.redraw(currScreenProperty.get());
-        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
-        popOver1.hide();
-    }
-
-    @FXML
-    private void previousScreen(){
-        if (currScreenProperty.get() > 1) {
-            currScreenProperty.set(currScreenProperty.getValue() - 1);
-        }
-        templateObjListView.getSelectionModel().select(null);
-        canvas.redraw(currScreenProperty.get());
-        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
-        popOver1.hide();
-    }
-}
-
-class IndexedTemplateCell extends TextFieldListCell<Template> {
-    public IndexedTemplateCell() {
-        editableProperty().set(true);
-        setConverter(new StringConverter<Template>() {
-            @Override
-            public String toString(Template object) {
-                if (editingProperty().get()) {
-                    return object.toString();
-                } else {
-                    return (getIndex()) + "- " + object.toString();
+    class IndexedTemplateCell extends TextFieldListCell<Template> {
+        public IndexedTemplateCell() {
+            editableProperty().set(true);
+            setConverter(new StringConverter<Template>() {
+                @Override
+                public String toString(Template object) {
+                    if (editingProperty().get()) {
+                        return object.toString();
+                    } else {
+                        return (getIndex()) + "- " + object.toString();
+                    }
                 }
-            }
-            @Override
-            public Template fromString(String string) {
-                getItem().setName(string);
-                return getItem();
-            }
-        });
+                @Override
+                public Template fromString(String string) {
+                    getItem().setName(string);
+                    return getItem();
+                }
+            });
+        }
     }
 }
