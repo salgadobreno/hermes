@@ -2,7 +2,9 @@ package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,17 +27,12 @@ import java.util.Objects;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Template {
-    private boolean dirty = false;
-    private String prevBin = "";
-    private String prevName = "";
-
     private ObservableList<SubTemplate> subTemplates = FXCollections.observableArrayList();
-
     private String name = "";
 
-    //TODO
     public IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
-    {
+
+    public Template() {
         screenQtyProperty.bind(Bindings.createIntegerBinding(subTemplates::size, subTemplates));
     }
 
@@ -44,11 +41,9 @@ public class Template {
             subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
         }
         subTemplates.get(subTemplates.size() - 1).add(templateObj);
-        dirty = true;
     }
 
     public void clear() {
-        storeState();
         for (SubTemplate subTemplate : subTemplates) {
             subTemplate.getTemplateObjs().clear();
         }
@@ -60,59 +55,6 @@ public class Template {
             if (subTemplate.getTemplateObjs().contains(templateObj)) return subTemplates.indexOf(subTemplate) + 1;
         }
         return 1;
-    }
-
-    public class SubTemplate extends Template {
-        ObservableList<TemplateObj> templateObjs;
-        WaitForButton endOfSubTemplate;
-
-        public SubTemplate(ObservableList<TemplateObj> templateObjs) {
-            this.templateObjs = templateObjs;
-            refreshEndOfSubTemplate();
-        }
-
-        private void refreshEndOfSubTemplate() {
-            for (TemplateObj templateObj : templateObjs) {
-                if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
-                    endOfSubTemplate = (WaitForButton) templateObj;
-                    return;
-                }
-            }
-            endOfSubTemplate = null;
-        }
-
-        public void add(TemplateObj templateObj) {
-            if (endOfSubTemplate != null) {
-                templateObjs.add(templateObjs.indexOf(endOfSubTemplate), templateObj);
-            } else {
-                templateObjs.add(templateObj);
-            }
-            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
-                endOfSubTemplate = (WaitForButton) templateObj;
-                Template.this.getSubTemplates().add(new SubTemplate(FXCollections.observableArrayList()));
-            }
-        }
-
-        @Override
-        public void render(GraphicsContext gc) {
-            templateObjs.stream().forEach(x -> {
-                x.render(gc);
-            });
-        }
-
-        public void remove(TemplateObj templateObj) {
-            templateObjs.remove(templateObj);
-            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
-                Template.this.subTemplates.remove(Template.this.subTemplates.indexOf(this) + 1);
-            }
-            dirty = true;
-            refreshEndOfSubTemplate();
-        }
-
-        @Override
-        public ObservableList<TemplateObj> getTemplateObjs() {
-            return templateObjs;
-        }
     }
 
     public List<TemplateObj> getTemplateObjs() {
@@ -143,8 +85,6 @@ public class Template {
 
     public static Template fromBinary(String bin){ //TODO overload palha
         Template template = new TemplateParser(bin).parse();
-        template.storeState();
-        template.setDirty(false);
         return template;
     }
 
@@ -152,8 +92,6 @@ public class Template {
         Template template = new TemplateParser(bin).parse();
         template.setName(name);
 
-        template.storeState();
-        template.setDirty(false);
         return template;
     }
 
@@ -174,7 +112,6 @@ public class Template {
     public void setName(String name) {
         if (!Objects.equals(this.name, name)) {
             this.name = name;
-            dirty = true;
         }
     }
 
@@ -190,25 +127,100 @@ public class Template {
         return format.format((Object[])arr) + System.lineSeparator();
     }
 
-    public boolean isDirty() {
-        return dirty;
+    public class SubTemplate extends Template {
+        ObservableList<TemplateObj> templateObjs;
+        WaitForButton terminator;
+        BooleanProperty terminatedProperty = new SimpleBooleanProperty(false);
+
+        public SubTemplate(ObservableList<TemplateObj> templateObjs) {
+            this.templateObjs = templateObjs;
+            checkTerminator();
+        }
+
+        public void add(TemplateObj templateObj) {
+            if (terminator != null) {
+                templateObjs.add(templateObjs.indexOf(terminator), templateObj);
+            } else {
+                templateObjs.add(templateObj);
+            }
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
+                terminator = (WaitForButton) templateObj;
+                Template.this.getSubTemplates().add(new SubTemplate(FXCollections.observableArrayList()));
+            }
+            checkTerminator();
+        }
+
+        private void checkTerminator() {
+            int newScreens = 0;
+            for (TemplateObj templateObj : templateObjs) {
+                if (templateObj instanceof WaitForButton) {
+                    terminatedProperty.set(true);
+                    terminator = (WaitForButton) templateObj;
+                    return;
+                }
+            }
+            terminatedProperty.set(false);
+            terminator = null;
+        }
+
+        public void changed() {
+            checkTerminator();
+            Template.this.refresh();
+        }
+
+        @Override
+        public void render(GraphicsContext gc) {
+            templateObjs.stream().forEach(x -> {
+                x.render(gc);
+            });
+        }
+
+        public void remove(TemplateObj templateObj) {
+            templateObjs.remove(templateObj);
+            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
+                Template.this.subTemplates.remove(Template.this.subTemplates.indexOf(this) + 1);
+            }
+            checkTerminator();
+        }
+
+        @Override
+        public ObservableList<TemplateObj> getTemplateObjs() {
+            return templateObjs;
+        }
+
+        public BooleanProperty terminatedProperty() {
+            return terminatedProperty;
+        }
     }
 
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
+    private void refresh() {
+        //PS.: hangover code
+        List<SubTemplate> keep = new ArrayList<>();
+        int newScreenCount = 0;
+        for (SubTemplate subTemplate : subTemplates) {
+            boolean theEnd = false;
+            for (TemplateObj templateObj : subTemplate.getTemplateObjs()) {
+                if (templateObj instanceof WaitForButton && ((WaitForButton) templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
+                    newScreenCount++;
+                }
+                if (templateObj instanceof WaitForButton && ((WaitForButton) templateObj).getNextAction() == WaitForButton.NextAction.POWER_OFF) {
+                    theEnd = true;
+                    break;
+                }
+            }
+            if (!theEnd) {
+                keep.add(subTemplate);
+            } else {
+                keep.add(subTemplate);
+                break;
+            }
+        }
+        subTemplates.retainAll(keep);
+        for (int i = subTemplates.size() - 1; i < newScreenCount; i++) {
+            subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+        }
     }
 
-    public void restoreState(){ //todo
-//        subTemplates = FXCollections.observableArrayList(new TemplateParser(prevBin).getSubTemplates(this));
-        subTemplates.setAll(FXCollections.observableArrayList(new TemplateParser(prevBin).getSubTemplates(this)));
-        this.name = prevName;
-        dirty = false;
-    }
-
-    public void storeState(){
-        prevName = name;
-        prevBin = toBinary();
-    }
 }
 
 /**

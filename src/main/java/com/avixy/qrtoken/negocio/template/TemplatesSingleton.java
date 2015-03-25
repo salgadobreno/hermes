@@ -149,8 +149,6 @@ public class TemplatesSingleton {
             new FileOutputStream("templates.csv").write(writer.toString().getBytes());
             bufferedWriter.close();
 
-            template.setDirty(false);
-            template.storeState();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

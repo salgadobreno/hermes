@@ -66,7 +66,6 @@ public class Text implements TemplateObj {
     private String text;
     private Text.Size size;
     private Text.Alignment alignment;
-    private boolean textFromArgument = false;
 
     public static final String ARG_TEXT_FOR_DISPLAY = "{arg}";
     public static final String TEXT_FROM_ARGUMENT = ARG_TEXT_FOR_DISPLAY;
@@ -88,8 +87,7 @@ public class Text implements TemplateObj {
         gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         gc.setFont(font);
         gc.setFill(color.toColor());
-        String renderText = textFromArgument ? ARG_TEXT_FOR_DISPLAY : text;
-        gc.fillText(renderText, calcAlignment(this), y + size.getHeight() - 3); //TODO
+        gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
     }
 
     @Override
@@ -137,7 +135,7 @@ public class Text implements TemplateObj {
     @Override
     public String toString() {
         return "Text{" +
-               '\'' + text + '\'' +
+               '\'' + text.replaceAll("\\n", " ") + '\'' +
                 '}';
     }
 
