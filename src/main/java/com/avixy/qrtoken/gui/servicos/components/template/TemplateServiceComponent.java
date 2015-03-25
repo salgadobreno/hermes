@@ -64,7 +64,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     private Label slotLabel = new Label("Slot:");
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
 
-    private Label paramsTitle = new Label("Parâmetros da aplicação");
+    private Label argsTitle = new Label("Parâmetros da aplicação");
 
     private TokenCanvas tokenCanvas = new TokenCanvas();
     private Pane canvasPane = new Pane();
@@ -86,6 +86,8 @@ public class TemplateServiceComponent extends ServiceComponent {
     }
 
     private List<Control> controlList;
+    private MigPane argPane = new MigPane();
+    private ScrollPane scrollPane = new ScrollPane();
 
     /**
      * @param service
@@ -112,15 +114,16 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(passwordField, "wrap");
         separator.setPrefWidth(280);
         mainNode.add(separator, "span");
-        paramsTitle.setFont(new Font(14));
-        mainNode.add(paramsTitle, "span");
+        mainNode.add(argsTitle, "span, wrap");
+        argsTitle.setFont(new Font(14));
 
         templateSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Template>() {
             @Override
             public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, paramsTitle);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, argsTitle, scrollPane, argPane);
                 if (newValue != null) {
+                    argPane.getChildren().clear();
                     for (TemplateObj templateObj : newValue.getTemplateObjs()) {
                         parseTemplateObj(templateObj);
                     }
@@ -129,6 +132,15 @@ public class TemplateServiceComponent extends ServiceComponent {
         });
         templateSelect.getSelectionModel().select(null);
         templateSelect.getSelectionModel().select(0);
+
+        scrollPane.setPrefWidth(300);
+        scrollPane.setPrefHeight(200);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setFocusTraversable(false);
+        scrollPane.setContent(argPane);
+        scrollPane.setStyle("-fx-background-color:transparent;");
+        mainNode.add(scrollPane, "span");
     }
 
     private void parseTemplateObj(TemplateObj templateObj) {
@@ -174,24 +186,24 @@ public class TemplateServiceComponent extends ServiceComponent {
     private void addTextArg(TemplateObj templateObj) {
         TextField textField = new TextField();
         controlList.add(textField);
-        mainNode.add(new Label("Text Arg:"));
-        mainNode.add(textField, "wrap");
+        argPane.add(new Label("Text Arg:"));
+        argPane.add(textField, "wrap");
         attachCanvasPopOverTo(textField, templateObj);
     }
 
     private void addColorArg(TemplateObj templateObj) {
         TemplateColorPicker colorPicker = new TemplateColorPicker(false);
         controlList.add(colorPicker);
-        mainNode.add(new Label("Color Arg:"));
-        mainNode.add(colorPicker, "wrap");
+        argPane.add(new Label("Color Arg:"));
+        argPane.add(colorPicker, "wrap");
         attachCanvasPopOverTo(colorPicker, templateObj);
     }
 
     private void addSizeArg(TemplateObj templateObj) {
         TextSizeSelect sizeSelect = new TextSizeSelect();
         controlList.add(sizeSelect);
-        mainNode.add(new Label("Size Arg:"));
-        mainNode.add(sizeSelect, "wrap");
+        argPane.add(new Label("Size Arg:"));
+        argPane.add(sizeSelect, "wrap");
 
         attachCanvasPopOverTo(sizeSelect, templateObj);
     }
@@ -199,8 +211,8 @@ public class TemplateServiceComponent extends ServiceComponent {
     private void addAlignmentArg(TemplateObj templateObj) {
         TextAlignmentSelect alignmentSelect = new TextAlignmentSelect();
         controlList.add(alignmentSelect);
-        mainNode.add(new Label("Alignment Arg:"));
-        mainNode.add(alignmentSelect, "wrap");
+        argPane.add(new Label("Alignment Arg:"));
+        argPane.add(alignmentSelect, "wrap");
 
         attachCanvasPopOverTo(alignmentSelect, templateObj);
     }
@@ -209,11 +221,14 @@ public class TemplateServiceComponent extends ServiceComponent {
         control.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
+                if (newValue && control.isVisible()) {
                     canvasPopOver = new PopOver(canvasPane);
                     tokenCanvas.setTemplate(templateSelect.getValue(), 1);
                     tokenCanvas.highlight(templateObj);
                     canvasPopOver.show(control);
+                    scrollPane.vvalueProperty().addListener((observable1, oldValue1, newValue1) -> {
+                        canvasPopOver.hide();
+                    });
                 } else {
                     canvasPopOver.hide();
                 }
