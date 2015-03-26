@@ -76,7 +76,7 @@ public class Template {
             try {
                 bin += templateObj.toBinary();
             } catch (NullPointerException e) {
-            //Ignored TODO: comentar rs
+            //Ignored: EOM retorna null
             };
         };
 
