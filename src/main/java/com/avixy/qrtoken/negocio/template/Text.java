@@ -4,9 +4,17 @@ import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.params.NBitsParam;
+import com.google.common.base.Splitter;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created on 12/02/2015
@@ -73,7 +81,7 @@ public class Text implements TemplateObj {
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
         this.color = color;
-        this.bgColor = bgColor; //TODO: bgColor ainda eh ignorado?
+        this.bgColor = bgColor;
         this.text = text;
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
@@ -82,17 +90,54 @@ public class Text implements TemplateObj {
 
     @Override
     public void render(GraphicsContext gc) {
-        Rectangle r = getBounds();
-        gc.setFill(bgColor.toColor());
-        gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-        gc.setFont(font);
-        gc.setFill(color.toColor());
-        gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
+        for (TextToken textToken : allTokens()) {
+            Rectangle r = textToken.getBounds();
+            gc.setFill(textToken.getBgColor().toColor());
+            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+            gc.setFont(textToken.getFont());
+            gc.setFill(textToken.getColor().toColor());
+            gc.fillText(textToken.getText(), calcAlignment(textToken), textToken.getY() + size.getHeight() - 3); //TODO
+        }
+//        Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(text);
+//        boolean match = false;
+//        while (matcher.find()) {
+//            match = true;
+//            int x = Integer.parseInt(matcher.group(1).substring(1));
+//            String text = matcher.group(2);
+//
+//            Rectangle r = getBounds();
+//            gc.setFill(bgColor.toColor());
+//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+//            gc.setFont(font);
+//            gc.setFill(color.toColor());
+//            gc.fillText(text, x, y + size.getHeight() - 3); //TODO
+//        }
+//        if (match) {
+//
+//        } else {
+//            Rectangle r = getBounds();
+//            gc.setFill(bgColor.toColor());
+//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+//            gc.setFont(font);
+//            gc.setFill(color.toColor());
+//            gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
+//        }
     }
 
     @Override
     public Rectangle getBounds() {
-        Rectangle rectangle = new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
+//        Rectangle rectangle = new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
+//        return rectangle;
+        double x,y,w,h;
+        x = y = 999;
+        w = h = 0;
+        for (TextToken textToken : allTokens()) {
+            x = textToken.getBounds().getX() < x ? textToken.getBounds().getX() : x;
+            y = textToken.getBounds().getY() < y ? textToken.getBounds().getY() : y;
+            w = textToken.getBounds().getWidth() > w ? textToken.getBounds().getWidth() : w;
+            h = textToken.getBounds().getHeight() + textToken.getBounds().getY() > h ? textToken.getBounds().getHeight() + textToken.getBounds().getY() : h;
+        }
+        Rectangle rectangle = new Rectangle(x, y, w, (h - y));
         return rectangle;
     }
 
@@ -105,6 +150,66 @@ public class Text implements TemplateObj {
                 size.toBinaryString() +
                 alignment.toBinaryString() +
                 new HuffmanEncodedParam(text).toBinaryString();
+    }
+
+    private List<TextToken> allTokens() {
+        List<TextToken> textTokens = new ArrayList<>();
+        String[] lines = text.split("\\n");
+        for (int i = 0; i < lines.length; i++) {
+            Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(text);
+            boolean match = false;
+            while (matcher.find()) {
+                match = true;
+                int x = Integer.parseInt(matcher.group(1).substring(1));
+                String text = matcher.group(2);
+                textTokens.add(new TextToken(y + (size.getHeight() * i),
+                        color,
+                        bgColor,
+                        size,
+                        alignment,
+                        lines[i]));
+            }
+//            Rectangle r = getBounds();
+//            gc.setFill(bgColor.toColor());
+//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+//            gc.setFont(font);
+//            gc.setFill(color.toColor());
+//            gc.fillText(text, x, y + size.getHeight() - 3); //TODO
+//        }
+//        if (match) {
+//
+//        } else {
+//            Rectangle r = getBounds();
+//            gc.setFill(bgColor.toColor());
+//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+//            gc.setFont(font);
+//            gc.setFill(color.toColor());
+//            gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
+//        }
+            textTokens.add(new TextToken(y + (size.getHeight() * i),
+                            color,
+                            bgColor,
+                            size,
+                            alignment,
+                            lines[i])
+            );
+        }
+
+        return textTokens;
+    }
+
+    class TextToken extends Text {
+        public TextToken(int y, TemplateColor color, TemplateColor bgColor, Size size, Alignment alignment, String text) {
+            super(y, color, bgColor, size, alignment, text);
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            int x = calcAlignment(this);
+            Rectangle rectangle = new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
+
+            return rectangle;
+        }
     }
 
     static int calcAlignment(Text textObj)  {
