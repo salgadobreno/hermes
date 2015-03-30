@@ -1,15 +1,21 @@
 package com.avixy.qrtoken.negocio.servico.params.template;
 
-import com.avixy.qrtoken.negocio.servico.params.NBitsParam;
-import com.avixy.qrtoken.negocio.template.Text;
+import com.avixy.qrtoken.negocio.servico.params.Param;
+import com.avixy.qrtoken.negocio.template.TemplateAlignment;
 
 /**
  * Created on 17/03/2015
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class TextAlignmentParam extends NBitsParam {
-    public TextAlignmentParam(Text.Alignment alignment) {
-        super((byte)2, (byte)alignment.ordinal());
+public class TextAlignmentParam implements Param {
+    private TemplateAlignment templateAlignment;
+    public TextAlignmentParam(TemplateAlignment alignment) {
+        this.templateAlignment = alignment;
+    }
+
+    @Override
+    public String toBinaryString() {
+        return templateAlignment.toBinaryString();
     }
 }

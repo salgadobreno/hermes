@@ -326,6 +326,7 @@ class TemplateParser {
         bin.delete(0, DIMENSION_LENGTH);
         return dimension;
     }
+
     private int getDimension(int n) {
         int dimension = Integer.parseInt(bin.substring(0, n), 2);
         bin.delete(0, n);
@@ -368,9 +369,13 @@ class TemplateParser {
         return size;
     }
 
-    private Text.Alignment getAlignment(){
-        Text.Alignment alignment = Text.Alignment.values()[Integer.parseInt(bin.substring(0, ALIGNMENT_LENGTH), 2)];
+    private TemplateAlignment getAlignment(){
+        TemplateAlignment alignment = TemplateAlignment.get(TemplateAlignment.Preset.values()[Integer.parseInt(bin.substring(0, ALIGNMENT_LENGTH), 2)]);
         bin.delete(0, ALIGNMENT_LENGTH);
+        if (alignment.getPreset() == TemplateAlignment.Preset.CUSTOM) {
+            int xVal = getDimension();
+            alignment.setxPosition(xVal);
+        }
         return alignment;
     }
 
