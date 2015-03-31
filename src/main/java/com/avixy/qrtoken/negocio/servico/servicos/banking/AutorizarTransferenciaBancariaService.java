@@ -27,13 +27,13 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
 
     private String origemTemplate = "${nomeOrigem}\nAgência: ${agenciaOrigem}\nConta:${contaOrigem}";
     private String destinoTemplate = "${nomeDestino}\nAgência: ${agenciaDestino}\nConta:${contaDestino}";
-    private String dadosTemplate = "${data}\nValor: R$ ${valor}";
 
     private Map<String, String> templateParams = new HashMap<>();
 
     private HuffmanEncodedParam origemParam;
     private HuffmanEncodedParam destinoParam;
-    private HuffmanEncodedParam dadosParam;
+    private HuffmanEncodedParam dateParam;
+    private HuffmanEncodedParam valorParam;
     private HuffmanEncodedParam tanParam;
 
     @Inject
@@ -54,13 +54,11 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
         StrSubstitutor substitutor = new StrSubstitutor(templateParams);
         String resolvedOrigem = substitutor.replace(origemTemplate);
         String resolvedDestino = substitutor.replace(destinoTemplate);
-        String resolvedDados = substitutor.replace(dadosTemplate);
 
         origemParam = new HuffmanEncodedParam(resolvedOrigem);
         destinoParam = new HuffmanEncodedParam(resolvedDestino);
-        dadosParam = new HuffmanEncodedParam(resolvedDados);
 
-        BinaryMsg msg = BinaryMsg.create().append(templateSlot, origemParam, destinoParam, dadosParam, tanParam);
+        BinaryMsg msg = BinaryMsg.create().append(templateSlot, origemParam, destinoParam, dateParam, valorParam, tanParam);
         return msg.toByteArray();
     }
 
@@ -89,11 +87,11 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
     }
 
     public void setValor(String valor) {
-        templateParams.put("valor", valor);
+        valorParam = new HuffmanEncodedParam(valor);
     }
 
-    public void setData(Date data) {
-        templateParams.put("data", dateFormat.format(data));
+    public void setDate(Date date) {
+        dateParam = new HuffmanEncodedParam(dateFormat.format(date));
     }
 
     public void setTan(String tan) {

@@ -177,7 +177,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
         //timestamp
         service.setTimestamp(timestampField.getValue());
         //data
-        service.setData(Date.from(datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
+        service.setDate(Date.from(datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
         //origem
         service.setNomeOrigem(origemNomeTextField.getText());
         service.setAgenciaOrigem(origemAgenciaTextField.getText());
