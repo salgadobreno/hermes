@@ -42,7 +42,6 @@ import java.util.concurrent.Callable;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-@ServiceComponent.Category
 public class UpdateFirmwareServiceComponent extends ServiceComponent {
     private static String FXML_PATH = "/fxml/fwUpdateComponent.fxml";
     private UpdateFirmwareService service;
