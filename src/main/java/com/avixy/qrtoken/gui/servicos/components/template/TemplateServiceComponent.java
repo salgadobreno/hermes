@@ -223,7 +223,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue && control.isVisible()) {
                     canvasPopOver = new PopOver(canvasPane);
-                    tokenCanvas.setTemplate(templateSelect.getValue(), 1);
+                    tokenCanvas.setTemplate(templateSelect.getValue());
                     tokenCanvas.highlight(templateObj);
                     canvasPopOver.show(control);
                     scrollPane.vvalueProperty().addListener((observable1, oldValue1, newValue1) -> {

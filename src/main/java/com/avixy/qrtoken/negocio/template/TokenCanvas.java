@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.template;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -16,31 +18,33 @@ public class TokenCanvas extends Canvas {
     private Template template = new Template();
     private boolean gridOn = true;
 
+    private IntegerProperty currScreenProperty = new SimpleIntegerProperty(1);
+    {
+        currScreenProperty.addListener((observable, oldValue, newValue) -> {
+            redraw();
+        });
+    }
+
     public TokenCanvas() {
         clear();
     }
 
-    public void redraw(){
-        redraw(1);
-    }
-
-    public void redraw(int subTemplate) {
+    public void redraw() {
         clear();
-        this.template.subTemplate(subTemplate).render(getGraphicsContext2D());
+        this.template.templateScreen(currScreenProperty.get()).render(getGraphicsContext2D());
         if (gridOn) {
             drawGrid();
         }
     }
 
-    public void add(TemplateObj templateObj, int subTemplate){
-        this.template.subTemplate(subTemplate).add(templateObj);
-        redraw(subTemplate);
-
+    public void add(TemplateObj templateObj){
+        this.template.templateScreen(currScreenProperty.get()).add(templateObj);
+        redraw();
     }
 
-    public void remove(TemplateObj templateObj, int subTemplate) {
-        this.template.subTemplate(subTemplate).remove(templateObj);
-        redraw(subTemplate);
+    public void remove(TemplateObj templateObj) {
+        this.template.templateScreen(currScreenProperty.get()).remove(templateObj);
+        redraw();
     }
 
     public void drawGrid(){
@@ -67,23 +71,20 @@ public class TokenCanvas extends Canvas {
         getGraphicsContext2D().fillRect(0, 0, Token.DISPLAY_WIDTH, Token.DISPLAY_HEIGHT);
     }
 
-    public void setGridOn(boolean gridOn, int currTemplate) {
+    public void setGridOn(boolean gridOn) {
         this.gridOn = gridOn;
-        redraw(currTemplate);
-    }
-
-    public void setTemplate(Template template, int subTemplate) {
-        this.template = template;
-        redraw(subTemplate);
+        redraw();
     }
 
     public void setTemplate(Template template) {
         this.template = template;
+        currScreenProperty.set(1);
         redraw();
     }
 
     public void highlight(TemplateObj templateObj) {
-        redraw(template.subTemplateOf(templateObj));
+        currScreenProperty.set(template.screenIndexOf(templateObj));
+        redraw();
         if (templateObj != null) {
             Rectangle rectangle = templateObj.getBounds();
             if (rectangle != null) {
@@ -95,5 +96,9 @@ public class TokenCanvas extends Canvas {
                 getGraphicsContext2D().strokeLine(rectangle.getX(), rectangle.getY(), rectangle.getX(), rectangle.getY() + rectangle.getHeight());
             }
         }
+    }
+
+    public IntegerProperty currScreenProperty() {
+        return currScreenProperty;
     }
 }
