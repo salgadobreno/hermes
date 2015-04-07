@@ -117,8 +117,7 @@ public class TemplateTest {
                 "00011001" +                     // Altura = 25 => 50
                 "0101" + //cor roxa
                 "1111"; //EOM
-//        "11111111" + // Comprimento = Por argumento
-//        "0011010010"; // Texto por argumento
+
         Header header = new Header(
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_FLAG_BLUE),
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_WHITE),

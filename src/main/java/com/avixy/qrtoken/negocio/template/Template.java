@@ -15,9 +15,9 @@ import java.util.Objects;
 
 /**
  * Instructions to render one or more QR Token screens
- * <code>Template</code> is made of {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen}s and it will always have at least one,
+ * <code>Template</code> has one or many {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen}s,
  * the {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen} holds the {@link TemplateObj}s which
- * both {@link com.avixy.qrtoken.negocio.template.TokenCanvas} or QR Token can render.
+ * both {@link com.avixy.qrtoken.negocio.template.TokenCanvas} and QR Token can render.
  *
  * Created on 24/02/2015
  *
@@ -30,6 +30,9 @@ public class Template {
 
     /** Adds <code>TemplateObj</code> to the last screen in this <code>Template</code> */
     public void add(TemplateObj templateObj) {
+        if (templateScreens.size() == 0) {
+            templateScreens.add(new TemplateScreen(FXCollections.observableArrayList()));
+        }
         templateScreens.get(templateScreens.size() - 1).add(templateObj);
     }
 
@@ -114,6 +117,11 @@ public class Template {
         return format.format((Object[])arr) + System.lineSeparator();
     }
 
+    /**
+     * Abstraction of a {@link com.avixy.qrtoken.negocio.template.Template} screen
+     * In QR Token templates are parsed procedurally so you only get a new screen when there's a {@link com.avixy.qrtoken.negocio.template.WaitForButton}
+     * with {@link com.avixy.qrtoken.negocio.template.WaitForButton.NextAction} as <code>NEW_SCREEN</code>
+     */
     public class TemplateScreen {
         ObservableList<TemplateObj> templateObjs;
         WaitForButton terminator;
@@ -178,8 +186,10 @@ public class Template {
         }
     }
 
-    private void refresh() { //TODO
-        //PS.: hangover code
+    /**
+     * Recomputes the current list of {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen}
+     */
+    private void refresh() {
         List<TemplateScreen> keep = new ArrayList<>();
         int newScreenCount = 0;
         for (TemplateScreen templateScreen : templateScreens) {
@@ -193,11 +203,11 @@ public class Template {
                     break;
                 }
             }
-            if (!theEnd) {
-                keep.add(templateScreen);
-            } else {
+            if (theEnd) {
                 keep.add(templateScreen);
                 break;
+            } else {
+                keep.add(templateScreen);
             }
         }
         templateScreens.retainAll(keep);
@@ -245,7 +255,7 @@ class TemplateParser {
         return template;
     }
 
-    private TemplateObj getTemplateObj() { //TODO: templateObjs..
+    private TemplateObj getTemplateObj() {
         TemplateFunction templateFunction = getFunction();
         TemplateObj templateObj;
 
