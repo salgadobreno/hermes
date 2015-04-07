@@ -71,15 +71,14 @@ public class Template {
                 bin += templateObj.toBinary();
             } catch (NullPointerException e) {
             //Ignored: EOM retorna null
-            };
-        };
+            }
+        }
 
         return bin + TemplateFunction.TEMPLATE_FUNCTION_EOM.toBinaryString();
     }
 
-    public static Template fromBinary(String bin){ //TODO overload palha
-        Template template = new TemplateParser(bin).parse();
-        return template;
+    public static Template fromBinary(String bin) {
+        return new TemplateParser(bin).parse();
     }
 
     public static Template fromBinary(String name, String bin){
@@ -159,9 +158,7 @@ public class Template {
         }
 
         public void render(GraphicsContext gc) {
-            templateObjs.stream().forEach(x -> {
-                x.render(gc);
-            });
+            templateObjs.stream().forEach(x -> x.render(gc));
         }
 
         public void remove(TemplateObj templateObj) {
@@ -181,7 +178,7 @@ public class Template {
         }
     }
 
-    private void refresh() {
+    private void refresh() { //TODO
         //PS.: hangover code
         List<TemplateScreen> keep = new ArrayList<>();
         int newScreenCount = 0;
@@ -246,25 +243,6 @@ class TemplateParser {
         template.getTemplateScreens().add(template.new TemplateScreen(templateObjs));
 
         return template;
-    }
-
-    public List<Template.TemplateScreen> getSubTemplates(Template template) {
-        ObservableList<Template.TemplateScreen> templateScreens = FXCollections.observableArrayList();
-        ObservableList<TemplateObj> templateObjs = FXCollections.observableArrayList();
-        while (bin.length() > 0){
-            TemplateObj templateObj = getTemplateObj();
-            if (templateObj == null) continue;
-            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
-                templateObjs.add(templateObj);
-                templateScreens.add(template.new TemplateScreen(templateObjs));
-                templateObjs = FXCollections.observableArrayList();
-            } else {
-                templateObjs.add(templateObj);
-            }
-        }
-        templateScreens.add(template.new TemplateScreen(templateObjs));
-
-        return templateScreens;
     }
 
     private TemplateObj getTemplateObj() { //TODO: templateObjs..

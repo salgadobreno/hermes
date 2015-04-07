@@ -79,9 +79,7 @@ public class TemplatesController extends Application {
         screenQtyProperty.bind(Bindings.createIntegerBinding(newValue.getTemplateScreens()::size));
         waitButton.disableProperty().bind(newValue.templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     };
-    private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> {
-        canvas.highlight(newValue);
-    };
+    private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> canvas.highlight(newValue);
 
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -134,7 +132,7 @@ public class TemplatesController extends Application {
         templateObjListView.setCellFactory(new Callback<ListView<TemplateObj>, ListCell<TemplateObj>>() {
             @Override
             public ListCell<TemplateObj> call(ListView<TemplateObj> param) {
-                ListCell<TemplateObj> listCell = new ListCell<TemplateObj>() {
+                return new ListCell<TemplateObj>() {
                     @Override
                     public void updateSelected(boolean selected) {
                         super.updateSelected(selected);
@@ -168,7 +166,6 @@ public class TemplatesController extends Application {
                         }
                     }
                 };
-                return listCell;
             }
         });
 
@@ -241,11 +238,8 @@ public class TemplatesController extends Application {
     }
 
     private void attachSubmitEvent(MigPane form, Button okButton) {
-        EventHandler<KeyEvent> submitEvent = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
-            }
+        EventHandler<KeyEvent> submitEvent = event -> {
+            if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
         };
         form.setOnKeyPressed(submitEvent);
     }

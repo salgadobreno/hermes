@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
+import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
@@ -16,7 +17,7 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EraseKtamperService extends AbstractService implements TimestampAble, PinAble {
+public class EraseKtamperService extends AbstractService implements TimestampAble, PinAble, PukAble {
 
     @Inject
     public EraseKtamperService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
@@ -50,8 +51,9 @@ public class EraseKtamperService extends AbstractService implements TimestampAbl
         this.timestampPolicy.setDate(date);
     }
 
-    //TODO ????
+    @Override
     public void setPuk(String puk) {
+        /* "é obrigatório OU o PIN OU PUK" */
         setPin(puk);
     }
 }

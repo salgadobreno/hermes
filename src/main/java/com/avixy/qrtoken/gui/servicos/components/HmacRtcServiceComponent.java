@@ -6,21 +6,12 @@ import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.rtc.AbstractHmacRtcService;
 import com.google.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tbee.javafx.scene.layout.MigPane;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.TimeZone;
 
 /**
  * @author Breno Salgado <breno@avixy.com>
@@ -45,8 +36,6 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
         title.setText(service.getServiceName());
 
-        ObservableList<String> observableList = FXCollections.observableList(Arrays.asList(TimeZone.getAvailableIDs()));
-
         timeZoneField.getSelectionModel().select("Brasilia");
     }
 
@@ -56,7 +45,6 @@ public class HmacRtcServiceComponent extends ServiceComponent {
 
         hmacRtcService.setHmacKey(keyField.getValue().getHexValue());
         hmacRtcService.setTimestamp(timestampField.getValue());
-//        hmacRtcService.setTimezone(TimeZone.getTimeZone(fusoBox.getValue()));
         hmacRtcService.setTimezone(timeZoneField.getTimeZone());
 
         return hmacRtcService;

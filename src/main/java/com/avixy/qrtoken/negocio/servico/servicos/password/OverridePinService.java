@@ -18,7 +18,6 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-//TODO
 public class OverridePinService extends AbstractService implements TimestampAble, PukAble {
     private StringWithLengthParam newPin;
 
@@ -44,6 +43,7 @@ public class OverridePinService extends AbstractService implements TimestampAble
         return BinaryMsg.create().append(newPin).toByteArray();
     }
 
+    //TODO: ?
     public void setPin(String pin) {
         this.newPin = new StringWithLengthParam(pin);
     }

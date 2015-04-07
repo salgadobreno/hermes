@@ -73,7 +73,7 @@ public class Text implements TemplateObj {
     public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
         this.color = color;
-        this.bgColor = bgColor; //TODO: bgColor ainda eh ignorado?
+        this.bgColor = bgColor;
         this.text = text;
         this.font = new Font("lucida console", size.getValue());
         this.size = size;
@@ -87,13 +87,12 @@ public class Text implements TemplateObj {
         gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         gc.setFont(font);
         gc.setFill(color.toColor());
-        gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
+        gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3);
     }
 
     @Override
     public Rectangle getBounds() {
-        Rectangle rectangle = new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
-        return rectangle;
+        return new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
     }
 
     @Override
