@@ -35,7 +35,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
     String paraConta = "34125-X";
 
     String data = "23/10/2014";
-    String valor = "25.000,00";
+    String valor = "R$ 25.000,00";
 
     String expectedBinnaryString;
     {
@@ -120,15 +120,14 @@ public class AutorizarTransferenciaBancariaServiceTest {
                 "0010001" + //5
                 "0010011" + //-
                 "0100010" + //X
-                "00011110" + // Comprimento 30
+                //data
+                "00001010" + // Comprimento 10
                 "0010000" + // 2
                 "0010111" + // 3
                 "11011001" + // /10
                 "11010000" + // /2014
-                "1100011010" +// \n
-                "0001000" + // Valor
-                "11100000" + // :
-                "1110001011" +//
+                //valor
+                "00001100" + // Comprimento 12
                 "11110101" + // R$
                 "0010000" + //2
                 "0010001" + //5
@@ -145,7 +144,6 @@ public class AutorizarTransferenciaBancariaServiceTest {
                 "0010000" + //2
                 "0010111" + //3
                 "0011000"; //4
-//                "0011000100110010001100110011010000000100"; //pin 1234
     }
 
     @Before
@@ -163,7 +161,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         service.setContaDestino(paraConta);
         //valor, data, tan, timestamp
         service.setValor(valor);
-        service.setData(date.getTime());
+        service.setDate(date.getTime());
         service.setTan("1234");
         service.setTimestamp(new Date());
         //chaves, pin

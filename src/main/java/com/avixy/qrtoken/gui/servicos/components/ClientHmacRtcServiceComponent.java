@@ -18,26 +18,9 @@ import java.util.Arrays;
 @ServiceComponent.Category(category = ServiceCategory.RTC)
 @AcceptsKey(keyType = KeyType.HMAC)
 public class ClientHmacRtcServiceComponent extends HmacRtcServiceComponent {
-    /* TODO: Node e getService tão hack... */
-    private ComboBox<Integer> templateField = new ComboBox<>();
-    private ClientRtcService service;
 
     @Inject
     public ClientHmacRtcServiceComponent(ClientRtcService service) {
         super(service);
-        this.service = service;
-
-        templateField.setItems(FXCollections.observableList(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14)));
-    }
-
-    @Override
-    public String getServiceName() {
-        return service.getServiceName();
-    }
-
-    @Override
-    public Service getService() {
-        super.getService();
-        return service;
     }
 }

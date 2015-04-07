@@ -1,11 +1,8 @@
 package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,56 +15,56 @@ import java.util.Objects;
 
 /**
  * Instructions to render one or more QR Token screens
- * <code>Template</code> is made of {@link com.avixy.qrtoken.negocio.template.Template.SubTemplate}s and it will always have at least one,
- * the {@link com.avixy.qrtoken.negocio.template.Template.SubTemplate} holds the {@link com.avixy.qrtoken.negocio.template.TemplateObj}s which
- * both {@link com.avixy.qrtoken.negocio.template.TokenCanvas} or QR Token can render.
+ * <code>Template</code> has one or many {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen}s,
+ * the {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen} holds the {@link TemplateObj}s which
+ * both {@link com.avixy.qrtoken.negocio.template.TokenCanvas} and QR Token can render.
  *
  * Created on 24/02/2015
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Template {
-    private ObservableList<SubTemplate> subTemplates = FXCollections.observableArrayList();
+    private ObservableList<TemplateScreen> templateScreens = FXCollections.observableArrayList(FXCollections.observableArrayList());
+
     private String name = "";
 
-    public IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
-
-    public Template() {
-        screenQtyProperty.bind(Bindings.createIntegerBinding(subTemplates::size, subTemplates));
-    }
-
-    public void add(TemplateObj templateObj) { //TODO
-        if (subTemplates.size() == 0) {
-            subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+    /** Adds <code>TemplateObj</code> to the last screen in this <code>Template</code> */
+    public void add(TemplateObj templateObj) {
+        if (templateScreens.size() == 0) {
+            templateScreens.add(new TemplateScreen(FXCollections.observableArrayList()));
         }
-        subTemplates.get(subTemplates.size() - 1).add(templateObj);
+        templateScreens.get(templateScreens.size() - 1).add(templateObj);
     }
 
     public void clear() {
-        for (SubTemplate subTemplate : subTemplates) {
-            subTemplate.getTemplateObjs().clear();
+        for (TemplateScreen templateScreen : templateScreens) {
+            templateScreen.getTemplateObjs().clear();
         }
-        subTemplates.retainAll(subTemplate(1));
+        templateScreens.retainAll(templateScreen(1));
     }
 
-    public int subTemplateOf(TemplateObj templateObj) {
-        for (SubTemplate subTemplate : subTemplates) {
-            if (subTemplate.getTemplateObjs().contains(templateObj)) return subTemplates.indexOf(subTemplate) + 1;
+    /**
+     * @param templateObj An object in this Template
+     * @return            The index of the screen where this <code>templateObj</code> is at
+     */
+    public int screenIndexOf(TemplateObj templateObj) {
+        for (TemplateScreen templateScreen : templateScreens) {
+            if (templateScreen.getTemplateObjs().contains(templateObj)) return templateScreens.indexOf(templateScreen) + 1;
         }
         return 1;
     }
 
     public List<TemplateObj> getTemplateObjs() {
         List<TemplateObj> templateObjs = new ArrayList<>();
-        for (SubTemplate subTemplate : subTemplates) {
-            templateObjs.addAll(subTemplate.getTemplateObjs());
+        for (TemplateScreen templateScreen : templateScreens) {
+            templateObjs.addAll(templateScreen.getTemplateObjs());
         }
         return templateObjs;
     }
 
-    public SubTemplate subTemplate(int subTemplateIndex) {
-        if (subTemplates.isEmpty()) subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
-        return subTemplates.get(subTemplateIndex - 1);
+    public TemplateScreen templateScreen(int subTemplateIndex) {
+        if (templateScreens.isEmpty()) templateScreens.add(new TemplateScreen(FXCollections.observableArrayList()));
+        return templateScreens.get(subTemplateIndex - 1);
     }
 
     public String toBinary(){
@@ -77,15 +74,14 @@ public class Template {
                 bin += templateObj.toBinary();
             } catch (NullPointerException e) {
             //Ignored: EOM retorna null
-            };
-        };
+            }
+        }
 
         return bin + TemplateFunction.TEMPLATE_FUNCTION_EOM.toBinaryString();
     }
 
-    public static Template fromBinary(String bin){ //TODO overload palha
-        Template template = new TemplateParser(bin).parse();
-        return template;
+    public static Template fromBinary(String bin) {
+        return new TemplateParser(bin).parse();
     }
 
     public static Template fromBinary(String name, String bin){
@@ -95,14 +91,8 @@ public class Template {
         return template;
     }
 
-    public List<SubTemplate> getSubTemplates() {
-        return subTemplates;
-    }
-
-    public void render(GraphicsContext gc) {
-        getTemplateObjs().stream().forEach(x -> {
-            x.render(gc);
-        });
+    public List<TemplateScreen> getTemplateScreens() {
+        return templateScreens;
     }
 
     public String getName() {
@@ -127,12 +117,19 @@ public class Template {
         return format.format((Object[])arr) + System.lineSeparator();
     }
 
-    public class SubTemplate extends Template {
+    /**
+     * Abstraction of a {@link com.avixy.qrtoken.negocio.template.Template} screen
+     * In QR Token templates are parsed procedurally so you only get a new screen when there's a {@link com.avixy.qrtoken.negocio.template.WaitForButton}
+     * with {@link com.avixy.qrtoken.negocio.template.WaitForButton.NextAction} as <code>NEW_SCREEN</code>
+     */
+    public class TemplateScreen {
         ObservableList<TemplateObj> templateObjs;
         WaitForButton terminator;
-        BooleanProperty terminatedProperty = new SimpleBooleanProperty(false);
+        BooleanProperty terminatedProperty = new SimpleBooleanProperty(false); //TODO: Raul sugeriu que terminator tivesse
+                                                                               //por default e no editor tivesse apenas
+                                                                               //'nova tela'
 
-        public SubTemplate(ObservableList<TemplateObj> templateObjs) {
+        public TemplateScreen(ObservableList<TemplateObj> templateObjs) {
             this.templateObjs = templateObjs;
             checkTerminator();
         }
@@ -145,13 +142,13 @@ public class Template {
             }
             if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
                 terminator = (WaitForButton) templateObj;
-                Template.this.getSubTemplates().add(new SubTemplate(FXCollections.observableArrayList()));
+                Template.this.getTemplateScreens().add(new TemplateScreen(FXCollections.observableArrayList()));
             }
             checkTerminator();
         }
 
+        //TODO: ineficiente..
         private void checkTerminator() {
-            int newScreens = 0;
             for (TemplateObj templateObj : templateObjs) {
                 if (templateObj instanceof WaitForButton) {
                     terminatedProperty.set(true);
@@ -168,22 +165,18 @@ public class Template {
             Template.this.refresh();
         }
 
-        @Override
         public void render(GraphicsContext gc) {
-            templateObjs.stream().forEach(x -> {
-                x.render(gc);
-            });
+            templateObjs.stream().forEach(x -> x.render(gc));
         }
 
         public void remove(TemplateObj templateObj) {
             templateObjs.remove(templateObj);
             if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
-                Template.this.subTemplates.remove(Template.this.subTemplates.indexOf(this) + 1);
+                Template.this.templateScreens.remove(Template.this.templateScreens.indexOf(this) + 1);
             }
             checkTerminator();
         }
 
-        @Override
         public ObservableList<TemplateObj> getTemplateObjs() {
             return templateObjs;
         }
@@ -193,13 +186,15 @@ public class Template {
         }
     }
 
+    /**
+     * Recomputes the current list of {@link com.avixy.qrtoken.negocio.template.Template.TemplateScreen}
+     */
     private void refresh() {
-        //PS.: hangover code
-        List<SubTemplate> keep = new ArrayList<>();
+        List<TemplateScreen> keep = new ArrayList<>();
         int newScreenCount = 0;
-        for (SubTemplate subTemplate : subTemplates) {
+        for (TemplateScreen templateScreen : templateScreens) {
             boolean theEnd = false;
-            for (TemplateObj templateObj : subTemplate.getTemplateObjs()) {
+            for (TemplateObj templateObj : templateScreen.getTemplateObjs()) {
                 if (templateObj instanceof WaitForButton && ((WaitForButton) templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN) {
                     newScreenCount++;
                 }
@@ -208,16 +203,16 @@ public class Template {
                     break;
                 }
             }
-            if (!theEnd) {
-                keep.add(subTemplate);
-            } else {
-                keep.add(subTemplate);
+            if (theEnd) {
+                keep.add(templateScreen);
                 break;
+            } else {
+                keep.add(templateScreen);
             }
         }
-        subTemplates.retainAll(keep);
-        for (int i = subTemplates.size() - 1; i < newScreenCount; i++) {
-            subTemplates.add(new SubTemplate(FXCollections.observableArrayList()));
+        templateScreens.retainAll(keep);
+        for (int i = templateScreens.size() - 1; i < newScreenCount; i++) {
+            templateScreens.add(new TemplateScreen(FXCollections.observableArrayList()));
         }
     }
 
@@ -249,37 +244,18 @@ class TemplateParser {
             if (templateObj == null) continue;
             if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
                 templateObjs.add(templateObj);
-                template.getSubTemplates().add(template.new SubTemplate(templateObjs));
+                template.getTemplateScreens().add(template.new TemplateScreen(templateObjs));
                 templateObjs = FXCollections.observableArrayList();
             } else {
                 templateObjs.add(templateObj);
             }
         }
-        template.getSubTemplates().add(template.new SubTemplate(templateObjs));
+        template.getTemplateScreens().add(template.new TemplateScreen(templateObjs));
 
         return template;
     }
 
-    public List<Template.SubTemplate> getSubTemplates(Template template) {
-        ObservableList<Template.SubTemplate> subTemplates = FXCollections.observableArrayList();
-        ObservableList<TemplateObj> templateObjs = FXCollections.observableArrayList();
-        while (bin.length() > 0){
-            TemplateObj templateObj = getTemplateObj();
-            if (templateObj == null) continue;
-            if (templateObj instanceof WaitForButton && ((WaitForButton)templateObj).getNextAction() == WaitForButton.NextAction.NEW_SCREEN){
-                templateObjs.add(templateObj);
-                subTemplates.add(template.new SubTemplate(templateObjs));
-                templateObjs = FXCollections.observableArrayList();
-            } else {
-                templateObjs.add(templateObj);
-            }
-        }
-        subTemplates.add(template.new SubTemplate(templateObjs));
-
-        return subTemplates;
-    }
-
-    private TemplateObj getTemplateObj() { //TODO: templateObjs..
+    private TemplateObj getTemplateObj() {
         TemplateFunction templateFunction = getFunction();
         TemplateObj templateObj;
 

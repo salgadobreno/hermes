@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Footer implements TemplateObj {
     private Stripe stripe;
-    private Text text, text2; //TODO rename
+    private Text text, text2;
     private TemplateColor bgColor, textColor;
     private int FOOTER_HEIGHT = 40;
     private int VERTICAL_MARGIN = Token.DISPLAY_HEIGHT - 40;
@@ -37,8 +37,7 @@ public class Footer implements TemplateObj {
 
     @Override
     public Rectangle getBounds() {
-        Rectangle rectangle = new Rectangle(0, FOOTER_Y - FOOTER_HEIGHT, Token.DISPLAY_WIDTH, FOOTER_HEIGHT);
-        return rectangle;
+        return new Rectangle(0, FOOTER_Y - FOOTER_HEIGHT, Token.DISPLAY_WIDTH, FOOTER_HEIGHT);
     }
 
     @Override

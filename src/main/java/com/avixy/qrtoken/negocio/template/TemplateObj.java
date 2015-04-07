@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
 /**
- * An object that can passed in a {@link com.avixy.qrtoken.negocio.template.Template} to QR Token
+ * An element that can be rendered by QR Token and {@link com.avixy.qrtoken.negocio.template.TokenCanvas}
  *
  * Created on 12/02/2015
  *

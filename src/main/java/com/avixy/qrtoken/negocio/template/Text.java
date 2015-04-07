@@ -201,10 +201,8 @@ public class Text implements TemplateObj {
         @Override
         public Rectangle getBounds() {
             int x = TemplateAlignment.calcAlignment(this);
-//            int offset = getAlignment().getPreset() == TemplateAlignment.Preset.CUSTOM ? getAlignment().getxPosition() : 0;
-            Rectangle rectangle = new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
 
-            return rectangle;
+            return new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
         }
     }
 

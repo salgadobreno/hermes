@@ -24,7 +24,6 @@ import java.util.List;
  *
  * Created on 21/08/2014
  */
-//TODO: ChavesDb?
 public class ChavesSingleton {
     private static Logger logger = LoggerFactory.getLogger(ChavesSingleton.class);
 

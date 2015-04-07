@@ -14,7 +14,6 @@ import java.util.BitSet;
  * Created on 10/09/2014
  */
 public class ExBitSet {
-    //TODO: ajeitar documentação
     private static byte[] createFromString(String s) {
         byte[] bytes = new byte[0];
         int size = (int) Math.ceil(s.length()/8);

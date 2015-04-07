@@ -1,0 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+##[Unreleased][unreleased]
+### Changed
+- Improved Text boundaries
+
+### Added
+- Text accepts |(pipe) arguments for custom X position
+
+## 0.1.0 - 30/03/2015
+### Added
+- Added changelog
+- Hermes alpha: QR Token protocol implementation, various services, cryptographic key management,
+template editor(RAD-like) and management.

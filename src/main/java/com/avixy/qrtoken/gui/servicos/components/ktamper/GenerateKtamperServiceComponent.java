@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
+import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.NoParamServiceComponent;
@@ -28,6 +29,8 @@ import java.util.TimeZone;
 public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     private TimestampField timestampField = new TimestampField();
     private TimeZoneField timeZoneField = new TimeZoneField();
+    private TextFieldLimited hwVersionField = new TextFieldLimited(10);
+    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
 
     @Inject
     public GenerateKtamperServiceComponent(GenerateKtamperService service) {
@@ -37,13 +40,22 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     @Override
     public Node getNode() {
         MigPane migPane = new MigPane();
+
         Label title = new Label(service.getServiceName());
         title.setFont(new Font(18));
         migPane.add(title, "wrap, span");
+
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
+
         migPane.add(new Label("Fuso horário:"));
         migPane.add(timeZoneField, "wrap");
+
+        migPane.add(new Label("Versão de Hardware:"));
+        migPane.add(hwVersionField, "wrap");
+
+        migPane.add(new Label("Número de série:"));
+        migPane.add(serialNumberField, "wrap");
 
         return migPane;
     }
@@ -53,6 +65,8 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
         GenerateKtamperService generateKtamperService = (GenerateKtamperService) service;
         generateKtamperService.setTimestamp(timestampField.getValue());
         generateKtamperService.setTimezone(timeZoneField.getTimeZone());
+        generateKtamperService.setHWVersion(hwVersionField.getText());
+        generateKtamperService.setSerialNumber(serialNumberField.getText());
 
         return super.getService();
     }

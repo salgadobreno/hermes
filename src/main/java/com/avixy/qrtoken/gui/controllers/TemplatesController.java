@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -60,9 +61,7 @@ public class TemplatesController extends Application {
     @FXML private ListView<TemplateObj> templateObjListView;
 
     @FXML private Label screenQty;
-    private IntegerProperty currScreenProperty = new SimpleIntegerProperty(1);
     private IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
-    private StringExpression screensFormat = Bindings.format("%s/%s", currScreenProperty, screenQtyProperty);
 
     TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
 
@@ -77,16 +76,12 @@ public class TemplatesController extends Application {
     private WaitForButtonForm waitForButtonForm = new WaitForButtonForm();
 
     private ChangeListener<Template> templateSelectedEvent = (observable, oldValue, newValue) -> {
-        currScreenProperty.set(1);
-        templateObjListView.setItems(newValue.subTemplate(currScreenProperty.get()).getTemplateObjs());
-        screenQtyProperty.bind(newValue.screenQtyProperty);
-
-        canvas.setTemplate(newValue, currScreenProperty.get());
-        waitButton.disableProperty().bind(newValue.subTemplate(currScreenProperty.get()).terminatedProperty());
+        canvas.setTemplate(newValue);
+        templateObjListView.setItems(newValue.templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
+        screenQtyProperty.bind(Bindings.createIntegerBinding(newValue.getTemplateScreens()::size));
+        waitButton.disableProperty().bind(newValue.templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     };
-    private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> {
-        canvas.highlight(newValue);
-    };
+    private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> canvas.highlight(newValue);
 
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -123,7 +118,7 @@ public class TemplatesController extends Application {
         clearButton.setOnAction(event -> {
             Template template = templateListView.getSelectionModel().getSelectedItem();
             template.clear();
-            canvas.redraw(currScreenProperty.get());
+            canvas.redraw();
         });
 
         editTemplateObjPopOver = new PopOver();
@@ -139,7 +134,7 @@ public class TemplatesController extends Application {
         templateObjListView.setCellFactory(new Callback<ListView<TemplateObj>, ListCell<TemplateObj>>() {
             @Override
             public ListCell<TemplateObj> call(ListView<TemplateObj> param) {
-                ListCell<TemplateObj> listCell = new ListCell<TemplateObj>() {
+                return new ListCell<TemplateObj>() {
                     @Override
                     public void updateSelected(boolean selected) {
                         super.updateSelected(selected);
@@ -152,7 +147,7 @@ public class TemplatesController extends Application {
                             delete.setOnAction(e -> {
                                 templateObjListView.getSelectionModel().clearSelection();
                                 editTemplateObjPopOver.hide();
-                                canvas.remove(getItem(), currScreenProperty.get());
+                                canvas.remove(getItem());
                             });
                             edit.setOnAction(e -> {
                                 editTemplateObjPopOver.hide();
@@ -173,70 +168,53 @@ public class TemplatesController extends Application {
                         }
                     }
                 };
-                return listCell;
             }
         });
 
-        currScreenProperty.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                templateObjListView.getSelectionModel().select(null);
-                canvas.redraw(currScreenProperty.get());
-                templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).getTemplateObjs());
-                editTemplateObjPopOver.hide();
-                waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).terminatedProperty());
-            }
-        });
         templateListView.getSelectionModel().selectedItemProperty().addListener(templateSelectedEvent);
         templateObjListView.getSelectionModel().selectedItemProperty().addListener(templateObjSelectedEvent);
         templateListView.getSelectionModel().select(0);
 
-        screenQty.textProperty().bind(screensFormat);
+        screenQty.textProperty().bind(Bindings.format("%s/%s", canvas.currScreenProperty(), screenQtyProperty));
     }
 
     private void handleEdit(TemplateObj item) {
         if (item instanceof Stripe) {
-            Stripe k = (Stripe)item;
-            stripeForm.edit(k);
+            stripeForm.edit((Stripe)item);
             return;
         }
         if (item instanceof Rect) {
-            Rect k = (Rect)item;
-            rectForm.edit(k);
+            rectForm.edit((Rect)item);
             return;
         }
         if (item instanceof Header) {
-            Header k = (Header) item;
-            headerForm.edit(k);
+            headerForm.edit((Header)item);
             return;
         }
         if (item instanceof Footer) {
-            Footer f = (Footer) item;
-            footerForm.edit(f);
+            footerForm.edit((Footer)item);
             return;
         }
         if (item instanceof Text) {
-            Text t = (Text)item;
-            textForm.edit(t);
+            textForm.edit((Text)item);
             return;
         }
         if (item instanceof WaitForButton) {
-            WaitForButton w = (WaitForButton)item;
-            waitForButtonForm.edit(w);
-            return;
+            waitForButtonForm.edit((WaitForButton)item);
         }
     }
 
     public void toggleGrid(){
-        canvas.setGridOn(showGrid.isSelected(), currScreenProperty.get());
+        canvas.setGridOn(showGrid.isSelected());
     }
 
-    private void attachPopOver(Button button, Parent parent){
+    /* attaches <code>button</code> action to PopOver with <code>node</code> */
+    private void attachPopOver(Button button, Node node){
         button.setOnAction(event -> {
             if (formsPopOver != null && formsPopOver.isShowing()) {
                 formsPopOver.hide();
             }
-            formsPopOver = new PopOver(parent);
+            formsPopOver = new PopOver(node);
             formsPopOver.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
             formsPopOver.setAutoHide(true);
             formsPopOver.show(button);
@@ -262,18 +240,16 @@ public class TemplatesController extends Application {
     }
 
     private void attachSubmitEvent(MigPane form, Button okButton) {
-        EventHandler<KeyEvent> submitEvent = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
-            }
+        EventHandler<KeyEvent> submitEvent = event -> {
+            if (event.getCode() == KeyCode.ENTER) okButton.getOnAction().handle(new ActionEvent());
         };
         form.setOnKeyPressed(submitEvent);
     }
 
-    private void forceRefresh(ListView listView) {
-        Object selected = listView.getSelectionModel().getSelectedItem();
-        ObservableList<Object> items = listView.getItems();
+    /* workaround to get the TemplateObj display name in the list to update */
+    private void forceRefresh(ListView<TemplateObj> listView) {
+        TemplateObj selected = listView.getSelectionModel().getSelectedItem();
+        ObservableList<TemplateObj> items = listView.getItems();
         listView.setItems(null);
         listView.setItems(items);
         listView.getSelectionModel().select(selected);
@@ -281,16 +257,26 @@ public class TemplatesController extends Application {
 
     @FXML
     private void nextScreen() {
-        if (currScreenProperty.get() < screenQtyProperty.get()) {
-            currScreenProperty.set(currScreenProperty.getValue() + 1);
+        //NOTE: essa ordem de execução é relevante, com ordem diferente aparentemente estava caindo em uma race condition
+        //com o TokenCanvas currScreenProperty
+        editTemplateObjPopOver.hide();
+        templateObjListView.getSelectionModel().select(null);
+        if (canvas.currScreenProperty().get() < screenQtyProperty.get()) {
+            canvas.currScreenProperty().setValue(canvas.currScreenProperty().getValue() + 1);
         }
+        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
+        waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     }
 
     @FXML
     private void previousScreen(){
-        if (currScreenProperty.get() > 1) {
-            currScreenProperty.set(currScreenProperty.getValue() - 1);
+        editTemplateObjPopOver.hide();
+        templateObjListView.getSelectionModel().select(null);
+        if (canvas.currScreenProperty().get() > 1) {
+            canvas.currScreenProperty().setValue(canvas.currScreenProperty().getValue() - 1);
         }
+        templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
+        waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     }
 
     class HeaderForm extends MigPane {
@@ -315,7 +301,7 @@ public class TemplatesController extends Application {
                 h.setTextColor(textColorPicker.getValue());
                 h.setBgColor(bgColorPicker.getValue());
                 h.setText(textField.getText());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
             };
             textField.setText(h.getText());
@@ -336,7 +322,7 @@ public class TemplatesController extends Application {
             text1 = textField.getText();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
-            canvas.add(new Header(bgColor, textColor, text1), currScreenProperty.get());
+            canvas.add(new Header(bgColor, textColor, text1));
             formsPopOver.hide();
         };
     }
@@ -364,7 +350,7 @@ public class TemplatesController extends Application {
                 f.setBgColor(bgColorPicker.getValue());
                 f.setText(templateTextField.getText());
                 f.setText2(templateTextField2.getText());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
             });
             textColorPicker.setTemplateColor(f.getTextColor());
@@ -385,7 +371,7 @@ public class TemplatesController extends Application {
             text2 = templateTextField2.getText();
             bgColor = bgColorPicker.getValue();
             textColor = textColorPicker.getValue();
-            canvas.add(new Footer(bgColor, textColor, text1, text2), currScreenProperty.get());
+            canvas.add(new Footer(bgColor, textColor, text1, text2));
             formsPopOver.hide();
         };
     }
@@ -425,7 +411,7 @@ public class TemplatesController extends Application {
                 t.setBgColor(bgColorPicker.getValue());
                 t.setAlignment(alignmentSelect.getValue());
                 t.setSize(sizeComboBox.getValue());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
             };
             okButton.setOnAction(editEvent);
@@ -454,7 +440,7 @@ public class TemplatesController extends Application {
             TemplateAlignment alignment = alignmentSelect.getValue();
             textColor = textColorPicker.getValue();
             bgColor = bgColorPicker.getValue();
-            canvas.add(new Text(y, textColor, bgColor, size, alignment, text1), currScreenProperty.get());
+            canvas.add(new Text(y, textColor, bgColor, size, alignment, text1));
             formsPopOver.hide();
         };
     }
@@ -488,7 +474,7 @@ public class TemplatesController extends Application {
                 r.setHeight(Integer.parseInt(hField.getText()));
                 r.setWidth(Integer.parseInt(wField.getText()));
                 r.setColor(colorPicker.getValue());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
             };
             okButton.setOnAction(editEvent);
@@ -512,7 +498,7 @@ public class TemplatesController extends Application {
                     Integer.valueOf(yField.getText()),
                     Integer.valueOf(hField.getText()),
                     colorPicker.getValue()
-            ), currScreenProperty.get());
+            ));
             formsPopOver.hide();
         };
     }
@@ -538,7 +524,7 @@ public class TemplatesController extends Application {
                 s.setY(Integer.parseInt(yField.getText()));
                 s.setHeight(Integer.parseInt(hField.getText()));
                 s.setColor(colorPicker.getValue());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
             };
             okButton.setOnAction(editEvent);
@@ -557,7 +543,7 @@ public class TemplatesController extends Application {
             canvas.add(new Stripe(
                     Integer.parseInt(yField.getText()),
                     Integer.parseInt(hField.getText()),
-                    colorPicker.getValue()), currScreenProperty.get());
+                    colorPicker.getValue()));
             formsPopOver.hide();
         };
     }
@@ -588,9 +574,9 @@ public class TemplatesController extends Application {
             okButton.setOnAction(e -> {
                 waitForButton.setNextAction(nextActionComboBox.getValue());
                 waitForButton.setWaitSeconds(waitComboBox.getValue());
-                canvas.redraw(currScreenProperty.get());
+                canvas.redraw();
                 formsPopOver.hide();
-                templateListView.getSelectionModel().getSelectedItem().subTemplate(currScreenProperty.get()).changed();
+                templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).changed();
             });
             formsPopOver.setOnHidden(e -> {
                 formsPopOver.setOnHidden(null);
@@ -599,11 +585,12 @@ public class TemplatesController extends Application {
             });
         }
         EventHandler<ActionEvent> saveEvent = e -> {
-            canvas.add(new WaitForButton(waitComboBox.getValue(), nextActionComboBox.getValue()), currScreenProperty.get());
+            canvas.add(new WaitForButton(waitComboBox.getValue(), nextActionComboBox.getValue()));
             formsPopOver.hide();
         };
     }
 
+    /* Editable ListCell that displays the index */
     class IndexedTemplateCell extends TextFieldListCell<Template> {
         public IndexedTemplateCell() {
             editableProperty().set(true);
