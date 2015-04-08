@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;

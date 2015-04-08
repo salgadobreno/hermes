@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
+import com.avixy.qrtoken.negocio.Token;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.Canvas;
