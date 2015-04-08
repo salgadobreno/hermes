@@ -21,8 +21,8 @@ public class Footer implements TemplateObj {
 
     public Footer(TemplateColor bgColor, TemplateColor textColor, String text1, String text2) {
         this.stripe = new Stripe(FOOTER_Y - FOOTER_HEIGHT, FOOTER_HEIGHT, bgColor);
-        this.text = new Text(VERTICAL_MARGIN + 3, textColor, bgColor, Text.Size.SMALL, Text.Alignment.CENTER, text1);
-        this.text2 = new Text(VERTICAL_MARGIN + Text.Size.SMALL.getHeight() + 3, textColor, bgColor, Text.Size.SMALL, Text.Alignment.CENTER, text2);
+        this.text = new Text(VERTICAL_MARGIN + 3, textColor, bgColor, Text.Size.SMALL, TemplateAlignment.get(TemplateAlignment.Preset.CENTER), text1); //TODO
+        this.text2 = new Text(VERTICAL_MARGIN + Text.Size.SMALL.getHeight() + 3, textColor, bgColor, Text.Size.SMALL, TemplateAlignment.get(TemplateAlignment.Preset.CENTER), text2); //TODO
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.textContent = text1;
