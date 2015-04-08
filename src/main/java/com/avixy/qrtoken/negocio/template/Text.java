@@ -80,42 +80,15 @@ public class Text implements TemplateObj {
         for (TextToken textToken : allTokens()) {
             Rectangle r = textToken.getBounds();
             gc.setFill(textToken.getBgColor().toColor());
-//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
             gc.fillRect(r.getX(), r.getY(), textToken.getText().length() * textToken.getSize().getWidth(), r.getHeight());
             gc.setFont(textToken.getFont());
             gc.setFill(textToken.getColor().toColor());
             gc.fillText(textToken.getText(), TemplateAlignment.calcAlignment(textToken), textToken.getY() + size.getHeight() - 3); //TODO
         }
-//        Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(text);
-//        boolean match = false;
-//        while (matcher.find()) {
-//            match = true;
-//            int x = Integer.parseInt(matcher.group(1).substring(1));
-//            String text = matcher.group(2);
-//
-//            Rectangle r = getBounds();
-//            gc.setFill(bgColor.toColor());
-//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-//            gc.setFont(font);
-//            gc.setFill(color.toColor());
-//            gc.fillText(text, x, y + size.getHeight() - 3); //TODO
-//        }
-//        if (match) {
-//
-//        } else {
-//            Rectangle r = getBounds();
-//            gc.setFill(bgColor.toColor());
-//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-//            gc.setFont(font);
-//            gc.setFill(color.toColor());
-//            gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
-//        }
     }
 
     @Override
     public Rectangle getBounds() {
-//        Rectangle rectangle = new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
-//        return rectangle;
         double x,y,w,h;
         double maxX = 0;
         x = y = 999;
@@ -125,12 +98,9 @@ public class Text implements TemplateObj {
             maxX = textToken.getBounds().getX() + textToken.getBounds().getWidth() > maxX ? textToken.getBounds().getX() + textToken.getBounds().getWidth() : maxX;
             y = textToken.getBounds().getY() < y ? textToken.getBounds().getY() : y;
             w = textToken.getBounds().getWidth() > w ? textToken.getBounds().getWidth() : w;
-//            w = Token.DISPLAY_WIDTH - (TemplateAlignment.calcAlignment(textToken) + textToken.getBounds().getWidth()); //absolute width
             h = textToken.getBounds().getHeight() + textToken.getBounds().getY() > h ? textToken.getBounds().getHeight() + textToken.getBounds().getY() : h;
         }
-        double bigX = ((Token.DISPLAY_WIDTH - maxX) - Token.DISPLAY_WIDTH) - x;
-        Rectangle rectangle = new Rectangle(x, y, maxX - x, (h - y));
-        return rectangle;
+        return new Rectangle(x, y, maxX - x, (h - y));
     }
 
     @Override
@@ -148,38 +118,21 @@ public class Text implements TemplateObj {
         List<TextToken> textTokens = new ArrayList<>();
         String[] lines = text.split("\\n");
         for (int i = 0; i < lines.length; i++) {
-            Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(lines[i]);
-            boolean match = false;
-            while (matcher.find()) {
-                match = true;
-                int x = Integer.parseInt(matcher.group(1).substring(1));
-                String text = matcher.group(2);
-                TemplateAlignment customAlignment = new TemplateAlignment(TemplateAlignment.Preset.CUSTOM, x);
-                textTokens.add(new TextToken(y + (size.getHeight() * i),
-                        color,
-                        bgColor,
-                        size,
-                        customAlignment,
-                        text));
-            }
-//            Rectangle r = getBounds();
-//            gc.setFill(bgColor.toColor());
-//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-//            gc.setFont(font);
-//            gc.setFill(color.toColor());
-//            gc.fillText(text, x, y + size.getHeight() - 3); //TODO
-//        }
-//        if (match) {
-//
-//        } else {
-//            Rectangle r = getBounds();
-//            gc.setFill(bgColor.toColor());
-//            gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-//            gc.setFont(font);
-//            gc.setFill(color.toColor());
-//            gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3); //TODO
-//        }
-            if (!match) {
+//            Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(lines[i]);
+//            boolean match = false;
+//            while (matcher.find()) {
+//                match = true;
+//                int x = Integer.parseInt(matcher.group(1).substring(1));
+//                String text = matcher.group(2);
+//                TemplateAlignment customAlignment = new TemplateAlignment(TemplateAlignment.Preset.CUSTOM, x);
+//                textTokens.add(new TextToken(y + (size.getHeight() * i),
+//                        color,
+//                        bgColor,
+//                        size,
+//                        customAlignment,
+//                        text));
+//            }
+//            if (!match) {
                 textTokens.add(new TextToken(y + (size.getHeight() * i),
                                 color,
                                 bgColor,
@@ -187,7 +140,7 @@ public class Text implements TemplateObj {
                                 alignment,
                                 lines[i])
                 );
-            }
+//            }
         }
 
         return textTokens;
@@ -205,27 +158,6 @@ public class Text implements TemplateObj {
             return new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
         }
     }
-
-//    static int calcAlignment(Text textObj)  {
-//        int maxTextLength = 0;
-//        String[] lines = textObj.getText().split("\\n");
-//        for (String line : lines) {
-//            if (maxTextLength < line.length()) maxTextLength = line.length();
-//        }
-//
-//        switch (textObj.getAlignment().getPreset()) {
-//            case CENTER:
-//                return (Token.DISPLAY_WIDTH - (maxTextLength * textObj.getSize().getWidth())) >> 1;
-//            case LEFT:
-//                return Token.HORIZONTAL_MARGIN;
-//            case RIGHT:
-//                return (Token.DISPLAY_WIDTH - (textObj.getSize().getWidth() * maxTextLength));
-//            case ARGUMENT:
-//                return Token.HORIZONTAL_MARGIN;
-//            default:
-//                throw new IllegalArgumentException("Unexpected alignment");
-//        }
-//    }
 
     public boolean isArg() {
         return text.equals(TEXT_FROM_ARGUMENT);
