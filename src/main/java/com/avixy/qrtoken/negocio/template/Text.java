@@ -119,29 +119,13 @@ public class Text implements TemplateObj {
         List<TextToken> textTokens = new ArrayList<>();
         String[] lines = text.split("\\n");
         for (int i = 0; i < lines.length; i++) {
-//            Matcher matcher = Pattern.compile("(\\|\\d+)([^|]*)").matcher(lines[i]);
-//            boolean match = false;
-//            while (matcher.find()) {
-//                match = true;
-//                int x = Integer.parseInt(matcher.group(1).substring(1));
-//                String text = matcher.group(2);
-//                TemplateAlignment customAlignment = new TemplateAlignment(TemplateAlignment.Preset.CUSTOM, x);
-//                textTokens.add(new TextToken(y + (size.getHeight() * i),
-//                        color,
-//                        bgColor,
-//                        size,
-//                        customAlignment,
-//                        text));
-//            }
-//            if (!match) {
-                textTokens.add(new TextToken(y + (size.getHeight() * i),
-                                color,
-                                bgColor,
-                                size,
-                                alignment,
-                                lines[i])
-                );
-//            }
+            textTokens.add(new TextToken(y + (size.getHeight() * i),
+                            color,
+                            bgColor,
+                            size,
+                            alignment,
+                            lines[i])
+            );
         }
 
         return textTokens;
