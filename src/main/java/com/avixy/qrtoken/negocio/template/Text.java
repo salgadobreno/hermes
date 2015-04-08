@@ -4,6 +4,7 @@ import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
+import com.avixy.qrtoken.negocio.servico.params.NBitsParam;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -19,6 +20,36 @@ import java.util.regex.Pattern;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Text implements TemplateObj {
+    public enum Alignment {
+        LEFT, CENTER, RIGHT, ARGUMENT;
+
+        public String toBinaryString() {
+            return new NBitsParam((byte)2, (byte)ordinal()).toBinaryString();
+        }
+
+        public boolean isArg() { return this == ARGUMENT; };
+
+        static int calcAlignment(Text textObj)  {
+            int maxTextLength = 0;
+            String[] lines = textObj.getText().split("\\n");
+            for (String line : lines) {
+                if (maxTextLength < line.length()) maxTextLength = line.length();
+            }
+
+            switch (textObj.getAlignment()) {
+                case CENTER:
+                    return (Token.DISPLAY_WIDTH - (maxTextLength * textObj.getSize().getWidth())) >> 1;
+                case LEFT:
+                    return Token.HORIZONTAL_MARGIN;
+                case RIGHT:
+                    return (Token.DISPLAY_WIDTH - (textObj.getSize().getWidth() * maxTextLength));
+                case ARGUMENT:
+                    return Token.HORIZONTAL_MARGIN;
+                default:
+                    throw new IllegalArgumentException("Unexpected alignment");
+            }
+        }
+    }
 
     public enum Size {
         MINIMAL(0,0,0), /**< 0000 - Minima: 6x8 - 40 linhas de 40 caracteres*/
@@ -61,12 +92,12 @@ public class Text implements TemplateObj {
     private Font font;
     private String text;
     private Text.Size size;
-    private TemplateAlignment alignment;
+    private Text.Alignment alignment;
 
     public static final String ARG_TEXT_FOR_DISPLAY = "{arg}";
     public static final String TEXT_FROM_ARGUMENT = ARG_TEXT_FOR_DISPLAY;
 
-    public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, TemplateAlignment alignment, String text) {
+    public Text(int y, TemplateColor color, TemplateColor bgColor, Text.Size size, Text.Alignment alignment, String text) {
         this.y = y;
         this.color = color;
         this.bgColor = bgColor;
@@ -84,7 +115,7 @@ public class Text implements TemplateObj {
             gc.fillRect(r.getX(), r.getY(), textToken.getText().length() * textToken.getSize().getWidth(), r.getHeight());
             gc.setFont(textToken.getFont());
             gc.setFill(textToken.getColor().toColor());
-            gc.fillText(textToken.getText(), TemplateAlignment.calcAlignment(textToken), textToken.getY() + size.getHeight() - 3); //TODO
+            gc.fillText(textToken.getText(), Text.Alignment.calcAlignment(textToken), textToken.getY() + size.getHeight() - 3); //TODO
         }
     }
 
@@ -132,13 +163,13 @@ public class Text implements TemplateObj {
     }
 
     class TextToken extends Text {
-        public TextToken(int y, TemplateColor color, TemplateColor bgColor, Size size, TemplateAlignment alignment, String text) {
+        public TextToken(int y, TemplateColor color, TemplateColor bgColor, Size size, Text.Alignment alignment, String text) {
             super(y, color, bgColor, size, alignment, text);
         }
 
         @Override
         public Rectangle getBounds() {
-            int x = TemplateAlignment.calcAlignment(this);
+            int x = Text.Alignment.calcAlignment(this);
 
             return new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
         }
@@ -204,11 +235,11 @@ public class Text implements TemplateObj {
         this.size = size;
     }
 
-    public TemplateAlignment getAlignment() {
+    public Text.Alignment getAlignment() {
         return alignment;
     }
 
-    public void setAlignment(TemplateAlignment alignment) {
+    public void setAlignment(Text.Alignment alignment) {
         this.alignment = alignment;
     }
 }

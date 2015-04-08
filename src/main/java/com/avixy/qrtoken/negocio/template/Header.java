@@ -20,7 +20,7 @@ public class Header implements TemplateObj {
 
     public Header(TemplateColor bgColor, TemplateColor textColor, String text) {
         this.stripe = new Stripe(0, HEADER_HEIGHT, bgColor);
-        this.text = new Text(VERTICAL_MARGIN, textColor, bgColor, Text.Size.LARGE, TemplateAlignment.get(TemplateAlignment.Preset.CENTER), text);
+        this.text = new Text(VERTICAL_MARGIN, textColor, bgColor, Text.Size.LARGE, Text.Alignment.CENTER, text);
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.textContent = text;
@@ -34,8 +34,7 @@ public class Header implements TemplateObj {
 
     @Override
     public Rectangle getBounds() {
-        Rectangle rectangle = new Rectangle(0, 0 , Token.DISPLAY_WIDTH, HEADER_HEIGHT);
-        return rectangle;
+        return new Rectangle(0, 0 , Token.DISPLAY_WIDTH, HEADER_HEIGHT);
     }
 
     @Override

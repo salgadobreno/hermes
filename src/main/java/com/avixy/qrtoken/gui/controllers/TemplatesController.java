@@ -437,7 +437,7 @@ public class TemplatesController extends Application {
             y = Integer.parseInt(yField.getText());
             text1 = templateTextArea.getValue();
             Text.Size size = sizeComboBox.getValue();
-            TemplateAlignment alignment = alignmentSelect.getValue();
+            Text.Alignment alignment = alignmentSelect.getValue();
             textColor = textColorPicker.getValue();
             bgColor = bgColorPicker.getValue();
             canvas.add(new Text(y, textColor, bgColor, size, alignment, text1));

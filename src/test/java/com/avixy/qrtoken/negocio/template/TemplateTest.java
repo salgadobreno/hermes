@@ -127,7 +127,7 @@ public class TemplateTest {
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_BLACK),
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_WHITE),
                 Text.Size.SMALL,
-                TemplateAlignment.get(TemplateAlignment.Preset.LEFT),
+                Text.Alignment.LEFT,
                 "Utilize este código\npara autorizar sua\nTransação"
         );
         Stripe stripe = new Stripe(
@@ -139,7 +139,7 @@ public class TemplateTest {
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_BLACK),
                 TemplateColor.get(TemplateColor.Preset.TEMPLATE_COLOR_LIGHT_BLUE),
                 Text.Size.HUGE,
-                TemplateAlignment.get(TemplateAlignment.Preset.CENTER),
+                Text.Alignment.CENTER,
                 "DEBITADO"
         );
         Footer footer = new Footer(

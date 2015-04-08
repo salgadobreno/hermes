@@ -28,7 +28,7 @@ public class TextTest {
         TemplateColor bgColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_GRAY);
         Text.Size size = Text.Size.SMALL;
         String textArg = "DEBITADO";
-        TemplateAlignment alignment = TemplateAlignment.get(TemplateAlignment.Preset.LEFT);
+        Text.Alignment alignment = Text.Alignment.LEFT;
 
         Text text = new Text(y, textColor, bgColor, size, alignment, textArg);
 
@@ -57,7 +57,7 @@ public class TextTest {
         TemplateColor bgColor = new TemplateColor(TemplateColor.Preset.TEMPLATE_COLOR_GRAY);
         Text.Size size = Text.Size.SMALL;
         String textArg = "DEBITADO";
-        TemplateAlignment alignment = TemplateAlignment.get(TemplateAlignment.Preset.LEFT);
+        Text.Alignment alignment = Text.Alignment.LEFT;
 
         Text text = new Text(y, textColor, bgColor, size, alignment, textArg);
 

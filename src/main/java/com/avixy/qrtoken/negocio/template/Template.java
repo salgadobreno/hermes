@@ -345,13 +345,9 @@ class TemplateParser {
         return size;
     }
 
-    private TemplateAlignment getAlignment(){
-        TemplateAlignment alignment = TemplateAlignment.get(TemplateAlignment.Preset.values()[Integer.parseInt(bin.substring(0, ALIGNMENT_LENGTH), 2)]);
+    private Text.Alignment getAlignment(){
+        Text.Alignment alignment = Text.Alignment.values()[Integer.parseInt(bin.substring(0, ALIGNMENT_LENGTH), 2)];
         bin.delete(0, ALIGNMENT_LENGTH);
-        if (alignment.getPreset() == TemplateAlignment.Preset.CUSTOM) {
-            int xVal = getDimension();
-            alignment.setxPosition(xVal);
-        }
         return alignment;
     }
 
