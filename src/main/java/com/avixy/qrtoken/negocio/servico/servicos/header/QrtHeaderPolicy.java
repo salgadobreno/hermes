@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.header;
 
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
+import com.avixy.qrtoken.negocio.Token;
 
 /**
  * Header 'básico'
@@ -12,6 +13,6 @@ public class QrtHeaderPolicy implements HeaderPolicy {
 
     @Override
     public byte[] getHeader(Service service) {
-        return new byte[]{0, 0, (byte) service.getServiceCode().ordinal()};
+        return new byte[]{0, 0, Token.PROTOCOL_VERSION, (byte) service.getServiceCode().ordinal()};
     }
 }
