@@ -48,10 +48,10 @@ public class TemplateServiceComponent extends ServiceComponent {
     private TemplateSelect templateSelect = new TemplateSelect();
 
     private Label aesSelectLabel = new Label("AES Key:");
-    private AesSelect aesSelect = new AesSelect();
+    private AesKeySelect aesKeySelect = new AesKeySelect();
 
     private Label hmacSelectLabel = new Label("HMAC Key:");
-    private HmacSelect hmacSelect = new HmacSelect();
+    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
 
     private Label timestampLabel = new Label("Timestamp:");
     private TimestampField timestampField = new TimestampField();
@@ -105,9 +105,9 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(slotLabel);
         mainNode.add(templateSlotSelect, "wrap");
         mainNode.add(aesSelectLabel);
-        mainNode.add(aesSelect, "wrap");
+        mainNode.add(aesKeySelect, "wrap");
         mainNode.add(hmacSelectLabel);
-        mainNode.add(hmacSelect, "wrap");
+        mainNode.add(hmacKeySelect, "wrap");
         mainNode.add(timestampLabel);
         mainNode.add(timestampField, "wrap");
         mainNode.add(passwordLabel);
@@ -121,7 +121,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             @Override
             public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesSelect, hmacSelectLabel, hmacSelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, argsTitle, scrollPane, argPane);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, argsTitle, scrollPane, argPane);
                 if (newValue != null) {
                     argPane.getChildren().clear();
                     for (TemplateObj templateObj : newValue.getTemplateObjs()) {
@@ -239,8 +239,8 @@ public class TemplateServiceComponent extends ServiceComponent {
     @Override
     public Service getService() throws Exception {
         service.setTemplateSlot(templateSlotSelect.getValue());
-        service.setAesKey(aesSelect.getValue().getHexValue());
-        service.setHmacKey(hmacSelect.getValue().getHexValue());
+        service.setAesKey(aesKeySelect.getValue().getHexValue());
+        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTimestamp(timestampField.getValue());
         service.setPin(passwordField.getText());
         service.setParams(new ArrayList<>());

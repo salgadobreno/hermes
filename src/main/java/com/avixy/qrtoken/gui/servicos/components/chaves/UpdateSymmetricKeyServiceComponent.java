@@ -20,13 +20,13 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
 
     private TimestampField timestampField = new TimestampField();
 
-    private ChaveSelect keySelect = new ChaveSelect();
-    private ChaveSelect authSelect = new ChaveSelect();
+    private AesKeySelect keySelect = new AesKeySelect();
+    private HmacKeySelect authSelect = new HmacKeySelect();
 
     private PasswordField pinField = new PasswordField();
 
-    private HmacSelect currentAuth = new HmacSelect();
-    private AesSelect currentSecret = new AesSelect();
+    private HmacKeySelect currentAuth = new HmacKeySelect();
+    private AesKeySelect currentSecret = new AesKeySelect();
 
     /**
      * @param service

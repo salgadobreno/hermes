@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.AesSelect;
-import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.AesKeySelect;
+import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
@@ -28,8 +28,8 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     private TextFieldLimited contaField = new TextFieldLimited(10);
     private TextFieldLimited foneField = new TextFieldLimited(20);
 
-    private HmacSelect hmacField = new HmacSelect();
-    private AesSelect aesField = new AesSelect();
+    private HmacKeySelect hmacField = new HmacKeySelect();
+    private AesKeySelect aesField = new AesKeySelect();
 
     @Inject
     public StoreUserInfoServiceComponent(StoreUserInfoService service) {

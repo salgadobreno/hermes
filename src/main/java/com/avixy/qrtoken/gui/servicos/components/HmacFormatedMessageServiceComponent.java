@@ -4,7 +4,6 @@ import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.servicos.HmacFormatedMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
 import javafx.scene.Node;
@@ -26,10 +25,10 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
 
     private TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
     private TemplateSelect templateSelect = new TemplateSelect();
-    private HmacSelect hmacSelect = new HmacSelect();
+    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private TimestampField timestampField = new TimestampField();
     private PasswordField passwordField = new PasswordField();
-    private AesSelect keySelect = new AesSelect();
+    private AesKeySelect keySelect = new AesKeySelect();
 
 
     /**
@@ -55,7 +54,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         migPane.add(keySelect, "wrap");
 
         migPane.add(new Label("HMAC Key:"));
-        migPane.add(hmacSelect, "wrap");
+        migPane.add(hmacKeySelect, "wrap");
 
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
@@ -83,7 +82,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         service.setPin(passwordField.getText());
         service.setTimestamp(timestampField.getValue());
         service.setAesKey(keySelect.getValue().getHexValue());
-        service.setHmacKey(hmacSelect.getValue().getHexValue());
+        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTemplate(templateSelect.getValue());
 
         return service;

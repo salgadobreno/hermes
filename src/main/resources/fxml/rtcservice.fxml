@@ -7,11 +7,11 @@
 
 <?import com.avixy.qrtoken.core.extensions.components.TimestampField?>
 <?import javafx.scene.text.Font?>
-<?import com.avixy.qrtoken.core.extensions.components.HmacSelect?>
+<?import com.avixy.qrtoken.core.extensions.components.HmacKeySelect?>
 <AnchorPane fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label layoutX="18.0" layoutY="189.0" text="Chave Simetrica p/ HMAC:"/>
-        <HmacSelect fx:id="keyField" layoutX="18.0" layoutY="206.0" />
+        <HmacKeySelect fx:id="keyField" layoutX="18.0" layoutY="206.0" />
         <ComboBox fx:id="fusoBox" layoutX="101.0" layoutY="87.0" prefWidth="150.0" />
         <Separator layoutX="14.0" layoutY="174.0" prefHeight="0.0" prefWidth="137.0" />
         <TimestampField fx:id="timestampField" layoutX="102.0" layoutY="52.0" prefHeight="25.0" prefWidth="148.0"/>

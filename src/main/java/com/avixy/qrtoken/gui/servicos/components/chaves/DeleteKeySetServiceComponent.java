@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -17,7 +17,7 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
 
     private DeleteSymKeyService service;
     private TimestampField timestampField = new TimestampField();
-    private HmacSelect hmacSelect = new HmacSelect();
+    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
 
     public DeleteKeySetServiceComponent(DeleteSymKeyService service) {
         super(service);
@@ -36,7 +36,7 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("Chave HMAC:"));
-        migPane.add(hmacSelect, "wrap");
+        migPane.add(hmacKeySelect, "wrap");
 
         return migPane;
     }
@@ -45,7 +45,7 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
     public Service getService()
     {
         service.setTimestamp(timestampField.getValue());
-        service.setHmacKey(hmacSelect.getValue().getHexValue());
+        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
 
         return service;
     }

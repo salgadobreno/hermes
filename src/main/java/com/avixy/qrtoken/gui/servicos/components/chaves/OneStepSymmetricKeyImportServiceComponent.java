@@ -1,8 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.ChaveSelect;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.OneStepSymmetricKeyImportService;
@@ -23,8 +21,8 @@ public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceC
     private TimestampField timestampField = new TimestampField();
     private PasswordField passwordField = new PasswordField();
 
-    private ChaveSelect keySelect = new ChaveSelect();
-    private ChaveSelect authSelect = new ChaveSelect();
+    private AesKeySelect keySelect = new AesKeySelect();
+    private HmacKeySelect authSelect = new HmacKeySelect();
 
     /**
      * @param service

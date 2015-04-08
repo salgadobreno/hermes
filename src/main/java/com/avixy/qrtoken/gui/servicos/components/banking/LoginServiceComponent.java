@@ -25,8 +25,8 @@ public class LoginServiceComponent extends ServiceComponent {
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private TimestampField timestampField = new TimestampField();
 
-    private HmacSelect hmacField = new HmacSelect();
-    private AesSelect aesField = new AesSelect();
+    private HmacKeySelect hmacField = new HmacKeySelect();
+    private AesKeySelect aesField = new AesKeySelect();
 
     @Inject
     protected LoginServiceComponent(LoginService service) {

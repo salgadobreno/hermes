@@ -6,12 +6,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ##[Unreleased][unreleased]
 ### Changed
 - Improved Text boundaries
+- UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented protocol wasn't up to date)
 
 ### Added
 - Text accepts |(pipe) arguments for custom X position
 
+### Fixed
+- 'Update symmetric key', 'two step import symmetric key' and 'import symmetric key' key's selection are now filtered
+
 ## 0.1.0 - 30/03/2015
 ### Added
 - Added changelog
-- Hermes alpha: QR Token protocol implementation, various services, cryptographic key management,
-template editor(RAD-like) and management.
+- Hermes alpha: QR Token protocol implementation, various services, cryptographic key management, RAD-like template editor and management.

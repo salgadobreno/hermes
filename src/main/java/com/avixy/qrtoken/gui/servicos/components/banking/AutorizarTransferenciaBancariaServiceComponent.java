@@ -53,8 +53,8 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     @FXML private Pane  dadosPane;
     @FXML private Button okButton;
 
-    private AesSelect comboAes = new AesSelect();
-    private HmacSelect comboHmac = new HmacSelect();
+    private AesKeySelect comboAes = new AesKeySelect();
+    private HmacKeySelect comboHmac = new HmacKeySelect();
     private TemplateSlotSelect templateComboBox = new TemplateSlotSelect();
     private PasswordField pinTextField = new PasswordField();
     private DatePicker datePicker = new FormattedDatePicker();

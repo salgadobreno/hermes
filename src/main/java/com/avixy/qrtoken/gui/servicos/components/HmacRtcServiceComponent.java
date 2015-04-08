@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.HmacSelect;
+import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
 import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -26,7 +26,7 @@ public class HmacRtcServiceComponent extends ServiceComponent {
     protected Label title = new Label();
     protected TimestampField timestampField = new TimestampField();
     protected TimeZoneField timeZoneField = new TimeZoneField();
-    protected HmacSelect keyField = new HmacSelect();
+    protected HmacKeySelect keyField = new HmacKeySelect();
 
 
     @Inject
