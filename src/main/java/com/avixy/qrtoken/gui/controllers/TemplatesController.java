@@ -3,6 +3,8 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.extensions.components.NumberField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextArea;
+import com.avixy.qrtoken.core.extensions.components.templates.TextAlignmentSelect;
+import com.avixy.qrtoken.core.extensions.components.templates.TextSizeSelect;
 import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
@@ -378,15 +380,11 @@ public class TemplatesController extends Application {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker(TemplateColorPicker.BG_TEXT_COLOR);
         TemplateTextTextArea templateTextArea = new TemplateTextTextArea(2, 10);
         NumberField yField = new NumberField();
-        ComboBox<Text.Size> sizeComboBox = new ComboBox<>();
-        ComboBox<Text.Alignment> alignmentComboBox = new ComboBox<>();
+        TextSizeSelect sizeComboBox = new TextSizeSelect();
+        TextAlignmentSelect alignmentSelect = new TextAlignmentSelect();
         Button okButton = new Button("OK");
         public TextForm() {
             // não mostrar todos os sizes pois alguns ainda não são válidos
-            sizeComboBox.setItems(FXCollections.observableArrayList(Text.Size.SMALL, Text.Size.LARGE, Text.Size.HUGE, Text.Size.ARGUMENT));
-            sizeComboBox.getSelectionModel().select(0);
-            alignmentComboBox.setItems(FXCollections.observableArrayList(Arrays.asList(Text.Alignment.values())));
-            alignmentComboBox.getSelectionModel().select(0);
             add(new Label("TEXT COLOR:"));
             add(textColorPicker, "wrap");
             add(new Label("BG COLOR:"));
@@ -398,7 +396,7 @@ public class TemplatesController extends Application {
             add(new Label("SIZE:"));
             add(sizeComboBox, "wrap");
             add(new Label("ALIGNMENT:"));
-            add(alignmentComboBox, "wrap");
+            add(alignmentSelect, "wrap");
             add(okButton, "skip 1, right");
             okButton.setOnAction(saveEvent);
 
@@ -411,7 +409,7 @@ public class TemplatesController extends Application {
                 t.setText(templateTextArea.getValue());
                 t.setColor(textColorPicker.getValue());
                 t.setBgColor(bgColorPicker.getValue());
-                t.setAlignment(alignmentComboBox.getValue());
+                t.setAlignment(alignmentSelect.getValue());
                 t.setSize(sizeComboBox.getValue());
                 canvas.redraw();
                 formsPopOver.hide();
@@ -422,7 +420,7 @@ public class TemplatesController extends Application {
             textColorPicker.setTemplateColor(t.getColor());
             bgColorPicker.setTemplateColor(t.getBgColor());
             sizeComboBox.setValue(t.getSize());
-            alignmentComboBox.setValue(t.getAlignment());
+            alignmentSelect.setValue(t.getAlignment());
 
             text.getOnAction().handle(new ActionEvent());
             formsPopOver.setOnHidden(e -> {
@@ -439,7 +437,7 @@ public class TemplatesController extends Application {
             y = Integer.parseInt(yField.getText());
             text1 = templateTextArea.getValue();
             Text.Size size = sizeComboBox.getValue();
-            Text.Alignment alignment = alignmentComboBox.getValue();
+            Text.Alignment alignment = alignmentSelect.getValue();
             textColor = textColorPicker.getValue();
             bgColor = bgColorPicker.getValue();
             canvas.add(new Text(y, textColor, bgColor, size, alignment, text1));

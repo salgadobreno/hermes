@@ -12,5 +12,6 @@ import javafx.scene.control.ComboBox;
 public class TextAlignmentSelect extends ComboBox<Text.Alignment> {
     public TextAlignmentSelect() {
         setItems(FXCollections.observableArrayList(Text.Alignment.LEFT, Text.Alignment.CENTER, Text.Alignment.RIGHT));
+        getSelectionModel().select(0);
     }
 }

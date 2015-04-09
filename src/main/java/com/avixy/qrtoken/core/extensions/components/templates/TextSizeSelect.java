@@ -12,5 +12,6 @@ import javafx.scene.control.ComboBox;
 public class TextSizeSelect extends ComboBox<Text.Size> {
     public TextSizeSelect() {
         setItems(FXCollections.observableArrayList(Text.Size.SMALL, Text.Size.LARGE, Text.Size.HUGE));
+        getSelectionModel().select(0);
     }
 }

@@ -9,6 +9,7 @@ import com.avixy.qrtoken.core.extensions.components.templates.TextSizeSelect;
 import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;

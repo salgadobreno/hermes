@@ -1,7 +1,7 @@
-package com.avixy.qrtoken.negocio.template;
+package com.avixy.qrtoken.negocio;
 
 /**
- * Stores QR Token constants
+ * QR Token constants
  *
  * Created on 12/02/2015
  *
@@ -12,4 +12,5 @@ public class Token {
     public final static int DISPLAY_HEIGHT = 320;
     public final static int HORIZONTAL_MARGIN = 10;
     public final static int TEMPLATE_QTY = 15;
+    public static final byte PROTOCOL_VERSION = 0;
 }

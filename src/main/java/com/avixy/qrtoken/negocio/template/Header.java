@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
@@ -33,8 +34,7 @@ public class Header implements TemplateObj {
 
     @Override
     public Rectangle getBounds() {
-        Rectangle rectangle = new Rectangle(0, 0 , Token.DISPLAY_WIDTH, HEADER_HEIGHT);
-        return rectangle;
+        return new Rectangle(0, 0 , Token.DISPLAY_WIDTH, HEADER_HEIGHT);
     }
 
     @Override

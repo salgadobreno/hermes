@@ -25,4 +25,9 @@ public abstract class NoParamServiceComponent extends ServiceComponent {
 
         return migPane;
     }
+
+    @Override
+    public Service getService() throws Exception {
+        return service;
+    }
 }

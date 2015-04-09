@@ -18,10 +18,10 @@
                     </font>
                 </Label>
                 <Label layoutX="15.0" layoutY="48.0" text="Identificação:" />
-                <Label layoutX="15.0" layoutY="84.0" text="Algoritmo:" />
+                <Label layoutX="15.0" layoutY="84.0" text="Tipo:" />
                 <Label layoutX="15.0" layoutY="121.0" text="Valor:" />
                 <TextField fx:id="idField" layoutX="97.0" layoutY="44.0" prefHeight="25.0" prefWidth="207.0" />
-                <ComboBox fx:id="algoComboBox" layoutX="97.0" layoutY="80.0" prefWidth="150.0" />
+                <ComboBox fx:id="tipoComboBox" layoutX="97.0" layoutY="80.0" prefWidth="150.0" />
                 <TextField fx:id="valorField" layoutX="97.0" layoutY="117.0" prefHeight="25.0" prefWidth="207.0" />
                 <Button defaultButton="true" layoutX="373.0" layoutY="123.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
             <ComboBox fx:id="lengthComboBox" layoutX="253.0" layoutY="80.0" />

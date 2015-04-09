@@ -2,7 +2,7 @@ package com.avixy.qrtoken.core.extensions.components;
 
 import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
-import com.avixy.qrtoken.negocio.template.Token;
+import com.avixy.qrtoken.negocio.Token;
 import javafx.scene.control.ComboBox;
 
 /**

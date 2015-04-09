@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * Created on 13/08/2014
  */
-public class TesteServiceComponent extends ServiceComponent {
+public class TesteServiceComponent extends NoParamServiceComponent {
     private Logger logger = LoggerFactory.getLogger(TesteServiceComponent.class);
 
     private static final String FXML_PATH = "/fxml/dindin.fxml";

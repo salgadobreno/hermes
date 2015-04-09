@@ -302,6 +302,7 @@ class TemplateParser {
         bin.delete(0, DIMENSION_LENGTH);
         return dimension;
     }
+
     private int getDimension(int n) {
         int dimension = Integer.parseInt(bin.substring(0, n), 2);
         bin.delete(0, n);

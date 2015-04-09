@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.params.ByteWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
@@ -8,12 +9,47 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created on 12/02/2015
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Text implements TemplateObj {
+    public enum Alignment {
+        LEFT, CENTER, RIGHT, ARGUMENT;
+
+        public String toBinaryString() {
+            return new NBitsParam((byte)2, (byte)ordinal()).toBinaryString();
+        }
+
+        public boolean isArg() { return this == ARGUMENT; };
+
+        static int calcAlignment(Text textObj)  {
+            int maxTextLength = 0;
+            String[] lines = textObj.getText().split("\\n");
+            for (String line : lines) {
+                if (maxTextLength < line.length()) maxTextLength = line.length();
+            }
+
+            switch (textObj.getAlignment()) {
+                case CENTER:
+                    return (Token.DISPLAY_WIDTH - (maxTextLength * textObj.getSize().getWidth())) >> 1;
+                case LEFT:
+                    return Token.HORIZONTAL_MARGIN;
+                case RIGHT:
+                    return (Token.DISPLAY_WIDTH - (textObj.getSize().getWidth() * maxTextLength));
+                case ARGUMENT:
+                    return Token.HORIZONTAL_MARGIN;
+                default:
+                    throw new IllegalArgumentException("Unexpected alignment");
+            }
+        }
+    }
 
     public enum Size {
         MINIMAL(0,0,0), /**< 0000 - Minima: 6x8 - 40 linhas de 40 caracteres*/
@@ -49,15 +85,6 @@ public class Text implements TemplateObj {
         }
         public boolean isArg() { return this == ARGUMENT; };
     }
-    public enum Alignment {
-        LEFT, CENTER, RIGHT, ARGUMENT;
-
-        public String toBinaryString() {
-            return new NBitsParam((byte)2, (byte)ordinal()).toBinaryString();
-        }
-
-        public boolean isArg() { return this == ARGUMENT; };
-    }
 
     private int y;
     private TemplateColor color;
@@ -82,17 +109,30 @@ public class Text implements TemplateObj {
 
     @Override
     public void render(GraphicsContext gc) {
-        Rectangle r = getBounds();
-        gc.setFill(bgColor.toColor());
-        gc.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-        gc.setFont(font);
-        gc.setFill(color.toColor());
-        gc.fillText(text, calcAlignment(this), y + size.getHeight() - 3);
+        for (TextToken textToken : allTokens()) {
+            Rectangle r = textToken.getBounds();
+            gc.setFill(textToken.getBgColor().toColor());
+            gc.fillRect(r.getX(), r.getY(), textToken.getText().length() * textToken.getSize().getWidth(), r.getHeight());
+            gc.setFont(textToken.getFont());
+            gc.setFill(textToken.getColor().toColor());
+            gc.fillText(textToken.getText(), Text.Alignment.calcAlignment(textToken), textToken.getY() + size.getHeight() - 3); //TODO
+        }
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(0, y, Token.DISPLAY_WIDTH, size.height);
+        double x,y,w,h;
+        double maxX = 0;
+        x = y = 999;
+        w = h = 0;
+        for (TextToken textToken : allTokens()) {
+            x = textToken.getBounds().getX() < x ? textToken.getBounds().getX() : x;
+            maxX = textToken.getBounds().getX() + textToken.getBounds().getWidth() > maxX ? textToken.getBounds().getX() + textToken.getBounds().getWidth() : maxX;
+            y = textToken.getBounds().getY() < y ? textToken.getBounds().getY() : y;
+            w = textToken.getBounds().getWidth() > w ? textToken.getBounds().getWidth() : w;
+            h = textToken.getBounds().getHeight() + textToken.getBounds().getY() > h ? textToken.getBounds().getHeight() + textToken.getBounds().getY() : h;
+        }
+        return new Rectangle(x, y, maxX - x, (h - y));
     }
 
     @Override
@@ -106,24 +146,32 @@ public class Text implements TemplateObj {
                 new HuffmanEncodedParam(text).toBinaryString();
     }
 
-    static int calcAlignment(Text textObj)  {
-        int maxTextLength = 0;
-        String[] lines = textObj.getText().split("\\n");
-        for (String line : lines) {
-            if (maxTextLength < line.length()) maxTextLength = line.length();
+    private List<TextToken> allTokens() {
+        List<TextToken> textTokens = new ArrayList<>();
+        String[] lines = text.split("\\n");
+        for (int i = 0; i < lines.length; i++) {
+            textTokens.add(new TextToken(y + (size.getHeight() * i),
+                            color,
+                            bgColor,
+                            size,
+                            alignment,
+                            lines[i])
+            );
         }
 
-        switch (textObj.getAlignment()) {
-            case CENTER:
-                return (Token.DISPLAY_WIDTH - (maxTextLength * textObj.getSize().getWidth())) >> 1;
-            case LEFT:
-                return Token.HORIZONTAL_MARGIN;
-            case RIGHT:
-                return (Token.DISPLAY_WIDTH - (textObj.getSize().getWidth() * maxTextLength));
-            case ARGUMENT:
-                return Token.HORIZONTAL_MARGIN;
-            default:
-                throw new IllegalArgumentException("Unexpected alignment");
+        return textTokens;
+    }
+
+    class TextToken extends Text {
+        public TextToken(int y, TemplateColor color, TemplateColor bgColor, Size size, Text.Alignment alignment, String text) {
+            super(y, color, bgColor, size, alignment, text);
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            int x = Text.Alignment.calcAlignment(this);
+
+            return new Rectangle(x, getY(), (getText().length() * getSize().getWidth()), getSize().getHeight());
         }
     }
 
@@ -187,11 +235,11 @@ public class Text implements TemplateObj {
         this.size = size;
     }
 
-    public Alignment getAlignment() {
+    public Text.Alignment getAlignment() {
         return alignment;
     }
 
-    public void setAlignment(Alignment alignment) {
+    public void setAlignment(Text.Alignment alignment) {
         this.alignment = alignment;
     }
 }
