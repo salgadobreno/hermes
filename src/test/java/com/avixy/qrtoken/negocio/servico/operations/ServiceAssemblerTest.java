@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.operations;
 
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
@@ -22,11 +23,9 @@ public class ServiceAssemblerTest {
 
     HeaderPolicy headerPolicy = new QrtHeaderPolicy();
     SettableTimestampPolicy timestampPolicy = new SettableTimestampPolicy();
-    MessagePolicy messagePolicy = new DefaultMessagePolicy();
     HmacKeyPolicy hmacKeyPolicy = new HmacKeyPolicy();
     PasswordPolicy passwordPolicy = new PasswordPolicy();
 
-    HeaderPolicy noHeaderPolicy = new NoHeaderPolicy();
     TimestampPolicy noTimestampPolicy = new NoTimestampPolicy();
     MessagePolicy noMessagePolicy = new DefaultMessagePolicy();
     HmacKeyPolicy noMacPolicy = new NoMacPolicy();
@@ -59,28 +58,25 @@ public class ServiceAssemblerTest {
 
     @Test
     public void testGetComHeader() throws Exception {
-//        expectedOut = new byte[]{0, 0, 0, 'a', 'b', 'c', 'd', '1', '2', '3', '4'};
-        expectedOut = new byte[]{0, 0, 0, 'a', 'b', 'c', 'd', '1', '2', '3', '4', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}; // monkey patch :/
+        expectedOut = new byte[]{0, 0, Token.PROTOCOL_VERSION,0, 'a', 'b', 'c', 'd', '1', '2', '3', '4', 'x', 'x', 'x', 'x', 'x', 'x'}; // monkey patch :/
         assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, noMacPolicy, noPasswordPolicy));
     }
 
     @Test
     public void testComHeaderETimestamp() throws Exception {
-//        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4'};
-        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4', 'x', 'x', 'x'}; // monkey patch :/
+        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,0,0,0,0,'a','b','c','d','1','2','3','4', 'x', 'x'}; // monkey patch :/
         assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, noPasswordPolicy));
     }
 
     @Test
     public void testComHeaderTimestampEPin() throws Exception {
-        expectedOut = new byte[]{0,0,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',4}; // monkey patch :/
+        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',4}; // monkey patch :/
         assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, passwordPolicy));
     }
 
     @Test
     public void testComHmacEPin() throws Exception {
-//        expectedOut = new byte[]{0,0,0,'a','b','c','d','1','2','3','4'};
-        expectedOut = new byte[]{0,0,0,'a','b','c','d','1','2','3','4', 'x', 'x'}; // monkey patch :/
+        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,'a','b','c','d','1','2','3','4', 'x'}; // monkey patch :/
         byte[] outComHmac = hmacKeyPolicy.apply(expectedOut);
         byte[] outComHmacEPin = ArrayUtils.addAll(outComHmac, pinBytes);
         assertArrayEquals(outComHmacEPin, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, hmacKeyPolicy, passwordPolicy));
