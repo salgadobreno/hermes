@@ -48,6 +48,6 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         eraseKtamperService.setTimestamp(timestampField.getValue());
         eraseKtamperService.setPin(passwordField.getText());
 
-        return super.getService();
+        return eraseKtamperService;
     }
 }

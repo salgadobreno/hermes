@@ -36,16 +36,16 @@ public class ChavesController {
     @FXML private TableView<Chave> chavesTable;
     @FXML private TextField idField;
     @FXML private TextField valorField;
-    @FXML private ComboBox<KeyType> algoComboBox;
+    @FXML private ComboBox<KeyType> tipoComboBox;
     @FXML private ComboBox<Integer> lengthComboBox;
 
     private Chave chave;
-    private List<KeyType> algorythmList = new ArrayList<>();
+    private List<KeyType> keyTypeList = new ArrayList<>();
 
     private void initChave(){
         chave = new Chave();
         valorField.clear();
-        chave.setKeyType(algoComboBox.getValue());
+        chave.setKeyType(tipoComboBox.getValue());
         chave.setLength(lengthComboBox.getValue());
     }
 
@@ -53,20 +53,20 @@ public class ChavesController {
         chave.setId(idField.getText());
         chave.setValor(valorField.getText());
         chave.setLength(lengthComboBox.getValue());
-        chave.setKeyType(algoComboBox.getValue());
+        chave.setKeyType(tipoComboBox.getValue());
     }
 
     public void initialize(){
-        algoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
+        tipoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
             @Override
             public void changed(ObservableValue<? extends KeyType> observableValue, KeyType keyType, KeyType keyType2) {
                 lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyType2.getKeyLengths())));
                 lengthComboBox.getSelectionModel().select(0);
             }
         });
-        Collections.addAll(algorythmList, KeyType.values());
-        algoComboBox.setItems(FXCollections.observableList(algorythmList));
-        algoComboBox.getSelectionModel().select(0);
+        Collections.addAll(keyTypeList, KeyType.values());
+        tipoComboBox.setItems(FXCollections.observableList(keyTypeList));
+        tipoComboBox.getSelectionModel().select(0);
 
         /* basic validation */
         valorField.textProperty().addListener(new ChangeListener<String>() {
@@ -91,7 +91,7 @@ public class ChavesController {
 
     public void save(){
         logger.info("idField.getText() = " + idField.getText());
-        logger.info("algoComboBox.getValue() = " + algoComboBox.getValue());
+        logger.info("tipoComboBox.getValue() = " + tipoComboBox.getValue());
         logger.info("valorField.getText() = " + valorField.getText());
         logger.info("valorField.getLength() = " + valorField.getLength());
 
@@ -117,16 +117,16 @@ public class ChavesController {
 
             /* colunas */
             TableColumn<Chave, String> colunaId = new TableColumn<>("Id");
-            TableColumn<Chave, String> colunaAlgo = new TableColumn<>("Algoritmo");
+            TableColumn<Chave, String> colunaTipo = new TableColumn<>("Tipo");
             TableColumn<Chave, String> colunaValor = new TableColumn<>("Valor");
             TableColumn<Chave, Chave> colunaDelete = new TableColumn<>("");
 
             /* Value factories */
             colunaId.setCellValueFactory(new PropertyValueFactory<Chave, String>("Id"));
-            colunaAlgo.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Chave, String>, ObservableValue<String>>() {
+            colunaTipo.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Chave, String>, ObservableValue<String>>() {
                 @Override
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<Chave, String> chaveStringCellDataFeatures) {
-                    return new SimpleStringProperty(chaveStringCellDataFeatures.getValue().getAlgoritmo().toString());
+                    return new SimpleStringProperty(chaveStringCellDataFeatures.getValue().getDisplayName());
                 }
             });
             colunaValor.setCellValueFactory(new PropertyValueFactory<Chave, String>("Valor"));
@@ -145,12 +145,12 @@ public class ChavesController {
 
             /* widths */
             colunaId.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
-            colunaAlgo.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
+            colunaTipo.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
             colunaValor.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
             colunaDelete.prefWidthProperty().bind(tabela.widthProperty().multiply(0.1));
 
             tabela.itemsProperty().set(chaves.getObservableChaves());
-            tabela.getColumns().addAll(colunaId, colunaAlgo, colunaValor, colunaDelete);
+            tabela.getColumns().addAll(colunaId, colunaTipo, colunaValor, colunaDelete);
         }
 
         /** Célula com botão para deletar uma <code>Chave</code>. */

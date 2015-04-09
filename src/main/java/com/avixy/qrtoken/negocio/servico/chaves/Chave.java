@@ -35,8 +35,8 @@ public class Chave {
         return id;
     }
 
-    public KeyTypeWrap getAlgoritmo() {
-        return new KeyTypeWrap(keyType, length);
+    public String getDisplayName() {
+        return new KeyTypeWrap(keyType, length).toString();
     }
 
     public byte[] getHexValue() {
@@ -78,7 +78,7 @@ public class Chave {
 
     @Override
     public String toString() {
-        return getId() + " - " + getAlgoritmo();
+        return getId() + " - " + getDisplayName();
     }
 
     public String getErrors() {
@@ -102,7 +102,7 @@ public class Chave {
         this.length = length;
     }
 
-    /** Represents a Cryptography algorythm with Key Size */
+    /** KeyType + Key Size */
     public static class KeyTypeWrap {
         private KeyType keyType;
         private int length;

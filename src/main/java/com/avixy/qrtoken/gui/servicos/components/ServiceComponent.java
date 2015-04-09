@@ -32,7 +32,7 @@ public abstract class ServiceComponent extends VBox {
         this.service = service;
     }
 
-    public Service getService() throws Exception { return service; }
+    public abstract Service getService() throws Exception;
 
     public abstract Node getNode();
 

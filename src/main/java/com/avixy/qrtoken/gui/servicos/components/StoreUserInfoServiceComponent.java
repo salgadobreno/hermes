@@ -87,7 +87,7 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         service.setAesKey(aesField.getValue().getHexValue());
         service.setHmacKey(hmacField.getValue().getHexValue());
 
-        return super.getService();
+        return service;
     }
 
 }
