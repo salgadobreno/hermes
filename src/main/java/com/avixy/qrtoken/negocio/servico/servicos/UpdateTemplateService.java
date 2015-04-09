@@ -12,8 +12,13 @@ import com.avixy.qrtoken.negocio.servico.params.template.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
+import com.avixy.qrtoken.negocio.template.TemplateSize;
+import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -45,7 +50,19 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
 
     @Override
     public byte[] getMessage() {
-        return BinaryMsg.create().append(templateSlotParam, templateParam).toByteArray();
+        int size;
+        switch (TemplateSize.getTemplateSizeFor(templateSlotParam.getValue())) {
+            case SHORT:
+                size = TemplateSize.SHORT.getSize();
+                break;
+            case LONG:
+                size = TemplateSize.LONG.getSize();
+                break;
+            default:
+                throw new RuntimeException("Unrecognized TemplateSize");
+        }
+        String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, '1');
+        return BinaryMsg.get(msg);
     }
 
     public void setTemplateSlot(byte slot) {

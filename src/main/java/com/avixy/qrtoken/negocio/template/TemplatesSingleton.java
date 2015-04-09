@@ -21,31 +21,11 @@ import java.util.List;
 public class TemplatesSingleton {
 
     /**
-     * Thrown when {@link com.avixy.qrtoken.negocio.template.Template} size exceeds {@link com.avixy.qrtoken.negocio.template.TemplatesSingleton.templateSize}
+     * Thrown when {@link com.avixy.qrtoken.negocio.template.Template} size exceeds {@link TemplateSize}
      */
     public class TemplateOverflowException extends Exception {
         public TemplateOverflowException(String message) {
             super(message);
-        }
-    }
-
-
-    enum templateSize {
-        SHORT(10, 200), LONG(15, 400);
-        private final int indexUpTo;
-        private final int size;
-
-        templateSize(int indexUpTo, int size) {
-            this.indexUpTo = indexUpTo;
-            this.size = size;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public int getIndexUpTo() {
-            return indexUpTo;
         }
     }
 
@@ -116,7 +96,7 @@ public class TemplatesSingleton {
      * Updates a single line the CSV file with the template
      *
      * @param template
-     * @throws TemplateOverflowException if <code>Template</code> size exceeds {@link com.avixy.qrtoken.negocio.template.TemplatesSingleton.templateSize} limit
+     * @throws TemplateOverflowException if <code>Template</code> size exceeds {@link TemplateSize} limit
      */
     public void persist(Template template) throws TemplateOverflowException {
         try {
@@ -131,13 +111,13 @@ public class TemplatesSingleton {
                 line = reader.readLine();
                 if (line == null) {
                     if (i == index) {
-                        storeTemplate(template, i < templateSize.SHORT.getIndexUpTo() ? templateSize.SHORT : templateSize.LONG, bufferedWriter);
+                        writeTemplate(template, TemplateSize.getTemplateSizeFor(i), bufferedWriter);
                     } else {
                         bufferedWriter.newLine();
                     }
                 } else {
                     if (i == index) {
-                        storeTemplate(template, i < templateSize.SHORT.getIndexUpTo() ? templateSize.SHORT : templateSize.LONG, bufferedWriter);
+                        writeTemplate(template, TemplateSize.getTemplateSizeFor(i), bufferedWriter);
                     } else {
                         bufferedWriter.write(line);
                         bufferedWriter.newLine();
@@ -155,11 +135,11 @@ public class TemplatesSingleton {
         }
     }
 
-    private void storeTemplate(Template template, templateSize templateSize, BufferedWriter bufferedWriter) throws IOException, TemplateOverflowException {
-        if (BinaryMsg.get(template.toBinary()).length < templateSize.getSize() ) {
+    private void writeTemplate(Template template, TemplateSize TemplateSize, BufferedWriter bufferedWriter) throws IOException, TemplateOverflowException {
+        if (BinaryMsg.get(template.toBinary()).length < TemplateSize.getSize() ) {
             bufferedWriter.write(template.toCSV());
         } else {
-            throw new TemplateOverflowException("Template " + templateSize.name() + " max size is " + templateSize.getSize() + "."
+            throw new TemplateOverflowException("Template " + TemplateSize.name() + " max size is " + TemplateSize.getSize() + "."
             + System.lineSeparator() + "Template size was " + BinaryMsg.get(template.toBinary()).length);
         }
     }

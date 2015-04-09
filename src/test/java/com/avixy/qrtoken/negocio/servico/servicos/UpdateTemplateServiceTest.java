@@ -9,17 +9,20 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
+import com.avixy.qrtoken.negocio.template.TemplateSize;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UpdateTemplateServiceTest {
     Template template = new Template() {
         @Override
         public String toBinary() {
-            return "00000001";
+            return "00000001"; //[1]
         }
     };
     HeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
@@ -32,11 +35,8 @@ public class UpdateTemplateServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        expectedBinaryMsg = "0001" + //slot 1
-                "00000001"; //template
-
+        service.setTemplateSlot((byte) 0);
         service.setTemplate(template);
-        service.setTemplateSlot((byte) 1);
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
@@ -44,8 +44,21 @@ public class UpdateTemplateServiceTest {
     }
 
     @Test
-    public void testMessage() throws Exception {
+    public void testShortSlotMessage() throws Exception {
+        service.setTemplateSlot((byte) 0);
+        expectedBinaryMsg = StringUtils.rightPad("0000" + "00000001", (TemplateSize.SHORT.getSize() * 8), '1');
+
         assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
+        assertEquals(200, service.getMessage().length);
+    }
+
+    @Test
+    public void testLongSlotMessage() throws Exception {
+        service.setTemplateSlot((byte) 14);
+        expectedBinaryMsg = StringUtils.rightPad("1110" + "00000001", (TemplateSize.LONG.getSize() * 8), '1');
+
+        assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
+        assertEquals(400, service.getMessage().length);
     }
 
     @Test

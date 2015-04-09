@@ -20,4 +20,8 @@ public class FourBitParam implements Param {
          */
         return Integer.toBinaryString((b & 0xFF) + 0x10).substring(1);
     }
+
+    public byte getValue() {
+        return b;
+    }
 }
