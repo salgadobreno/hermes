@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
+import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
@@ -31,6 +32,8 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     private TimeZoneField timeZoneField = new TimeZoneField();
     private TextFieldLimited hwVersionField = new TextFieldLimited(10);
     private TextFieldLimited serialNumberField = new TextFieldLimited(10);
+    private PasswordField pinField = new PasswordField();
+    private PasswordField pukField = new PasswordField();
 
     @Inject
     public GenerateKtamperServiceComponent(GenerateKtamperService service) {
@@ -57,6 +60,12 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
         migPane.add(new Label("Número de série:"));
         migPane.add(serialNumberField, "wrap");
 
+        migPane.add(new Label("PIN:"));
+        migPane.add(pinField, "wrap");
+
+        migPane.add(new Label("PUK:"));
+        migPane.add(pukField, "wrap");
+
         return migPane;
     }
 
@@ -67,7 +76,9 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
         generateKtamperService.setTimezone(timeZoneField.getTimeZone());
         generateKtamperService.setHWVersion(hwVersionField.getText());
         generateKtamperService.setSerialNumber(serialNumberField.getText());
+        generateKtamperService.setPin(pinField.getText());
+        generateKtamperService.setPuk(pukField.getText());
 
-        return super.getService();
+        return generateKtamperService;
     }
 }

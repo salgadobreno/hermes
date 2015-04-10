@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Improved Text boundaries
 - UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented protocol wasn't up to date)
+- GenerateKTamper also stores PIN/PUK
 
 ### Added
 - Text accepts |(pipe) arguments for custom X position

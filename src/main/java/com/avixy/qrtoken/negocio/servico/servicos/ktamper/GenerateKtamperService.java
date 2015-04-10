@@ -1,12 +1,11 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
-import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
-import com.avixy.qrtoken.negocio.servico.params.TimeZoneParam;
+import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -24,6 +23,8 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
     protected TimeZoneParam timezone;
     private StringWithLengthParam serialNumber;
     private StringWithLengthParam hardwareVersion;
+    private StringWithLengthParam pin;
+    private StringWithLengthParam puk;
 
     @Inject
     public GenerateKtamperService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy) {
@@ -43,7 +44,7 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
 
     @Override
     public byte[] getMessage() {
-        return BinaryMsg.create().append(timezone, hardwareVersion, serialNumber).toByteArray();
+        return BinaryMsg.create().append(timezone, hardwareVersion, serialNumber, pin, puk).toByteArray();
     }
 
     @Override
@@ -59,5 +60,12 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
 
     public void setHWVersion(String HWVersion) { this.hardwareVersion = new StringWithLengthParam(HWVersion); }
 
+    public void setPin(String pin) {
+        this.pin = new StringWithLengthParam(pin);
+    }
+
+    public void setPuk(String puk) {
+        this.puk = new StringWithLengthParam(puk);
+    }
 }
 

@@ -50,7 +50,7 @@ public class PinParamTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testPinMaximumIsFourDigits() throws Exception {
+    public void testPinMaximumIsTwelveDigits() throws Exception {
         new PinParam("123456789abcd");
     }
 }

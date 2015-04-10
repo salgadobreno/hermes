@@ -25,6 +25,7 @@ public class TimeZoneField extends ComboBox<String> {
         ArrayList<String> timeZones = new ArrayList<>(TIME_ZONE_MAP.keySet());
         Collections.sort(timeZones);
         setItems(FXCollections.observableList(timeZones));
+        getSelectionModel().select("Brasilia");
     }
 
     public TimeZone getTimeZone() {
