@@ -7,7 +7,9 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -16,8 +18,11 @@ import com.avixy.qrtoken.negocio.template.TemplateSize;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -29,13 +34,15 @@ import java.util.Date;
 public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble, PinAble {
     private TemplateSlotParam templateSlotParam;
     private TemplateParam templateParam;
+    private RandomGenerator paddingGenerator;
 
     @Inject
-    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, RandomGenerator paddingGenerator) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
+        this.paddingGenerator = paddingGenerator;
     }
 
     @Override
@@ -61,7 +68,10 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
             default:
                 throw new RuntimeException("Unrecognized TemplateSize");
         }
-        String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, '1');
+//        String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, new StringWrapperParam(RandomStringUtils.randomAlphanumeric(size)).toBinaryString());
+        byte[] random = new byte[size];
+        paddingGenerator.nextBytes(random);
+        String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, new StringWrapperParam(new String(random, Charset.forName("ISO-8859-1"))).toBinaryString());
         return BinaryMsg.get(msg);
     }
 

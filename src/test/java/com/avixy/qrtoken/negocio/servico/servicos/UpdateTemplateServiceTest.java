@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -29,7 +30,15 @@ public class UpdateTemplateServiceTest {
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy);
+    RandomGenerator randomGenerator = new RandomGenerator() {
+        @Override
+        public void nextBytes(byte[] bytes) {
+            for (int i = 0; i < bytes.length; i++) {
+                bytes[i] = -1;
+            }
+        }
+    };
+    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy, randomGenerator);
 
     String expectedBinaryMsg;
 
