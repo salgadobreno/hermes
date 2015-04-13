@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.template;
 
+import com.avixy.qrtoken.negocio.Token;
+
 /**
 * Created on 09/04/2015
 *
@@ -18,7 +20,7 @@ public enum TemplateSize {
     }
 
     public static TemplateSize getTemplateSizeFor(int templateIndex) {
-        if (templateIndex >= 0 && templateIndex < 15) {
+        if (templateIndex >= 0 && templateIndex < Token.TEMPLATE_QTY) {
             return SHORT;
         } else {
             throw new IllegalArgumentException("Invalid index");
