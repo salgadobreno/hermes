@@ -136,7 +136,7 @@ public class TemplatesSingleton {
     }
 
     private void writeTemplate(Template template, TemplateSize TemplateSize, BufferedWriter bufferedWriter) throws IOException, TemplateOverflowException {
-        if (BinaryMsg.get(template.toBinary()).length < TemplateSize.getSize() ) {
+        if (BinaryMsg.get(template.toBinary()).length <= TemplateSize.getSize() ) {
             bufferedWriter.write(template.toCSV());
         } else {
             throw new TemplateOverflowException("Template " + TemplateSize.name() + " max size is " + TemplateSize.getSize() + "."
