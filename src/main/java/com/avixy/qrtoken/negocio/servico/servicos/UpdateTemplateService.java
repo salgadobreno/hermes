@@ -65,7 +65,6 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
             default:
                 throw new RuntimeException("Unrecognized TemplateSize");
         }
-//        String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, new StringWrapperParam(RandomStringUtils.randomAlphanumeric(size)).toBinaryString());
         byte[] random = new byte[size];
         paddingGenerator.nextBytes(random);
         String msg = StringUtils.rightPad(templateSlotParam.toBinaryString() + templateParam.toBinaryString(), size * 8, new StringWrapperParam(new String(random, Charset.forName("ISO-8859-1"))).toBinaryString());
