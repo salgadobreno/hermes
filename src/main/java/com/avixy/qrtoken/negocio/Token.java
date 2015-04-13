@@ -12,5 +12,5 @@ public class Token {
     public final static int DISPLAY_HEIGHT = 320;
     public final static int HORIZONTAL_MARGIN = 10;
     public final static int TEMPLATE_QTY = 15;
-    public static final byte PROTOCOL_VERSION = 0;
+    public static final byte PROTOCOL_VERSION = 0x10;
 }
