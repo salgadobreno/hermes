@@ -2,8 +2,13 @@ package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.TokenHuffman;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -25,6 +30,15 @@ import java.util.Objects;
  */
 public class Template {
     private ObservableList<TemplateScreen> templateScreens = FXCollections.observableArrayList(FXCollections.observableArrayList());
+    private IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
+    {
+        templateScreens.addListener(new ListChangeListener<TemplateScreen>() {
+            @Override
+            public void onChanged(Change<? extends TemplateScreen> c) {
+                screenQtyProperty.setValue(templateScreens.size());
+            }
+        });
+    }
 
     private String name = "";
 
@@ -91,7 +105,7 @@ public class Template {
         return template;
     }
 
-    public List<TemplateScreen> getTemplateScreens() {
+    public ObservableList<TemplateScreen> getTemplateScreens() {
         return templateScreens;
     }
 
@@ -216,6 +230,9 @@ public class Template {
         }
     }
 
+    public IntegerProperty screenQtyProperty() {
+        return screenQtyProperty;
+    }
 }
 
 /**

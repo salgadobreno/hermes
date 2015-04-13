@@ -44,7 +44,7 @@ public class TokenCanvas extends Canvas {
     }
 
     public void remove(TemplateObj templateObj) {
-        this.template.templateScreen(currScreenProperty.get()).remove(templateObj);
+        template.templateScreen(template.screenIndexOf(templateObj)).remove(templateObj);
         redraw();
     }
 
@@ -84,9 +84,9 @@ public class TokenCanvas extends Canvas {
     }
 
     public void highlight(TemplateObj templateObj) {
-        currScreenProperty.set(template.screenIndexOf(templateObj));
-        redraw();
         if (templateObj != null) {
+            currScreenProperty.set(template.screenIndexOf(templateObj));
+            redraw();
             Rectangle rectangle = templateObj.getBounds();
             if (rectangle != null) {
                 getGraphicsContext2D().setStroke(Color.RED);

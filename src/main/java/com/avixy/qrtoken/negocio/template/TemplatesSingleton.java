@@ -69,26 +69,13 @@ public class TemplatesSingleton {
 
     public ObservableList<Template> getObservableTemplates() { return observableTemplates; }
 
-    public void remove(Template chave){
-        observableTemplates.remove(chave);
-        persist();
-    }
-
-    /**
-     * Updates the CSV file with the current state of <code>ObservableTemplates</code>
-     * */
-    private void persist() {
+    public void remove(Template template){
+        template.clear();
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter(csv));
-            for (Template template : templates) {
-                String[] arr = {template.getName(), template.toBinary()};
-                writer.writeNext(arr);
-            }
-
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            persist(template);
+        } catch (TemplateOverflowException ignore) {
+            //should not happen since the template got cleared
+            ignore.printStackTrace();
         }
     }
 

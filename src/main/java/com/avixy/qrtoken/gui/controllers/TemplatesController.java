@@ -9,7 +9,6 @@ import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -34,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -78,7 +76,7 @@ public class TemplatesController extends Application {
     private ChangeListener<Template> templateSelectedEvent = (observable, oldValue, newValue) -> {
         canvas.setTemplate(newValue);
         templateObjListView.setItems(newValue.templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
-        screenQtyProperty.bind(Bindings.createIntegerBinding(newValue.getTemplateScreens()::size));
+        screenQtyProperty.bind(newValue.screenQtyProperty());
         waitButton.disableProperty().bind(newValue.templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     };
     private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> canvas.highlight(newValue);
