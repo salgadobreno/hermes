@@ -62,9 +62,9 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
             case SHORT:
                 size = TemplateSize.SHORT.getSize();
                 break;
-            case LONG:
-                size = TemplateSize.LONG.getSize();
-                break;
+//            case LONG:
+//                size = TemplateSize.LONG.getSize();
+//                break;
             default:
                 throw new RuntimeException("Unrecognized TemplateSize");
         }

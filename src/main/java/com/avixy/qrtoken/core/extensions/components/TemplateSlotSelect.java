@@ -18,19 +18,19 @@ public class TemplateSlotSelect extends ComboBox<Integer> {
             getItems().add(i);
         }
         getSelectionModel().select(0);
-        setConverter(new StringConverter<Integer>() {
-            @Override
-            public String toString(Integer templateIndex) {
-                TemplateSize templateSize = TemplateSize.getTemplateSizeFor(templateIndex);
-
-                return templateIndex + " - " + templateSize.name().toLowerCase();
-            }
-
-            @Override
-            public Integer fromString(String string) {
-                return Integer.parseInt(string.substring(1));
-            }
-        });
+//        setConverter(new StringConverter<Integer>() {
+//            @Override
+//            public String toString(Integer templateIndex) {
+//                TemplateSize templateSize = TemplateSize.getTemplateSizeFor(templateIndex);
+//
+//                return templateIndex + " - " + templateSize.name().toLowerCase();
+//            }
+//
+//            @Override
+//            public Integer fromString(String string) {
+//                return Integer.parseInt(string.substring(1));
+//            }
+//        });
     }
 
     public Template getTemplate(){

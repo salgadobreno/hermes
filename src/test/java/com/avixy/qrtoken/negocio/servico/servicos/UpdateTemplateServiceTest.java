@@ -61,14 +61,14 @@ public class UpdateTemplateServiceTest {
         assertEquals(200, service.getMessage().length);
     }
 
-    @Test
-    public void testLongSlotMessage() throws Exception {
-        service.setTemplateSlot((byte) 14);
-        expectedBinaryMsg = StringUtils.rightPad("1110" + "00000001", (TemplateSize.LONG.getSize() * 8), '1');
-
-        assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
-        assertEquals(400, service.getMessage().length);
-    }
+//    @Test
+//    public void testLongSlotMessage() throws Exception {
+//        service.setTemplateSlot((byte) 14);
+//        expectedBinaryMsg = StringUtils.rightPad("1110" + "00000001", (TemplateSize.LONG.getSize() * 8), '1');
+//
+//        assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
+//        assertEquals(400, service.getMessage().length);
+//    }
 
     @Test
     public void testOperations() throws Exception {
