@@ -12,13 +12,16 @@ public enum ServiceCode {
     SERVICE_WHOIS,										/**< Ping: mostra data e hora, fuso, versão de HW, FW,SN lógico */
     SERVICE_STORE_USER_INFO,							/**< Serviço para armazenar as informa??es do usuário*/
     SERVICE_HMAC_TEMPLATE_MESSAGE,						/**< Mensagem segura (cifrada, com PIN) com um template */
+    SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN,			/**< Mensagem segura (cifrada, com PIN) com um template */
     SERVICE_SIGNED_TEMPLATE_MESSAGE,					/**< Mensagem segura (cifrada, com PIN) com um template */
     SERVICE_HMAC_FORMATTED_MESSAGE,						/**< Mensagem segura (cifrada, com PIN) com formatação */
+    SERVICE_HMAC_FORMATTED_MESSAGE_WITHOUT_PIN,			/**< Mensagem segura (cifrada, com PIN) com formatação */
     SERVICE_SIGNED_FORMATTED_MESSAGE,					/**< Mensagem segura (cifrada, com PIN) com formatação */
     SERVICE_DIGITAL_SIGNATURE,							/**< Assinatura digital */
     SERVICE_SESSION_KEY_DECRYPT,						/**< Chave de sessão, encriptada com chave assimétrica */
     SERVICE_GENERATE_KTAMPER,							/**< Crie K_Tamper */
     SERVICE_ERASE_KTAMPER,								/**< Apague K_Tamper */
+    SERVICE_ERASE_KTAMPER_WITHOUT_PIN,					/**< Apague K_Tamper */
     SERVICE_STORE_PIN,									/**< Armazene o PIN */
     SERVICE_UPDATE_PIN,									/**< Alterar o PIN */
     SERVICE_OVERRIDE_PIN,								/**< Novo PIN */
@@ -27,13 +30,19 @@ public enum ServiceCode {
     SERVICE_ONE_STEP_ENCRYPTED_SYM_KEY_IMPORT,			/**< Importação de chave simétrica em 1 passo - canal inseguro */
     SERVICE_ONE_STEP_ENCRYPTED_DOUBLE_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal inseguro - Modelo BB code */
     SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal seguro */
+    SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT_WITHOUT_PIN,	/**< Importação de chave simétrica em 1 passo - canal seguro */
     SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT,	/**< Importação de chave simétrica em 1 passo - canal seguro */
+    SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT_WITHOUT_PIN,	/**< Importação de chave simétrica em 1 passo - canal seguro */
     SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT,				/**< Importação de chave simétrica em 2 passos */
+    SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT_WITHOUT_PIN,	/**< Importação de chave simétrica em 2 passos */
     SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT,				/**< Importação de chave simétrica em 2 passos */
+    SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT_WITHOUT_PIN,	/**< Importação de chave simétrica em 2 passos */
     SERVICE_DELETE_SYM_KEY_AVIXY,						/**< Deleção de chave simétrica */
     SERVICE_DELETE_SYM_KEY_CLIENT,						/**< Deleção de chave simétrica */
     SERVICE_UPDATE_AVIXY_SYM_KEY,						/**< Troca de chave simétrica */
+    SERVICE_UPDATE_AVIXY_SYM_KEY_WITHOUT_PIN,			/**< Troca de chave simétrica */
     SERVICE_UPDATE_CLIENT_SYM_KEY,						/**< Troca de chave simétrica */
+    SERVICE_UPDATE_CLIENT_SYM_KEY_WITHOUT_PIN,			/**< Troca de chave simétrica */
     SERVICE_CREATE_AND_EXPORT_SYM_KEY,					/**< Criação de chave simétrica e exportação em claro */
     SERVICE_EXPORT_SYM_KEY,								/**< Exportação de chave simétrica em claro */
     SERVICE_CREATE_AND_EXPORT_ASY_KEY,					/**< Criação de par de chaves com exportação de K_Pub */
@@ -54,6 +63,7 @@ public enum ServiceCode {
     SERVICE_IMPORT_CLIENT_CERTIFICATE,					/**< Importação de Certificado Digital do cliente, para atualização de template, assinado pela Avixy */
     SERVICE_TEMPLATE_ASY_UPDATE,						/**< Atualização de template com certificado */
     SERVICE_TEMPLATE_SYM_UPDATE,						/**< Atualização de template com HMAC */
+    SERVICE_TEMPLATE_SYM_UPDATE_WITHOUT_PIN,			/**< Atualização de template com HMAC */
     SERVICE_FIRMWARE_ASY_UPDATE,						/**< Atualização de firmware/bibliotecas do token com certificado */
     SERVICE_FIRMWARE_SYM_UPDATE,						/**< Atualização de firmware/bibliotecas do token com HMAC */
     SERVICE_LANGUAGE_SELECTION,							/**< Selecão de idioma */

@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
@@ -24,9 +25,11 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class HmacFormatedMessageService extends AbstractService implements TimestampAble, HmacAble, PinAble, AesCrypted {
+public class HmacFormatedMessageService extends AbstractService implements TimestampAble, HmacAble, PinAble, AesCrypted, PasswordOptional {
     private TemplateParam templateParam;
     private KeyParam secrecyKey;
+
+    protected PasswordPolicy originalPasswordPolicy;
 
     @Inject
     public HmacFormatedMessageService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
@@ -35,6 +38,8 @@ public class HmacFormatedMessageService extends AbstractService implements Times
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
         this.messagePolicy = aesCryptedMessagePolicy;
+
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -44,7 +49,11 @@ public class HmacFormatedMessageService extends AbstractService implements Times
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE;
+        } else {
+            return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE_WITHOUT_PIN;
+        }
     }
 
     @Override
@@ -73,5 +82,14 @@ public class HmacFormatedMessageService extends AbstractService implements Times
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

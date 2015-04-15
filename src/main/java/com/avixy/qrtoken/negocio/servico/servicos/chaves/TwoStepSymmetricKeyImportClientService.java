@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
@@ -25,6 +26,11 @@ public class TwoStepSymmetricKeyImportClientService extends TwoStepSymmetricKeyI
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT;
+        } else {
+            return ServiceCode.SERVICE_TWO_STEP_CLIENT_SYM_KEY_IMPORT_WITHOUT_PIN;
+        }
     }
+
 }

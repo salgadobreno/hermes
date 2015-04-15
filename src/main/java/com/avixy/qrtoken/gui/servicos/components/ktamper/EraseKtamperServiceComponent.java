@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
+import com.avixy.qrtoken.core.extensions.components.OptionalPasswordField;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
@@ -7,7 +8,9 @@ import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
@@ -20,7 +23,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private PasswordField passwordField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     @Inject
     public EraseKtamperServiceComponent(EraseKtamperService service) {
@@ -37,7 +40,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
         migPane.add(new Label("PIN:"));
-        migPane.add(passwordField);
+        migPane.add(optionalPasswordField, "wrap");
 
         return migPane;
     }
@@ -46,7 +49,8 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-        eraseKtamperService.setPin(passwordField.getText());
+        eraseKtamperService.togglePasswordOptional(optionalPasswordField.isOptional());
+        eraseKtamperService.setPin(optionalPasswordField.getText());
 
         return eraseKtamperService;
     }

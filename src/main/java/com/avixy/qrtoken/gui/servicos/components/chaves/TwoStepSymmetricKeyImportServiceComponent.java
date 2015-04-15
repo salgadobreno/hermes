@@ -19,7 +19,7 @@ public abstract class TwoStepSymmetricKeyImportServiceComponent extends ServiceC
     private TwoStepSymmetricKeyImportService service;
 
     private TimestampField timestampField = new TimestampField();
-    private PasswordField pinField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     private AesKeySelect keySelect = new AesKeySelect();
     private HmacKeySelect authSelect = new HmacKeySelect();
@@ -42,7 +42,7 @@ public abstract class TwoStepSymmetricKeyImportServiceComponent extends ServiceC
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("PIN:"));
-        migPane.add(pinField, "wrap");
+        migPane.add(optionalPasswordField, "wrap");
 
         migPane.add(new Label("Aes Key:"));
         migPane.add(keySelect, "wrap");
@@ -58,7 +58,8 @@ public abstract class TwoStepSymmetricKeyImportServiceComponent extends ServiceC
         service.setSecrecyKey(keySelect.getValue().getHexValue());
         service.setAuthKey(authSelect.getValue().getHexValue());
         service.setTimestamp(timestampField.getValue());
-        service.setPin(pinField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
 
         return service;
     }

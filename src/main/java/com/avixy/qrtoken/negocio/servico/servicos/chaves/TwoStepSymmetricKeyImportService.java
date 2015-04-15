@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
@@ -26,7 +27,7 @@ import java.util.List;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class TwoStepSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble {
+public abstract class TwoStepSymmetricKeyImportService extends AbstractService implements TimestampAble, PinAble, PasswordOptional {
     private byte[] secrecyKey;
     private byte[] authKey;
 
@@ -36,12 +37,16 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
 
     private RandomGenerator randomGenerator;
 
+    protected final PasswordPolicy originalPasswordPolicy;
+
     @Inject
     public TwoStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, RandomGenerator randomGenerator) {
         super(headerPolicy);
         this.passwordPolicy = passwordPolicy;
         this.timestampPolicy = timestampPolicy;
         this.randomGenerator = randomGenerator;
+
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     public void setSecrecyKey(byte[] secrecyKey) {
@@ -111,5 +116,14 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
     @Override
     public byte[] getMessage() {
         return new byte[0];
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

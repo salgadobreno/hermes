@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
@@ -31,10 +32,12 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble, PinAble {
+public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble, PinAble, PasswordOptional {
     private TemplateSlotParam templateSlotParam;
     private TemplateParam templateParam;
     private RandomGenerator paddingGenerator;
+
+    private final PasswordPolicy originalPasswordPolicy;
 
     @Inject
     public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, RandomGenerator paddingGenerator) {
@@ -43,6 +46,8 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
         this.paddingGenerator = paddingGenerator;
+
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -92,5 +97,14 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

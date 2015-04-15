@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
@@ -12,10 +13,12 @@ import com.google.inject.Inject;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class TwoStepSymmetricKeyImportAvixyService extends TwoStepSymmetricKeyImportService {
+public class TwoStepSymmetricKeyImportAvixyService extends TwoStepSymmetricKeyImportService implements PasswordOptional {
+    private final PasswordPolicy originalPasswordPolicy;
     @Inject
     public TwoStepSymmetricKeyImportAvixyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, RandomGenerator randomGenerator) {
         super(headerPolicy, timestampPolicy, passwordPolicy, randomGenerator);
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -25,6 +28,19 @@ public class TwoStepSymmetricKeyImportAvixyService extends TwoStepSymmetricKeyIm
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT;
+        } else {
+            return ServiceCode.SERVICE_TWO_STEP_AVIXY_SYM_KEY_IMPORT_WITHOUT_PIN;
+        }
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

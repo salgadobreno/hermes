@@ -27,7 +27,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
     private TemplateSelect templateSelect = new TemplateSelect();
     private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private TimestampField timestampField = new TimestampField();
-    private PasswordField passwordField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
     private AesKeySelect keySelect = new AesKeySelect();
 
 
@@ -60,7 +60,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("PIN:"));
-        migPane.add(passwordField, "wrap");
+        migPane.add(optionalPasswordField, "wrap");
 
         Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
@@ -78,8 +78,8 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() throws Exception {
-
-        service.setPin(passwordField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
         service.setTimestamp(timestampField.getValue());
         service.setAesKey(keySelect.getValue().getHexValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());

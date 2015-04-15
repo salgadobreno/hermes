@@ -12,9 +12,11 @@ import com.google.inject.Inject;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class OneStepSymmetricKeyImportClientService extends OneStepSymmetricKeyImportService {
+    private final PasswordPolicy originalPasswordPolicy;
     @Inject
     public OneStepSymmetricKeyImportClientService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, passwordPolicy);
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -24,6 +26,11 @@ public class OneStepSymmetricKeyImportClientService extends OneStepSymmetricKeyI
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT;
+        } else {
+            return ServiceCode.SERVICE_ONE_STEP_CLEARTEXT_CLIENT_SYM_KEY_IMPORT_WITHOUT_PIN;
+        }
     }
+
 }

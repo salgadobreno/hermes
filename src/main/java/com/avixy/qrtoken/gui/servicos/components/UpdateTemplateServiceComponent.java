@@ -1,9 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TemplateSlotSelect;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
@@ -31,7 +28,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private TimestampField timestampField = new TimestampField();
-    private PasswordField passwordField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     /**
      * @param service
@@ -57,7 +54,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
         migPane.add(new Label("PIN:"));
-        migPane.add(passwordField, "wrap");
+        migPane.add(optionalPasswordField, "wrap");
 
         Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
@@ -75,7 +72,8 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() throws Exception {
-        service.setPin(passwordField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
         service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setTimestamp(timestampField.getValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());

@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
@@ -20,7 +21,8 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble {
+public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble, PasswordOptional {
+    protected PasswordPolicy originalPasswordPolicy;
     protected KeyParam secretKey;
     protected KeyParam authKey;
 
@@ -30,6 +32,8 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
+
+        this.passwordPolicy = originalPasswordPolicy;
     }
 
     @Override
@@ -63,5 +67,14 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
     @Override
     public void setPin(String pin) {
         this.passwordPolicy.setPassword(pin);
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

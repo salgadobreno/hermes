@@ -23,14 +23,13 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
     private AesKeySelect keySelect = new AesKeySelect();
     private HmacKeySelect authSelect = new HmacKeySelect();
 
-    private PasswordField pinField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     private HmacKeySelect currentAuth = new HmacKeySelect();
     private AesKeySelect currentSecret = new AesKeySelect();
 
     /**
      * @param service
-     * @param qrCodePolicy
      */
     protected UpdateSymmetricKeyServiceComponent(UpdateSymmetricKeyService service) {
         super(service);
@@ -49,7 +48,7 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("PIN:"));
-        migPane.add(pinField, "wrap");
+        migPane.add(optionalPasswordField, "wrap");
 
         migPane.add(new Label("Aes Key:"));
         migPane.add(keySelect, "wrap");
@@ -76,7 +75,8 @@ public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponen
         service.setAesKey(currentSecret.getValue().getHexValue());
         service.setHmacKey(currentAuth.getValue().getHexValue());
 
-        service.setPin(pinField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
 
         service.setSecretKey(keySelect.getValue().getHexValue());
         service.setAuthKey(authSelect.getValue().getHexValue());

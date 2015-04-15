@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.banking;
 
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -14,12 +15,14 @@ import com.google.inject.Inject;
  *
  * Created on 02/09/2014
  */
-public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService implements HmacAble {
+public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService implements HmacAble, PasswordOptional {
+    protected final PasswordPolicy originalPasswordPolicy;
 
     @Inject
     public AbstractEncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, passwordPolicy);
         this.hmacKeyPolicy = hmacKeyPolicy;
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -28,5 +31,14 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
     @Override
     public void setHmacKey(byte[] key) {
         this.hmacKeyPolicy.setKey(key);
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

@@ -46,7 +46,11 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
+        } else {
+            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN;
+        }
     }
 
     @Override

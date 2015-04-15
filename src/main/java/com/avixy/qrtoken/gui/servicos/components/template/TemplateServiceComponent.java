@@ -60,7 +60,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     private Separator separator = new Separator();
 
     private Label passwordLabel = new Label("PIN:");
-    private PasswordField passwordField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     private Label slotLabel = new Label("Slot:");
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
@@ -112,7 +112,7 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(timestampLabel);
         mainNode.add(timestampField, "wrap");
         mainNode.add(passwordLabel);
-        mainNode.add(passwordField, "wrap");
+        mainNode.add(optionalPasswordField, "wrap");
         separator.setPrefWidth(280);
         mainNode.add(separator, "span");
         mainNode.add(argsTitle, "span, wrap");
@@ -122,7 +122,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             @Override
             public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, timestampField, passwordLabel, passwordField, separator, argsTitle, scrollPane, argPane);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, timestampField, passwordLabel, optionalPasswordField, separator, argsTitle, scrollPane, argPane);
                 if (newValue != null) {
                     argPane.getChildren().clear();
                     for (TemplateObj templateObj : newValue.getTemplateObjs()) {
@@ -243,7 +243,8 @@ public class TemplateServiceComponent extends ServiceComponent {
         service.setAesKey(aesKeySelect.getValue().getHexValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTimestamp(timestampField.getValue());
-        service.setPin(passwordField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
         service.setParams(new ArrayList<>());
         for (Control control : controlList) {
             if (control instanceof TextField) {

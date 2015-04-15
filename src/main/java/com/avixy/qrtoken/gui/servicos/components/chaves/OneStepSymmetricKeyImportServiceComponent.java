@@ -19,7 +19,7 @@ public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceC
     private OneStepSymmetricKeyImportService service;
 
     private TimestampField timestampField = new TimestampField();
-    private PasswordField passwordField = new PasswordField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     private AesKeySelect keySelect = new AesKeySelect();
     private HmacKeySelect authSelect = new HmacKeySelect();
@@ -45,7 +45,7 @@ public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceC
         migPane.add(timestampField, "wrap");
 
         migPane.add(new Label("PIN:"));
-        migPane.add(passwordField, "wrap");
+        migPane.add(optionalPasswordField, "wrap");
 
         migPane.add(new Label("Aes Key:"));
         migPane.add(keySelect, "wrap");
@@ -59,7 +59,8 @@ public abstract class OneStepSymmetricKeyImportServiceComponent extends ServiceC
     @Override
     public Service getService() throws Exception {
         service.setTimestamp(timestampField.getValue());
-        service.setPin(passwordField.getText());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
 
         service.setSecrecyKey(keySelect.getValue().getHexValue());
         service.setAuthKey(authSelect.getValue().getHexValue());
