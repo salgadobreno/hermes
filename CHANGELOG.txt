@@ -5,7 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
-- Improved Text boundaries
+- Templates max size is now 220 bytes for all templates
+- Some services PIN usage is now optional
+- Improved Text boundaries in template editor
 - UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented protocol wasn't up to date)
 - GenerateKTamper also stores PIN/PUK
 
