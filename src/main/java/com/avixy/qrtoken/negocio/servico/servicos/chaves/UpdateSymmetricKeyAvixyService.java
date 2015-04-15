@@ -22,7 +22,11 @@ public class UpdateSymmetricKeyAvixyService extends UpdateSymmetricKeyService {
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEY;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEY;
+        } else {
+            return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEY_WITHOUT_PIN;
+        }
     }
 
     @Override

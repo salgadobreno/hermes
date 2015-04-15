@@ -57,7 +57,11 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_TEMPLATE_SYM_UPDATE;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_TEMPLATE_SYM_UPDATE;
+        } else {
+            return ServiceCode.SERVICE_TEMPLATE_SYM_UPDATE_WITHOUT_PIN;
+        }
     }
 
     @Override
