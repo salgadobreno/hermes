@@ -33,7 +33,7 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
 
-        this.passwordPolicy = originalPasswordPolicy;
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
