@@ -8,7 +8,8 @@ import com.avixy.qrtoken.negocio.Token;
 * @author Breno Salgado <breno.salgado@avixy.com>
 */
 public enum TemplateSize {
-    SHORT(200);
+    SHORT(220);
+
     private final int size;
 
     TemplateSize(int size) {
