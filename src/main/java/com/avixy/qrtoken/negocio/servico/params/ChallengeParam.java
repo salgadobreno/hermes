@@ -5,24 +5,12 @@ package com.avixy.qrtoken.negocio.servico.params;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class ChallengeParam implements Param {
-    protected char[] chars;
+public class ChallengeParam extends StringWithLengthParam {
 
     public ChallengeParam(String challenge) {
+        super(challenge);
         if (challenge.length() > 6) {
-            throw new IllegalArgumentException("Challenge is 6 chars");
+            throw new IllegalArgumentException("Challenge is 6 chars maximum");
         }
-
-        this.chars = challenge.toCharArray();
-    }
-
-    @Override
-    public String toBinaryString() {
-        String binaryString = "";
-        for (char c : chars) {
-            binaryString += new ByteWrapperParam(c).toBinaryString();
-        }
-
-        return binaryString;
     }
 }

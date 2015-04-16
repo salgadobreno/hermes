@@ -31,7 +31,7 @@ public abstract class TwoStepSymmetricKeyImportService extends AbstractService i
     private byte[] secrecyKey;
     private byte[] authKey;
 
-    private byte[] k; // k é a concatenação das duas chaves
+    private byte[] k; /* k é a concatenação das duas chaves */
     private byte[] randomComponent;
     private byte[] keyComponent;
 
