@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
+- Added EBChat Session Key Service
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
 - Improved Text boundaries in template editor

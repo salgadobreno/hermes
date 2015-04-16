@@ -16,7 +16,7 @@ import org.tbee.javafx.scene.layout.MigPane;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public abstract class UpdateSymmetricKeyServiceComponent extends ServiceComponent {
-    UpdateSymmetricKeyService service;
+    private UpdateSymmetricKeyService service;
 
     private TimestampField timestampField = new TimestampField();
 
