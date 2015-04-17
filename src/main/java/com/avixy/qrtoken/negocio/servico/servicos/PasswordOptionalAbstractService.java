@@ -6,6 +6,10 @@ import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 
 /**
+ * Base implementation of a {@link com.avixy.qrtoken.negocio.servico.servicos.Service} with optional PIN.
+ * Implementing classes only need to check if <code>originalPasswordPolicy</code> is the same as current
+ * {@link com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy} and return the correct {@link com.avixy.qrtoken.negocio.servico.ServiceCode}
+ *
  * Created on 17/04/2015
  *
  * @author Breno Salgado <breno.salgado@avixy.com>

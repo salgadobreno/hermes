@@ -24,14 +24,13 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EBChatShowSessionKeyService extends PasswordOptionalAbstractService implements TimestampAble, AesCrypted, HmacAble, PasswordOptional {
+public class EBChatSessionKeyService extends PasswordOptionalAbstractService implements TimestampAble, AesCrypted, HmacAble, PasswordOptional {
     private ChallengeParam challenge;
     private KeyParam sessionSecrecyKey;
     private KeyParam sessionAuthKey;
 
-
     @Inject
-    public EBChatShowSessionKeyService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public EBChatSessionKeyService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;

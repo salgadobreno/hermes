@@ -13,13 +13,13 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-public class EBChatShowSessionKeyServiceTest {
+public class EBChatSessionKeyServiceTest {
     HeaderPolicy headerPolicy = mock(HeaderPolicy.class);
     AesCryptedMessagePolicy messagePolicy = mock(AesCryptedMessagePolicy.class);
     TimestampPolicy timestampPolicy = mock(TimestampPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
-    EBChatShowSessionKeyService service = new EBChatShowSessionKeyService(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy);
+    EBChatSessionKeyService service = new EBChatSessionKeyService(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy);
 
     byte[] genericKey = new byte[32];
 

@@ -4,7 +4,7 @@ import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.ebchat.EBChatShowSessionKeyService;
+import com.avixy.qrtoken.negocio.servico.servicos.ebchat.EBChatSessionKeyService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -19,7 +19,7 @@ import org.tbee.javafx.scene.layout.MigPane;
  */
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
-    private EBChatShowSessionKeyService service;
+    private EBChatSessionKeyService service;
 
     private TimestampField timestampField = new TimestampField();
 
@@ -33,7 +33,7 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
     private AesKeySelect aesKeySelect = new AesKeySelect();
 
     @Inject
-    protected EBChatShowSessionKeyServiceComponent(EBChatShowSessionKeyService service) {
+    protected EBChatShowSessionKeyServiceComponent(EBChatSessionKeyService service) {
         super(service);
         this.service = service;
     }
