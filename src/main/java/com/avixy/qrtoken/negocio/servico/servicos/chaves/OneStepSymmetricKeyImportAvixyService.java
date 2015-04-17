@@ -12,13 +12,11 @@ import com.google.inject.Inject;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class OneStepSymmetricKeyImportAvixyService extends OneStepSymmetricKeyImportService implements PasswordOptional {
-    private final PasswordPolicy originalPasswordPolicy;
+public class OneStepSymmetricKeyImportAvixyService extends OneStepSymmetricKeyImportService {
 
     @Inject
     public OneStepSymmetricKeyImportAvixyService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, passwordPolicy);
-        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -32,15 +30,6 @@ public class OneStepSymmetricKeyImportAvixyService extends OneStepSymmetricKeyIm
             return ServiceCode.SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT;
         } else {
             return ServiceCode.SERVICE_ONE_STEP_CLEARTEXT_AVIXY_SYM_KEY_IMPORT_WITHOUT_PIN;
-        }
-    }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
         }
     }
 }

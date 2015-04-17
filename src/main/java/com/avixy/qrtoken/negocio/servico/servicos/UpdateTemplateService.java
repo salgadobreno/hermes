@@ -32,22 +32,17 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble, PinAble, PasswordOptional {
+public class UpdateTemplateService extends PasswordOptionalAbstractService implements TimestampAble, HmacAble, PinAble, PasswordOptional {
     private TemplateSlotParam templateSlotParam;
     private TemplateParam templateParam;
     private RandomGenerator paddingGenerator;
 
-    private final PasswordPolicy originalPasswordPolicy;
-
     @Inject
     public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, RandomGenerator paddingGenerator) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
-        this.passwordPolicy = passwordPolicy;
         this.paddingGenerator = paddingGenerator;
-
-        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -101,14 +96,5 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
-    }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
     }
 }

@@ -13,6 +13,7 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ChallengeParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
@@ -23,21 +24,18 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EBChatShowSessionKeyService extends AbstractService implements TimestampAble, AesCrypted, HmacAble, PasswordOptional {
+public class EBChatShowSessionKeyService extends PasswordOptionalAbstractService implements TimestampAble, AesCrypted, HmacAble, PasswordOptional {
     private ChallengeParam challenge;
     private KeyParam sessionSecrecyKey;
     private KeyParam sessionAuthKey;
 
-    protected final PasswordPolicy originalPasswordPolicy;
-
 
     @Inject
     public EBChatShowSessionKeyService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
-        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -88,14 +86,5 @@ public class EBChatShowSessionKeyService extends AbstractService implements Time
 
     public void setSessionAuthKey(byte[] sessionAuthKey) {
         this.sessionAuthKey = new KeyParam(sessionAuthKey);
-    }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
     }
 }

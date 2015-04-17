@@ -71,6 +71,9 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Current Auth Key:"));
         migPane.add(authKeySelect, "wrap");
 
+        migPane.add(new Label("PIN:"));
+        migPane.add(optionalPasswordField);
+
         return migPane;
     }
 

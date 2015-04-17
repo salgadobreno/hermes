@@ -58,7 +58,7 @@ public class UpdateTemplateServiceTest {
         expectedBinaryMsg = StringUtils.rightPad("0000" + "00000001", (TemplateSize.SHORT.getSize() * 8), '1');
 
         assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
-        assertEquals(200, service.getMessage().length);
+        assertEquals(220, service.getMessage().length);
     }
 
     @Test

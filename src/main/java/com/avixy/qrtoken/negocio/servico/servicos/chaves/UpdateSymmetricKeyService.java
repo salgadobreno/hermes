@@ -12,6 +12,7 @@ import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 
 import java.util.Date;
@@ -21,19 +22,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble, PasswordOptional {
-    protected PasswordPolicy originalPasswordPolicy;
+public abstract class UpdateSymmetricKeyService extends PasswordOptionalAbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble, PasswordOptional {
     protected KeyParam secretKey;
     protected KeyParam authKey;
 
     protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.passwordPolicy = passwordPolicy;
-
-        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -67,14 +65,5 @@ public abstract class UpdateSymmetricKeyService extends AbstractService implemen
     @Override
     public void setPin(String pin) {
         this.passwordPolicy.setPassword(pin);
-    }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
     }
 }

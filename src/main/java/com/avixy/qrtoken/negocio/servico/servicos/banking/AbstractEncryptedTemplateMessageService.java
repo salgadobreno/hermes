@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
@@ -16,15 +17,14 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class AbstractEncryptedTemplateMessageService extends AbstractService implements PinAble, TimestampAble, AesCrypted {
+public abstract class AbstractEncryptedTemplateMessageService extends PasswordOptionalAbstractService implements PinAble, TimestampAble, AesCrypted {
 
     protected TemplateSlotParam templateSlot;
 
     @Inject
     public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.messagePolicy = aesCryptedMessagePolicy;
-        this.passwordPolicy = passwordPolicy;
         this.timestampPolicy = timestampPolicy;
     }
 

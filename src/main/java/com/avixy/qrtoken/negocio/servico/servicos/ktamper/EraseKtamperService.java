@@ -9,6 +9,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
+import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
 
@@ -19,15 +20,12 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EraseKtamperService extends AbstractService implements TimestampAble, PinAble, PukAble, PasswordOptional {
-    private final PasswordPolicy originalPasswordPolicy;
+public class EraseKtamperService extends PasswordOptionalAbstractService implements TimestampAble, PinAble, PukAble, PasswordOptional {
 
     @Inject
     public EraseKtamperService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
-        this.passwordPolicy = passwordPolicy;
-        originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -64,14 +62,4 @@ public class EraseKtamperService extends AbstractService implements TimestampAbl
         /* "é obrigatório OU o PIN OU PUK" */
         setPin(puk);
     }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
-    }
-
 }

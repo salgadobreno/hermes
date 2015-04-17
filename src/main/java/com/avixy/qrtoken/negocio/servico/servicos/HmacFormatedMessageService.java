@@ -25,21 +25,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class HmacFormatedMessageService extends AbstractService implements TimestampAble, HmacAble, PinAble, AesCrypted, PasswordOptional {
+public class HmacFormatedMessageService extends PasswordOptionalAbstractService implements TimestampAble, HmacAble, PinAble, AesCrypted, PasswordOptional {
     private TemplateParam templateParam;
     private KeyParam secrecyKey;
 
-    protected PasswordPolicy originalPasswordPolicy;
-
     @Inject
     public HmacFormatedMessageService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
-        super(headerPolicy);
+        super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
-        this.passwordPolicy = passwordPolicy;
         this.messagePolicy = aesCryptedMessagePolicy;
-
-        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -82,14 +77,5 @@ public class HmacFormatedMessageService extends AbstractService implements Times
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
-    }
-
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
     }
 }

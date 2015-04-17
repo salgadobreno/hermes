@@ -15,7 +15,7 @@ import com.google.inject.Inject;
  *
  * Created on 02/09/2014
  */
-public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService implements HmacAble, PasswordOptional {
+public abstract class AbstractEncryptedHmacTemplateMessageService extends AbstractEncryptedTemplateMessageService implements HmacAble {
     protected final PasswordPolicy originalPasswordPolicy;
 
     @Inject
@@ -33,12 +33,4 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
         this.hmacKeyPolicy.setKey(key);
     }
 
-    @Override
-    public void togglePasswordOptional(boolean passwordOptional) {
-        if (passwordOptional) {
-            this.passwordPolicy = NO_PASSWORD_POLICY;
-        } else  {
-            this.passwordPolicy = originalPasswordPolicy;
-        }
-    }
 }
