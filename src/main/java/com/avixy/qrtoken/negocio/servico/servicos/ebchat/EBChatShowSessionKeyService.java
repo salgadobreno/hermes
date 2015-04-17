@@ -1,12 +1,14 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ebchat;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ChallengeParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
@@ -21,17 +23,21 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class EBChatShowSessionKeyService extends AbstractService implements TimestampAble, AesCrypted, HmacAble {
+public class EBChatShowSessionKeyService extends AbstractService implements TimestampAble, AesCrypted, HmacAble, PasswordOptional {
     private ChallengeParam challenge;
     private KeyParam sessionSecrecyKey;
     private KeyParam sessionAuthKey;
 
+    protected final PasswordPolicy originalPasswordPolicy;
+
+
     @Inject
-    public EBChatShowSessionKeyService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+    public EBChatShowSessionKeyService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
+        this.originalPasswordPolicy = passwordPolicy;
     }
 
     @Override
@@ -41,7 +47,11 @@ public class EBChatShowSessionKeyService extends AbstractService implements Time
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_SESSION_KEY;
+        if (passwordPolicy == originalPasswordPolicy) {
+            return ServiceCode.SERVICE_SESSION_KEY;
+        } else {
+            return ServiceCode.SERVICE_SESSION_KEY_WITHOUT_PIN;
+        }
     }
 
     @Override
@@ -64,6 +74,10 @@ public class EBChatShowSessionKeyService extends AbstractService implements Time
         timestampPolicy.setDate(date);
     }
 
+    public void setPin(String pin) {
+        this.passwordPolicy.setPassword(pin);
+    }
+
     public void setChallenge(String challenge) {
         this.challenge = new ChallengeParam(challenge);
     }
@@ -74,5 +88,14 @@ public class EBChatShowSessionKeyService extends AbstractService implements Time
 
     public void setSessionAuthKey(byte[] sessionAuthKey) {
         this.sessionAuthKey = new KeyParam(sessionAuthKey);
+    }
+
+    @Override
+    public void togglePasswordOptional(boolean passwordOptional) {
+        if (passwordOptional) {
+            this.passwordPolicy = NO_PASSWORD_POLICY;
+        } else  {
+            this.passwordPolicy = originalPasswordPolicy;
+        }
     }
 }

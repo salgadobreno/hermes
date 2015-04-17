@@ -18,7 +18,8 @@ public enum ServiceCode {
     SERVICE_HMAC_FORMATTED_MESSAGE_WITHOUT_PIN,			/**< Mensagem segura (cifrada, com PIN) com formatação */
     SERVICE_SIGNED_FORMATTED_MESSAGE,					/**< Mensagem segura (cifrada, com PIN) com formatação */
     SERVICE_DIGITAL_SIGNATURE,							/**< Assinatura digital */
-    SERVICE_SESSION_KEY,						        /**<  */
+    SERVICE_SESSION_KEY,						        /**< Chave de sessão */
+    SERVICE_SESSION_KEY_WITHOUT_PIN,			        /**< Chave de sessão */
     SERVICE_GENERATE_KTAMPER,							/**< Crie K_Tamper */
     SERVICE_ERASE_KTAMPER,								/**< Apague K_Tamper */
     SERVICE_ERASE_KTAMPER_WITHOUT_PIN,					/**< Apague K_Tamper */

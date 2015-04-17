@@ -1,9 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.AesKeySelect;
-import com.avixy.qrtoken.core.extensions.components.ChallengeField;
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -30,6 +27,7 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
     private HmacKeySelect sessionAuthKeySelect = new HmacKeySelect();
 
     private ChallengeField challengeField = new ChallengeField();
+    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     private HmacKeySelect authKeySelect = new HmacKeySelect();
     private AesKeySelect aesKeySelect = new AesKeySelect();
@@ -53,6 +51,9 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
 
         migPane.add(new Label("Challenge:"));
         migPane.add(challengeField, "wrap");
+
+        migPane.add(new Label("PIN:"));
+        migPane.add(optionalPasswordField, "wrap");
 
         migPane.add(new Label("Session AES Key:"));
         migPane.add(sessionKeySelect, "wrap");
@@ -81,6 +82,8 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
         service.setSessionAuthKey(sessionAuthKeySelect.getValue().getHexValue());
         service.setChallenge(challengeField.getText());
         service.setTimestamp(timestampField.getValue());
+        service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setPin(optionalPasswordField.getText());
 
         return service;
     }

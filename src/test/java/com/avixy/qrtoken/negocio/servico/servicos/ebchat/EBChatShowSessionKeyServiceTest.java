@@ -4,6 +4,7 @@ import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
+import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import org.junit.Before;
@@ -17,7 +18,8 @@ public class EBChatShowSessionKeyServiceTest {
     AesCryptedMessagePolicy messagePolicy = mock(AesCryptedMessagePolicy.class);
     TimestampPolicy timestampPolicy = mock(TimestampPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    EBChatShowSessionKeyService service = new EBChatShowSessionKeyService(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy);
+    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
+    EBChatShowSessionKeyService service = new EBChatShowSessionKeyService(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy, passwordPolicy);
 
     @Before
     public void setUp() throws Exception {
@@ -34,6 +36,7 @@ public class EBChatShowSessionKeyServiceTest {
         when(headerPolicy.getHeader(any())).thenReturn(new byte[0]);
         when(hmacKeyPolicy.apply(any())).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
