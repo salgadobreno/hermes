@@ -1,6 +1,7 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
@@ -21,22 +22,21 @@ import static org.mockito.Mockito.*;
  */
 public class EraseKtamperServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
-    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy);
+    HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
+    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy, hmacKeyPolicy);
 
     byte[] expectedOut;
 
     @Before
     public void setUp() throws Exception {
         long epoch = 1409329200000l;
-//        service.setPin("1234");
         service.setTimestamp(new Date(epoch));
         expectedOut = new byte[]{ };
 
         when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
-        when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
+        when(hmacKeyPolicy.apply(any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -46,10 +46,8 @@ public class EraseKtamperServiceTest {
 
     @Test
     public void testServiceMessageComPUK() throws Exception {
-        /* "é obrigatório OU o PIN OU PUK" */
         expectedOut = new byte[]{ };
 
-//        service.setPuk("4444");
         assertArrayEquals(expectedOut, service.getMessage());
     }
 
@@ -58,5 +56,6 @@ public class EraseKtamperServiceTest {
         service.getQrs(mock(QrSetup.class));
         verify(qrtHeaderPolicy).getHeader(service);
         verify(timestampPolicy).get();
+        verify(hmacKeyPolicy).apply(any());
     }
 }

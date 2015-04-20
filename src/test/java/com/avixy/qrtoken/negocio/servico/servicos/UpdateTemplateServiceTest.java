@@ -3,10 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos;
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
@@ -28,6 +25,7 @@ public class UpdateTemplateServiceTest {
     };
     HeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     RandomGenerator randomGenerator = new RandomGenerator() {
         @Override
@@ -37,7 +35,7 @@ public class UpdateTemplateServiceTest {
             }
         }
     };
-    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, hmacKeyPolicy, randomGenerator);
+    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, randomGenerator);
 
     String expectedBinaryMsg;
 
@@ -48,6 +46,7 @@ public class UpdateTemplateServiceTest {
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(aesCryptedMessagePolicy.get(any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -64,5 +63,6 @@ public class UpdateTemplateServiceTest {
         service.getQrs(mock(QrSetup.class));
         verify(timestampPolicy).get();
         verify(hmacKeyPolicy).apply(any());
+        verify(aesCryptedMessagePolicy).get(any());
     }
 }

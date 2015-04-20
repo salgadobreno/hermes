@@ -39,7 +39,6 @@ public class UpdateSymmetricKeyServiceTest {
         service.setTimestamp(new Date(epoch));
         service.setHmacKey("zxcv".getBytes());
         service.setAesKey("bla".getBytes());
-//        service.setPin("123456");
 
         service.setSecretKey(Hex.decodeHex("ae0aaaf92295ede5".toCharArray()));
         service.setAuthKey(Hex.decodeHex("de38bae46f371678".toCharArray()));

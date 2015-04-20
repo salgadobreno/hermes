@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
+import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
 import com.avixy.qrtoken.core.extensions.components.OptionalPasswordField;
 import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
@@ -23,7 +24,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
+    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
 
     @Inject
     public EraseKtamperServiceComponent(EraseKtamperService service) {
@@ -37,10 +38,12 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         Label title = new Label(service.getServiceName());
         title.setFont(new Font(18));
         migPane.add(title, "wrap, span");
+
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
-//        migPane.add(new Label("PIN:"));
-//        migPane.add(optionalPasswordField, "wrap");
+
+        migPane.add(new Label("Avixy Hmac:"));
+        migPane.add(hmacKeySelect, "wrap");
 
         return migPane;
     }
@@ -49,8 +52,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-//        eraseKtamperService.togglePasswordOptional(optionalPasswordField.isOptional());
-//        eraseKtamperService.setPin(optionalPasswordField.getText());
+        eraseKtamperService.setHmacKey(hmacKeySelect.getValue().getHexValue());
 
         return eraseKtamperService;
     }

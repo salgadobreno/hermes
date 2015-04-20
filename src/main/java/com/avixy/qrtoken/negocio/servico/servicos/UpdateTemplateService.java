@@ -3,10 +3,13 @@ package com.avixy.qrtoken.negocio.servico.servicos;
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
+import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
+import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
@@ -27,15 +30,16 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble {
+public class UpdateTemplateService extends AbstractService implements TimestampAble, AesCrypted, HmacAble {
     private TemplateSlotParam templateSlotParam;
     private TemplateParam templateParam;
     private RandomGenerator paddingGenerator;
 
     @Inject
-    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, RandomGenerator paddingGenerator) {
+    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy, RandomGenerator paddingGenerator) {
         super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
+        this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.paddingGenerator = paddingGenerator;
     }
@@ -82,5 +86,10 @@ public class UpdateTemplateService extends AbstractService implements TimestampA
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
+    }
+
+    @Override
+    public void setAesKey(byte[] key) {
+        ((AesCryptedMessagePolicy) messagePolicy).setKey(key);
     }
 }
