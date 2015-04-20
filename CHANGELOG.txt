@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
-- Reviewed and stripped down Services
+- Reviewed and stripped down services
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
 - Improved Text boundaries in template editor
