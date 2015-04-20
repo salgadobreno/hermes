@@ -2,7 +2,7 @@ package com.avixy.qrtoken.gui.servicos.components.chaves;
 
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.servicos.chaves.OneStepSymmetricKeyImportClientService;
+import com.avixy.qrtoken.negocio.servico.servicos.chaves.ImportClientSymKeySetService;
 import com.google.inject.Inject;
 
 /**
@@ -17,7 +17,7 @@ public class OneStepSymmetricKeyImportClientServiceComponent extends OneStepSymm
      * @param qrCodePolicy
      */
     @Inject
-    public OneStepSymmetricKeyImportClientServiceComponent(OneStepSymmetricKeyImportClientService service) {
+    public OneStepSymmetricKeyImportClientServiceComponent(ImportClientSymKeySetService service) {
         super(service);
     }
 }

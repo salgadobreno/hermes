@@ -20,7 +20,7 @@ public class AvixyRtcService extends AbstractHmacRtcService {
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_AVIXY_RTC_SYM_UPDATE;
+        return ServiceCode.SERVICE_HMAC_RTC_UPDATE;
     }
 
     @Override

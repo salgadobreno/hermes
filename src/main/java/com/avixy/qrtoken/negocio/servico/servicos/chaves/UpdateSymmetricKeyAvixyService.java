@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
-import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -16,17 +15,13 @@ import com.google.inject.Inject;
  */
 public class UpdateSymmetricKeyAvixyService extends UpdateSymmetricKeyService {
     @Inject
-    protected UpdateSymmetricKeyAvixyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
-        super(headerPolicy, timestampPolicy, passwordPolicy, messagePolicy, hmacKeyPolicy);
+    protected UpdateSymmetricKeyAvixyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy);
     }
 
     @Override
     public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEY;
-        } else {
-            return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEY_WITHOUT_PIN;
-        }
+        return ServiceCode.SERVICE_UPDATE_AVIXY_SYM_KEYSET;
     }
 
     @Override

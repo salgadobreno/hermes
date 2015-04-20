@@ -19,25 +19,19 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class OneStepSymmetricKeyImportService extends PasswordOptionalAbstractService implements TimestampAble, PinAble, PasswordOptional {
+public abstract class AbstractImportSymKeySetService extends AbstractService implements TimestampAble {
     private KeyParam secrecyKey;
     private KeyParam authKey;
 
     @Inject
-    public OneStepSymmetricKeyImportService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
-        super(headerPolicy, passwordPolicy);
+    public AbstractImportSymKeySetService(HeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy) {
+        super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
-        this.passwordPolicy = passwordPolicy;
     }
 
     @Override
     public void setTimestamp(Date timestamp) {
         this.timestampPolicy.setDate(timestamp);
-    }
-
-    @Override
-    public void setPin(String pin) {
-        this.passwordPolicy.setPassword(pin);
     }
 
     public void setAuthKey(byte[] key) {

@@ -28,7 +28,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private TimestampField timestampField = new TimestampField();
-    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
+//    private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
     /**
      * @param service
@@ -53,8 +53,8 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(hmacKeySelect, "wrap");
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
-        migPane.add(new Label("PIN:"));
-        migPane.add(optionalPasswordField, "wrap");
+//        migPane.add(new Label("PIN:"));
+//        migPane.add(optionalPasswordField, "wrap");
 
         Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
@@ -72,8 +72,8 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
 
     @Override
     public Service getService() throws Exception {
-        service.togglePasswordOptional(optionalPasswordField.isOptional());
-        service.setPin(optionalPasswordField.getText());
+//        service.togglePasswordOptional(optionalPasswordField.isOptional());
+//        service.setPin(optionalPasswordField.getText());
         service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setTimestamp(timestampField.getValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());

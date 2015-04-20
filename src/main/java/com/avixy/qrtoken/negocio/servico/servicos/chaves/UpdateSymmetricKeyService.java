@@ -22,12 +22,12 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public abstract class UpdateSymmetricKeyService extends PasswordOptionalAbstractService implements AesCrypted, HmacAble, TimestampAble, PinAble, PasswordOptional {
+public abstract class UpdateSymmetricKeyService extends AbstractService implements AesCrypted, HmacAble, TimestampAble {
     protected KeyParam secretKey;
     protected KeyParam authKey;
 
-    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
-        super(headerPolicy, passwordPolicy);
+    protected UpdateSymmetricKeyService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.messagePolicy = messagePolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
@@ -60,10 +60,5 @@ public abstract class UpdateSymmetricKeyService extends PasswordOptionalAbstract
     @Override
     public void setHmacKey(byte[] key) {
         hmacKeyPolicy.setKey(key);
-    }
-
-    @Override
-    public void setPin(String pin) {
-        this.passwordPolicy.setPassword(pin);
     }
 }

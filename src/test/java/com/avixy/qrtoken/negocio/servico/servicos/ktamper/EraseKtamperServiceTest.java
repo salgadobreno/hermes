@@ -23,14 +23,14 @@ public class EraseKtamperServiceTest {
     QrtHeaderPolicy qrtHeaderPolicy = mock(QrtHeaderPolicy.class);
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy, passwordPolicy);
+    EraseKtamperService service = new EraseKtamperService(qrtHeaderPolicy, timestampPolicy);
 
     byte[] expectedOut;
 
     @Before
     public void setUp() throws Exception {
         long epoch = 1409329200000l;
-        service.setPin("1234");
+//        service.setPin("1234");
         service.setTimestamp(new Date(epoch));
         expectedOut = new byte[]{ };
 
@@ -49,7 +49,7 @@ public class EraseKtamperServiceTest {
         /* "é obrigatório OU o PIN OU PUK" */
         expectedOut = new byte[]{ };
 
-        service.setPuk("4444");
+//        service.setPuk("4444");
         assertArrayEquals(expectedOut, service.getMessage());
     }
 

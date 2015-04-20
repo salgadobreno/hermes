@@ -28,7 +28,6 @@ public class UpdateTemplateServiceTest {
     };
     HeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
-    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     RandomGenerator randomGenerator = new RandomGenerator() {
         @Override
@@ -38,7 +37,7 @@ public class UpdateTemplateServiceTest {
             }
         }
     };
-    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy, randomGenerator);
+    UpdateTemplateService service = new UpdateTemplateService(headerPolicy, timestampPolicy, hmacKeyPolicy, randomGenerator);
 
     String expectedBinaryMsg;
 
@@ -49,7 +48,6 @@ public class UpdateTemplateServiceTest {
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
-        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -65,7 +63,6 @@ public class UpdateTemplateServiceTest {
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
         verify(timestampPolicy).get();
-        verify(passwordPolicy).get();
         verify(hmacKeyPolicy).apply(any());
     }
 }

@@ -2,7 +2,7 @@ package com.avixy.qrtoken.gui.servicos.components.chaves;
 
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.servico.servicos.chaves.UpdateSYmmetricKeyClientService;
+import com.avixy.qrtoken.negocio.servico.servicos.chaves.UpdateSymmetricKeyClientService;
 import com.google.inject.Inject;
 
 /**
@@ -17,7 +17,7 @@ public class UpdateSymmetricKeyClientServiceComponent extends UpdateSymmetricKey
      * @param qrCodePolicy
      */
     @Inject
-    protected UpdateSymmetricKeyClientServiceComponent(UpdateSYmmetricKeyClientService service) {
+    protected UpdateSymmetricKeyClientServiceComponent(UpdateSymmetricKeyClientService service) {
         super(service);
     }
 }

@@ -39,8 +39,8 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(title, "wrap, span");
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
-        migPane.add(new Label("PIN:"));
-        migPane.add(optionalPasswordField, "wrap");
+//        migPane.add(new Label("PIN:"));
+//        migPane.add(optionalPasswordField, "wrap");
 
         return migPane;
     }
@@ -49,8 +49,8 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-        eraseKtamperService.togglePasswordOptional(optionalPasswordField.isOptional());
-        eraseKtamperService.setPin(optionalPasswordField.getText());
+//        eraseKtamperService.togglePasswordOptional(optionalPasswordField.isOptional());
+//        eraseKtamperService.setPin(optionalPasswordField.getText());
 
         return eraseKtamperService;
     }

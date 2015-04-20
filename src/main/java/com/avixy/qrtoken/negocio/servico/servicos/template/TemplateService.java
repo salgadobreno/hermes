@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.template;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
@@ -36,7 +35,11 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
+        if (originalPasswordPolicy == passwordPolicy) {
+            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
+        } else {
+            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN;
+        }
     }
 
     @Override

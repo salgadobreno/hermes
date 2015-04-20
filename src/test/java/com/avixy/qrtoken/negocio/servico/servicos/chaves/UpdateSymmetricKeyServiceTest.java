@@ -23,8 +23,7 @@ public class UpdateSymmetricKeyServiceTest {
     QrtHeaderPolicy headerPolicy = mock(QrtHeaderPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
-    UpdateSymmetricKeyService service = new UpdateSymmetricKeyAvixyService(headerPolicy, timestampPolicy, passwordPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
+    UpdateSymmetricKeyService service = new UpdateSymmetricKeyAvixyService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy);
     String expectedMsg;
 
     @Before
@@ -40,7 +39,7 @@ public class UpdateSymmetricKeyServiceTest {
         service.setTimestamp(new Date(epoch));
         service.setHmacKey("zxcv".getBytes());
         service.setAesKey("bla".getBytes());
-        service.setPin("123456");
+//        service.setPin("123456");
 
         service.setSecretKey(Hex.decodeHex("ae0aaaf92295ede5".toCharArray()));
         service.setAuthKey(Hex.decodeHex("de38bae46f371678".toCharArray()));
@@ -48,7 +47,6 @@ public class UpdateSymmetricKeyServiceTest {
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
-        when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
     @Test
@@ -63,7 +61,5 @@ public class UpdateSymmetricKeyServiceTest {
         Mockito.verify(timestampPolicy).get();
         Mockito.verify(headerPolicy).getHeader(service);
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
-        Mockito.verify(passwordPolicy).setPassword(Mockito.anyString());
-        Mockito.verify(passwordPolicy).get();
     }
 }

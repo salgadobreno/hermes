@@ -25,6 +25,6 @@ public class DeleteSymKeyClientService extends DeleteSymKeyService {
 
     @Override
     public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_DELETE_SYM_KEY_CLIENT;
+        return ServiceCode.SERVICE_DELETE_CLIENT_SYM_KEYSET;
     }
 }

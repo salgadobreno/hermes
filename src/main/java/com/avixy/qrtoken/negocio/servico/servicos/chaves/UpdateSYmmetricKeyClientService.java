@@ -13,10 +13,10 @@ import com.google.inject.Inject;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateSYmmetricKeyClientService extends UpdateSymmetricKeyService {
+public class UpdateSymmetricKeyClientService extends UpdateSymmetricKeyService {
     @Inject
-    protected UpdateSYmmetricKeyClientService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
-        super(headerPolicy, timestampPolicy, passwordPolicy, messagePolicy, hmacKeyPolicy);
+    protected UpdateSymmetricKeyClientService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy messagePolicy, HmacKeyPolicy hmacKeyPolicy) {
+        super(headerPolicy, timestampPolicy, messagePolicy, hmacKeyPolicy);
     }
 
     @Override
@@ -26,10 +26,6 @@ public class UpdateSYmmetricKeyClientService extends UpdateSymmetricKeyService {
 
     @Override
     public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_UPDATE_CLIENT_SYM_KEY;
-        } else {
-            return ServiceCode.SERVICE_UPDATE_CLIENT_SYM_KEY_WITHOUT_PIN;
-        }
+        return ServiceCode.SERVICE_UPDATE_CLIENT_SYM_KEY;
     }
 }

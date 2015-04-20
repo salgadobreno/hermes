@@ -16,15 +16,10 @@ import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplateSize;
-import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -32,14 +27,14 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class UpdateTemplateService extends PasswordOptionalAbstractService implements TimestampAble, HmacAble, PinAble, PasswordOptional {
+public class UpdateTemplateService extends AbstractService implements TimestampAble, HmacAble {
     private TemplateSlotParam templateSlotParam;
     private TemplateParam templateParam;
     private RandomGenerator paddingGenerator;
 
     @Inject
-    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, RandomGenerator paddingGenerator) {
-        super(headerPolicy, passwordPolicy);
+    public UpdateTemplateService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, RandomGenerator paddingGenerator) {
+        super(headerPolicy);
         this.timestampPolicy = timestampPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.paddingGenerator = paddingGenerator;
@@ -52,11 +47,7 @@ public class UpdateTemplateService extends PasswordOptionalAbstractService imple
 
     @Override
     public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_TEMPLATE_SYM_UPDATE;
-        } else {
-            return ServiceCode.SERVICE_TEMPLATE_SYM_UPDATE_WITHOUT_PIN;
-        }
+        return ServiceCode.SERVICE_HMAC_TEMPLATE_UPDATE;
     }
 
     @Override
@@ -86,11 +77,6 @@ public class UpdateTemplateService extends PasswordOptionalAbstractService imple
     @Override
     public void setHmacKey(byte[] key) {
         hmacKeyPolicy.setKey(key);
-    }
-
-    @Override
-    public void setPin(String pin) {
-        passwordPolicy.setPassword(pin);
     }
 
     @Override
