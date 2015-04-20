@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
-- Added EBChat Session Key Service
+- Reviewed and stripped down Services
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
 - Improved Text boundaries in template editor
@@ -13,10 +13,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - GenerateKTamper also stores PIN/PUK
 
 ### Added
+- EBChat Session Key Service
 - Text accepts |(pipe) arguments for custom X position
 
 ### Fixed
 - 'Update symmetric key', 'two step import symmetric key' and 'import symmetric key' key's selection are now filtered
+
+### Removed
+
 
 ## 0.1.0 - 30/03/2015
 ### Added
