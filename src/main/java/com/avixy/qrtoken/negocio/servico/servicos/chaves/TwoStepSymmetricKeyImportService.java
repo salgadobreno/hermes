@@ -1,10 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
+import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;

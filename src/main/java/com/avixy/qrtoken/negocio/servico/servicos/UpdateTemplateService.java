@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;

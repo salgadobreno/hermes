@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio;
+package com.avixy.qrtoken.negocio.servico.behaviors;
 
 import com.avixy.qrtoken.negocio.servico.operations.NoPasswordPolicy;
 

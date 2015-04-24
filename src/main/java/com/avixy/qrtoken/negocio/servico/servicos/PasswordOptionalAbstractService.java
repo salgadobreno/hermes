@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.PasswordOptional;
+import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;

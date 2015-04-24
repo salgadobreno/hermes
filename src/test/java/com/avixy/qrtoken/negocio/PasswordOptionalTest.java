@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
+import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.operations.NoPasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;

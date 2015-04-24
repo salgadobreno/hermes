@@ -1,10 +1,10 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ebchat;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.negocio.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.AesCrypted;
 import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
+import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
