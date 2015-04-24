@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AbstractEncryptedHmacTemplateMessageService;
@@ -24,7 +25,7 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
     List<Param> params;
 
     @Inject
-    public TemplateService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public TemplateService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
     }
 

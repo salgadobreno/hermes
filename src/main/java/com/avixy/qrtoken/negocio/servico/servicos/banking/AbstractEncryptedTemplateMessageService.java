@@ -22,7 +22,7 @@ public abstract class AbstractEncryptedTemplateMessageService extends PasswordOp
     protected TemplateSlotParam templateSlot;
 
     @Inject
-    public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
+    public AbstractEncryptedTemplateMessageService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, passwordPolicy);
         this.messagePolicy = aesCryptedMessagePolicy;
         this.timestampPolicy = timestampPolicy;
