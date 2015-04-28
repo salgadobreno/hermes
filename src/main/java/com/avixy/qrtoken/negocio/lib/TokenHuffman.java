@@ -1,4 +1,4 @@
-package com.avixy.qrtoken.negocio.servico;
+package com.avixy.qrtoken.negocio.lib;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

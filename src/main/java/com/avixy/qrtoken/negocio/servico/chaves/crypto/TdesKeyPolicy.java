@@ -49,7 +49,7 @@ public class TdesKeyPolicy extends AbstractKeyPolicy {
     }
 
     @Override
-    public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException {
+    public byte[] apply(byte[] msg) throws CryptoException {
         BufferedBlockCipher blockCipher = new BufferedBlockCipher(new CBCBlockCipher(new DESedeEngine()));
         CipherParameters cipherParameters = new ParametersWithIV(new KeyParameter(key), initializationVector);
 

@@ -62,7 +62,7 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
         migPane.add(sessionAuthKeySelect, "wrap");
 
         Separator separator = new Separator();
-        separator.setPrefWidth(137);
+        separator.setPrefWidth(200);
         migPane.add(separator, "span, wrap");
 
         migPane.add(new Label("Current Aes Key:"));

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.controllers;
 
-import com.avixy.qrtoken.negocio.servico.TokenHuffman;
+import com.avixy.qrtoken.negocio.lib.TokenHuffman;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,5 +37,4 @@ public class HuffmanEncoderController {
     public void encode(){
         huffmanField.setText(new TokenHuffman(TokenHuffman.Mode.SPLIT).encode(textoField.getText()));
     }
-
 }

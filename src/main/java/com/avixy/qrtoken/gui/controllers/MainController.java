@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.google.inject.Guice;
@@ -17,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -32,7 +34,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,7 @@ public class MainController {
     Stage chavesStage;
     Stage encoderStage;
     Stage templateStage;
+    Stage keyConfigStage;
 
     private Version qrVersion;
 
@@ -208,6 +210,15 @@ public class MainController {
     private void handleException(Exception e) {
         log.error("Error: ", e);
 
+        if (e instanceof AvixyKeyDerivator.AvixyKeyNotConfigured) {
+            keyConfiguration(new ActionEvent());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Info");
+            alert.setHeaderText("Chave Avixy não foi configurada");
+            alert.showAndWait();
+            return;
+        }
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(e.getMessage());
@@ -275,7 +286,6 @@ public class MainController {
     }
 
     public void zoomQR(){
-        Window window = qrView.getScene().getWindow();
         if (zoomStage == null) {
             zoomStage = new Stage(StageStyle.UTILITY);
         }
@@ -331,5 +341,16 @@ public class MainController {
                 nextQrCode();
                 break;
         }
+    }
+
+    @FXML
+    public void keyConfiguration(ActionEvent actionEvent) {
+        if (keyConfigStage == null) {
+            keyConfigStage = new Stage();
+            keyConfigStage.setResizable(false);
+            keyConfigStage.setScene(new Scene(new AvixyKeyConfigurationController()));
+        }
+        keyConfigStage.show();
+        keyConfigStage.toFront();
     }
 }

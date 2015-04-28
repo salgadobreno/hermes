@@ -10,14 +10,16 @@
 <VBox fx:id="root" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="Edit">
-               <items>
-            <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
-                  <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
-                  <MenuItem mnemonicParsing="false" onAction="#templates" text="Aplicações" />
-               </items></Menu>
-      </menus>
+        <menus>
+            <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
+                    <MenuItem mnemonicParsing="false" onAction="#templates" text="Editor de Aplicações" />
+                    <MenuItem mnemonicParsing="false" onAction="#keyConfiguration" text="Configurar Chave Avixy" />
+                    <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
+                </items>
+            </Menu>
+        </menus>
     </MenuBar>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="94.0" prefWidth="900.0">
          <children>

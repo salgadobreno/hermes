@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
+- HexField has getValue() that returns byte[] value
+- Avixy Key is now derived from Serial Number
 - Reviewed and stripped down services
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
@@ -13,8 +15,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - GenerateKTamper also stores PIN/PUK
 
 ### Added
+- Avixy Key Configuration Menu option
+- New Avixy Key Import Service protocol implemented
 - EBChat Session Key Service
-- Text accepts |(pipe) arguments for custom X position
 
 ### Fixed
 - 'Update symmetric key', 'two step import symmetric key' and 'import symmetric key' key's selection are now filtered

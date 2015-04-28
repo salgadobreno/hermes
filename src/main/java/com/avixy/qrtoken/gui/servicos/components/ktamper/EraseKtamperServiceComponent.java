@@ -1,11 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
-import com.avixy.qrtoken.core.extensions.components.OptionalPasswordField;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
@@ -24,7 +22,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
+    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
 
     @Inject
     public EraseKtamperServiceComponent(EraseKtamperService service) {
@@ -42,8 +40,8 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
 
-        migPane.add(new Label("Avixy Hmac:"));
-        migPane.add(hmacKeySelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField, "wrap");
 
         return migPane;
     }
@@ -52,7 +50,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-        eraseKtamperService.setHmacKey(hmacKeySelect.getValue().getHexValue());
+        eraseKtamperService.setHmacKey(AvixyKeyConfiguration.getInstance().getHmacKey(serialNumberField.getText()));
 
         return eraseKtamperService;
     }

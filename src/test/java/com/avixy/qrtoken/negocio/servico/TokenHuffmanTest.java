@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.negocio.lib.TokenHuffman;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

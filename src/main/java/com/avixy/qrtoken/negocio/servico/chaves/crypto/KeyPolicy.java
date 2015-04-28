@@ -20,7 +20,7 @@ public interface KeyPolicy {
      * @throws CryptoException
      * @throws GeneralSecurityException
      */
-    public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException;
+    byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException;
     /* TODO: Usar só uma lib pra suportar só um tipo de exception de crypto generica? */
 
     void setKey(byte[] bytes);

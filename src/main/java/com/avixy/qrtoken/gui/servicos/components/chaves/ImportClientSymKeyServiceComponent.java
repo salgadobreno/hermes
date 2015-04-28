@@ -2,9 +2,11 @@ package com.avixy.qrtoken.gui.servicos.components.chaves;
 
 import com.avixy.qrtoken.core.extensions.components.AesKeySelect;
 import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
+import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.ImportClientSymKeySetService;
 import com.google.inject.Inject;
@@ -28,8 +30,7 @@ public class ImportClientSymKeyServiceComponent extends ServiceComponent {
     private AesKeySelect clientAesKeySelect = new AesKeySelect();
     private HmacKeySelect clientAuthKeySelect = new HmacKeySelect();
 
-    private AesKeySelect avixyKeySelect = new AesKeySelect();
-    private HmacKeySelect avixyAuthSelect = new HmacKeySelect();
+    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
 
     @Inject
     public ImportClientSymKeyServiceComponent(ImportClientSymKeySetService service) {
@@ -54,13 +55,12 @@ public class ImportClientSymKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Auth Key::"));
         migPane.add(clientAuthKeySelect, "wrap");
 
-        migPane.add(new Separator(), "span, wrap");
+        Separator separator = new Separator();
+        separator.setPrefWidth(200);
+        migPane.add(separator, "span, wrap");
 
-        migPane.add(new Label("Avixy Aes Key:"));
-        migPane.add(avixyKeySelect, "wrap");
-
-        migPane.add(new Label("Avixy Auth Key:"));
-        migPane.add(avixyAuthSelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField);
 
         return migPane;
     }
@@ -68,8 +68,8 @@ public class ImportClientSymKeyServiceComponent extends ServiceComponent {
     @Override
     public Service getService() throws Exception {
         service.setTimestamp(timestampField.getValue());
-        service.setAesKey(avixyKeySelect.getValue().getHexValue());
-        service.setHmacKey(avixyAuthSelect.getValue().getHexValue());
+        service.setAesKey(AvixyKeyConfiguration.getInstance().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(AvixyKeyConfiguration.getInstance().getHmacKey(serialNumberField.getText()));
         service.setClientAesKey(clientAesKeySelect.getValue().getHexValue());
         service.setClientAuthKey(clientAuthKeySelect.getValue().getHexValue());
 

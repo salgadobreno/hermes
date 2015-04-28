@@ -1,10 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.AesKeySelect;
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.ImportAvixySymKeySetService;
 import com.google.inject.Inject;
@@ -20,12 +19,12 @@ import org.tbee.javafx.scene.layout.MigPane;
 */
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
+    private AvixyKeyConfiguration avixyKeyConfiguration = AvixyKeyConfiguration.getInstance();
     private final ImportAvixySymKeySetService service;
 
     private TimestampField timestampField = new TimestampField();
 
-    private AesKeySelect keySelect = new AesKeySelect();
-    private HmacKeySelect authSelect = new HmacKeySelect();
+    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
 
     /**
      * @param service
@@ -47,11 +46,8 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
 
-        migPane.add(new Label("Aes Key:"));
-        migPane.add(keySelect, "wrap");
-
-        migPane.add(new Label("Auth Key::"));
-        migPane.add(authSelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField, "wrap");
 
         return migPane;
     }
@@ -60,8 +56,9 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         service.setTimestamp(timestampField.getValue());
 
-        service.setSecrecyKey(keySelect.getValue().getHexValue());
-        service.setAuthKey(authSelect.getValue().getHexValue());
+        String serialNumber = serialNumberField.getText();
+        service.setSecrecyKey(avixyKeyConfiguration.getAesKey(serialNumber));
+        service.setAuthKey(avixyKeyConfiguration.getHmacKey(serialNumber));
 
         return service;
     }

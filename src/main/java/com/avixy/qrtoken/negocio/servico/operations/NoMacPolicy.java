@@ -6,7 +6,7 @@ import java.security.GeneralSecurityException;
 
 public class NoMacPolicy extends HmacKeyPolicy {
     @Override
-    public byte[] apply(byte[] msg) throws GeneralSecurityException {
+    public byte[] apply(byte[] msg) {
         return msg;
     }
 

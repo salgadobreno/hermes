@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
-import com.avixy.qrtoken.negocio.servico.TokenHuffman;
+import com.avixy.qrtoken.negocio.lib.TokenHuffman;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;

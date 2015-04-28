@@ -40,7 +40,7 @@ import com.avixy.qrtoken.negocio.servico.operations.NoPasswordPolicy;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public interface PasswordOptional {
-    static final NoPasswordPolicy NO_PASSWORD_POLICY = new NoPasswordPolicy();
+    NoPasswordPolicy NO_PASSWORD_POLICY = new NoPasswordPolicy();
 
     void togglePasswordOptional(boolean passwordOptional);
 }

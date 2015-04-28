@@ -68,7 +68,6 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
                 e.printStackTrace();
             }
         });
-        button.setDefaultButton(true);
         migPane.add(button, "newline, skip 1");
 
         return migPane;

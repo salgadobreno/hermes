@@ -42,7 +42,7 @@ public class AesKeyPolicy extends AbstractKeyPolicy {
     }
 
     @Override
-    public byte[] apply(byte[] msg) throws CryptoException, GeneralSecurityException {
+    public byte[] apply(byte[] msg) throws CryptoException {
         BufferedBlockCipher blockCipher = doPadding ? new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine())) : new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
 
         CipherParameters cipherParameters = new ParametersWithIV(new KeyParameter(key), initializationVector);
