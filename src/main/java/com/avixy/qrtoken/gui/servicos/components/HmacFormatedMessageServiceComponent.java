@@ -26,7 +26,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
     private TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
     private TemplateSelect templateSelect = new TemplateSelect();
     private HmacKeySelect hmacKeySelect = new HmacKeySelect();
-    private TimestampField timestampField = new TimestampField();
+    private RangedTimestampField rangedTimestamp = new RangedTimestampField();
     private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
     private AesKeySelect keySelect = new AesKeySelect();
 
@@ -57,7 +57,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         migPane.add(hmacKeySelect, "wrap");
 
         migPane.add(new Label("Timestamp:"));
-        migPane.add(timestampField, "wrap");
+        migPane.add(rangedTimestamp, "wrap");
 
         migPane.add(new Label("PIN:"));
         migPane.add(optionalPasswordField, "wrap");
@@ -78,8 +78,8 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
     @Override
     public Service getService() throws Exception {
         service.togglePasswordOptional(optionalPasswordField.isOptional());
+        service.setTimestampRange(rangedTimestamp.getStartDateValue(), rangedTimestamp.getEndDateValue());
         service.setPin(optionalPasswordField.getText());
-        service.setTimestamp(timestampField.getValue());
         service.setAesKey(keySelect.getValue().getHexValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTemplate(templateSelect.getValue());
