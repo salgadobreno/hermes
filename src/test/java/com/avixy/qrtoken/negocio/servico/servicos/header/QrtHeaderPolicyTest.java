@@ -20,6 +20,6 @@ public class QrtHeaderPolicyTest {
         // 1 byte da versão do protocolo
         // 8 bits seleção de serviço
         byte[] result = {0, 0, Token.PROTOCOL_VERSION,10};
-        assertArrayEquals(headerPolicy.getHeader(any(), any()), result);
+        assertArrayEquals(headerPolicy.getHeader(mockService, null), result);
     }
 }
