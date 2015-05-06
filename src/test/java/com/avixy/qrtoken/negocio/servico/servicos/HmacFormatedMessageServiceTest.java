@@ -5,6 +5,7 @@ import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
@@ -19,7 +20,7 @@ public class HmacFormatedMessageServiceTest extends TestCase {
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    RangedTimestampPolicy timestampPolicy = mock(RangedTimestampPolicy.class);
     HmacFormatedMessageService service = new HmacFormatedMessageService(qrtHeaderPolicy, timestampPolicy, hmacKeyPolicy, passwordPolicy, aesCryptedMessagePolicy);
 
     Template template = new Template() {

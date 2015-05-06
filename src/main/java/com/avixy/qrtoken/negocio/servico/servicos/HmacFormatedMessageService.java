@@ -1,11 +1,13 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
+import com.avixy.qrtoken.core.extensions.components.RangedTimestampField;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.*;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateParam;
@@ -20,12 +22,12 @@ import java.util.Date;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class HmacFormatedMessageService extends PasswordOptionalAbstractService implements TimestampAble, HmacAble, PinAble, AesCrypted, PasswordOptional {
+public class HmacFormatedMessageService extends PasswordOptionalAbstractService implements RangedTimestampAble, TimestampAble, HmacAble, PinAble, AesCrypted, PasswordOptional {
     private TemplateParam templateParam;
     private KeyParam secrecyKey;
 
     @Inject
-    public HmacFormatedMessageService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
+    public HmacFormatedMessageService(HeaderPolicy headerPolicy, RangedTimestampPolicy timestampPolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy) {
         super(headerPolicy, passwordPolicy);
         this.timestampPolicy = timestampPolicy;
         this.hmacKeyPolicy = hmacKeyPolicy;
@@ -68,5 +70,15 @@ public class HmacFormatedMessageService extends PasswordOptionalAbstractService 
     @Override
     public void setTimestamp(Date date) {
         timestampPolicy.setDate(date);
+    }
+
+    @Override
+    public void setTimestampRange(Date startDate, Date endDate) {
+        ((RangedTimestampPolicy)this.timestampPolicy).setRange(startDate, endDate);
+    }
+
+    @Override
+    public boolean isRanged() {
+        return ((RangedTimestampPolicy) timestampPolicy).isRanged();
     }
 }

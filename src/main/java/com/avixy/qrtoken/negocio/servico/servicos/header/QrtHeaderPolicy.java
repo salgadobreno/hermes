@@ -19,7 +19,7 @@ public class QrtHeaderPolicy implements HeaderPolicy {
         return new byte[]{
                 0, 0,
                 Token.PROTOCOL_VERSION,
-                (byte) (serviceCode == null ? service.getServiceCode().ordinal() : service.getServiceCode().ordinal())
+                (byte) (serviceCode == null ? service.getServiceCode().ordinal() : serviceCode.ordinal())
         };
     }
 }
