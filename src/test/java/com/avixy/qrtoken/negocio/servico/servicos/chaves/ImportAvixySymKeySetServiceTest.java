@@ -26,7 +26,7 @@ public class ImportAvixySymKeySetServiceTest {
         service.setSecrecyKey(new byte[32]);
         service.setAuthKey(new byte[32]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -60,6 +60,6 @@ public class ImportAvixySymKeySetServiceTest {
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
         verify(timestampPolicy).get();
-        verify(headerPolicy).getHeader(any());
+        verify(headerPolicy).getHeader(any(), any());
     }
 }

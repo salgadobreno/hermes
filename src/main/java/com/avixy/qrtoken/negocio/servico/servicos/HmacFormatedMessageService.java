@@ -39,11 +39,7 @@ public class HmacFormatedMessageService extends PasswordOptionalAbstractService 
 
     @Override
     public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE;
-        } else {
-            return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE_WITHOUT_PIN;
-        }
+        return ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE;
     }
 
     @Override

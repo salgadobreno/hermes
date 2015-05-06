@@ -20,17 +20,12 @@ public class LoginService extends AbstractEncryptedHmacTemplateMessageService {
     private HuffmanEncodedParam loginCode;
 
     @Inject
-    public LoginService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public LoginService(QrtHeaderPolicy headerPolicy, RangedTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
     }
 
     @Override
     public String getServiceName() { return "Login"; }
-
-    @Override
-    public ServiceCode getServiceCode() {
-        return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
-    }
 
     @Override
     public byte[] getMessage() {

@@ -51,7 +51,7 @@ public class AvixyRtcServiceTest {
         service.setTimezone(TimeZone.getTimeZone("GMT+7"));
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AvixyRtcServiceTest {
     @Test
     public void testCrypto() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        verify(headerPolicy).getHeader(Matchers.<Service>anyObject());
+        verify(headerPolicy).getHeader(any(), any());
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
         verify(timestampPolicy).get();
     }

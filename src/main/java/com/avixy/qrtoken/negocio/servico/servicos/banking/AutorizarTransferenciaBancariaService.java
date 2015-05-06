@@ -5,7 +5,7 @@ import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
@@ -37,21 +37,12 @@ public class AutorizarTransferenciaBancariaService extends AbstractEncryptedHmac
     private HuffmanEncodedParam tanParam;
 
     @Inject
-    public AutorizarTransferenciaBancariaService(QrtHeaderPolicy headerPolicy, SettableTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public AutorizarTransferenciaBancariaService(QrtHeaderPolicy headerPolicy, RangedTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
     }
 
     @Override
     public String getServiceName() { return "Encrypted Template Message\nAutorizar Transferência Bancária"; }
-
-    @Override
-    public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
-        } else {
-            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN;
-        }
-    }
 
     @Override
     public byte[] getMessage() {

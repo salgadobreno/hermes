@@ -5,7 +5,7 @@ import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +22,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
-    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    RangedTimestampPolicy timestampPolicy = mock(RangedTimestampPolicy.class);
     AutorizarTransferenciaBancariaService service = new AutorizarTransferenciaBancariaService(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
 
     int template = 1;
@@ -168,7 +168,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         service.setPin("1234");
 
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(service, any())).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
@@ -182,7 +182,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
         verify(aesCryptedMessagePolicy).get(service);
-        verify(headerPolicy).getHeader(service);
+        verify(headerPolicy).getHeader(any(), any());
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
         verify(passwordPolicy).get();
 

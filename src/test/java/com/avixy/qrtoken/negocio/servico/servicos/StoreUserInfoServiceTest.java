@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +43,7 @@ public class StoreUserInfoServiceTest {
         service.setAesKey("aes".getBytes());
 
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -62,7 +63,7 @@ public class StoreUserInfoServiceTest {
     @Test
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        Mockito.verify(headerPolicy).getHeader(service);
+        Mockito.verify(headerPolicy).getHeader(any(), any());
         Mockito.verify(aesCryptedMessagePolicy).get(service);
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
     }

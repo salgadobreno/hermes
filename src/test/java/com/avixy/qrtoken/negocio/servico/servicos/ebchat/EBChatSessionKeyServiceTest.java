@@ -31,7 +31,7 @@ public class EBChatSessionKeyServiceTest {
 
 
         when(messagePolicy.get(any())).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(any())).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(hmacKeyPolicy.apply(any())).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
@@ -89,7 +89,7 @@ public class EBChatSessionKeyServiceTest {
     @Test
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        verify(headerPolicy).getHeader(any());
+        verify(headerPolicy).getHeader(any(), any());
         verify(messagePolicy).get(any());
         verify(messagePolicy).setKey(any());
         verify(timestampPolicy).get();

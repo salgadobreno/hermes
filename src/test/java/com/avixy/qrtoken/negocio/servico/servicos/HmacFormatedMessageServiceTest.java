@@ -35,7 +35,7 @@ public class HmacFormatedMessageServiceTest extends TestCase {
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
-        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
     }
 
     public void testBinnaryMsg() throws Exception {
@@ -49,7 +49,7 @@ public class HmacFormatedMessageServiceTest extends TestCase {
         verify(aesCryptedMessagePolicy).get(service);
         verify(timestampPolicy).get();
         verify(passwordPolicy).get();
-        verify(qrtHeaderPolicy).getHeader(service);
+        verify(qrtHeaderPolicy).getHeader(any(), any());
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>anyObject());
     }
 }

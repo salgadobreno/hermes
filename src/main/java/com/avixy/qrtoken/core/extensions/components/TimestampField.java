@@ -2,15 +2,12 @@ package com.avixy.qrtoken.core.extensions.components;
 
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.FormatStringConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
