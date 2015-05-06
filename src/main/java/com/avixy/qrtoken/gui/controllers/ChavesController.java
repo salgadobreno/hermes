@@ -57,30 +57,24 @@ public class ChavesController {
     }
 
     public void initialize(){
-        tipoComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KeyType>() {
-            @Override
-            public void changed(ObservableValue<? extends KeyType> observableValue, KeyType keyType, KeyType keyType2) {
-                lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyType2.getKeyLengths())));
-                lengthComboBox.getSelectionModel().select(0);
-            }
+        tipoComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, keyType, keyType2) -> {
+            lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyType2.getKeyLengths())));
+            lengthComboBox.getSelectionModel().select(0);
         });
         Collections.addAll(keyTypeList, KeyType.values());
         tipoComboBox.setItems(FXCollections.observableList(keyTypeList));
         tipoComboBox.getSelectionModel().select(0);
 
         /* basic validation */
-        valorField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                updateChave();
-                if (valorField.getText().isEmpty()) {
-                    valorField.styleProperty().setValue("");
+        valorField.textProperty().addListener((observableValue, s, s2) -> {
+            updateChave();
+            if (valorField.getText().isEmpty()) {
+                valorField.styleProperty().setValue("");
+            } else {
+                if (!chave.isValid()) {
+                    valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 } else {
-                    if (!chave.isValid()) {
-                        valorField.setStyle("-fx-background-color:red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                    } else {
-                        valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
-                    }
+                    valorField.setStyle("-fx-background-color:green,linear-gradient(to bottom, derive(green,60%) 5%,derive(green,90%) 40%);");
                 }
             }
         });
@@ -123,25 +117,10 @@ public class ChavesController {
 
             /* Value factories */
             colunaId.setCellValueFactory(new PropertyValueFactory<Chave, String>("Id"));
-            colunaTipo.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Chave, String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<Chave, String> chaveStringCellDataFeatures) {
-                    return new SimpleStringProperty(chaveStringCellDataFeatures.getValue().getDisplayName());
-                }
-            });
+            colunaTipo.setCellValueFactory(chaveStringCellDataFeatures -> new SimpleStringProperty(chaveStringCellDataFeatures.getValue().getDisplayName()));
             colunaValor.setCellValueFactory(new PropertyValueFactory<Chave, String>("Valor"));
-            colunaDelete.setCellFactory(new Callback<TableColumn<Chave, Chave>, TableCell<Chave, Chave>>() {
-                @Override
-                public TableCell<Chave, Chave> call(TableColumn<Chave, Chave> chaveBooleanTableColumn) {
-                    return new ChaveDeleteCell();
-                }
-            });
-            colunaDelete.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Chave, Chave>, ObservableValue<Chave>>() {
-                @Override
-                public ObservableValue<Chave> call(TableColumn.CellDataFeatures<Chave, Chave> features) {
-                    return new SimpleObjectProperty<Chave>(features.getValue());
-                }
-            });
+            colunaDelete.setCellFactory(chaveBooleanTableColumn -> new ChaveDeleteCell());
+            colunaDelete.setCellValueFactory(features -> new SimpleObjectProperty<Chave>(features.getValue()));
 
             /* widths */
             colunaId.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
@@ -162,11 +141,7 @@ public class ChavesController {
             ChaveDeleteCell() {
                 paddedButton.setPadding(new Insets(3));
                 paddedButton.getChildren().add(addButton);
-                addButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent actionEvent) {
-                        chaves.remove(getTableColumn().getCellData(getIndex()));
-                    }
-                });
+                addButton.setOnAction(actionEvent -> chaves.remove(getTableColumn().getCellData(getIndex())));
             }
 
             /** places a button in the row only if the row is not empty. */

@@ -14,9 +14,9 @@
             <Menu mnemonicParsing="false" text="Edit">
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
-                    <MenuItem mnemonicParsing="false" onAction="#templates" text="Editor de Aplicações" />
+                    <MenuItem mnemonicParsing="false" onAction="#templateEditor" text="Editor de Aplicações" />
                     <MenuItem mnemonicParsing="false" onAction="#keyConfiguration" text="Configurar Chave Avixy" />
-                    <MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />
+                    <!--<MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />-->
                 </items>
             </Menu>
         </menus>
@@ -28,6 +28,7 @@
                   <Image url="@../images/logo1.png" />
                </image>
             </ImageView>
+            <!--<ComboBox fx:id="profileSelector" focusTraversable="false" layoutX="750.0" layoutY="69.0" prefWidth="150.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;" />-->
          </children>
       </AnchorPane>
     <SplitPane dividerPositions="0.5" focusTraversable="true">

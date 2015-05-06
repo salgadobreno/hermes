@@ -29,6 +29,9 @@
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.8.4" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:8.20.8" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:openjfx-dialogs:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.jidesoft:jidefx-validation:0.9.1" level="project" />
+    <orderEntry type="library" name="Maven: com.jidesoft:jidefx-decoration:0.9.1" level="project" />
+    <orderEntry type="library" name="Maven: com.jidesoft:jidefx-common:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: com.miglayout:miglayout-javafx:5.0" level="project" />
     <orderEntry type="library" name="Maven: com.miglayout:miglayout-core:5.0" level="project" />
     <orderEntry type="library" name="Maven: org.reflections:reflections:0.9.9-RC2" level="project" />

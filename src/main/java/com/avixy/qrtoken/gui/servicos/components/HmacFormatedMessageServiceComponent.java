@@ -65,7 +65,7 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
             try {
-                controller.templates();
+                controller.templateEditor();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -10,6 +10,8 @@ import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import jidefx.scene.control.decoration.DecorationPane;
+import jidefx.scene.control.validation.ValidationUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
 /**
@@ -19,12 +21,11 @@ import org.tbee.javafx.scene.layout.MigPane;
 */
 @ServiceComponent.Category(category = ServiceCategory.CHAVES)
 public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
-    private AvixyKeyConfiguration avixyKeyConfiguration = AvixyKeyConfiguration.getInstance();
     private final ImportAvixySymKeySetService service;
 
     private TimestampField timestampField = new TimestampField();
 
-    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     /**
      * @param service
@@ -49,7 +50,7 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
-        return migPane;
+        return new DecorationPane(migPane);
     }
 
     @Override
@@ -57,9 +58,13 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
         service.setTimestamp(timestampField.getValue());
 
         String serialNumber = serialNumberField.getText();
-        service.setSecrecyKey(avixyKeyConfiguration.getAesKey(serialNumber));
-        service.setAuthKey(avixyKeyConfiguration.getHmacKey(serialNumber));
+        service.setSecrecyKey(AvixyKeyConfiguration.getSelected().getAesKey(serialNumber));
+        service.setAuthKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumber));
 
-        return service;
+        if (ValidationUtils.validateOnDemand(serialNumberField)) {
+            return service;
+        } else {
+            throw new RuntimeException("Serial number should have 10 characters");
+        }
     }
 }

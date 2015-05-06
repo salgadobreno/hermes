@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.lib;
 
-import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.crypto.CryptoException;
@@ -28,6 +27,15 @@ public class AvixyKeyDerivator {
     private byte[] kAes1, kAes2;
     private byte[] kHmac1, kHmac2;
     private byte[] baseDerivationKey;
+    {
+        kComponent1 = new byte[0];
+        kComponent2 = new byte[0];
+        kComponent3 = new byte[0];
+        kAes1 = new byte[0];
+        kAes2 = new byte[0];
+        kHmac1 = new byte[0];
+        kHmac2 = new byte[0];
+    }
     private static final  byte[] CLEAN_IV = new byte[16];
 
     private AesKeyPolicy aesKeyPolicy = new AesKeyPolicy();
@@ -43,10 +51,14 @@ public class AvixyKeyDerivator {
     }
 
     public void setKeyComponents(byte[] keyComponent1, byte[] keyComponent2, byte[] keyComponent3) {
+        if (keyComponent1.length != 32 || keyComponent2.length != 32 || keyComponent3.length != 32) {
+            return;
+        }
         kComponent1 = keyComponent1;
         kComponent2 = keyComponent2;
         kComponent3 = keyComponent3;
         baseDerivationKey = new byte[32];
+
         for (int i = 0; i < 32; i++) {
             baseDerivationKey[i] = (byte) (keyComponent1[i] ^ keyComponent2[i] ^ keyComponent3[i]);
         }
