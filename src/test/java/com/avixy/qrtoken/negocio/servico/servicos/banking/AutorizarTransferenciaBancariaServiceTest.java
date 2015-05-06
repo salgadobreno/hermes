@@ -168,7 +168,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
         service.setPin("1234");
 
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service, any())).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
     }
