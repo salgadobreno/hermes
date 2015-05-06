@@ -1,5 +1,7 @@
 package com.avixy.qrtoken.negocio.servico;
 
+import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
+import com.avixy.qrtoken.negocio.servico.behaviors.RangedTimestampAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.MessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
@@ -49,7 +51,14 @@ public class ServiceAssembler {
         byte[] header, timestamp, message_content, pin;
         message_content = message;
 
-        header = headerPolicy.getHeader(service);
+        if (service instanceof PasswordOptional || service instanceof RangedTimestampAble) {
+            header = headerPolicy.getHeader(service, ServiceCodeLookup.getServiceCode(
+                    service,
+                    service instanceof PasswordOptional && ((PasswordOptional) service).hasPin(),
+                    service instanceof RangedTimestampAble && ((RangedTimestampAble) service).isRanged()));
+        } else {
+            header = headerPolicy.getHeader(service, null);
+        }
         timestamp = timestampPolicy.get();
         pin = passwordPolicy.get();
 

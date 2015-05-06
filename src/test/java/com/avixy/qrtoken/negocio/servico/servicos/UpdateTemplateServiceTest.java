@@ -45,7 +45,7 @@ public class UpdateTemplateServiceTest {
         service.setTemplate(template);
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(aesCryptedMessagePolicy.get(any())).thenReturn(new byte[0]);
     }
 

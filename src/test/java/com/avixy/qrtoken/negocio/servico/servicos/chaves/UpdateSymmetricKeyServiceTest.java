@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +45,7 @@ public class UpdateSymmetricKeyServiceTest {
         service.setAuthKey(Hex.decodeHex("de38bae46f371678".toCharArray()));
 
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
     }
 
@@ -58,7 +59,7 @@ public class UpdateSymmetricKeyServiceTest {
         service.getQrs(mock(QrSetup.class));
         Mockito.verify(aesCryptedMessagePolicy).get(service);
         Mockito.verify(timestampPolicy).get();
-        Mockito.verify(headerPolicy).getHeader(service);
+        Mockito.verify(headerPolicy).getHeader(any(), any());
         Mockito.verify(hmacKeyPolicy).apply(Mockito.<byte[]>any());
     }
 }

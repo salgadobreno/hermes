@@ -3,10 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.template;
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.AbstractEncryptedHmacTemplateMessageService;
@@ -25,22 +22,13 @@ public class TemplateService extends AbstractEncryptedHmacTemplateMessageService
     List<Param> params;
 
     @Inject
-    public TemplateService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public TemplateService(QrtHeaderPolicy headerPolicy, RangedTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
     }
 
     @Override
     public String getServiceName() {
         return "Executar Aplicação";
-    }
-
-    @Override
-    public ServiceCode getServiceCode() {
-        if (originalPasswordPolicy == passwordPolicy) {
-            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE;
-        } else {
-            return ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN;
-        }
     }
 
     @Override

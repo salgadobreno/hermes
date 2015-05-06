@@ -12,6 +12,7 @@ import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,7 @@ public class UpdatePukServiceTest {
         service.setNewPuk("3333");
         service.setTimestamp(new Date(epoch));
         when(timestampPolicy.get()).thenReturn(new byte[0]);
-        when(headerPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(headerPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
 
@@ -53,7 +54,7 @@ public class UpdatePukServiceTest {
     @Test
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        Mockito.verify(headerPolicy).getHeader(service);
+        Mockito.verify(headerPolicy).getHeader(any(), any());
         Mockito.verify(timestampPolicy).get();
         Mockito.verify(passwordPolicy).get();
     }

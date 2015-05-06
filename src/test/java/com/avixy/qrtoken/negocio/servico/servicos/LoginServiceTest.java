@@ -6,7 +6,7 @@ import com.avixy.qrtoken.negocio.lib.TokenHuffman;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class LoginServiceTest {
     PasswordPolicy passwordPolicy = mock(PasswordPolicy.class);
     AesCryptedMessagePolicy aesCryptedMessagePolicy = mock(AesCryptedMessagePolicy.class);
     HmacKeyPolicy hmacKeyPolicy = mock(HmacKeyPolicy.class);
-    SettableTimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);
+    RangedTimestampPolicy timestampPolicy = mock(RangedTimestampPolicy.class);
 
     LoginService service = new LoginService(qrtHeaderPolicy, timestampPolicy, aesCryptedMessagePolicy, hmacKeyPolicy, passwordPolicy);
 
@@ -38,7 +38,7 @@ public class LoginServiceTest {
         when(aesCryptedMessagePolicy.get(service)).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
-        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class LoginServiceTest {
         verify(aesCryptedMessagePolicy).get(service);
         verify(timestampPolicy).get();
         verify(passwordPolicy).get();
-        verify(qrtHeaderPolicy).getHeader(service);
+        verify(qrtHeaderPolicy).getHeader(any(), any());
         verify(hmacKeyPolicy).apply(Mockito.<byte[]>anyObject());
     }
 }

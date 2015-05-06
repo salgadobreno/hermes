@@ -34,6 +34,11 @@ public abstract class PasswordOptionalAbstractService extends AbstractService im
     }
 
     @Override
+    public boolean hasPin() {
+        return this.passwordPolicy == originalPasswordPolicy;
+    }
+
+    @Override
     public void setPin(String pin) {
         this.passwordPolicy.setPassword(pin);
     }

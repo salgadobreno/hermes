@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.behaviors;
 
+import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.operations.NoPasswordPolicy;
 
 /**
@@ -42,5 +43,7 @@ import com.avixy.qrtoken.negocio.servico.operations.NoPasswordPolicy;
 public interface PasswordOptional {
     NoPasswordPolicy NO_PASSWORD_POLICY = new NoPasswordPolicy();
 
-    void togglePasswordOptional(boolean passwordOptional);
+    boolean hasPin();
+
+    void togglePasswordOptional(boolean isOptional);
 }

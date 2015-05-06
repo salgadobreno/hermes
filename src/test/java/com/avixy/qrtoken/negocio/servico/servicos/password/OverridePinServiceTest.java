@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,7 +43,7 @@ public class OverridePinServiceTest {
         service.setPuk("4444");
         service.setTimestamp(new Date(epoch));
 
-        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(passwordPolicy.get()).thenReturn(new byte[0]);
     }
@@ -50,7 +51,7 @@ public class OverridePinServiceTest {
     @Test
     public void testOperations() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        verify(qrtHeaderPolicy).getHeader(service);
+        verify(qrtHeaderPolicy).getHeader(any(), any());
         verify(timestampPolicy).get();
         verify(passwordPolicy).get();
     }

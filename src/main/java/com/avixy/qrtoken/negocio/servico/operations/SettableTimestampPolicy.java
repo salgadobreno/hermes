@@ -5,22 +5,23 @@ import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 
 import java.util.Date;
 
+import static org.apache.commons.lang.ArrayUtils.addAll;
+
 /**
  * Created on 05/11/2014
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class SettableTimestampPolicy implements TimestampPolicy {
-    private Date date;
+    protected Date startDate;
 
     @Override
     public byte[] get(){
-        TimestampParam param = new TimestampParam(date);
-        return BinaryMsg.get(param.toBinaryString());
+        return BinaryMsg.get(new TimestampParam(startDate).toBinaryString());
     }
 
     @Override
     public void setDate(Date date) {
-        this.date = date;
+        this.startDate = date;
     }
 }

@@ -43,11 +43,7 @@ public class EBChatSessionKeyService extends PasswordOptionalAbstractService imp
 
     @Override
     public ServiceCode getServiceCode() {
-        if (passwordPolicy == originalPasswordPolicy) {
-            return ServiceCode.SERVICE_SESSION_KEY;
-        } else {
-            return ServiceCode.SERVICE_SESSION_KEY_WITHOUT_PIN;
-        }
+        return ServiceCode.SERVICE_SESSION_KEY;
     }
 
     @Override

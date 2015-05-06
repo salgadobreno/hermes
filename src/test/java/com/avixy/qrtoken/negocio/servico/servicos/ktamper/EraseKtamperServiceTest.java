@@ -34,7 +34,7 @@ public class EraseKtamperServiceTest {
         service.setTimestamp(new Date(epoch));
         expectedOut = new byte[]{ };
 
-        when(qrtHeaderPolicy.getHeader(service)).thenReturn(new byte[0]);
+        when(qrtHeaderPolicy.getHeader(any(), any())).thenReturn(new byte[0]);
         when(timestampPolicy.get()).thenReturn(new byte[0]);
         when(hmacKeyPolicy.apply(any())).thenReturn(new byte[0]);
     }
@@ -54,7 +54,7 @@ public class EraseKtamperServiceTest {
     @Test
     public void testOps() throws Exception {
         service.getQrs(mock(QrSetup.class));
-        verify(qrtHeaderPolicy).getHeader(service);
+        verify(qrtHeaderPolicy).getHeader(any(), any());
         verify(timestampPolicy).get();
         verify(hmacKeyPolicy).apply(any());
     }

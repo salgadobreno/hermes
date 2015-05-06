@@ -10,4 +10,5 @@ public class NoTimestampPolicy implements TimestampPolicy {
     public void setDate(Date date) {
         throw new RuntimeException("NoTimestampPolicy shouldn't be set");
     }
+
 }

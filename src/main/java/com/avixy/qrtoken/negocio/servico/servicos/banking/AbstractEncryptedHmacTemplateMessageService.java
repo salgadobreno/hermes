@@ -4,7 +4,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
@@ -17,7 +17,7 @@ public abstract class AbstractEncryptedHmacTemplateMessageService extends Abstra
     protected final PasswordPolicy originalPasswordPolicy;
 
     @Inject
-    public AbstractEncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
+    public AbstractEncryptedHmacTemplateMessageService(QrtHeaderPolicy headerPolicy, RangedTimestampPolicy timestampPolicy, AesCryptedMessagePolicy aesCryptedMessagePolicy, HmacKeyPolicy hmacKeyPolicy, PasswordPolicy passwordPolicy) {
         super(headerPolicy, timestampPolicy, aesCryptedMessagePolicy, passwordPolicy);
         this.hmacKeyPolicy = hmacKeyPolicy;
         this.originalPasswordPolicy = passwordPolicy;

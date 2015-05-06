@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.template;
 
 import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.core.extensions.components.templates.TextAlignmentSelect;
@@ -55,7 +54,7 @@ public class TemplateServiceComponent extends ServiceComponent {
     private HmacKeySelect hmacKeySelect = new HmacKeySelect();
 
     private Label timestampLabel = new Label("Timestamp:");
-    private TimestampField timestampField = new TimestampField();
+    private RangedTimestampField rangedTimestampField = new RangedTimestampField();
 
     private Separator separator = new Separator();
 
@@ -110,7 +109,7 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(hmacSelectLabel);
         mainNode.add(hmacKeySelect, "wrap");
         mainNode.add(timestampLabel);
-        mainNode.add(timestampField, "wrap");
+        mainNode.add(rangedTimestampField, "wrap");
         mainNode.add(passwordLabel);
         mainNode.add(optionalPasswordField, "wrap");
         separator.setPrefWidth(280);
@@ -122,7 +121,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             @Override
             public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, timestampField, passwordLabel, optionalPasswordField, separator, argsTitle, scrollPane, argPane);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, rangedTimestampField, passwordLabel, optionalPasswordField, separator, argsTitle, scrollPane, argPane);
                 if (newValue != null) {
                     argPane.getChildren().clear();
                     for (TemplateObj templateObj : newValue.getTemplateObjs()) {
@@ -242,7 +241,8 @@ public class TemplateServiceComponent extends ServiceComponent {
         service.setTemplateSlot(templateSlotSelect.getValue());
         service.setAesKey(aesKeySelect.getValue().getHexValue());
         service.setHmacKey(hmacKeySelect.getValue().getHexValue());
-        service.setTimestamp(timestampField.getValue());
+
+        service.setTimestampRange(rangedTimestampField.getStartDateValue(), rangedTimestampField.getEndDateValue());
         service.togglePasswordOptional(optionalPasswordField.isOptional());
         service.setPin(optionalPasswordField.getText());
         service.setParams(new ArrayList<>());
