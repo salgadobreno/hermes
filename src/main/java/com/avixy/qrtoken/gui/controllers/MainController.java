@@ -53,11 +53,11 @@ public class MainController {
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
-    Stage zoomStage;
-    Stage chavesStage;
-    Stage encoderStage;
-    Stage templateStage;
-    Stage keyConfigStage;
+    static Stage zoomStage;
+    static Stage chavesStage;
+    static Stage encoderStage;
+    static Stage templateStage;
+    static Stage keyConfigStage;
 
     private Version qrVersion;
 
