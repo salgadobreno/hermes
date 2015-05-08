@@ -32,7 +32,6 @@ import java.security.GeneralSecurityException;
  * Created on 07/08/2014
  */
 @ServiceComponent.Category(category = ServiceCategory.RTC)
-@AcceptsKey(keyType = KeyType.HMAC)
 public class AvixyHmacRtcServiceComponent extends ServiceComponent {
     protected Logger logger = LoggerFactory.getLogger(AvixyHmacRtcServiceComponent.class);
 

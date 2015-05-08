@@ -49,9 +49,7 @@ public class AvixyKeyConfiguration {
         });
     }
 
-    public BooleanProperty selectedProperty() {
-        return selectedProperty;
-    }
+    public BooleanProperty selectedProperty() { return selectedProperty; }
 
     public static AvixyKeyConfiguration getSelected() {
         if (selectedProfileProperty.get() == null) {
@@ -84,7 +82,7 @@ public class AvixyKeyConfiguration {
                         Hex.decodeHex(nextLine[6].toCharArray()),
                         Hex.decodeHex(nextLine[7].toCharArray())
                 );
-                if (nextLine[8].equals("true") && getSelected() == null) { selectedProfileProperty.set(config); }
+                if (nextLine[8].equals("true") && selectedProfileProperty.get() == null) { selectedProfileProperty.set(config); }
 
                 configList.add(config);
             }

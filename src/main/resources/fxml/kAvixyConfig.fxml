@@ -5,41 +5,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.avixy.qrtoken.core.extensions.components.HexField?>
-<?import impl.org.controlsfx.skin.DecorationPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.AvixyKeyConfigurationController">
-   <children>
-      <Label layoutX="10.0" layoutY="14.0" text="Configurar Chave Avixy">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="80.0" text="Componentes de Chave">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="111.0" text="Componenete 1:" />
-      <Label layoutX="14.0" layoutY="141.0" text="Componenete 2:" />
-      <Label layoutX="14.0" layoutY="172.0" text="Componenete 3:" />
-      <Label layoutX="12.0" layoutY="206.0" text="Constantes de Derivação:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="232.0" text="AES:" />
-      <Label layoutX="14.0" layoutY="287.0" text="HMAC:" />
-      <TextField fx:id="idField" layoutX="110.0" layoutY="46.0" />
-         <HexField fx:id="component1Field" layoutX="110.0" layoutY="107.0" maxLength="64" />
-         <HexField fx:id="component2Field" layoutX="110.0" layoutY="137.0"  maxLength="64"/>
-         <HexField fx:id="component3Field" layoutX="110.0" layoutY="168.0"  maxLength="64"/>
-         <HexField fx:id="kAes1Field" layoutX="12.0" layoutY="250.0"  maxLength="64"/>
-         <HexField fx:id="kAes2Field" layoutX="164.0" layoutY="250.0"  maxLength="64"/>
-         <HexField fx:id="kHmac1Field" layoutX="12.0" layoutY="304.0"  maxLength="64"/>
-         <HexField fx:id="kHmac2Field" layoutX="164.0" layoutY="304.0" maxLength="64"/>
-      <TableView fx:id="perfisTable" layoutX="2.0" layoutY="376.0" prefHeight="191.0" prefWidth="329.0">
-      </TableView>
-      <Button fx:id="saveButton" layoutX="265.0" layoutY="341.0" mnemonicParsing="false" text="Salvar" defaultButton="true" />
-      <Label layoutX="14.0" layoutY="50.0" prefHeight="17.0" prefWidth="88.0" text="Identificação:" />
-   </children>
-</AnchorPane>
+<VBox fx:id="vbox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.AvixyKeyConfigurationController" minHeight="568">
+    <children>
+        <AnchorPane fx:id="containerPane" VBox.vgrow="ALWAYS"/>
+        <TableView fx:id="perfisTable" layoutX="2.0" layoutY="376.0" prefHeight="191.0" minHeight="300.0" prefWidth="329.0" VBox.vgrow="ALWAYS"/>
+    </children>
+</VBox>
