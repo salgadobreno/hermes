@@ -1,7 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.behaviors;
 
-import com.avixy.qrtoken.negocio.servico.ServiceCode;
-
 import java.util.Date;
 
 /**

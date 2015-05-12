@@ -5,6 +5,13 @@ import javafx.scene.layout.VBox;
 
 import java.util.Date;
 
+/**
+ * A TimestampField that has an option of setting up a time range
+ *
+ * @author Breno/Italo
+ *
+ * Created on 12/05/2015
+ */
 public class RangedTimestampField extends VBox {
     private TimestampField startTimestamp = new TimestampField();
     private TimestampField endTimestamp = new TimestampField();
@@ -27,5 +34,4 @@ public class RangedTimestampField extends VBox {
             return null;
         }
     }
-
 }

@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Avixy on 5/5/2015.
+ * Allows for looking up the {@link ServiceCode} for {@link Service} variations
+ *
+ * Created by Breno/Italo on 5/5/2015.
  */
 public class ServiceCodeLookup {
     private static final ServiceCode[] BASE_SERVICE_CODES = new ServiceCode[] {ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE, ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE};
+
     private static final ServiceCode[][] SERVICE_CODE_CONFIGS = new ServiceCode[][] {
             new ServiceCode[] {ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_WITHOUT_PIN, ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_RANGED_RTC, ServiceCode.SERVICE_HMAC_TEMPLATE_MESSAGE_RANGED_RTC_WITHOUT_PIN},
             new ServiceCode[] {ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE_WITHOUT_PIN, ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE_RANGED_RTC, ServiceCode.SERVICE_HMAC_FORMATTED_MESSAGE_RANGED_RTC_WITHOUT_PIN},

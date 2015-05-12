@@ -12,5 +12,10 @@ import javax.annotation.Nullable;
  * Created on 03/09/2014
  */
 public interface HeaderPolicy {
+    /**
+     * @param service
+     * @param serviceCode Optionally pass a {@link ServiceCode} to override the {@link ServiceCode} in the {@link Service}
+     * @return header for the <code>service</code>
+     */
     byte[] getHeader(Service service, @Nullable ServiceCode serviceCode);
 }
