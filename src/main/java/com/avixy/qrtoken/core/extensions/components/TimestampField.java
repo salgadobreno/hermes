@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.core.extensions.components;
 
 import javafx.scene.control.DatePicker;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,19 +18,19 @@ import java.util.Date;
  *
  * Created on 16/09/2014
  */
-public class TimestampField extends HBox {
+public class TimestampField extends FlowPane {
+    //Using FlowPane instead of HBox because alignment gets wrong when using with MigPane
     private DatePicker datePicker = new FormattedDatePicker();
 
     static private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
     private RestrictiveTextField timeTextField = new RestrictiveTextField(5);
 
     public TimestampField() {
-        setSpacing(5);
+        setHgap(5);
         timeTextField.setRestrict("[0-9:]");
 
         datePicker.setMaxWidth(100);
         timeTextField.setMaxWidth(44);
-
 
         datePicker.setValue(LocalDate.now());
         timeTextField.setText(simpleDateFormat.format(new Date()));

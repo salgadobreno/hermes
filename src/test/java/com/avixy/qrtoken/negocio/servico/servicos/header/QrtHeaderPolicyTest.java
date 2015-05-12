@@ -22,4 +22,11 @@ public class QrtHeaderPolicyTest {
         byte[] result = {0, 0, Token.PROTOCOL_VERSION,10};
         assertArrayEquals(headerPolicy.getHeader(mockService, null), result);
     }
+
+    @Test
+    public void testHeaderWithOverride() throws Exception {
+        when(mockService.getServiceCode()).thenReturn(ServiceCode.values()[10]);
+        byte[] result = {0, 0, Token.PROTOCOL_VERSION, 0};
+        assertArrayEquals(headerPolicy.getHeader(mockService, ServiceCode.values()[0]), result);
+    }
 }
