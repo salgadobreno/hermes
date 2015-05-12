@@ -65,6 +65,10 @@ public class AvixyKeyConfigurationController extends MigPane {
         kAes2Field = new HexField(64);
         kHmac1Field = new HexField(64);
         kHmac2Field = new HexField(64);
+        /*
+        aqui estou incluindo validator ON_FLY e ON_DEMAND, o ON_DEMAND é chamado antes de validar e o ON_FLY serve p/ que
+        o resultado seja avaliado enquanto o usuário digita
+        */
         ValidationUtils.install(idField, new JideSimpleValidator(), ValidationMode.ON_FLY);
         ValidationUtils.install(component1Field, new JideSizeValidator(64), ValidationMode.ON_FLY);
         ValidationUtils.install(component2Field, new JideSizeValidator(64), ValidationMode.ON_FLY);
