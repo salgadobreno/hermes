@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - GenerateKTamper also stores PIN/PUK
 
 ### Added
+- Some services may receive a timestamp range to display through which period they're valid
 - Avixy Key Configuration Menu option
 - New Avixy Key Import Service protocol implemented
 - EBChat Session Key Service

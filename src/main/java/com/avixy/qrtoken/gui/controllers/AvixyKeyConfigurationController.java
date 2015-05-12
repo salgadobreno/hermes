@@ -136,11 +136,14 @@ public class AvixyKeyConfigurationController extends MigPane {
 
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             Label label = new Label();
+            ScrollPane scrollPane = new ScrollPane(label);
+
             {
                 checkBox.visibleProperty().addListener((observable1, oldValue1, newValue1) -> {
                     if (!newValue1) migPane.remove(label);
                 });
             }
+
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
@@ -155,14 +158,15 @@ public class AvixyKeyConfigurationController extends MigPane {
                             }
                             label.setTextFill(Color.RED);
                             label.setText(Hex.encodeHexString(baseDerivationKey));
-                            migPane.remove(label);
-                            migPane.add(migPane.getChildren().indexOf(checkBox) + 1, label, new CC().wrap().spanX());
+                            scrollPane.setPrefViewportWidth(310);
+                            migPane.remove(scrollPane);
+                            migPane.add(migPane.getChildren().indexOf(checkBox) + 1, scrollPane, new CC().wrap().spanX());
                         } catch (DecoderException e) {
                             e.printStackTrace();
                         }
                     }
                 } else {
-                    migPane.remove(label);
+                    migPane.remove(scrollPane);
                 }
             }
         });
