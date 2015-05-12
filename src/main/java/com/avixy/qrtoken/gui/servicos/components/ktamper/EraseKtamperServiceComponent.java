@@ -7,11 +7,11 @@ import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.EraseKtamperService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.google.inject.Inject;
-import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import jidefx.scene.control.decoration.DecorationPane;
+import jidefx.scene.control.validation.ValidationUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
 /**
@@ -22,7 +22,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 @ServiceComponent.Category(category = ServiceCategory.KTAMPER)
 public class EraseKtamperServiceComponent extends ServiceComponent {
     private TimestampField timestampField = new TimestampField();
-    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     @Inject
     public EraseKtamperServiceComponent(EraseKtamperService service) {
@@ -43,15 +43,19 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
-        return migPane;
+        return new DecorationPane(migPane);
     }
 
     @Override
     public Service getService() throws Exception {
         EraseKtamperService eraseKtamperService = (EraseKtamperService) service;
         eraseKtamperService.setTimestamp(timestampField.getValue());
-        eraseKtamperService.setHmacKey(AvixyKeyConfiguration.getInstance().getHmacKey(serialNumberField.getText()));
+        eraseKtamperService.setHmacKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
-        return eraseKtamperService;
+        if (ValidationUtils.validateOnDemand(serialNumberField)) {
+            return service;
+        } else {
+            throw new RuntimeException("Serial number should have 10 characters");
+        }
     }
 }

@@ -12,12 +12,12 @@ import org.apache.commons.codec.binary.Hex;
  */
 public class HexField extends RestrictiveTextField {
     public HexField() {
-        setRestrict("[0-9A-f]");
+        setRestrict("[0-9a-f]");
     }
 
     public HexField(int maxLength) {
         super(maxLength);
-        setRestrict("[0-9A-f]");
+        setRestrict("[0-9a-f]");
     }
 
     public byte[] getValue() {

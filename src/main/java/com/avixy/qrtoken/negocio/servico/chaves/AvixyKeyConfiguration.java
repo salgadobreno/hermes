@@ -3,6 +3,11 @@ package com.avixy.qrtoken.negocio.servico.chaves;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.bouncycastle.crypto.CryptoException;
@@ -12,7 +17,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
 
 /**
  * Handles Avixy Key Configuration Profiles and Key Derivation
@@ -23,38 +27,66 @@ import java.util.List;
  */
 public class AvixyKeyConfiguration {
     private final AvixyKeyDerivator avixyKeyDerivator = new AvixyKeyDerivator();
+    private static SimpleObjectProperty<AvixyKeyConfiguration> selectedProfileProperty = new SimpleObjectProperty<>();
 
-    private static final AvixyKeyConfiguration instance = new AvixyKeyConfiguration();
+    private static final ObservableList<AvixyKeyConfiguration> configList = FXCollections.observableArrayList(); //TODO:rename
+    private String name;
 
-    private AvixyKeyConfiguration() {}
+    private static final File csv = new File("avxkconfig.csv");
 
-    private final File csv = new File("avxkconfig.csv");
-
-    public static AvixyKeyConfiguration getInstance() {
-        return instance;
+    private BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
+    {
+        selectedProfileProperty.addListener((observable, oldValue, newValue) -> {
+            selectedProperty.set(newValue == this);
+            persist();
+        });
+        selectedProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                for (AvixyKeyConfiguration avixyKeyConfiguration : configList) {
+                    if (avixyKeyConfiguration != this) avixyKeyConfiguration.selectedProperty().set(false);
+                }
+            }
+        });
     }
 
-    {
+    public BooleanProperty selectedProperty() { return selectedProperty; }
+
+    public static AvixyKeyConfiguration getSelected() {
+        if (selectedProfileProperty.get() == null) {
+            return new AvixyKeyConfiguration();
+        } else {
+            return selectedProfileProperty.get();
+        }
+    }
+
+    static {
         try {
             if (!csv.exists()) {
                 csv.createNewFile();
             }
-
             CSVReader reader = new CSVReader(new FileReader(csv));
-            List<String[]> keys = reader.readAll();
-            avixyKeyDerivator.setKeyComponents(
-                    Hex.decodeHex(keys.get(0)[0].toCharArray()),
-                    Hex.decodeHex(keys.get(1)[0].toCharArray()),
-                    Hex.decodeHex(keys.get(2)[0].toCharArray())
-            );
-            avixyKeyDerivator.setAesConstants(
-                    Hex.decodeHex(keys.get(3)[0].toCharArray()),
-                    Hex.decodeHex(keys.get(4)[0].toCharArray())
-            );
-            avixyKeyDerivator.setHmacConstants(
-                    Hex.decodeHex(keys.get(5)[0].toCharArray()),
-                    Hex.decodeHex(keys.get(6)[0].toCharArray())
-            );
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                AvixyKeyConfiguration config = new AvixyKeyConfiguration();
+                config.setName(nextLine[0]);
+                config.setKeyComponents(
+                        Hex.decodeHex(nextLine[1].toCharArray()),
+                        Hex.decodeHex(nextLine[2].toCharArray()),
+                        Hex.decodeHex(nextLine[3].toCharArray())
+                );
+                config.setAesConstants(
+                        Hex.decodeHex(nextLine[4].toCharArray()),
+                        Hex.decodeHex(nextLine[5].toCharArray())
+                );
+                config.setHmacConstants(
+                        Hex.decodeHex(nextLine[6].toCharArray()),
+                        Hex.decodeHex(nextLine[7].toCharArray())
+                );
+                if (nextLine[8].equals("true") && selectedProfileProperty.get() == null) { selectedProfileProperty.set(config); }
+
+                configList.add(config);
+            }
+            if (configList.size() > 0 && getSelected() == null) { selectedProfileProperty.set(configList.get(0)); }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Empty file");
         } catch (IOException | DecoderException e) {
@@ -62,22 +94,33 @@ public class AvixyKeyConfiguration {
         }
     }
 
-    public void persist() {
+    public static void persist() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv));
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkComponent1())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkComponent2())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkComponent3())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkAes1())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkAes2())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkHmac1())});
-            writer.writeNext(new String[] { Hex.encodeHexString(avixyKeyDerivator.getkHmac2())});
-
+            for (AvixyKeyConfiguration config : configList) {
+                String[] csvContent = new String[] {
+                        config.getName(),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkComponent1()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkComponent2()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkComponent3()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkAes1()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkAes2()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkHmac1()),
+                        Hex.encodeHexString(config.getAvixyKeyDerivator().getkHmac2()),
+                        config == getSelected() ? "true" : "false"
+                };
+                writer.writeNext(csvContent);
+            }
             writer.flush();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void remove(AvixyKeyConfiguration avixyKeyConfiguration) {
+        configList.remove(avixyKeyConfiguration);
+        persist();
     }
 
     public AvixyKeyDerivator getAvixyKeyDerivator() {
@@ -104,4 +147,25 @@ public class AvixyKeyConfiguration {
         return avixyKeyDerivator.getAesKey(serialNumber);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static ObservableList<AvixyKeyConfiguration> getConfigList() {
+        return configList;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    public static void select(AvixyKeyConfiguration newValue) {
+        selectedProfileProperty.set(newValue);
+        persist();
+    }
 }

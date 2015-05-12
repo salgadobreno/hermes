@@ -4,7 +4,6 @@ import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
-import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -63,7 +62,7 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         Button button = new Button("Abrir editor de aplicações:");
         button.setOnAction(event -> {
             try {
-                controller.templates();
+                controller.templateEditor();
             } catch (IOException e) {
                 e.printStackTrace();
             }

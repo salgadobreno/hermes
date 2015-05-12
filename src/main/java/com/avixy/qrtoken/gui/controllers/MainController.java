@@ -18,7 +18,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -27,13 +26,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jidefx.scene.control.decoration.DecorationPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +41,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * @author Breno Salgado <breno.salgado@axivy.com>
@@ -56,11 +53,11 @@ public class MainController {
     Injector injector = Guice.createInjector(new HermesModule());
     ServiceComponent serviceController;
 
-    Stage zoomStage;
-    Stage chavesStage;
-    Stage encoderStage;
-    Stage templateStage;
-    Stage keyConfigStage;
+    static Stage zoomStage;
+    static Stage chavesStage;
+    static Stage encoderStage;
+    static Stage templateStage;
+    static Stage keyConfigStage;
 
     private Version qrVersion;
 
@@ -71,6 +68,7 @@ public class MainController {
     @FXML private AnchorPane content;
     @FXML private Accordion servicesAccordion;
     @FXML private Label errorLabel;
+//    @FXML private ComboBox<AvixyKeyConfiguration> profileSelector;
 
     /* Controles e indicadores de QR */
     private List<QrTokenCode> qrCodes = new ArrayList<>(); // lista dos codigos qr
@@ -207,11 +205,16 @@ public class MainController {
         return ErrorCorrectionLevel.values()[ecLevel];
     }
 
+    /**
+     * Tratamento de erros custom e inesperados
+     */
     private void handleException(Exception e) {
-        log.error("Error: ", e);
-
         if (e instanceof AvixyKeyDerivator.AvixyKeyNotConfigured) {
-            keyConfiguration(new ActionEvent());
+            try {
+                keyConfiguration();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Info");
             alert.setHeaderText("Chave Avixy não foi configurada");
@@ -219,96 +222,12 @@ public class MainController {
             return;
         }
 
+        log.error("Error: ", e);
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(e.getMessage());
         alert.showAndWait();
-    }
-
-    public void gerenciaDeChaves() throws IOException {
-        // se chavesStage for nulo, pega o stage de ChavesStage
-        // -> mostra o chavesStage
-
-        if (chavesStage == null) {
-            chavesStage = new Stage(StageStyle.DECORATED);
-        }
-
-        //carrega o fxml
-        try {
-            String fxmlFile = "/fxml/chaves.fxml";
-            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            chavesStage.setResizable(false);
-            chavesStage.setScene(new Scene(parent));
-
-            chavesStage.show();
-            chavesStage.toFront();
-        } catch (IOException e) {
-            log.error(e.toString(), e);
-        }
-    }
-
-    public void huffmanEncoder() throws IOException {
-        if (encoderStage == null) {
-            encoderStage = new Stage(StageStyle.DECORATED);
-        }
-
-        //carrega o fxml
-        try {
-            String fxmlFile = "/fxml/huffmanEncoder.fxml";
-            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(parent);
-            KeyCodeCombination keyCodeCombination = new KeyCodeCombination(KeyCode.ENTER, KeyCodeCombination.CONTROL_ANY);
-            encoderStage.setResizable(false);
-            encoderStage.setScene(scene);
-
-            encoderStage.show();
-            encoderStage.toFront();
-        } catch (IOException e) {
-            log.error(e.toString(), e);
-        }
-    }
-
-    public void templates() throws IOException {
-        if (templateStage == null) {
-            templateStage = new Stage(StageStyle.DECORATED);
-        }
-
-        String fxmlFile = "/fxml/templates.fxml";
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-
-        Scene scene = new Scene(root);
-
-        templateStage.setTitle("Hermes - Avixy QR Token");
-        templateStage.setScene(scene);
-        templateStage.setResizable(false);
-        templateStage.centerOnScreen();
-        templateStage.show();
-    }
-
-    public void zoomQR(){
-        if (zoomStage == null) {
-            zoomStage = new Stage(StageStyle.UTILITY);
-        }
-
-        try {
-            String fxmlFile = "/fxml/qrcodezoom.fxml";
-            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            zoomStage.setResizable(false);
-            zoomStage.setScene(new Scene(parent));
-            zoomStage.show();
-            zoomStage.toFront();
-            final ImageView qrZoomImageView = (ImageView) parent.lookup("#qrZoomImageView");
-            qrZoomImageView.imageProperty().bind(Bindings.createObjectBinding(new Callable<Image>() {
-                @Override
-                public Image call() throws Exception {
-                    return qrView.getImage();
-                }
-            }, qrView.imageProperty()));
-            final VBox vBox = (VBox) parent.lookup("#vbox");
-            vBox.styleProperty().bind(qrDisplayVBox.styleProperty());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void nextQrCode() throws GeneralSecurityException {
@@ -344,13 +263,91 @@ public class MainController {
     }
 
     @FXML
-    public void keyConfiguration(ActionEvent actionEvent) {
+    public void gerenciaDeChaves() throws IOException {
+        // se chavesStage for nulo, pega o stage de ChavesStage
+        // -> mostra o chavesStage
+
+        if (chavesStage == null) {
+            chavesStage = new Stage(StageStyle.DECORATED);
+        }
+
+        //carrega o fxml
+        try {
+            String fxmlFile = "/fxml/chaves.fxml";
+            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            chavesStage.setResizable(false);
+            chavesStage.setScene(new Scene(parent));
+
+            chavesStage.show();
+            chavesStage.toFront();
+        } catch (IOException e) {
+            log.error(e.toString(), e);
+        }
+    }
+
+    @FXML
+    public void templateEditor() throws IOException {
+        if (templateStage == null) {
+            templateStage = new Stage(StageStyle.DECORATED);
+        }
+
+        String fxmlFile = "/fxml/templates.fxml";
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+
+        Scene scene = new Scene(root);
+
+        templateStage.setTitle("Hermes - Avixy QR Token");
+        templateStage.setScene(scene);
+        templateStage.setResizable(false);
+        templateStage.centerOnScreen();
+        templateStage.show();
+    }
+
+    @FXML
+    public void keyConfiguration() throws IOException {
         if (keyConfigStage == null) {
             keyConfigStage = new Stage();
             keyConfigStage.setResizable(false);
-            keyConfigStage.setScene(new Scene(new AvixyKeyConfigurationController()));
+            String fxmlFile = "/fxml/kAvixyConfig.fxml";
+            keyConfigStage.setScene(new Scene(new DecorationPane(FXMLLoader.load(getClass().getResource(fxmlFile)))));
         }
         keyConfigStage.show();
         keyConfigStage.toFront();
+//        AvixyKeyConfiguration.getSelectedProfileProperty().addListener(new ChangeListener<AvixyKeyConfiguration>() {
+//            @Override
+//            public void changed(ObservableValue<? extends AvixyKeyConfiguration> observable, AvixyKeyConfiguration oldValue, AvixyKeyConfiguration newValue) {
+//                profileSelector.getSelectionModel().select(newValue);
+//            }
+//        });
+    }
+
+    @FXML
+    public void zoomQR() throws IOException {
+        if (zoomStage == null) {
+            zoomStage = new Stage(StageStyle.UTILITY);
+            zoomStage.setResizable(false);
+            String fxmlFile = "/fxml/qrcodezoom.fxml";
+            zoomStage.setScene(new Scene(FXMLLoader.load(getClass().getResource(fxmlFile))));
+            final ImageView qrZoomImageView = (ImageView) zoomStage.getScene().lookup("#qrZoomImageView");
+            qrZoomImageView.imageProperty().bind(Bindings.createObjectBinding(() -> qrView.getImage(), qrView.imageProperty()));
+            final VBox vBox = (VBox) zoomStage.getScene().lookup("#vbox");
+            vBox.styleProperty().bind(qrDisplayVBox.styleProperty());
+        }
+        zoomStage.show();
+        zoomStage.toFront();
+    }
+
+    @FXML
+    public void huffmanEncoder() throws IOException {
+        if (encoderStage == null) {
+            encoderStage = new Stage(StageStyle.DECORATED);
+            String fxmlFile = "/fxml/huffmanEncoder.fxml";
+            Parent parent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene scene = new Scene(parent);
+            encoderStage.setResizable(false);
+            encoderStage.setScene(scene);
+        }
+        encoderStage.show();
+        encoderStage.toFront();
     }
 }
