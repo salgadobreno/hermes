@@ -52,7 +52,7 @@ public class ServiceAssemblerTest {
     public void setUp() throws Exception {
         timestampPolicy.setDate(new Date(0));
         passwordPolicy.setPassword("1234");
-        pinBytes = new byte[]{'1','2','3','4',4};
+        pinBytes = new byte[]{'1','2','3','4',0,0,0,0,0,0,0,0,0,0,0,0};
         hmacKeyPolicy.setKey("senha123".getBytes());
     }
 
@@ -70,13 +70,13 @@ public class ServiceAssemblerTest {
 
     @Test
     public void testComHeaderTimestampEPin() throws Exception {
-        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',4}; // monkey patch :/
+        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,0,0,0,0,'a','b','c','d','1','2','3','4','1','2','3','4',0,0,0,0,0,0,0,0,0,0,0,0}; // monkey patch :/
         assertArrayEquals(expectedOut, serviceAssembler.get(service, headerPolicy, timestampPolicy, noMessagePolicy, noMacPolicy, passwordPolicy));
     }
 
     @Test
     public void testComHmacEPin() throws Exception {
-        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,'a','b','c','d','1','2','3','4', 'x'}; // monkey patch :/
+        expectedOut = new byte[]{0,0,Token.PROTOCOL_VERSION,0,'a','b','c','d','1','2','3','4'};
         byte[] outComHmac = hmacKeyPolicy.apply(expectedOut);
         byte[] outComHmacEPin = ArrayUtils.addAll(outComHmac, pinBytes);
         assertArrayEquals(outComHmacEPin, serviceAssembler.get(service, headerPolicy, noTimestampPolicy, noMessagePolicy, hmacKeyPolicy, passwordPolicy));
