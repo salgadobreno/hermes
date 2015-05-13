@@ -11,13 +11,14 @@ import org.apache.commons.codec.binary.Hex;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class HexField extends RestrictiveTextField {
+    {
+        setRestrict("[0-9A-f]");
+    }
     public HexField() {
-        setRestrict("[0-9a-f]");
     }
 
     public HexField(int maxLength) {
         super(maxLength);
-        setRestrict("[0-9a-f]");
     }
 
     public byte[] getValue() {

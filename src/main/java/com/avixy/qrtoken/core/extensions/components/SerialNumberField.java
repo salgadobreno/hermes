@@ -17,5 +17,4 @@ public class SerialNumberField extends TextFieldLimited {
         ValidationUtils.install(this, new JideSizeValidator(10), ValidationMode.ON_FLY);
     }
 
-
 }
