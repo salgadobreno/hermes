@@ -13,7 +13,18 @@ public class PasswordPolicyTest {
                 0b01100010, // b
                 0b01100011, // c
                 0b01100100, // d
-                0b00000100  // 4
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
+                0b00000000, // padding
         };
 
         passwordPolicy.setPassword("abcd");
