@@ -73,9 +73,9 @@ public class TemplatesSingleton {
         template.clear();
         try {
             persist(template);
-        } catch (TemplateOverflowException ignore) {
+        } catch (TemplateOverflowException e) {
             //should not happen since the template got cleared
-            ignore.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,7 +85,7 @@ public class TemplatesSingleton {
      * @param template
      * @throws TemplateOverflowException if <code>Template</code> size exceeds {@link TemplateSize} limit
      */
-    public void persist(Template template) throws TemplateOverflowException {
+    void persist(Template template) throws TemplateOverflowException {
         try {
             int index = templates.indexOf(template);
 

@@ -34,6 +34,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created on 12/02/2015
@@ -74,6 +75,21 @@ public class TemplatesController extends Application {
     private WaitForButtonForm waitForButtonForm = new WaitForButtonForm();
 
     private ChangeListener<Template> templateSelectedEvent = (observable, oldValue, newValue) -> {
+        if (newValue == null) {
+            canvas.setTemplate(null);
+            return;
+        }
+        if (oldValue != null && oldValue.hasChanged()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Há alterações não salvas na aplicação.\nDeseja descartar as alterações?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                oldValue.discardChanges();
+            } else {
+                templateListView.getSelectionModel().clearSelection();
+                templateListView.getSelectionModel().select(oldValue);
+                return;
+            }
+        }
         canvas.setTemplate(newValue);
         templateObjListView.setItems(newValue.templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
         screenQtyProperty.bind(newValue.screenQtyProperty());
@@ -223,7 +239,7 @@ public class TemplatesController extends Application {
         Template selected = templateListView.getSelectionModel().getSelectedItem();
 
         try {
-            templatesSingleton.persist(selected);
+            selected.persist();
         } catch (TemplatesSingleton.TemplateOverflowException e) {
             handleException(e);
         }
@@ -452,10 +468,10 @@ public class TemplatesController extends Application {
         public RectForm() {
             add(new Label("COLOR:"));
             add(colorPicker, "wrap");
-            add(new Label("Y:"));
-            add(yField, "wrap");
             add(new Label("X:"));
             add(xField, "wrap");
+            add(new Label("Y:"));
+            add(yField, "wrap");
             add(new Label("W:"));
             add(wField, "wrap");
             add(new Label("H:"));
@@ -574,7 +590,7 @@ public class TemplatesController extends Application {
                 waitForButton.setWaitSeconds(waitComboBox.getValue());
                 canvas.redraw();
                 formsPopOver.hide();
-                templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).changed();
+                templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).refresh();
             });
             formsPopOver.setOnHidden(e -> {
                 formsPopOver.setOnHidden(null);
@@ -585,6 +601,17 @@ public class TemplatesController extends Application {
         EventHandler<ActionEvent> saveEvent = e -> {
             canvas.add(new WaitForButton(waitComboBox.getValue(), nextActionComboBox.getValue()));
             formsPopOver.hide();
+
+            if (nextActionComboBox.getValue() == WaitForButton.NextAction.NEW_SCREEN)
+            {
+                editTemplateObjPopOver.hide();
+                templateObjListView.getSelectionModel().select(null);
+                if (canvas.currScreenProperty().get() < screenQtyProperty.get()) {
+                    canvas.currScreenProperty().setValue(canvas.currScreenProperty().getValue() + 1);
+                }
+                templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
+                waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
+            }
         };
     }
 

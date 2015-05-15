@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.gui.controllers;
 
+import com.avixy.qrtoken.core.extensions.components.HexField;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
@@ -14,7 +15,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +39,7 @@ public class ChavesController {
     @FXML private Label errorLabel;
     @FXML private TableView<Chave> chavesTable;
     @FXML private TextField idField;
-    @FXML private TextField valorField;
+    @FXML private HexField valorField;
     @FXML private ComboBox<KeyType> tipoComboBox;
     @FXML private ComboBox<Integer> lengthComboBox;
 
@@ -45,6 +49,7 @@ public class ChavesController {
     private void initChave(){
         chave = new Chave();
         valorField.clear();
+        idField.clear();
         chave.setKeyType(tipoComboBox.getValue());
         chave.setLength(lengthComboBox.getValue());
     }
@@ -60,13 +65,21 @@ public class ChavesController {
         tipoComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, keyType, keyType2) -> {
             lengthComboBox.setItems(FXCollections.observableList(Arrays.asList(keyType2.getKeyLengths())));
             lengthComboBox.getSelectionModel().select(0);
+            valorField.clear();
+            valorField.styleProperty().setValue("");
         });
         Collections.addAll(keyTypeList, KeyType.values());
         tipoComboBox.setItems(FXCollections.observableList(keyTypeList));
         tipoComboBox.getSelectionModel().select(0);
 
+        lengthComboBox.getSelectionModel().selectedItemProperty().addListener((Integer) -> {
+            valorField.clear();
+            valorField.styleProperty().setValue("");
+        });
+
         /* basic validation */
         valorField.textProperty().addListener((observableValue, s, s2) -> {
+            valorField.setMaxLength(lengthComboBox.getValue() / 4);
             updateChave();
             if (valorField.getText().isEmpty()) {
                 valorField.styleProperty().setValue("");
@@ -108,7 +121,6 @@ public class ChavesController {
         private static ChavesSingleton chaves = ChavesSingleton.getInstance();
 
         public static void setupTable(final TableView<Chave> tabela) {
-
             /* colunas */
             TableColumn<Chave, String> colunaId = new TableColumn<>("Id");
             TableColumn<Chave, String> colunaTipo = new TableColumn<>("Tipo");
@@ -121,6 +133,20 @@ public class ChavesController {
             colunaValor.setCellValueFactory(new PropertyValueFactory<Chave, String>("Valor"));
             colunaDelete.setCellFactory(chaveBooleanTableColumn -> new ChaveDeleteCell());
             colunaDelete.setCellValueFactory(features -> new SimpleObjectProperty<Chave>(features.getValue()));
+            colunaValor.setCellFactory(new Callback<TableColumn<Chave, String>, TableCell<Chave, String>> () {
+                @Override
+                public TableCell<Chave, String> call(
+                        TableColumn<Chave, String> param) {
+                    TableCell<Chave, String> cell = new TableCell<>();
+                    Text text = new Text();
+                    cell.setGraphic(text);
+                    cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+                    text.wrappingWidthProperty().bind(cell.widthProperty());
+                    text.textProperty().bind(cell.itemProperty());
+                    return cell ;
+                }
+
+            });
 
             /* widths */
             colunaId.prefWidthProperty().bind(tabela.widthProperty().multiply(0.3));
@@ -148,7 +174,9 @@ public class ChavesController {
             @Override
             protected void updateItem(Chave item, boolean empty) {
                 super.updateItem(item, empty);
-                if (!empty) {
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
                     setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                     setGraphic(paddedButton);
                 }

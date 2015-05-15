@@ -27,6 +27,7 @@ import java.util.Objects;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class Template {
+    private String lastBinary = "";
     private ObservableList<TemplateScreen> templateScreens = FXCollections.observableArrayList(FXCollections.observableArrayList());
     private IntegerProperty screenQtyProperty = new SimpleIntegerProperty(1);
     {
@@ -129,6 +130,11 @@ public class Template {
         return format.format((Object[])arr) + System.lineSeparator();
     }
 
+    public void persist() throws TemplatesSingleton.TemplateOverflowException {
+        TemplatesSingleton.getInstance().persist(this);
+        lastBinary = this.toBinary();
+    }
+
     /**
      * Abstraction of a {@link com.avixy.qrtoken.negocio.template.Template} screen
      * In QR Token templates are parsed procedurally so you only get a new screen when there's a {@link com.avixy.qrtoken.negocio.template.WaitForButton}
@@ -172,7 +178,7 @@ public class Template {
             terminator = null;
         }
 
-        public void changed() {
+        public void refresh() {
             checkTerminator();
             Template.this.refresh();
         }
@@ -231,6 +237,23 @@ public class Template {
     public IntegerProperty screenQtyProperty() {
         return screenQtyProperty;
     }
+
+    void setLastBinary(String lastBinary) {
+        this.lastBinary = lastBinary;
+    }
+
+    public boolean hasChanged() {
+        if (lastBinary != null && !lastBinary.equals(this.toBinary())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void discardChanges() {
+        this.templateScreens.setAll(new TemplateParser(lastBinary).parse().getTemplateScreens());
+    }
+
 }
 
 /**
@@ -254,6 +277,7 @@ class TemplateParser {
     public Template parse() { //TODO
         Template template = new Template();
         ObservableList<TemplateObj> templateObjs = FXCollections.observableArrayList();
+        String origBin = bin.toString();
         while (bin.length() > 0){
             TemplateObj templateObj = getTemplateObj();
             if (templateObj == null) continue;
@@ -266,6 +290,7 @@ class TemplateParser {
             }
         }
         template.getTemplateScreens().add(template.new TemplateScreen(templateObjs));
+        template.setLastBinary(origBin);
 
         return template;
     }
