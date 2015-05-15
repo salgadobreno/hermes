@@ -31,7 +31,7 @@ public class GenerateKtamperServiceTest {
         service.setHWVersion("1111");
         service.setPin("aaaa");
         service.setPuk("3333");
-        service.setSerialNumber("1111");
+        service.setSerialNumber("1111111111");
     }
 
     @Test
@@ -39,8 +39,8 @@ public class GenerateKtamperServiceTest {
         String expectedMsg = "00010111" +
                 "00000100" + //length
                 "00110001001100010011000100110001" + //hw version
-                "00000100" + //length
-                "00110001001100010011000100110001" + //serialnumber
+                "00001010" + //length
+                "00110001001100010011000100110001001100010011000100110001001100010011000100110001" + //serialnumber
                 "00000100" + //length
                 "01100001011000010110000101100001" + //pin
                 "00000100" + //length
