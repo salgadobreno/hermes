@@ -37,7 +37,7 @@
          </children>
       </AnchorPane>
       <ListView fx:id="templateListView" layoutY="29.0" prefHeight="397.0" prefWidth="157.0" />
-      <Label layoutX="7.0" layoutY="6.0" text="Templates">
+      <Label layoutX="7.0" layoutY="6.0" text="Aplicações">
          <font>
             <Font size="14.0" />
          </font>

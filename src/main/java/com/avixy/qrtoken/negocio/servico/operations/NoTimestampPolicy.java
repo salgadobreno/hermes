@@ -8,7 +8,7 @@ public class NoTimestampPolicy implements TimestampPolicy {
 
     @Override
     public void setDate(Date date) {
-        throw new RuntimeException("NoTimestampPolicy shouldn't be set");
+//        throw new RuntimeException("NoTimestampPolicy shouldn't be set");
     }
 
 }

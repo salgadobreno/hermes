@@ -176,6 +176,7 @@ public class MainController {
      * runs service/updates qr
      */
     public void gerarQr() {
+        if (serviceController == null) { return; }
         try {
             resetQrView();
 

@@ -34,6 +34,7 @@ import org.tbee.javafx.scene.layout.MigPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created on 12/02/2015
@@ -452,10 +453,10 @@ public class TemplatesController extends Application {
         public RectForm() {
             add(new Label("COLOR:"));
             add(colorPicker, "wrap");
-            add(new Label("Y:"));
-            add(yField, "wrap");
             add(new Label("X:"));
             add(xField, "wrap");
+            add(new Label("Y:"));
+            add(yField, "wrap");
             add(new Label("W:"));
             add(wField, "wrap");
             add(new Label("H:"));
@@ -585,6 +586,17 @@ public class TemplatesController extends Application {
         EventHandler<ActionEvent> saveEvent = e -> {
             canvas.add(new WaitForButton(waitComboBox.getValue(), nextActionComboBox.getValue()));
             formsPopOver.hide();
+
+            if (nextActionComboBox.getValue() == WaitForButton.NextAction.NEW_SCREEN)
+            {
+                editTemplateObjPopOver.hide();
+                templateObjListView.getSelectionModel().select(null);
+                if (canvas.currScreenProperty().get() < screenQtyProperty.get()) {
+                    canvas.currScreenProperty().setValue(canvas.currScreenProperty().getValue() + 1);
+                }
+                templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
+                waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
+            }
         };
     }
 
