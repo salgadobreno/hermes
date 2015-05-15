@@ -75,6 +75,21 @@ public class TemplatesController extends Application {
     private WaitForButtonForm waitForButtonForm = new WaitForButtonForm();
 
     private ChangeListener<Template> templateSelectedEvent = (observable, oldValue, newValue) -> {
+        if (newValue == null) {
+            canvas.setTemplate(null);
+            return;
+        }
+        if (oldValue != null && oldValue.hasChanged()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Há alterações não salvas na aplicação.\nDeseja descartar as alterações?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                oldValue.discardChanges();
+            } else {
+                templateListView.getSelectionModel().clearSelection();
+                templateListView.getSelectionModel().select(oldValue);
+                return;
+            }
+        }
         canvas.setTemplate(newValue);
         templateObjListView.setItems(newValue.templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
         screenQtyProperty.bind(newValue.screenQtyProperty());
@@ -224,7 +239,7 @@ public class TemplatesController extends Application {
         Template selected = templateListView.getSelectionModel().getSelectedItem();
 
         try {
-            templatesSingleton.persist(selected);
+            selected.persist();
         } catch (TemplatesSingleton.TemplateOverflowException e) {
             handleException(e);
         }
@@ -575,7 +590,7 @@ public class TemplatesController extends Application {
                 waitForButton.setWaitSeconds(waitComboBox.getValue());
                 canvas.redraw();
                 formsPopOver.hide();
-                templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).changed();
+                templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).refresh();
             });
             formsPopOver.setOnHidden(e -> {
                 formsPopOver.setOnHidden(null);
