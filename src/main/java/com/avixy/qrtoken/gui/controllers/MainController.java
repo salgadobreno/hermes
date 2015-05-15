@@ -150,7 +150,7 @@ public class MainController {
     private void initService(ServiceComponent serviceComponent){
         resetQrView();
         content.getChildren().clear();
-        content.getChildren().add(serviceComponent.getNode());
+        content.getChildren().add(new DecorationPane((Parent)serviceComponent.getNode()));
 
         //limpar seleção das outras listas
         current = (ListView) servicesAccordion.getExpandedPane().lookup("#listView");
@@ -314,12 +314,6 @@ public class MainController {
         }
         keyConfigStage.show();
         keyConfigStage.toFront();
-//        AvixyKeyConfiguration.getSelectedProfileProperty().addListener(new ChangeListener<AvixyKeyConfiguration>() {
-//            @Override
-//            public void changed(ObservableValue<? extends AvixyKeyConfiguration> observable, AvixyKeyConfiguration oldValue, AvixyKeyConfiguration newValue) {
-//                profileSelector.getSelectionModel().select(newValue);
-//            }
-//        });
     }
 
     @FXML

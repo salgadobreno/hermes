@@ -21,7 +21,7 @@ import java.util.TimeZone;
 public class GenerateKtamperService extends AbstractService implements TimestampAble {
 
     protected TimeZoneParam timezone;
-    private StringWithLengthParam serialNumber;
+    private SerialNumberParam serialNumber;
     private StringWithLengthParam hardwareVersion;
     private StringWithLengthParam pin;
     private StringWithLengthParam puk;
@@ -56,7 +56,7 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
         this.timezone = new TimeZoneParam(timezone);
     }
 
-    public void setSerialNumber(String serialNumber) { this.serialNumber = new StringWithLengthParam(serialNumber); }
+    public void setSerialNumber(String serialNumber) { this.serialNumber = new SerialNumberParam(serialNumber); }
 
     public void setHWVersion(String HWVersion) { this.hardwareVersion = new StringWithLengthParam(HWVersion); }
 
@@ -68,4 +68,3 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
         this.puk = new StringWithLengthParam(puk);
     }
 }
-

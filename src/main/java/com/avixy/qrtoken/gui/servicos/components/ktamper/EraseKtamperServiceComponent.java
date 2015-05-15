@@ -43,7 +43,7 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
-        return new DecorationPane(migPane);
+        return migPane;
     }
 
     @Override
@@ -52,10 +52,6 @@ public class EraseKtamperServiceComponent extends ServiceComponent {
         eraseKtamperService.setTimestamp(timestampField.getValue());
         eraseKtamperService.setHmacKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
-        if (ValidationUtils.validateOnDemand(serialNumberField)) {
-            return service;
-        } else {
-            throw new RuntimeException("Serial number should have 10 characters");
-        }
+        return service;
     }
 }

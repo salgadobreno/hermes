@@ -50,7 +50,7 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
-        return new DecorationPane(migPane);
+        return migPane;
     }
 
     @Override
@@ -61,10 +61,6 @@ public class ImportAvixySymKeyServiceComponent extends ServiceComponent {
         service.setSecrecyKey(AvixyKeyConfiguration.getSelected().getAesKey(serialNumber));
         service.setAuthKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumber));
 
-        if (ValidationUtils.validateOnDemand(serialNumberField)) {
-            return service;
-        } else {
-            throw new RuntimeException("Serial number should have 10 characters");
-        }
+        return service;
     }
 }

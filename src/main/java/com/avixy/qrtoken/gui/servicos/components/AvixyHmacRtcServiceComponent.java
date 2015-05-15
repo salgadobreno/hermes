@@ -57,16 +57,10 @@ public class AvixyHmacRtcServiceComponent extends ServiceComponent {
         AbstractHmacRtcService hmacRtcService = (AbstractHmacRtcService) service;
 
         hmacRtcService.setHmacKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
-        System.out.println(AvixyKeyConfiguration.getSelected().toString()); //TODO
-        System.out.println(AvixyKeyConfiguration.getSelected().getAvixyKeyDerivator());
         hmacRtcService.setTimestamp(timestampField.getValue());
         hmacRtcService.setTimezone(timeZoneField.getTimeZone());
 
-        if (ValidationUtils.validateOnDemand(serialNumberField)) {
-            return hmacRtcService;
-        } else {
-            throw new RuntimeException("Serial number should have 10 characters");
-        }
+        return hmacRtcService;
     }
 
     @Override
@@ -85,7 +79,7 @@ public class AvixyHmacRtcServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
-        return new DecorationPane(migPane);
+        return migPane;
     }
 
     @Override

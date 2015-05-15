@@ -140,10 +140,16 @@ public class AvixyKeyConfiguration {
     }
 
     public byte[] getHmacKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyDerivator.AvixyKeyNotConfigured {
+        if (serialNumber.length() < 10) {
+            throw new IllegalArgumentException("SerialNumber should be 10 characters long.");
+        }
         return avixyKeyDerivator.getHmacKey(serialNumber);
     }
 
     public byte[] getAesKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyDerivator.AvixyKeyNotConfigured {
+        if (serialNumber.length() < 10) {
+            throw new IllegalArgumentException("SerialNumber should be 10 characters long.");
+        }
         return avixyKeyDerivator.getAesKey(serialNumber);
     }
 

@@ -61,7 +61,7 @@ public class ImportClientSymKeyServiceComponent extends ServiceComponent {
         migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField);
 
-        return new DecorationPane(migPane);
+        return migPane;
     }
 
     @Override
@@ -72,11 +72,7 @@ public class ImportClientSymKeyServiceComponent extends ServiceComponent {
         service.setClientAesKey(clientAesKeySelect.getValue().getHexValue());
         service.setClientAuthKey(clientAuthKeySelect.getValue().getHexValue());
 
-        if (ValidationUtils.validateOnDemand(serialNumberField)) {
-            return service;
-        } else {
-            throw new RuntimeException("Serial number should have 10 characters");
-        }
+        return service;
     }
 
 }

@@ -1,9 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
-import com.avixy.qrtoken.core.extensions.components.TimeZoneField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.NoParamServiceComponent;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
@@ -31,7 +28,7 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
     private TimestampField timestampField = new TimestampField();
     private TimeZoneField timeZoneField = new TimeZoneField();
     private TextFieldLimited hwVersionField = new TextFieldLimited(10);
-    private TextFieldLimited serialNumberField = new TextFieldLimited(10);
+    private SerialNumberField serialNumberField = new SerialNumberField();
     private PasswordField pinField = new PasswordField();
     private PasswordField pukField = new PasswordField();
 
