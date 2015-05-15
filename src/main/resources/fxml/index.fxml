@@ -14,8 +14,8 @@
             <Menu mnemonicParsing="false" text="Edit">
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#gerenciaDeChaves" text="Chaves" />
-                    <MenuItem mnemonicParsing="false" onAction="#templateEditor" text="Editor de Aplicações" />
                     <MenuItem mnemonicParsing="false" onAction="#keyConfiguration" text="Configurar Chave Avixy" />
+                    <MenuItem mnemonicParsing="false" onAction="#templateEditor" text="Editor de Aplicações" />
                     <!--<MenuItem mnemonicParsing="false" onAction="#huffmanEncoder" text="Huffman Encoder" />-->
                 </items>
             </Menu>
