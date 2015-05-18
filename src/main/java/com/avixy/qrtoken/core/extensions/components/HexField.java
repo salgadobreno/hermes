@@ -1,5 +1,6 @@
 package com.avixy.qrtoken.core.extensions.components;
 
+import javafx.scene.text.Font;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
@@ -12,7 +13,9 @@ import org.apache.commons.codec.binary.Hex;
  */
 public class HexField extends RestrictiveTextField {
     {
-        setRestrict("[0-9A-f]");
+        setRestrict("[0-9A-Fa-f]");
+        setStyle("-fx-background-color:lightgray;-fx-background-radius:0;");
+        setFont(new Font("Courier New", 12));
     }
     public HexField() {
     }
