@@ -76,23 +76,9 @@ public class AvixyKeyDerivator {
         if (kHmac1 == null | kHmac2 == null | baseDerivationKey == null) {
             throw new AvixyKeyNotConfigured();
         }
-        aesKeyPolicy.setInitializationVector(CLEAN_IV);
-        byte[] key = ArrayUtils.clone(baseDerivationKey);
 
-        byte[] hmacKeySn1 = new byte[32];
-        for (int i = 0; i < key.length; i++) {
-            hmacKeySn1[i] = (byte) (key[i] ^ kHmac1[i]);
-        }
-        aesKeyPolicy.setKey(hmacKeySn1);
-        hmacKeySn1 = aesKeyPolicy.apply(serialNumber.getBytes(Charset.forName("ISO-8859-1")));
-
-        aesKeyPolicy.setInitializationVector(CLEAN_IV);
-        byte[] hmacKeySn2 = new byte[32];
-        for (int i = 0; i < key.length; i++) {
-            hmacKeySn2[i] = (byte) (key[i] ^ kHmac2[i]);
-        }
-        aesKeyPolicy.setKey(hmacKeySn2);
-        hmacKeySn2 = aesKeyPolicy.apply(serialNumber.getBytes(Charset.forName("ISO-8859-1")));
+        byte[] hmacKeySn1 = xorAndEncrypt(baseDerivationKey, kHmac1, serialNumber);
+        byte[] hmacKeySn2 = xorAndEncrypt(baseDerivationKey, kHmac2, serialNumber);
 
         return ArrayUtils.addAll(hmacKeySn1, hmacKeySn2);
     }
@@ -109,25 +95,21 @@ public class AvixyKeyDerivator {
         if (kHmac1 == null | kHmac2 == null | baseDerivationKey == null) {
             throw new AvixyKeyNotConfigured();
         }
-        byte[] key = ArrayUtils.clone(baseDerivationKey);
 
-        byte[] aesKeySn1 = new byte[32];
-        for (int i = 0; i < key.length; i++) {
-            aesKeySn1[i] = (byte) (key[i] ^ kAes1[i]);
-        }
-        aesKeyPolicy.setKey(aesKeySn1);
-        aesKeyPolicy.setInitializationVector(CLEAN_IV);
-        aesKeySn1 = aesKeyPolicy.apply(serialNumber.getBytes(Charset.forName("ISO-8859-1")));
-
-        byte[] aesKeySn2 = new byte[32];
-        for (int i = 0; i < key.length; i++) {
-            aesKeySn2[i] = (byte) (key[i] ^ kAes2[i]);
-        }
-        aesKeyPolicy.setKey(aesKeySn2);
-        aesKeyPolicy.setInitializationVector(CLEAN_IV);
-        aesKeySn2 = aesKeyPolicy.apply(serialNumber.getBytes(Charset.forName("ISO-8859-1")));
+        byte[] aesKeySn1 = xorAndEncrypt(baseDerivationKey, kAes1, serialNumber);
+        byte[] aesKeySn2 = xorAndEncrypt(baseDerivationKey, kAes2, serialNumber);
 
         return ArrayUtils.addAll(aesKeySn1, aesKeySn2);
+    }
+
+    private byte[] xorAndEncrypt(final byte[] data1, final byte[] data2, String serialNumber) throws CryptoException {
+        byte[] xoredData = new byte[32];
+        for (int i = 0; i < 32; i++) {
+            xoredData[i] = (byte) (data1[i] ^ data2[i]);
+        }
+        AesKeyPolicy aes = new AesKeyPolicy(CLEAN_IV, true);
+        aes.setKey(xoredData);
+        return aes.apply(serialNumber.getBytes(Charset.forName("ISO-8859-1")));
     }
 
     public byte[] getkComponent1() {
