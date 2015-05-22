@@ -4,13 +4,6 @@ import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Combobox de seleção de Template

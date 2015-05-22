@@ -89,11 +89,6 @@ public class TdesKeyPolicyTest {
 
     }
 
-    @Test
-    public void testAlternateKeyLengths() throws Exception {
-
-    }
-
     private void testResult(byte[] key, byte[] iv, byte[] plainText, byte[] expectedResult) throws CryptoException, GeneralSecurityException {
         tdesKeyPolicy = new TdesKeyPolicy(iv);
         tdesKeyPolicy.setKey(key);

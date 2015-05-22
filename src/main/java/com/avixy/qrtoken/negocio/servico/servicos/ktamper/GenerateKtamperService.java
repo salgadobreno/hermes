@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;

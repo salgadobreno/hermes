@@ -1,23 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.servicos;
 
-import com.avixy.qrtoken.negocio.qrcode.QrSetup;
-import com.avixy.qrtoken.negocio.servico.ServiceCode;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.google.zxing.qrcode.decoder.Version;
-import org.bouncycastle.crypto.CryptoException;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-
 //TODO
 //public class UpdateFirmwareServiceTest {
 //    AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(){

@@ -10,8 +10,6 @@ import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
-import jidefx.scene.control.decoration.DecorationPane;
-import jidefx.scene.control.validation.ValidationUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
 /**

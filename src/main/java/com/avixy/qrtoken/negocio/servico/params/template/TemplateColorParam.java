@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.params.template;
 
-import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.Param;
 import com.avixy.qrtoken.negocio.template.TemplateColor;
 

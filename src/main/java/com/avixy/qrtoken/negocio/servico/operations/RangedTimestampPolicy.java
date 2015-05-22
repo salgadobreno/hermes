@@ -33,5 +33,5 @@ public class RangedTimestampPolicy extends SettableTimestampPolicy {
 
     public boolean isRanged() {
         return endDate != null;
-    };
+    }
 }

@@ -5,7 +5,6 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.MasterDetailPane;
 
 /**
  * Created on 06/03/2015

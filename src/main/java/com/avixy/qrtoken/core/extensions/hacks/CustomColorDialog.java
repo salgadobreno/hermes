@@ -48,7 +48,6 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.*;
-import org.controlsfx.control.PopOver;
 
 /**
  *

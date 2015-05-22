@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.template;
 
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.Token;
 import javafx.collections.FXCollections;

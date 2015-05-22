@@ -28,7 +28,7 @@ public class ServiceLoader {
         Map<ServiceCategory, List<Class<? extends ServiceComponent>>> categoryListMap = new LinkedHashMap<>();
 
         for (ServiceCategory category : ServiceCategory.values()) {
-            categoryListMap.put(category, new ArrayList<Class<? extends ServiceComponent>>());
+            categoryListMap.put(category, new ArrayList<>());
 
             for (Class<? extends ServiceComponent> component : classes) {
                 // Se o ServiceComponent não tiver a anotação ServiceCategory, não é posto na lista

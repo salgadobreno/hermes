@@ -1,7 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
-import com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator;
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
@@ -9,9 +8,7 @@ import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
 import com.google.inject.Inject;
-import org.bouncycastle.crypto.CryptoException;
 
-import java.security.GeneralSecurityException;
 import java.util.Date;
 
 /**

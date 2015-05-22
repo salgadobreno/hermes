@@ -3,7 +3,6 @@ package com.avixy.qrtoken.core.extensions.components;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
-import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 /**

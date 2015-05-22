@@ -26,5 +26,5 @@ public enum TemplateSize {
         } else {
             throw new IllegalArgumentException("Invalid index");
         }
-    };
+    }
 }

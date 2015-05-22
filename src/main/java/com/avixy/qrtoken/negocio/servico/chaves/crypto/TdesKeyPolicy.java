@@ -9,7 +9,6 @@ import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 /**

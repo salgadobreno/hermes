@@ -2,8 +2,6 @@ package com.avixy.qrtoken.negocio.servico.operations;
 
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 
-import java.security.GeneralSecurityException;
-
 public class NoMacPolicy extends HmacKeyPolicy {
     @Override
     public byte[] apply(byte[] msg) {

@@ -10,7 +10,6 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 

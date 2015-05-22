@@ -9,5 +9,5 @@ package com.avixy.qrtoken.negocio.servico.operations;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public interface RandomGenerator {
-    public void nextBytes(byte[] bytes);
+    void nextBytes(byte[] bytes);
 }

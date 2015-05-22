@@ -5,8 +5,6 @@ import com.avixy.qrtoken.negocio.servico.params.TimestampParam;
 
 import java.util.Date;
 
-import static org.apache.commons.lang.ArrayUtils.addAll;
-
 /**
  * Created on 05/11/2014
  *

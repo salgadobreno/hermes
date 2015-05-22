@@ -2,7 +2,6 @@ package com.avixy.qrtoken.core.extensions.components.validators;
 
 import jidefx.scene.control.validation.ValidationEvent;
 import jidefx.scene.control.validation.ValidationObject;
-import jidefx.scene.control.validation.Validator;
 
 /**
  * Created on 06/05/2015

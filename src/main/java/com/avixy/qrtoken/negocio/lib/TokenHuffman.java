@@ -17,7 +17,7 @@ public class TokenHuffman {
 
     public enum Mode {
         STREAM, // tudo junto
-        SPLIT; // \n depois de cada palavra
+        SPLIT // \n depois de cada palavra
     }
 
     private Mode mode = Mode.STREAM;

@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created on 03/09/2014

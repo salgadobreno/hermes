@@ -11,8 +11,6 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created on 12/02/2015
@@ -27,7 +25,7 @@ public class Text implements TemplateObj {
             return new NBitsParam((byte)2, (byte)ordinal()).toBinaryString();
         }
 
-        public boolean isArg() { return this == ARGUMENT; };
+        public boolean isArg() { return this == ARGUMENT; }
 
         static int calcAlignment(Text textObj)  {
             int maxTextLength = 0;
@@ -83,7 +81,7 @@ public class Text implements TemplateObj {
         public String toBinaryString() {
             return new FourBitParam((byte) ordinal()).toBinaryString();
         }
-        public boolean isArg() { return this == ARGUMENT; };
+        public boolean isArg() { return this == ARGUMENT; }
     }
 
     private int y;

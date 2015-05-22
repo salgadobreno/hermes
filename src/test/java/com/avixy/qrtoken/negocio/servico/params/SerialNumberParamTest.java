@@ -1,6 +1,5 @@
 package com.avixy.qrtoken.negocio.servico.params;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

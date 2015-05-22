@@ -4,11 +4,9 @@ import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import java.util.Calendar;
@@ -16,7 +14,6 @@ import java.util.TimeZone;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
 
 public class AvixyRtcServiceTest {
     TimestampPolicy timestampPolicy = mock(SettableTimestampPolicy.class);

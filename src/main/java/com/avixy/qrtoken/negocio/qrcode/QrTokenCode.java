@@ -2,7 +2,6 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;

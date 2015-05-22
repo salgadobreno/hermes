@@ -243,11 +243,7 @@ public class Template {
     }
 
     public boolean hasChanged() {
-        if (lastBinary != null && !lastBinary.equals(this.toBinary())) {
-            return true;
-        } else {
-            return false;
-        }
+        return lastBinary != null && !lastBinary.equals(this.toBinary());
     }
 
     public void discardChanges() {

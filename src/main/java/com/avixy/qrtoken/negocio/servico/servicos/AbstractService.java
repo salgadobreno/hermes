@@ -6,7 +6,6 @@ import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.*;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

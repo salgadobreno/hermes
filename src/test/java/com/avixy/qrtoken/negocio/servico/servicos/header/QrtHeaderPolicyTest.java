@@ -4,7 +4,6 @@ import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.Token;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

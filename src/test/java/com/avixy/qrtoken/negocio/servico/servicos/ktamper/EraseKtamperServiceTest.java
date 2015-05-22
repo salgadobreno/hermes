@@ -2,7 +2,6 @@ package com.avixy.qrtoken.negocio.servico.servicos.ktamper;
 
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
-import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**

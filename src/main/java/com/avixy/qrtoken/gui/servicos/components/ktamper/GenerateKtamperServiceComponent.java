@@ -7,16 +7,10 @@ import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.ktamper.GenerateKtamperService;
 import com.google.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
-
-import java.util.Arrays;
-import java.util.TimeZone;
 
 /**
  * Created on 15/09/2014
@@ -54,7 +48,7 @@ public class GenerateKtamperServiceComponent extends NoParamServiceComponent {
         migPane.add(new Label("Versão de Hardware:"));
         migPane.add(hwVersionField, "wrap");
 
-        migPane.add(new Label("Número de série:"));
+        migPane.add(new Label("Serial Number:"));
         migPane.add(serialNumberField, "wrap");
 
         migPane.add(new Label("PIN:"));

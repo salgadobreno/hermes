@@ -1,9 +1,6 @@
 package com.avixy.qrtoken.core.extensions.customControls;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 
 /**
  * <code>PopOver</code> which is not detachable by default

@@ -2,11 +2,9 @@ package com.avixy.qrtoken.negocio.template;
 
 import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 import com.avixy.qrtoken.negocio.servico.params.RGB565Param;
-import com.avixy.qrtoken.negocio.servico.params.TwoBytesWrapperParam;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
