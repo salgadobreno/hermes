@@ -12,8 +12,8 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class AvixyKeyDerivatorTest {
-    AvixyKeyDerivator avixyKeyDerivator = new AvixyKeyDerivator();
+public class KeyDerivatorTest {
+    KeyDerivator keyDerivator = new KeyDerivator();
     byte[] kAes1, kAes2, kHmac1, kHmac2, keyComponent1, keyComponent2, keyComponent3;
     byte[] key;
     String serialNumber;
@@ -45,18 +45,18 @@ public class AvixyKeyDerivatorTest {
 
         key = Hex.decodeHex("5bfdf2a41dfbe2fdabbb538b327de4b25bfdf2a41dfbe2fdabbb538b327de4b2".toCharArray());
 
-        avixyKeyDerivator.setAesConstants(kAes1, kAes2);
-        avixyKeyDerivator.setHmacConstants(kHmac1, kHmac2);
-        avixyKeyDerivator.setKeyComponents(keyComponent1, keyComponent2, keyComponent3);
+        keyDerivator.setAesConstants(kAes1, kAes2);
+        keyDerivator.setHmacConstants(kHmac1, kHmac2);
+        keyDerivator.setKeyComponents(keyComponent1, keyComponent2, keyComponent3);
     }
 
     @Test
     public void testHmacKey() throws Exception {
-        assertArrayEquals(key, avixyKeyDerivator.getHmacKey(serialNumber));
+        assertArrayEquals(key, keyDerivator.getHmacKey(serialNumber));
     }
 
     @Test
     public void testAesKey() throws Exception {
-        assertArrayEquals(key, avixyKeyDerivator.getAesKey(serialNumber));
+        assertArrayEquals(key, keyDerivator.getAesKey(serialNumber));
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="vbox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" minHeight="568">
+    <AnchorPane fx:id="containerPane" VBox.vgrow="ALWAYS"/>
+    <TableView fx:id="perfisTable" layoutX="2.0" layoutY="376.0" prefHeight="191.0" minHeight="300.0" prefWidth="329.0"
+               VBox.vgrow="ALWAYS"/>
+</VBox>

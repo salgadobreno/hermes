@@ -14,12 +14,12 @@ import java.security.GeneralSecurityException;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class AvixyKeyDerivator {
+public class KeyDerivator {
 
-    public class AvixyKeyNotConfigured extends Exception {
+    public class KeyNotConfigured extends Exception {
         @Override
         public String getMessage() {
-            return "AvixyKeyDerivator has not been set up";
+            return "Key has not been set up";
         }
     }
 
@@ -70,11 +70,11 @@ public class AvixyKeyDerivator {
      * @return Derived HMAC Key
      * @throws CryptoException
      * @throws GeneralSecurityException
-     * @throws com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator.AvixyKeyNotConfigured AvixyKeyDerivator has not been set up with required params
+     * @throws KeyNotConfigured KeyDerivator has not been set up with required params
      */
-    public byte[] getHmacKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyNotConfigured {
+    public byte[] getHmacKey(String serialNumber) throws CryptoException, KeyNotConfigured {
         if (kHmac1 == null | kHmac2 == null | baseDerivationKey == null) {
-            throw new AvixyKeyNotConfigured();
+            throw new KeyNotConfigured();
         }
 
         byte[] hmacKeySn1 = xorAndEncrypt(baseDerivationKey, kHmac1, serialNumber);
@@ -89,11 +89,11 @@ public class AvixyKeyDerivator {
      * @return Derived AES Key
      * @throws CryptoException
      * @throws GeneralSecurityException
-     * @throws com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator.AvixyKeyNotConfigured AvixyKeyDerivator has not been set up with required params
+     * @throws KeyNotConfigured KeyDerivator has not been set up with required params
      */
-    public byte[] getAesKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyNotConfigured {
+    public byte[] getAesKey(String serialNumber) throws CryptoException, KeyNotConfigured {
         if (kHmac1 == null | kHmac2 == null | baseDerivationKey == null) {
-            throw new AvixyKeyNotConfigured();
+            throw new KeyNotConfigured();
         }
 
         byte[] aesKeySn1 = xorAndEncrypt(baseDerivationKey, kAes1, serialNumber);
