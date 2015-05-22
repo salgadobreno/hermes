@@ -3,13 +3,13 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.HermesModule;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
-import com.avixy.qrtoken.negocio.lib.AvixyKeyDerivator;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
+import com.sun.javafx.Utils;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringExpression;
 import javafx.beans.property.IntegerProperty;
@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -29,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jidefx.scene.control.decoration.DecorationPane;
@@ -57,7 +59,8 @@ public class MainController {
     static Stage chavesStage;
     static Stage encoderStage;
     static Stage templateStage;
-    static Stage keyConfigStage;
+    static Stage avxKeyConfigStage;
+    static Stage clientKeyConfigStage;
 
     private Version qrVersion;
 
@@ -68,7 +71,6 @@ public class MainController {
     @FXML private AnchorPane content;
     @FXML private Accordion servicesAccordion;
     @FXML private Label errorLabel;
-//    @FXML private ComboBox<AvixyKeyConfiguration> profileSelector;
 
     /* Controles e indicadores de QR */
     private List<QrTokenCode> qrCodes = new ArrayList<>(); // lista dos codigos qr
@@ -209,20 +211,27 @@ public class MainController {
     /**
      * Tratamento de erros custom e inesperados
      */
-    private void handleException(Exception e) {
-        if (e instanceof AvixyKeyDerivator.AvixyKeyNotConfigured) {
-            try {
-                keyConfiguration();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+    public void handleException(Exception e) {
+        try {
+            switch (e.getClass().getSimpleName()) {
+                case "AvixyKeyNotConfigured":
+                    avixyKeyConfiguration();
+                    alertInfo("Chave Avixy não configurada");
+                    return;
+                case "ClientKeyNotConfigured":
+                    clientKeyConfiguration();
+                    alertInfo("Chave Cliente não configurada");
+                    return;
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Info");
-            alert.setHeaderText("Chave Avixy não foi configurada");
-            alert.showAndWait();
-            return;
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            alertError(e1);
         }
 
+        alertError(e);
+    }
+
+    private void alertError(Exception e) {
         log.error("Error: ", e);
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -231,13 +240,20 @@ public class MainController {
         alert.showAndWait();
     }
 
-    public void nextQrCode() throws GeneralSecurityException {
+    private void alertInfo(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText(msg);
+        alert.showAndWait();
+    }
+
+    public void nextQrCode() {
         if (currentQrCodeProperty.get() < qtdQrsProperty.get()) {
             currentQrCodeProperty.set(currentQrCodeProperty.get() + 1);
         }
     }
 
-    public void previousQrCode() throws GeneralSecurityException {
+    public void previousQrCode() {
         if (currentQrCodeProperty.get() > 1) {
             currentQrCodeProperty.set(currentQrCodeProperty.get() - 1);
         }
@@ -279,8 +295,7 @@ public class MainController {
             chavesStage.setResizable(false);
             chavesStage.setScene(new Scene(parent));
 
-            chavesStage.show();
-            chavesStage.toFront();
+            showAndCenterOnCurrentScreen(chavesStage);
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
@@ -300,20 +315,44 @@ public class MainController {
         templateStage.setTitle("Hermes - Avixy QR Token");
         templateStage.setScene(scene);
         templateStage.setResizable(false);
-        templateStage.centerOnScreen();
-        templateStage.show();
+        showAndCenterOnCurrentScreen(templateStage);
+    }
+
+    private void showAndCenterOnCurrentScreen(Stage stage) {
+        Screen currScreen = Utils.getScreen(correctionLevelSlider);
+        Rectangle2D bounds = currScreen.getBounds();
+        stage.show();
+        stage.setX(bounds.getMinX() + (bounds.getWidth() - stage.getWidth()) * 1.0f / 2);
+        stage.setY(bounds.getMinY() + (bounds.getHeight() - stage.getHeight()) * 1.0f / 3);
+        stage.toFront();
     }
 
     @FXML
-    public void keyConfiguration() throws IOException {
-        if (keyConfigStage == null) {
-            keyConfigStage = new Stage();
-            keyConfigStage.setResizable(false);
-            String fxmlFile = "/fxml/kAvixyConfig.fxml";
-            keyConfigStage.setScene(new Scene(new DecorationPane(FXMLLoader.load(getClass().getResource(fxmlFile)))));
+    public void avixyKeyConfiguration() throws IOException {
+        if (avxKeyConfigStage == null) {
+            avxKeyConfigStage = new Stage();
+            avxKeyConfigStage.setResizable(false);
+            String fxmlFile = "/fxml/bdkConfig.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+            fxmlLoader.setController(new AvixyKeyConfigurationController());
+
+            avxKeyConfigStage.setScene(new Scene(new DecorationPane(fxmlLoader.load())));
         }
-        keyConfigStage.show();
-        keyConfigStage.toFront();
+        showAndCenterOnCurrentScreen(avxKeyConfigStage);
+    }
+
+    @FXML
+    public void clientKeyConfiguration() throws IOException {
+        if (clientKeyConfigStage == null) {
+            clientKeyConfigStage = new Stage();
+            clientKeyConfigStage.setResizable(false);
+            String fxmlFile = "/fxml/bdkConfig.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+            fxmlLoader.setController(new ClientKeyConfigurationController());
+
+            clientKeyConfigStage.setScene(new Scene(new DecorationPane(fxmlLoader.load())));
+        }
+        showAndCenterOnCurrentScreen(clientKeyConfigStage);
     }
 
     @FXML
@@ -328,8 +367,7 @@ public class MainController {
             final VBox vBox = (VBox) zoomStage.getScene().lookup("#vbox");
             vBox.styleProperty().bind(qrDisplayVBox.styleProperty());
         }
-        zoomStage.show();
-        zoomStage.toFront();
+        showAndCenterOnCurrentScreen(zoomStage);
     }
 
     @FXML
@@ -342,7 +380,6 @@ public class MainController {
             encoderStage.setResizable(false);
             encoderStage.setScene(scene);
         }
-        encoderStage.show();
-        encoderStage.toFront();
+        showAndCenterOnCurrentScreen(encoderStage);
     }
 }

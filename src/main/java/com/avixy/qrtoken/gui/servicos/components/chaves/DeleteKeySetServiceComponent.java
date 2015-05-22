@@ -1,8 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
+import com.avixy.qrtoken.core.extensions.components.SerialNumberField;
 import com.avixy.qrtoken.core.extensions.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.chaves.DeleteSymKeyService;
 import javafx.scene.Node;
@@ -17,7 +18,7 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
 
     private DeleteSymKeyService service;
     private TimestampField timestampField = new TimestampField();
-    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     public DeleteKeySetServiceComponent(DeleteSymKeyService service) {
         super(service);
@@ -35,17 +36,17 @@ public abstract class DeleteKeySetServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
 
-        migPane.add(new Label("Chave HMAC:"));
-        migPane.add(hmacKeySelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField);
 
         return migPane;
     }
 
     @Override
-    public Service getService()
+    public Service getService() throws Exception
     {
         service.setTimestamp(timestampField.getValue());
-        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
         return service;
     }

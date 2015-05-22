@@ -3,7 +3,7 @@ package com.avixy.qrtoken.gui.controllers;
 import com.avixy.qrtoken.core.extensions.components.HexField;
 import com.avixy.qrtoken.core.extensions.components.validators.JideSimpleValidator;
 import com.avixy.qrtoken.core.extensions.components.validators.JideSizeValidator;
-import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class AvixyKeyConfigurationController extends MigPane {
+public class ClientKeyConfigurationController extends MigPane {
     private TextField idField = new TextField();
     private ComponentInput comp1 = new ComponentInput();
     private ComponentInput comp2 = new ComponentInput();
@@ -60,7 +60,7 @@ public class AvixyKeyConfigurationController extends MigPane {
 
     private Button saveButton = new Button("Salvar");
     @FXML
-    private TableView<AvixyKeyConfiguration> perfisTable;
+    private TableView<ClientKeyConfiguration> perfisTable;
 
     @FXML
     private AnchorPane containerPane;
@@ -133,7 +133,7 @@ public class AvixyKeyConfigurationController extends MigPane {
         MigPane migPaneComp1 = new MigPane();
         MigPane migPaneComp2 = new MigPane();
         MigPane migPaneComp3 = new MigPane();
-        Label title = new Label("Configurar Chave Avixy");
+        Label title = new Label("Configurar Chave Cliente");
         title.setFont(new Font(18));
         migPane.add(title, "span, wrap");
         migPane.add(new Label("Identificação:"));
@@ -164,8 +164,10 @@ public class AvixyKeyConfigurationController extends MigPane {
 
         containerPane.getChildren().add(migPane);
         containerPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            MainController.avxKeyConfigStage.setHeight(MainController.avxKeyConfigStage.getHeight() + (newValue.doubleValue() - oldValue.doubleValue()));
+            MainController.clientKeyConfigStage.setHeight(MainController.clientKeyConfigStage.getHeight() + (newValue.doubleValue() - oldValue.doubleValue()));
         });
+        /* setup table */
+        ChavesTableUtil.setupTable(perfisTable);
         /* validations */
         ValidationUtils.install(idField, new JideSimpleValidator(), ValidationMode.ON_FLY);
         ValidationUtils.install(kAes1Field, new JideSizeValidator(64), ValidationMode.ON_FLY);
@@ -195,7 +197,7 @@ public class AvixyKeyConfigurationController extends MigPane {
             }
         });
 
-        CheckBox checkBox = new CheckBox("Ver chave");
+        CheckBox checkBox = new CheckBox("Ver componente");
         comp1.resultTextField.addEventHandler(ValidationEvent.ANY, event2 -> {
             comp1Ok = event2.getEventType() == ValidationEvent.VALIDATION_OK;
         });
@@ -215,7 +217,7 @@ public class AvixyKeyConfigurationController extends MigPane {
                         migPane.add(migPane.getChildren().indexOf(derivTitle), checkBox, "span, wrap");
                         checkBox.setVisible(true);
                     }
-                    StringBuilder checkValue = new StringBuilder(Hex.encodeHexString(AvixyKeyConfigurationController.this.calcCheckValue(getBaseDerivationKey())));
+                    StringBuilder checkValue = new StringBuilder(Hex.encodeHexString(ClientKeyConfigurationController.this.calcCheckValue(getBaseDerivationKey())));
                     label.setText("Key Check Value: " + checkValue.insert(6, "  ").toString().toUpperCase());
                     label.setTextFill(Color.RED);
                     if (!migPane.getChildren().contains(label)) {
@@ -262,7 +264,7 @@ public class AvixyKeyConfigurationController extends MigPane {
         saveButton.setOnAction(event -> {
             if (ValidationUtils.validateOnDemand(idField.getParent().getParent())) {
                 try {
-                    AvixyKeyConfiguration avixyKeyConfiguration = new AvixyKeyConfiguration();
+                    ClientKeyConfiguration avixyKeyConfiguration = new ClientKeyConfiguration();
                     avixyKeyConfiguration.setName(idField.getText());
                     byte[] kC1 = Hex.decodeHex((comp1.resultTextField.getText()).toCharArray());
                     byte[] kC2 = Hex.decodeHex((comp2.resultTextField.getText()).toCharArray());
@@ -271,33 +273,24 @@ public class AvixyKeyConfigurationController extends MigPane {
                     avixyKeyConfiguration.setAesConstants(kAes1Field.getValue(), kAes2Field.getValue());
                     avixyKeyConfiguration.setHmacConstants(kHmac1Field.getValue(), kHmac2Field.getValue());
 
-                    AvixyKeyConfiguration.getConfigList().add(avixyKeyConfiguration);
-                    AvixyKeyConfiguration.persist();
-                    if (AvixyKeyConfiguration.getConfigList().size() == 1)
-                        perfisTable.getSelectionModel().select(avixyKeyConfiguration);
+                    ClientKeyConfiguration.getConfigList().add(avixyKeyConfiguration);
+                    ClientKeyConfiguration.persist();
+                    if (ClientKeyConfiguration.getConfigList().size() == 1) perfisTable.getSelectionModel().select(avixyKeyConfiguration);
                     List<TextField> form = Arrays.asList(
                             idField, kAes1Field, kAes2Field, kHmac1Field, kHmac2Field,
-                            comp1.boundTF1, comp1.boundTF2, comp1.boundTF3, comp1.boundTF4, comp1.boundTF5, comp1.boundTF6, comp1.boundTF7, comp1.boundTF8,
-                            comp2.boundTF1, comp2.boundTF2, comp2.boundTF3, comp2.boundTF4, comp2.boundTF5, comp2.boundTF6, comp2.boundTF7, comp2.boundTF8,
-                            comp3.boundTF1, comp3.boundTF2, comp3.boundTF3, comp3.boundTF4, comp3.boundTF5, comp3.boundTF6, comp3.boundTF7, comp3.boundTF8
+                            comp1.boundTF1,  comp1.boundTF2,  comp1.boundTF3,  comp1.boundTF4, comp1.boundTF5,  comp1.boundTF6,  comp1.boundTF7,  comp1.boundTF8,
+                            comp2.boundTF1,  comp2.boundTF2,  comp2.boundTF3,  comp2.boundTF4, comp2.boundTF5,  comp2.boundTF6,  comp2.boundTF7,  comp2.boundTF8,
+                            comp3.boundTF1,  comp3.boundTF2,  comp3.boundTF3,  comp3.boundTF4, comp3.boundTF5,  comp3.boundTF6,  comp3.boundTF7,  comp3.boundTF8
                     );
                     for (TextField textField : form) {
                         textField.setText("");
                         textField.fireEvent(new ValidationEvent(ValidationEvent.VALIDATION_UNKNOWN));
                     }
-                    comp1.clearValidations();
-                    comp2.clearValidations();
-                    comp3.clearValidations();
+                    comp1.clearValidations(); comp2.clearValidations(); comp3.clearValidations();
                 } catch (DecoderException e) {
                     throw new RuntimeException(e);
                 }
             }
-        });
-
-        /* setup table */
-        ChavesTableUtil.setupTable(perfisTable);
-        perfisTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            AvixyKeyConfiguration.select(newValue);
         });
 
         Label labelK1 = new Label("Check Value:");
@@ -397,9 +390,9 @@ public class AvixyKeyConfigurationController extends MigPane {
 
     static byte[] calcCheckValue(byte[] key) {
         try {
-        AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(new byte[16], true);
-        aesKeyPolicy.setKey(key);
-        byte[] message = new byte[16];
+            AesKeyPolicy aesKeyPolicy = new AesKeyPolicy(new byte[16], true);
+            aesKeyPolicy.setKey(key);
+            byte[] message = new byte[16];
             return Arrays.copyOfRange(aesKeyPolicy.apply(message), 0, 6);
         } catch (CryptoException e) {
             throw new RuntimeException(e);
@@ -415,16 +408,14 @@ public class AvixyKeyConfigurationController extends MigPane {
      */
     public static class ChavesTableUtil {
 
-        public static void setupTable(final TableView<AvixyKeyConfiguration> tabela) {
+        public static void setupTable(final TableView<ClientKeyConfiguration> tabela) {
             /* colunas */
-            TableColumn<AvixyKeyConfiguration, Boolean> colunaSelect = new TableColumn<>("");
-            TableColumn<AvixyKeyConfiguration, String> colunaId = new TableColumn<>("");
-            TableColumn<AvixyKeyConfiguration, AvixyKeyConfiguration> colunaDelete = new TableColumn<>("");
+            TableColumn<ClientKeyConfiguration, Boolean> colunaSelect = new TableColumn<>("");
+            TableColumn<ClientKeyConfiguration, String> colunaId = new TableColumn<>("");
+            TableColumn<ClientKeyConfiguration, ClientKeyConfiguration> colunaDelete = new TableColumn<>("");
 
             /* Value factories */
-            colunaSelect.setCellFactory(param1 -> new CheckBoxTableCell<>(param -> {
-                return AvixyKeyConfiguration.getConfigList().get(param).selectedProperty();
-            }));
+            colunaSelect.setCellFactory(param1 -> new CheckBoxTableCell<>(param -> ClientKeyConfiguration.getConfigList().get(param).selectedProperty()));
             colunaId.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().toString()));
             colunaDelete.setCellFactory(chaveBooleanTableColumn -> new AvxConfigDeleteCell());
             colunaDelete.setCellValueFactory(features -> new SimpleObjectProperty<>(features.getValue()));
@@ -434,18 +425,19 @@ public class AvixyKeyConfigurationController extends MigPane {
             colunaId.prefWidthProperty().bind(tabela.widthProperty().multiply(0.7));
             colunaDelete.prefWidthProperty().bind(tabela.widthProperty().multiply(0.15));
 
-            tabela.itemsProperty().set(AvixyKeyConfiguration.getConfigList());
+            tabela.itemsProperty().set(ClientKeyConfiguration.getConfigList());
             tabela.getColumns().addAll(colunaSelect, colunaId, colunaDelete);
 
-            tabela.setItems(AvixyKeyConfiguration.getConfigList());
+            tabela.setItems(ClientKeyConfiguration.getConfigList());
+//            tabela.getSelectionModel().select(ClientKeyConfiguration.getSelected());
 
             tabela.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                AvixyKeyConfiguration.select(newValue);
+                ClientKeyConfiguration.select(newValue);
             });
         }
 
         /** Célula com botão para deletar uma <code>Chave</code>. */
-        public static class AvxConfigDeleteCell extends TableCell<AvixyKeyConfiguration, AvixyKeyConfiguration> {
+        public static class AvxConfigDeleteCell extends TableCell<ClientKeyConfiguration, ClientKeyConfiguration> { //TODO
             final Button xButton = new Button("x");
             final StackPane paddedButton = new StackPane();
 
@@ -453,13 +445,13 @@ public class AvixyKeyConfigurationController extends MigPane {
                 paddedButton.setPadding(new Insets(3));
                 paddedButton.getChildren().add(xButton);
                 xButton.setOnAction(actionEvent -> {
-                    AvixyKeyConfiguration.remove(getItem());
+                    ClientKeyConfiguration.remove(getItem());
                 });
             }
 
             /** places a button in the row only if the row is not empty. */
             @Override
-            protected void updateItem(AvixyKeyConfiguration item, boolean empty) {
+            protected void updateItem(ClientKeyConfiguration item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setGraphic(null);

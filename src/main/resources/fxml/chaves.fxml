@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.avixy.qrtoken.core.extensions.components.HexField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<?import com.avixy.qrtoken.core.extensions.components.HexField?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avixy.qrtoken.gui.controllers.ChavesController">
-    <children>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="435.0">
-            <children>
-                <Label layoutX="17.0" layoutY="6.0" text="Nova chave">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label layoutX="15.0" layoutY="48.0" text="Identificação:" />
-                <Label layoutX="15.0" layoutY="84.0" text="Tipo:" />
-                <Label layoutX="15.0" layoutY="121.0" text="Valor:" />
-                <TextField fx:id="idField" layoutX="97.0" layoutY="44.0" prefHeight="25.0" prefWidth="207.0" />
-                <ComboBox fx:id="tipoComboBox" layoutX="97.0" layoutY="80.0" prefWidth="150.0" />
-            <ComboBox fx:id="lengthComboBox" layoutX="253.0" layoutY="80.0" />
-                <HexField fx:id="valorField" layoutX="97.0" layoutY="117.0" prefHeight="25.0" prefWidth="207.0" />
-                <Button defaultButton="true" layoutX="373.0" layoutY="123.0" mnemonicParsing="false" onAction="#save" text="Salvar" />
-            <Label fx:id="errorLabel" layoutY="22.0" prefHeight="17.0" prefWidth="324.0" textFill="RED" />
-            </children>
-        </AnchorPane>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-           <children>
-               <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0" />
-           </children>
-        </AnchorPane>
-    </children>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.avixy.qrtoken.gui.controllers.ChavesController">
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                prefHeight="159.0" prefWidth="435.0">
+        <Label layoutX="17.0" layoutY="6.0" text="Nova chave">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+        <Label layoutX="15.0" layoutY="48.0" text="Identificação:"/>
+        <Label layoutX="15.0" layoutY="84.0" text="Tipo:"/>
+        <Label layoutX="15.0" layoutY="121.0" text="Valor:"/>
+        <TextField fx:id="idField" layoutX="97.0" layoutY="44.0" prefHeight="25.0" prefWidth="207.0"/>
+        <ComboBox fx:id="tipoComboBox" layoutX="97.0" layoutY="80.0" prefWidth="150.0"/>
+        <ComboBox fx:id="lengthComboBox" layoutX="253.0" layoutY="80.0"/>
+        <HexField fx:id="valorField" layoutX="97.0" layoutY="117.0" prefHeight="25.0" prefWidth="207.0"/>
+        <Button defaultButton="true" layoutX="373.0" layoutY="123.0" mnemonicParsing="false" onAction="#save"
+                text="Salvar"/>
+        <Label fx:id="errorLabel" layoutY="22.0" prefHeight="17.0" prefWidth="324.0" textFill="RED"/>
+    </AnchorPane>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+        <TableView fx:id="chavesTable" prefHeight="400.0" prefWidth="435.0"/>
+    </AnchorPane>
 </VBox>

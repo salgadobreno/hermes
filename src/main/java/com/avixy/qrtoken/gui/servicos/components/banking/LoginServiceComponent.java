@@ -3,13 +3,17 @@ package com.avixy.qrtoken.gui.servicos.components.banking;
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.banking.LoginService;
 import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import org.bouncycastle.crypto.CryptoException;
 import org.tbee.javafx.scene.layout.MigPane;
+
+import java.security.GeneralSecurityException;
 
 /**
  * Created on 23/10/2014
@@ -24,9 +28,7 @@ public class LoginServiceComponent extends ServiceComponent {
     private TextFieldLimited loginCodeField = new TextFieldLimited(6);
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
     private TimestampField timestampField = new TimestampField();
-
-    private HmacKeySelect hmacField = new HmacKeySelect();
-    private AesKeySelect aesField = new AesKeySelect();
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     @Inject
     protected LoginServiceComponent(LoginService service) {
@@ -53,26 +55,22 @@ public class LoginServiceComponent extends ServiceComponent {
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
 
-        migPane.add(new Label("Chave HMAC:"));
-        migPane.add(hmacField, "wrap");
-
-        migPane.add(new Label("Chave AES:"));
-        migPane.add(aesField, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField, "wrap");
 
         return migPane;
     }
 
     @Override
-    public Service getService() {
-//        service.setTemplateSlot(templateComboBox.getValue().byteValue());
+    public Service getService() throws GeneralSecurityException, ClientKeyConfiguration.ClientKeyNotConfigured, CryptoException {
         service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setPin(passwordField.getText());
 
         service.setLoginCode(loginCodeField.getText());
         service.setTimestamp(timestampField.getValue());
 
-        service.setHmacKey(hmacField.getValue().getHexValue());
-        service.setAesKey(aesField.getValue().getHexValue());
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
 
         return service;
     }

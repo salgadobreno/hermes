@@ -5,7 +5,10 @@ import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicke
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateTextTextArea;
 import com.avixy.qrtoken.core.extensions.components.templates.TextAlignmentSelect;
 import com.avixy.qrtoken.core.extensions.components.templates.TextSizeSelect;
+import com.avixy.qrtoken.core.extensions.components.validators.JideMaxValueValidator;
+import com.avixy.qrtoken.core.extensions.components.validators.JideSimpleValidator;
 import com.avixy.qrtoken.core.extensions.customControls.PopOver;
+import com.avixy.qrtoken.negocio.Token;
 import com.avixy.qrtoken.negocio.template.*;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -26,9 +29,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import jidefx.scene.control.decoration.DecorationPane;
+import jidefx.scene.control.validation.ValidationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -41,7 +47,7 @@ import java.util.Optional;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class TemplatesController extends Application {
+public class TemplatesController {
     @FXML public CheckBox showGrid;
     @FXML private Button rect;
     @FXML private Button footer;
@@ -80,14 +86,19 @@ public class TemplatesController extends Application {
             return;
         }
         if (oldValue != null && oldValue.hasChanged()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Há alterações não salvas na aplicação.\nDeseja descartar as alterações?", ButtonType.YES, ButtonType.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Há alterações não salvas na aplicação atual.\nDeseja salvar as alterações?", ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.YES) {
-                oldValue.discardChanges();
+                try {
+                    oldValue.persist();
+                } catch (TemplatesSingleton.TemplateOverflowException e) {
+                    handleException(e);
+                    templateListView.getSelectionModel().clearSelection();
+                    templateListView.getSelectionModel().select(oldValue);
+                    return;
+                }
             } else {
-                templateListView.getSelectionModel().clearSelection();
-                templateListView.getSelectionModel().select(oldValue);
-                return;
+                oldValue.discardChanges();
             }
         }
         canvas.setTemplate(newValue);
@@ -97,42 +108,55 @@ public class TemplatesController extends Application {
     };
     private ChangeListener<TemplateObj> templateObjSelectedEvent = (observable, oldValue, newValue) -> canvas.highlight(newValue);
 
-    public static void main(String[] args) throws Exception {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        String fxmlFile = "/fxml/templates.fxml";
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-
-        Scene scene = new Scene(root);
-
-        stage.setTitle("Templates");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.show();
-    }
-
     public void initialize() {
+        Stage stage = MainController.templateStage;
+        stage.setOnCloseRequest(event1 -> {
+            Template selectedTemplate = templateListView.getSelectionModel().getSelectedItem();
+            if (selectedTemplate.hasChanged()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Há alterações não salvas na aplicação atual.\nDeseja salvar as alterações?", ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    try {
+                        selectedTemplate.persist();
+                    } catch (TemplatesSingleton.TemplateOverflowException e) {
+                        event1.consume();
+                        handleException(e);
+                    }
+                } else {
+                    selectedTemplate.discardChanges();
+                }
+            } else {
+                stage.close();
+            }
+        });
+
         canvas.setOnMouseMoved(event -> {
-            double y = event.getY();
-            double x = event.getX();
+            double y = event.getY() + 1;
+            double x = event.getX() + 1;
             xyLabel.setText("X/Y: " + x + "/" + y);
         });
 
-        attachPopOver(header, headerForm);
-        attachPopOver(footer, footerForm);
-        attachPopOver(rect, rectForm);
-        attachPopOver(text, textForm);
-        attachPopOver(stripe, stripeForm);
-        attachPopOver(waitButton, waitForButtonForm);
+        attachPopOver(header, new DecorationPane(headerForm));
+        attachPopOver(footer, new DecorationPane(footerForm));
+        attachPopOver(rect, new DecorationPane(rectForm));
+        attachPopOver(text, new DecorationPane(textForm));
+        attachPopOver(stripe, new DecorationPane(stripeForm));
+        attachPopOver(waitButton, new DecorationPane(waitForButtonForm));
 
         clearButton.setOnAction(event -> {
-            Template template = templateListView.getSelectionModel().getSelectedItem();
-            template.clear();
-            canvas.redraw();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deseja apagar esta aplicação?\nEssa operação não pode ser desfeita.", ButtonType.YES, ButtonType.CANCEL);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                Template template = templateListView.getSelectionModel().getSelectedItem();
+                template.clear();
+                canvas.redraw();
+                try {
+                    template.persist();
+                } catch (TemplatesSingleton.TemplateOverflowException e) {
+                    handleException(e);
+                    template.discardChanges();
+                }
+            }
         });
 
         editTemplateObjPopOver = new PopOver();
@@ -293,10 +317,22 @@ public class TemplatesController extends Application {
         waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
     }
 
-    class HeaderForm extends MigPane {
-        TemplateColorPicker bgColorPicker = new TemplateColorPicker();
-        TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
-        TextField textField = new TextField();
+    abstract class ElemForm extends MigPane {
+
+        public void resetFields() {
+            for (Node node : getChildren()) {
+                if (node instanceof TextField) ((TextField) node).setText("");
+                if (node instanceof NumberField) ((TextField) node).setText("0");
+                if (node instanceof ComboBox) ((ComboBox) node).getSelectionModel().select(0);
+            }
+        }
+
+    }
+
+    class HeaderForm extends ElemForm {
+        final TemplateColorPicker bgColorPicker = new TemplateColorPicker(TemplateColorPicker.BG_TEXT_COLOR);
+        final TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
+        final TextField textField = new TextField();
         Button okButton = new Button("OK");
         public HeaderForm() {
             add(new Label("BG COLOR:"));
@@ -328,6 +364,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
         EventHandler<ActionEvent> saveEvent = e -> {
@@ -338,9 +375,16 @@ public class TemplatesController extends Application {
             textColor = textColorPicker.getValue();
             canvas.add(new Header(bgColor, textColor, text1));
             formsPopOver.hide();
+            resetFields();
         };
+        @Override
+        public void resetFields() {
+            super.resetFields();
+            bgColorPicker.getSelectionModel().select(TemplateColorPicker.BG_TEXT_COLOR);
+            textColorPicker.getSelectionModel().select(TemplateColorPicker.TEXT_COLOR);
+        }
     }
-    class FooterForm extends MigPane {
+    class FooterForm extends ElemForm {
         TemplateColorPicker bgColorPicker = new TemplateColorPicker();
         TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
         TextField templateTextField = new TextField();
@@ -376,6 +420,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
         EventHandler<ActionEvent> saveEvent = e -> {
@@ -387,9 +432,16 @@ public class TemplatesController extends Application {
             textColor = textColorPicker.getValue();
             canvas.add(new Footer(bgColor, textColor, text1, text2));
             formsPopOver.hide();
+            resetFields();
         };
+        @Override
+        public void resetFields(){
+            super.resetFields();
+            bgColorPicker.getSelectionModel().select(TemplateColorPicker.BG_TEXT_COLOR);
+            bgColorPicker.getSelectionModel().select(TemplateColorPicker.TEXT_COLOR);
+        }
     }
-    class TextForm extends MigPane {
+    class TextForm extends ElemForm {
         TemplateColorPicker textColorPicker = new TemplateColorPicker(TemplateColorPicker.TEXT_COLOR);
         TemplateColorPicker bgColorPicker = new TemplateColorPicker(TemplateColorPicker.BG_TEXT_COLOR);
         TemplateTextTextArea templateTextArea = new TemplateTextTextArea(2, 10);
@@ -398,6 +450,7 @@ public class TemplatesController extends Application {
         TextAlignmentSelect alignmentSelect = new TextAlignmentSelect();
         Button okButton = new Button("OK");
         public TextForm() {
+            ValidationUtils.install(yField, new JideMaxValueValidator(Token.DISPLAY_HEIGHT));
             // não mostrar todos os sizes pois alguns ainda não são válidos
             add(new Label("TEXT COLOR:"));
             add(textColorPicker, "wrap");
@@ -441,6 +494,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
         EventHandler<ActionEvent> saveEvent = e -> {
@@ -456,9 +510,17 @@ public class TemplatesController extends Application {
             bgColor = bgColorPicker.getValue();
             canvas.add(new Text(y, textColor, bgColor, size, alignment, text1));
             formsPopOver.hide();
+            resetFields();
         };
+
+        @Override
+        public void resetFields() {
+            super.resetFields();
+            templateTextArea.setValue("");
+            bgColorPicker.getSelectionModel().select(TemplateColorPicker.BG_TEXT_COLOR);
+        }
     }
-    class RectForm extends MigPane {
+    class RectForm extends ElemForm {
         TemplateColorPicker colorPicker = new TemplateColorPicker();
         NumberField xField = new NumberField();
         NumberField yField = new NumberField();
@@ -466,6 +528,10 @@ public class TemplatesController extends Application {
         NumberField hField = new NumberField();
         Button okButton = new Button("OK");
         public RectForm() {
+            ValidationUtils.install(xField, new JideMaxValueValidator(Token.DISPLAY_WIDTH));
+            ValidationUtils.install(wField, new JideMaxValueValidator(Token.DISPLAY_WIDTH));
+            ValidationUtils.install(hField, new JideMaxValueValidator(Token.DISPLAY_HEIGHT));
+            ValidationUtils.install(yField, new JideMaxValueValidator(Token.DISPLAY_HEIGHT));
             add(new Label("COLOR:"));
             add(colorPicker, "wrap");
             add(new Label("X:"));
@@ -502,6 +568,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
 
@@ -514,14 +581,17 @@ public class TemplatesController extends Application {
                     colorPicker.getValue()
             ));
             formsPopOver.hide();
+            resetFields();
         };
     }
-    class StripeForm extends MigPane {
+    class StripeForm extends ElemForm {
         TemplateColorPicker colorPicker = new TemplateColorPicker();
         NumberField yField = new NumberField();
         NumberField hField = new NumberField();
         Button okButton = new Button("OK");
         public StripeForm() {
+            ValidationUtils.install(yField, new JideMaxValueValidator(Token.DISPLAY_HEIGHT));
+            ValidationUtils.install(hField, new JideMaxValueValidator(Token.DISPLAY_HEIGHT));
             add(new Label("COLOR:"));
             add(colorPicker, "wrap");
             add(new Label("Y:"));
@@ -550,6 +620,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
 
@@ -559,9 +630,10 @@ public class TemplatesController extends Application {
                     Integer.parseInt(hField.getText()),
                     colorPicker.getValue()));
             formsPopOver.hide();
+            resetFields();
         };
     }
-    class WaitForButtonForm extends MigPane {
+    class WaitForButtonForm extends ElemForm {
         ComboBox<Integer> waitComboBox = new ComboBox<>();
         ComboBox<WaitForButton.NextAction> nextActionComboBox = new ComboBox<>();
         Button okButton = new Button("OK");
@@ -596,6 +668,7 @@ public class TemplatesController extends Application {
                 formsPopOver.setOnHidden(null);
                 okButton.setOnAction(saveEvent);
                 forceRefresh(templateObjListView);
+                resetFields();
             });
         }
         EventHandler<ActionEvent> saveEvent = e -> {
@@ -612,6 +685,7 @@ public class TemplatesController extends Application {
                 templateObjListView.setItems(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).getTemplateObjs());
                 waitButton.disableProperty().bind(templateListView.getSelectionModel().getSelectedItem().templateScreen(canvas.currScreenProperty().get()).terminatedProperty());
             }
+            resetFields();
         };
     }
 

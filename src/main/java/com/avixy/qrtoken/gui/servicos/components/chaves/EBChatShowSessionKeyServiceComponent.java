@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.servicos.components.chaves;
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.ebchat.EBChatSessionKeyService;
 import com.google.inject.Inject;
@@ -29,8 +30,7 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
     private ChallengeField challengeField = new ChallengeField();
     private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
 
-    private HmacKeySelect authKeySelect = new HmacKeySelect();
-    private AesKeySelect aesKeySelect = new AesKeySelect();
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     @Inject
     protected EBChatShowSessionKeyServiceComponent(EBChatSessionKeyService service) {
@@ -65,19 +65,16 @@ public class EBChatShowSessionKeyServiceComponent extends ServiceComponent {
         separator.setPrefWidth(200);
         migPane.add(separator, "span, wrap");
 
-        migPane.add(new Label("Current Aes Key:"));
-        migPane.add(aesKeySelect, "wrap");
-
-        migPane.add(new Label("Current Auth Key:"));
-        migPane.add(authKeySelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField);
 
         return migPane;
     }
 
     @Override
     public Service getService() throws Exception {
-        service.setAesKey(aesKeySelect.getValue().getHexValue());
-        service.setHmacKey(authKeySelect.getValue().getHexValue());
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
         service.setSessionSecrecyKey(sessionKeySelect.getValue().getHexValue());
         service.setSessionAuthKey(sessionAuthKeySelect.getValue().getHexValue());
         service.setChallenge(challengeField.getText());

@@ -3,6 +3,7 @@ package com.avixy.qrtoken.gui.servicos.components.banking;
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
+import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
@@ -22,9 +23,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import jidefx.scene.control.decoration.DecorationPane;
+import org.bouncycastle.crypto.CryptoException;
 import org.tbee.javafx.scene.layout.MigPane;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.sql.Date;
 import java.time.ZoneOffset;
 
@@ -36,11 +40,8 @@ import java.time.ZoneOffset;
 @ServiceComponent.Category(category = ServiceCategory.BANCARIO)
 @AcceptsKey(keyType = KeyType.HMAC)
 public class AutorizarTransferenciaBancariaServiceComponent extends ServiceComponent {
-
     private Stage formStage = new Stage();
-    private final String FXML_PATH = "/fxml/transfcc.fxml";
     private final AutorizarTransferenciaBancariaService service;
-    private FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
 
     @FXML private AnchorPane root;
     @FXML private Label titleLabel;
@@ -53,8 +54,7 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     @FXML private Pane  dadosPane;
     @FXML private Button okButton;
 
-    private AesKeySelect comboAes = new AesKeySelect();
-    private HmacKeySelect comboHmac = new HmacKeySelect();
+    private SerialNumberField serialNumberField = new SerialNumberField();
     private TemplateSlotSelect templateComboBox = new TemplateSlotSelect();
     private PasswordField pinTextField = new PasswordField();
     private DatePicker datePicker = new FormattedDatePicker();
@@ -79,15 +79,17 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
         super(service);
         this.service = service;
 
+        String FXML_PATH = "/fxml/transfcc.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         fxmlLoader.setController(this);
         try {
             Parent parent = fxmlLoader.load();
-            formStage.setScene(new Scene(parent));
+            formStage.setScene(new Scene(new DecorationPane(parent)));
 
             // setup the formStage
             origemLabel.setText("Origem");
             destinoLabel.setText("Destino");
-            chaveLabel.setText("Chaves");
+            chaveLabel.setText("");
             // setup  the form
 
             //title
@@ -115,10 +117,9 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
 
             //chaves
             VBox vBoxChaves = new VBox();
-            Label labelAes = new Label("AES:");
-            Label labelHmac = new Label("HMAC:");
 
-            vBoxChaves.getChildren().addAll(labelAes, comboAes, labelHmac, comboHmac,new Label("Slot:"), templateComboBox);
+            pinTextField.setMaxWidth(150);
+            vBoxChaves.getChildren().addAll(new Label("Slot:"), templateComboBox, new Label("Timestamp:"), timestampField, new Label("PIN:"), pinTextField);
             chavesPane.getChildren().add(vBoxChaves);
             //endchaves
 
@@ -129,17 +130,18 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
             migPane.add(new Label("TAN:"));
             migPane.add(tanTextField, "wrap");
             migPane.add(new Label("Data:"));
+            datePicker.setPrefWidth(150);
             migPane.add(datePicker);
 
-            migPane.add(new Label("Timestamp:"));
-            migPane.add(timestampField, "wrap");
-            migPane.add(new Label("PIN:"));
-            migPane.add(pinTextField);
+            migPane.add(new Label("Serial Number:"));
+            migPane.add(serialNumberField);
 
             dadosPane.getChildren().add(migPane);
             //end
 
-            okButton.setOnAction(actionEvent -> formStage.close());
+            okButton.setOnAction(actionEvent -> {
+                formStage.close();
+            });
             //endsetup
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,29 +168,34 @@ public class AutorizarTransferenciaBancariaServiceComponent extends ServiceCompo
     }
 
     @Override
-    public Service getService() {
-        service.setAesKey(comboAes.getValue().getHexValue());
-        service.setHmacKey(comboHmac.getValue().getHexValue());
-        service.setTemplateSlot(templateComboBox.getValue().byteValue());
-        //pin e tan
-        service.setPin(pinTextField.getText());
-        service.setTan(tanTextField.getText());
+    public Service getService() throws AvixyKeyConfiguration.AvixyKeyNotConfigured, GeneralSecurityException, CryptoException {
+        try {
+            service.setAesKey(AvixyKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+            service.setHmacKey(AvixyKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
+            service.setTemplateSlot(templateComboBox.getValue().byteValue());
+            //pin e tan
+            service.setPin(pinTextField.getText());
+            service.setTan(tanTextField.getText());
 
-        //timestamp
-        service.setTimestamp(timestampField.getValue());
-        //data
-        service.setDate(Date.from(datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
-        //origem
-        service.setNomeOrigem(origemNomeTextField.getText());
-        service.setAgenciaOrigem(origemAgenciaTextField.getText());
-        service.setContaOrigem(origemContaTextField.getText());
-        //destino
-        service.setNomeDestino(destinoNomeTextField.getText());
-        service.setAgenciaDestino(destinoAgenciaTextField.getText());
-        service.setContaDestino(destinoContaTextField.getText());
-        //valor
-        service.setValor(valorTextField.getText());
-
-        return service;
+            //timestamp
+            service.setTimestamp(timestampField.getValue());
+            //data
+            service.setDate(Date.from(datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC)));
+            //origem
+            service.setNomeOrigem(origemNomeTextField.getText());
+            service.setAgenciaOrigem(origemAgenciaTextField.getText());
+            service.setContaOrigem(origemContaTextField.getText());
+            //destino
+            service.setNomeDestino(destinoNomeTextField.getText());
+            service.setAgenciaDestino(destinoAgenciaTextField.getText());
+            service.setContaDestino(destinoContaTextField.getText());
+            //valor
+            service.setValor(valorTextField.getText());
+            return service;
+        } catch (IllegalArgumentException e) {
+            openForm();
+            controller.handleException(e);
+            return null;
+        }
     }
 }

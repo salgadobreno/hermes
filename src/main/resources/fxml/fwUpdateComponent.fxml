@@ -1,81 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import com.avixy.qrtoken.core.extensions.components.QrVersionSelect?>
-
 <?import com.avixy.qrtoken.core.extensions.components.AesKeySelect?>
 <?import com.avixy.qrtoken.core.extensions.components.HmacKeySelect?>
-<VBox fx:id="root" prefHeight="406.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-      <Pane prefHeight="407.0" prefWidth="403.0" snapToPixel="false">
-         <children>
-            <Label layoutX="11.0" layoutY="6.0" text="QR Version:" />
-            <QrVersionSelect fx:id="qrVersionField" layoutX="11.0" layoutY="24.0" prefHeight="25.0" prefWidth="59.0" />
-             <!--<ComboBox fx:id="qrVersionField" layoutX="11.0" layoutY="24.0" prefHeight="25.0" prefWidth="59.0" />-->
-            <Label fx:id="bytesPraEcLabel" layoutX="11.0" layoutY="72.0" text="Bytes p/ EC:" />
-            <Label fx:id="bytesPraDadosLabel" layoutX="11.0" layoutY="89.0" text="Bytes p/ Dados:" />
-            <Label fx:id="capacidadeLabel" layoutX="11.0" layoutY="55.0" text="Capacidade:" />
-            <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="131.0" layoutY="22.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="25.0" prefWidth="163.0" text="Carregar arquivo" />
-            <Label layoutX="132.0" layoutY="6.0" text="Conteúdo:" />
-            <VBox id="paramsVbox" fx:id="paramsVbox" fillWidth="false" layoutX="11.0" layoutY="130.0" prefHeight="123.0" prefWidth="112.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Challenge:" />
-                  <TextField fx:id="challengeField" prefHeight="22.0" prefWidth="43.0" text="" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Module offset:" />
-                  <TextField fx:id="moduleOffsetField" prefHeight="22.0" prefWidth="43.0" text="" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interruption Counter:" />
-                  <ComboBox fx:id="interruptionCounterField" prefHeight="22.0" prefWidth="43.0" />
-               </children>
-            </VBox>
-            <Pane layoutX="246.0" layoutY="214.0">
-               <children>
-                  <Text layoutX="7.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t 1º Qr:" />
-                  <TextField fx:id="tPrimeiroQrField" layoutX="47.0" layoutY="18.0" prefHeight="22.0" prefWidth="43.0" text="1000" />
-                  <Text layoutX="90.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
-                  <Button defaultButton="true" layoutX="17.0" layoutY="81.0" mnemonicParsing="false" onAction="#zoomAndPlayQrs" style="-fx-background-image: url('../images/media-fast-forward.png');">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/media-play-pause-resume.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button cancelButton="true" layoutX="58.0" layoutY="81.0" mnemonicParsing="false" onAction="#rewind">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                           <image>
-                              <Image url="@../images/media-fast-forward.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Text layoutX="6.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temporização" wrappingWidth="76.271484375" />
-                  <AnchorPane layoutY="50.0" prefHeight="30.0" prefWidth="112.0">
-                     <children>
-                        <Text layoutX="7.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t Qrs:" />
-                        <TextField fx:id="tTimerField" layoutX="47.0" prefHeight="22.0" prefWidth="43.0" text="300" />
-                        <Text layoutX="90.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </Pane>
-            <VBox fx:id="interruptionDataPane" layoutX="11.0" layoutY="256.0" prefHeight="200.0" prefWidth="200.0" />
-            <Label layoutX="132.0" layoutY="55.0" text="Chave HMAC:" />
-            <Label layoutX="130.0" layoutY="96.0" text="Chave AES:" />
-            <HmacKeySelect fx:id="hmacSelect" layoutX="130.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
-            <AesKeySelect fx:id="aesSelect" layoutX="130.0" layoutY="113.0" prefWidth="150.0" />
-            <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
-         </children>
-      </Pane>
-  </children>
+<?import com.avixy.qrtoken.core.extensions.components.QrVersionSelect?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox fx:id="root" prefHeight="406.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <Pane prefHeight="407.0" prefWidth="403.0" snapToPixel="false">
+        <Label layoutX="11.0" layoutY="6.0" text="QR Version:"/>
+        <QrVersionSelect fx:id="qrVersionField" layoutX="11.0" layoutY="24.0" prefHeight="25.0" prefWidth="59.0"/>
+        <!--<ComboBox fx:id="qrVersionField" layoutX="11.0" layoutY="24.0" prefHeight="25.0" prefWidth="59.0" />-->
+        <Label fx:id="bytesPraEcLabel" layoutX="11.0" layoutY="72.0" text="Bytes p/ EC:"/>
+        <Label fx:id="bytesPraDadosLabel" layoutX="11.0" layoutY="89.0" text="Bytes p/ Dados:"/>
+        <Label fx:id="capacidadeLabel" layoutX="11.0" layoutY="55.0" text="Capacidade:"/>
+        <Button fx:id="loadFileButton" alignment="TOP_LEFT" layoutX="131.0" layoutY="22.0" mnemonicParsing="false"
+                onAction="#loadFile" prefHeight="25.0" prefWidth="163.0" text="Carregar arquivo"/>
+        <Label layoutX="132.0" layoutY="6.0" text="Conteúdo:"/>
+        <VBox id="paramsVbox" fx:id="paramsVbox" fillWidth="false" layoutX="11.0" layoutY="130.0" prefHeight="123.0"
+              prefWidth="112.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Challenge:"/>
+            <TextField fx:id="challengeField" prefHeight="22.0" prefWidth="43.0" text=""/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Module offset:"/>
+            <TextField fx:id="moduleOffsetField" prefHeight="22.0" prefWidth="43.0" text=""/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interruption Counter:"/>
+            <ComboBox fx:id="interruptionCounterField" prefHeight="22.0" prefWidth="43.0"/>
+        </VBox>
+        <Pane layoutX="246.0" layoutY="214.0">
+            <Text layoutX="7.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t 1º Qr:"/>
+            <TextField fx:id="tPrimeiroQrField" layoutX="47.0" layoutY="18.0" prefHeight="22.0" prefWidth="43.0"
+                       text="1000"/>
+            <Text layoutX="90.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms"/>
+            <Button defaultButton="true" layoutX="17.0" layoutY="81.0" mnemonicParsing="false"
+                    onAction="#zoomAndPlayQrs"
+                    style="-fx-background-image: url('../images/media-fast-forward.png');">
+                <graphic>
+                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/media-play-pause-resume.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button cancelButton="true" layoutX="58.0" layoutY="81.0" mnemonicParsing="false" onAction="#rewind">
+                <graphic>
+                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true"
+                               rotate="180.0">
+                        <Image url="@../images/media-fast-forward.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Text layoutX="6.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temporização"
+                  wrappingWidth="76.271484375"/>
+            <AnchorPane layoutY="50.0" prefHeight="30.0" prefWidth="112.0">
+                <Text layoutX="7.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="t Qrs:"/>
+                <TextField fx:id="tTimerField" layoutX="47.0" prefHeight="22.0" prefWidth="43.0" text="300"/>
+                <Text layoutX="90.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ms"/>
+            </AnchorPane>
+        </Pane>
+        <VBox fx:id="interruptionDataPane" layoutX="11.0" layoutY="256.0" prefHeight="200.0" prefWidth="200.0"/>
+        <Label layoutX="132.0" layoutY="55.0" text="Chave HMAC:"/>
+        <Label layoutX="130.0" layoutY="96.0" text="Chave AES:"/>
+        <HmacKeySelect fx:id="hmacSelect" layoutX="130.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0"/>
+        <AesKeySelect fx:id="aesSelect" layoutX="130.0" layoutY="113.0" prefWidth="150.0"/>
+        <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
+    </Pane>
 </VBox>

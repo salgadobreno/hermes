@@ -1,8 +1,9 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.AesKeySelect;
-import com.avixy.qrtoken.core.extensions.components.HmacKeySelect;
+import com.avixy.qrtoken.core.extensions.components.RestrictiveTextField;
+import com.avixy.qrtoken.core.extensions.components.SerialNumberField;
 import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
 import com.google.inject.Inject;
@@ -23,13 +24,15 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
     private TextFieldLimited nomeField = new TextFieldLimited(30);
     private TextFieldLimited emailField = new TextFieldLimited(40);
     private TextFieldLimited clienteField = new TextFieldLimited(20);
-    private TextFieldLimited cpfField = new TextFieldLimited(20);
+    private RestrictiveTextField cpfField = new RestrictiveTextField(11);
+    {
+        cpfField.setRestrict("[0-9]");
+    }
     private TextFieldLimited agenciaField = new TextFieldLimited(10);
     private TextFieldLimited contaField = new TextFieldLimited(10);
     private TextFieldLimited foneField = new TextFieldLimited(20);
 
-    private HmacKeySelect hmacField = new HmacKeySelect();
-    private AesKeySelect aesField = new AesKeySelect();
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     @Inject
     public StoreUserInfoServiceComponent(StoreUserInfoService service) {
@@ -44,7 +47,10 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         title.setFont(new Font(18));
         migPane.add(title, "span, wrap");
 
-        migPane.add(new Label("Nome:"));
+        migPane.add(new Label("Instituição:"));
+        migPane.add(clienteField, "wrap");
+
+        migPane.add(new Label("Cliente final:"));
         migPane.add(nomeField, "wrap");
 
         migPane.add(new Label("Email:"));
@@ -52,9 +58,6 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
 
         migPane.add(new Label("CPF:"));
         migPane.add(cpfField, "wrap");
-
-        migPane.add(new Label("Cliente:"));
-        migPane.add(clienteField, "wrap");
 
         migPane.add(new Label("Agencia:"));
         migPane.add(agenciaField, "wrap");
@@ -65,11 +68,8 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         migPane.add(new Label("Telefone:"));
         migPane.add(foneField, "wrap");
 
-        migPane.add(new Label("Cifra HMAC:"));
-        migPane.add(hmacField, "wrap");
-
-        migPane.add(new Label("Cifra AES:"));
-        migPane.add(aesField, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField);
 
         return migPane;
     }
@@ -84,8 +84,8 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         service.setAgencia(agenciaField.getText());
         service.setCliente(clienteField.getText());
 
-        service.setAesKey(aesField.getValue().getHexValue());
-        service.setHmacKey(hmacField.getValue().getHexValue());
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
         return service;
     }

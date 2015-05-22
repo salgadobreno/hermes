@@ -6,18 +6,12 @@ import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.slf4j.Logger;
@@ -128,11 +122,11 @@ public class ChavesController {
             TableColumn<Chave, Chave> colunaDelete = new TableColumn<>("");
 
             /* Value factories */
-            colunaId.setCellValueFactory(new PropertyValueFactory<Chave, String>("Id"));
+            colunaId.setCellValueFactory(new PropertyValueFactory<>("Id"));
             colunaTipo.setCellValueFactory(chaveStringCellDataFeatures -> new SimpleStringProperty(chaveStringCellDataFeatures.getValue().getDisplayName()));
-            colunaValor.setCellValueFactory(new PropertyValueFactory<Chave, String>("Valor"));
+            colunaValor.setCellValueFactory(new PropertyValueFactory<>("Valor"));
             colunaDelete.setCellFactory(chaveBooleanTableColumn -> new ChaveDeleteCell());
-            colunaDelete.setCellValueFactory(features -> new SimpleObjectProperty<Chave>(features.getValue()));
+            colunaDelete.setCellValueFactory(features -> new SimpleObjectProperty<>(features.getValue()));
             colunaValor.setCellFactory(new Callback<TableColumn<Chave, String>, TableCell<Chave, String>> () {
                 @Override
                 public TableCell<Chave, String> call(

@@ -9,6 +9,7 @@ import com.avixy.qrtoken.core.extensions.customControls.PopOver;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.Token;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AcceptsKey;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
@@ -47,11 +48,8 @@ public class TemplateServiceComponent extends ServiceComponent {
     private Label templateLabel = new Label("Aplicação:");
     private TemplateSelect templateSelect = new TemplateSelect();
 
-    private Label aesSelectLabel = new Label("AES Key:");
-    private AesKeySelect aesKeySelect = new AesKeySelect();
-
-    private Label hmacSelectLabel = new Label("HMAC Key:");
-    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
+    private Label serialNumberLabel = new Label("Serial Number:");
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     private Label timestampLabel = new Label("Timestamp:");
     private RangedTimestampField rangedTimestampField = new RangedTimestampField();
@@ -104,10 +102,8 @@ public class TemplateServiceComponent extends ServiceComponent {
         mainNode.add(templateSelect, "wrap");
         mainNode.add(slotLabel);
         mainNode.add(templateSlotSelect, "wrap");
-        mainNode.add(aesSelectLabel);
-        mainNode.add(aesKeySelect, "wrap");
-        mainNode.add(hmacSelectLabel);
-        mainNode.add(hmacKeySelect, "wrap");
+        mainNode.add(serialNumberLabel);
+        mainNode.add(serialNumberField, "wrap");
         mainNode.add(timestampLabel);
         mainNode.add(rangedTimestampField, "wrap");
         mainNode.add(passwordLabel);
@@ -121,7 +117,7 @@ public class TemplateServiceComponent extends ServiceComponent {
             @Override
             public void changed(ObservableValue<? extends Template> observable, Template oldValue, Template newValue) {
                 controlList = new ArrayList<>();
-                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, aesSelectLabel, aesKeySelect, hmacSelectLabel, hmacKeySelect, timestampLabel, rangedTimestampField, passwordLabel, optionalPasswordField, separator, argsTitle, scrollPane, argPane);
+                mainNode.getChildren().retainAll(title, templateLabel, templateSelect, slotLabel, templateSlotSelect, serialNumberLabel, serialNumberField, timestampLabel, rangedTimestampField, passwordLabel, optionalPasswordField, separator, argsTitle, scrollPane, argPane);
                 if (newValue != null) {
                     argPane.getChildren().clear();
                     for (TemplateObj templateObj : newValue.getTemplateObjs()) {
@@ -239,8 +235,8 @@ public class TemplateServiceComponent extends ServiceComponent {
     @Override
     public Service getService() throws Exception {
         service.setTemplateSlot(templateSlotSelect.getValue());
-        service.setAesKey(aesKeySelect.getValue().getHexValue());
-        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
         service.setTimestampRange(rangedTimestampField.getStartDateValue(), rangedTimestampField.getEndDateValue());
         service.togglePasswordOptional(optionalPasswordField.isOptional());

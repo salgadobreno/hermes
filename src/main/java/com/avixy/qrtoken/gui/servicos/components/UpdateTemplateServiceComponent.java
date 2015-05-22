@@ -2,6 +2,7 @@ package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.UpdateTemplateService;
 import com.google.inject.Inject;
@@ -24,9 +25,8 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
 
     private TemplateSelect templateSelect = new TemplateSelect();
     private TemplateSlotSelect templateSlotSelect = new TemplateSlotSelect();
-    private AesKeySelect aesKeySelect = new AesKeySelect();
-    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private TimestampField timestampField = new TimestampField();
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
     /**
      * @param service
@@ -50,11 +50,8 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
         migPane.add(new Label("Aplicação:"));
         migPane.add(templateSelect, "wrap");
 
-        migPane.add(new Label("AES Key:"));
-        migPane.add(aesKeySelect, "wrap");
-
-        migPane.add(new Label("HMAC Key:"));
-        migPane.add(hmacKeySelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField, "wrap");
 
         migPane.add(new Label("Timestamp:"));
         migPane.add(timestampField, "wrap");
@@ -76,9 +73,9 @@ public class UpdateTemplateServiceComponent extends ServiceComponent {
     public Service getService() throws Exception {
         service.setTemplateSlot(templateSlotSelect.getValue().byteValue());
         service.setTimestamp(timestampField.getValue());
-        service.setAesKey(aesKeySelect.getValue().getHexValue());
-        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTemplate(templateSelect.getValue());
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
         return service;
     }

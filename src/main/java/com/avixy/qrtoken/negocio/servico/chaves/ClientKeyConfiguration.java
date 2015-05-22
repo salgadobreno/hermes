@@ -25,27 +25,27 @@ import java.security.GeneralSecurityException;
  *
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
-public class AvixyKeyConfiguration {
+public class ClientKeyConfiguration {
     private final KeyDerivator keyDerivator = new KeyDerivator();
-    private static SimpleObjectProperty<AvixyKeyConfiguration> selectedProfileProperty = new SimpleObjectProperty<>();
+    private static SimpleObjectProperty<ClientKeyConfiguration> selectedProfileProperty = new SimpleObjectProperty<>();
 
-    private static final ObservableList<AvixyKeyConfiguration> configList = FXCollections.observableArrayList(); //TODO:rename
+    private static final ObservableList<ClientKeyConfiguration> configList = FXCollections.observableArrayList(); //TODO:rename
     private String name;
 
-    private static final File csv = new File("avxkconfig.csv");
+    private static final File csv = new File("clientkconfig.csv");
 
-    public class AvixyKeyNotConfigured extends Exception {}
+    public class ClientKeyNotConfigured extends Exception {}
 
     private BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
 
-    public AvixyKeyConfiguration() {
+    public ClientKeyConfiguration() {
         selectedProfileProperty.addListener((observable1, oldValue1, newValue1) -> {
             newValue1.selectedProperty.setValue(true);
         });
         selectedProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                for (AvixyKeyConfiguration avixyKeyConfiguration : configList) {
-                    if (avixyKeyConfiguration != this) avixyKeyConfiguration.selectedProperty().set(false);
+                for (ClientKeyConfiguration clientKeyConfiguration : configList) {
+                    if (clientKeyConfiguration != this) clientKeyConfiguration.selectedProperty().set(false);
                 }
             }
         });
@@ -53,9 +53,9 @@ public class AvixyKeyConfiguration {
 
     public BooleanProperty selectedProperty() { return selectedProperty; }
 
-    public static AvixyKeyConfiguration getSelected() {
+    public static ClientKeyConfiguration getSelected() {
         if (selectedProfileProperty.get() == null) {
-            return new AvixyKeyConfiguration();
+            return new ClientKeyConfiguration();
         } else {
             return selectedProfileProperty.get();
         }
@@ -69,7 +69,7 @@ public class AvixyKeyConfiguration {
             CSVReader reader = new CSVReader(new FileReader(csv));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                AvixyKeyConfiguration config = new AvixyKeyConfiguration();
+                ClientKeyConfiguration config = new ClientKeyConfiguration();
                 config.setName(nextLine[0]);
                 config.setKeyComponents(
                         Hex.decodeHex(nextLine[1].toCharArray()),
@@ -89,24 +89,22 @@ public class AvixyKeyConfiguration {
                 configList.add(config);
             }
             if (configList.size() > 0 && getSelected() == null) { selectedProfileProperty.set(configList.get(0)); }
+            selectedProfileProperty.addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    select(newValue);
+                }
+            });
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Empty file");
         } catch (IOException | DecoderException e) {
             e.printStackTrace();
         }
     }
-    static {
-        selectedProfileProperty.addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                select(newValue);
-            }
-        });
-    }
 
     public static void persist() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv));
-            for (AvixyKeyConfiguration config : configList) {
+            for (ClientKeyConfiguration config : configList) {
                 String[] csvContent = new String[] {
                         config.getName(),
                         Hex.encodeHexString(config.getKeyDerivator().getkComponent1()),
@@ -127,7 +125,7 @@ public class AvixyKeyConfiguration {
         }
     }
 
-    public static void remove(AvixyKeyConfiguration avixyKeyConfiguration) {
+    public static void remove(ClientKeyConfiguration avixyKeyConfiguration) {
         configList.remove(avixyKeyConfiguration);
         persist();
     }
@@ -148,25 +146,25 @@ public class AvixyKeyConfiguration {
         keyDerivator.setKeyComponents(keyComponent1, keyComponent2, keyComponent3);
     }
 
-    public byte[] getHmacKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyNotConfigured {
+    public byte[] getHmacKey(String serialNumber) throws CryptoException, GeneralSecurityException, ClientKeyNotConfigured {
         if (serialNumber.length() < 10) {
             throw new IllegalArgumentException("SerialNumber should be 10 characters long.");
         }
         try {
             return keyDerivator.getHmacKey(serialNumber);
         } catch (KeyDerivator.KeyNotConfigured keyNotConfigured) {
-            throw new AvixyKeyNotConfigured();
+            throw new ClientKeyNotConfigured();
         }
     }
 
-    public byte[] getAesKey(String serialNumber) throws CryptoException, GeneralSecurityException, AvixyKeyNotConfigured {
+    public byte[] getAesKey(String serialNumber) throws CryptoException, GeneralSecurityException, ClientKeyNotConfigured {
         if (serialNumber.length() < 10) {
             throw new IllegalArgumentException("SerialNumber should be 10 characters long.");
         }
         try {
             return keyDerivator.getAesKey(serialNumber);
         } catch (KeyDerivator.KeyNotConfigured keyNotConfigured) {
-            throw new AvixyKeyNotConfigured();
+            throw new ClientKeyNotConfigured();
         }
     }
 
@@ -178,7 +176,7 @@ public class AvixyKeyConfiguration {
         return name;
     }
 
-    public static ObservableList<AvixyKeyConfiguration> getConfigList() {
+    public static ObservableList<ClientKeyConfiguration> getConfigList() {
         return configList;
     }
 
@@ -187,7 +185,7 @@ public class AvixyKeyConfiguration {
         return name;
     }
 
-    public static void select(AvixyKeyConfiguration newValue) {
+    public static void select(ClientKeyConfiguration newValue) {
         selectedProfileProperty.set(newValue);
         persist();
     }

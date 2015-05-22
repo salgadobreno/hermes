@@ -2,6 +2,7 @@ package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.core.extensions.components.*;
 import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
+import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.HmacFormatedMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.template.TemplatesSingleton;
@@ -25,10 +26,10 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
 
     private TemplatesSingleton templatesSingleton = TemplatesSingleton.getInstance();
     private TemplateSelect templateSelect = new TemplateSelect();
-    private HmacKeySelect hmacKeySelect = new HmacKeySelect();
     private RangedTimestampField rangedTimestamp = new RangedTimestampField();
     private OptionalPasswordField optionalPasswordField = new OptionalPasswordField();
-    private AesKeySelect keySelect = new AesKeySelect();
+
+    private SerialNumberField serialNumberField = new SerialNumberField();
 
 
     /**
@@ -50,11 +51,8 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         migPane.add(new Label("Aplicação:"));
         migPane.add(templateSelect, "wrap");
 
-        migPane.add(new Label("Aes Key:"));
-        migPane.add(keySelect, "wrap");
-
-        migPane.add(new Label("HMAC Key:"));
-        migPane.add(hmacKeySelect, "wrap");
+        migPane.add(new Label("Serial Number:"));
+        migPane.add(serialNumberField, "wrap");
 
         migPane.add(new Label("Timestamp:"));
         migPane.add(rangedTimestamp, "wrap");
@@ -80,9 +78,9 @@ public class HmacFormatedMessageServiceComponent extends ServiceComponent {
         service.togglePasswordOptional(optionalPasswordField.isOptional());
         service.setTimestampRange(rangedTimestamp.getStartDateValue(), rangedTimestamp.getEndDateValue());
         service.setPin(optionalPasswordField.getText());
-        service.setAesKey(keySelect.getValue().getHexValue());
-        service.setHmacKey(hmacKeySelect.getValue().getHexValue());
         service.setTemplate(templateSelect.getValue());
+        service.setAesKey(ClientKeyConfiguration.getSelected().getAesKey(serialNumberField.getText()));
+        service.setHmacKey(ClientKeyConfiguration.getSelected().getHmacKey(serialNumberField.getText()));
 
         return service;
     }

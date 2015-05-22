@@ -11,6 +11,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,12 @@ public abstract class ServiceComponent extends VBox {
     }
 
     public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
-        return getService().getQrs(setup); //TODO
+        Service service = getService();
+        if (service != null) {
+            return getService().getQrs(setup); //TODO
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -54,7 +60,7 @@ public abstract class ServiceComponent extends VBox {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
-    public static @interface Category {
+    public @interface Category {
         ServiceCategory category() default ServiceCategory.OUTROS;
     }
 }
