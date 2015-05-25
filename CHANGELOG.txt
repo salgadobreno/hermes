@@ -5,26 +5,38 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[Unreleased][unreleased]
 ### Changed
+
+### Added
+
+### Removed
+
+##[0.2.0-ebchat-rc-1] 2015-05-25
+### Changed
 - HexField has getValue() that returns byte[] value
-- Avixy Key is now derived from Serial Number
-- Reviewed and stripped down services
+- Avixy and Client Keys are now derived from Serial Number
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
 - Improved Text boundaries in template editor
 - UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented protocol wasn't up to date)
-- GenerateKTamper also stores PIN/PUK
+- GenerateKTamper also stores PIN/PUK and sets RTC
+- Reviewed and stripped down services
+- The order of displayed categories at the left was changed so they follow a common usage logic
+- Improved QR Token display size information in Aplication Editor
+- Serial Number fields 'remembers' the input across the 'session'(i.e.: a program execution)
+- Better User Experience adjustments
 
 ### Added
-- Some services may receive a timestamp range to display through which period they're valid
-- Avixy Key Configuration Menu option
+- Some services may receive a timestamp range to say through which period they're valid
+- Avixy and Client Key Configuration Menu option
 - New Avixy Key Import Service protocol implemented
 - EBChat Session Key Service
+- New field validation
 
 ### Fixed
 - 'Update symmetric key', 'two step import symmetric key' and 'import symmetric key' key's selection are now filtered
 
 ### Removed
-
+- Huffman encoder utility
 
 ## 0.1.0 - 30/03/2015
 ### Added
