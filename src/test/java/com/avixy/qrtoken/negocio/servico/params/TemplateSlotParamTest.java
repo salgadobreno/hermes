@@ -10,7 +10,7 @@ public class TemplateSlotParamTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpperLimit() throws Exception {
-        param = new TemplateSlotParam((byte) 16);
+        param = new TemplateSlotParam((byte) 18);
     }
 
     @Test(expected = IllegalArgumentException.class)
