@@ -10,8 +10,8 @@ import com.avixy.qrtoken.negocio.servico.params.FourBitParam;
 public class TemplateSlotParam extends FourBitParam {
     public TemplateSlotParam(byte template) {
         super(template);
-        if (template > 15 || template < 0){
-            throw new IllegalArgumentException("Template value must be between 0 and 31.");
+        if (template > 17 || template < 0){
+            throw new IllegalArgumentException("Template value must be between 0 and 17.");
         }
     }
 
