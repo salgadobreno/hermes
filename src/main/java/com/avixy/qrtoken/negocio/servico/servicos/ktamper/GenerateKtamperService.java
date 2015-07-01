@@ -22,8 +22,8 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
     protected TimeZoneParam timezone;
     private SerialNumberParam serialNumber;
     private StringWithLengthParam hardwareVersion;
-    private StringWithLengthParam pin;
-    private StringWithLengthParam puk;
+    private PinParam pin;
+    private PukParam puk;
 
     @Inject
     public GenerateKtamperService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy) {
@@ -60,10 +60,10 @@ public class GenerateKtamperService extends AbstractService implements Timestamp
     public void setHWVersion(String HWVersion) { this.hardwareVersion = new StringWithLengthParam(HWVersion); }
 
     public void setPin(String pin) {
-        this.pin = new StringWithLengthParam(pin);
+        this.pin = new PinParam(pin);
     }
 
     public void setPuk(String puk) {
-        this.puk = new StringWithLengthParam(puk);
+        this.puk = new PukParam(puk);
     }
 }
