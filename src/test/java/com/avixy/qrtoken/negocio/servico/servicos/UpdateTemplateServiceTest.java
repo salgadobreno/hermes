@@ -52,7 +52,7 @@ public class UpdateTemplateServiceTest {
     @Test
     public void testShortSlotMessage() throws Exception {
         service.setTemplateSlot((byte) 0);
-        expectedBinaryMsg = StringUtils.rightPad("0000" + "00000001", (TemplateSize.SHORT.getSize() * 8), '1');
+        expectedBinaryMsg = StringUtils.rightPad("00000" + "00000001", (TemplateSize.SHORT.getSize() * 8), '1');
 
         assertArrayEquals(BinaryMsg.get(expectedBinaryMsg), service.getMessage());
         assertEquals(220, service.getMessage().length);
