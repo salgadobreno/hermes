@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -19,7 +20,7 @@ import java.util.Date;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class OverridePinService extends AbstractService implements TimestampAble, PukAble {
-    private StringWithLengthParam newPin;
+    private PinParam newPin;
 
     @Inject
     public OverridePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
@@ -45,7 +46,7 @@ public class OverridePinService extends AbstractService implements TimestampAble
 
     //TODO: ?
     public void setPin(String pin) {
-        this.newPin = new StringWithLengthParam(pin);
+        this.newPin = new PinParam(pin);
     }
 
     @Override

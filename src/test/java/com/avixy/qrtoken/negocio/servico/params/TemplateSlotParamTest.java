@@ -10,7 +10,7 @@ public class TemplateSlotParamTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpperLimit() throws Exception {
-        param = new TemplateSlotParam((byte) 16);
+        param = new TemplateSlotParam((byte) 18);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -21,12 +21,12 @@ public class TemplateSlotParamTest {
     @Test
     public void testBinaryString() throws Exception {
         param = new TemplateSlotParam((byte) 15);
-        assertEquals("1111", param.toBinaryString());
+        assertEquals("01111", param.toBinaryString());
 
         param = new TemplateSlotParam((byte) 0);
-        assertEquals("0000", param.toBinaryString());
+        assertEquals("00000", param.toBinaryString());
 
         param = new TemplateSlotParam((byte) 7);
-        assertEquals("0111", param.toBinaryString());
+        assertEquals("00111", param.toBinaryString());
     }
 }

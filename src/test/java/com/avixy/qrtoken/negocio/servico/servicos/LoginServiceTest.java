@@ -45,7 +45,7 @@ public class LoginServiceTest {
     public void testMessage() throws Exception {
         String huffmanCode = new TokenHuffman().encode(loginCode);
         String expectedBinaryString = "" +
-                "0001" + //template 1
+                "00001" + //template 1
                 "00000110" + //length 6
                 huffmanCode; //codigo de login 885471
 

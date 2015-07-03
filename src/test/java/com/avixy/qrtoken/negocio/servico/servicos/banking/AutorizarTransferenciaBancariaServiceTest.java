@@ -39,7 +39,7 @@ public class AutorizarTransferenciaBancariaServiceTest {
 
     String expectedBinnaryString;
     {
-        expectedBinnaryString = "0001" + // Template 0
+        expectedBinnaryString = "00001" + // Template 0
                 "00101011" + // Comprimento 43
                 "01001100" + //Í
                 "0110000" + //t

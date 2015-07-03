@@ -6,6 +6,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
@@ -19,7 +20,7 @@ import java.util.Date;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdatePinService extends AbstractService implements TimestampAble, PinAble {
-    private StringWithLengthParam newPin;
+    private PinParam newPin;
 
     @Inject
     public UpdatePinService(HeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
@@ -49,7 +50,7 @@ public class UpdatePinService extends AbstractService implements TimestampAble, 
     }
 
     public void setNewPin(String newPin) {
-        this.newPin = new StringWithLengthParam(newPin);
+        this.newPin = new PinParam(newPin);
     }
 
     @Override

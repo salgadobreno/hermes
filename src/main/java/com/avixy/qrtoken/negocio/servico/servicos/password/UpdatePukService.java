@@ -6,6 +6,8 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
+import com.avixy.qrtoken.negocio.servico.params.PinParam;
+import com.avixy.qrtoken.negocio.servico.params.PukParam;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
 import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
@@ -19,7 +21,7 @@ import java.util.Date;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class UpdatePukService extends AbstractService implements TimestampAble, PukAble {
-    private StringWithLengthParam newPuk;
+    private PukParam newPuk;
 
     @Inject
     protected UpdatePukService(QrtHeaderPolicy headerPolicy, TimestampPolicy timestampPolicy, PasswordPolicy passwordPolicy) {
@@ -44,7 +46,7 @@ public class UpdatePukService extends AbstractService implements TimestampAble, 
     }
 
     public void setNewPuk(String newPuk) {
-        this.newPuk = new StringWithLengthParam(newPuk);
+        this.newPuk = new PukParam(newPuk);
     }
 
     @Override
