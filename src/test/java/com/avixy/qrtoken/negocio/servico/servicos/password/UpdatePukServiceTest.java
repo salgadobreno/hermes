@@ -40,11 +40,22 @@ public class UpdatePukServiceTest {
     @Test
     public void testServiceMsg() throws Exception {
         byte[] expectedMsg = {
-                0b00000100, // length 4
                 0b00110011, // PUK novo:'3'
                 0b00110011, // '3'
                 0b00110011, // '3'
                 0b00110011, // '3'
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
+                0b00000000, // \0
         };
 
         assertArrayEquals(expectedMsg, service.getMessage());
