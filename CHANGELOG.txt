@@ -3,12 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-##[Unreleased][unreleased]
+##[0.2.1-ebchat-rc-2][unreleased]
 ### Changed
 
 ### Added
+- FiveBitParam
 
 ### Removed
+
+### Fixed
+- Template slot param being 4 bits instead 5.
 
 ##[0.2.0-ebchat-rc-1] 2015-05-25
 ### Changed
