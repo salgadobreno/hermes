@@ -7,8 +7,11 @@ import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
 import com.google.inject.Inject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
@@ -65,7 +68,7 @@ public class StoreUserInfoServiceComponent extends ServiceComponent {
         migPane.add(new Label("Conta Corrente:"));
         migPane.add(contaField, "wrap");
 
-        migPane.add(new Label("Telefone:"));
+        migPane.add(new Label("Telefone (XX) XXXXXXXX:"));
         migPane.add(foneField, "wrap");
 
         migPane.add(new Label("Serial Number:"));

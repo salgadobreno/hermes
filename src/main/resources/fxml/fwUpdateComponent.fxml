@@ -61,9 +61,7 @@
         </Pane>
         <VBox fx:id="interruptionDataPane" layoutX="11.0" layoutY="256.0" prefHeight="200.0" prefWidth="200.0"/>
         <Label layoutX="132.0" layoutY="55.0" text="Chave HMAC:"/>
-        <Label layoutX="130.0" layoutY="96.0" text="Chave AES:"/>
-        <HmacKeySelect fx:id="hmacSelect" layoutX="130.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0"/>
-        <AesKeySelect fx:id="aesSelect" layoutX="130.0" layoutY="113.0" prefWidth="150.0"/>
+        <Pane fx:id="chavesPane" layoutX="155.0" layoutY="60.0" prefHeight="78.0" prefWidth="136.0"/>
         <!--<Button layoutX="326.0" layoutY="347.0" mnemonicParsing="false" onAction="#zoomInAndPlayQrs" text="zoomInAndPlayQrs" />-->
     </Pane>
 </VBox>

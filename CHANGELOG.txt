@@ -3,18 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-##[0.2.1-ebchat-rc-2][unreleased]
-### Changed
-
-### Added
-- FiveBitParam
-
-### Removed
-
-### Fixed
-- Template slot param being 4 bits instead 5.
-
-##[0.2.0-ebchat-rc-1] 2015-05-25
+##[0.2.0-ebchat] 2015-07-08
 ### Changed
 - HexField has getValue() that returns byte[] value
 - Avixy and Client Keys are now derived from Serial Number
@@ -28,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved QR Token display size information in Aplication Editor
 - Serial Number fields 'remembers' the input across the 'session'(i.e.: a program execution)
 - Better User Experience adjustments
+- Language mismatch between program interface and popups messages
 
 ### Added
 - Some services may receive a timestamp range to say through which period they're valid
@@ -35,9 +25,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - New Avixy Key Import Service protocol implemented
 - EBChat Session Key Service
 - New field validation
+- FiveBitParam
 
 ### Fixed
 - 'Update symmetric key', 'two step import symmetric key' and 'import symmetric key' key's selection are now filtered
+- Application slot param being 4 bits instead 5.
+- Update application service that was using 4 bits slot param
 
 ### Removed
 - Huffman encoder utility
