@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ##[0.2.1-ebchat-rc-2][unreleased]
 ### Changed
+- Language mismatch between program interface and popups messages
 
 ### Added
 - FiveBitParam
@@ -12,7 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-- Template slot param being 4 bits instead 5.
+- Application slot param being 4 bits instead 5.
+- Update application service that was using 4 bits slot param
 
 ##[0.2.0-ebchat-rc-1] 2015-05-25
 ### Changed

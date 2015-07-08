@@ -34,11 +34,6 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
     /* parâmetros */
     private byte[] content;
     private byte[] encryptedContent;
-    private byte moduleOffset;
-    private String challengeParam;
-
-    private byte interruptionCounter;
-    private byte[] interruptionBytes;
 
     private HmacKeyPolicy hmacKeyPolicy;
     private AesKeyPolicy aesKeyPolicy;
@@ -64,16 +59,12 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         int qrQty = ((Double) Math.ceil((double) encryptedContent.length/(double)payloadQrCapacity)).intValue();
         /* firstQr */
         byte[] header, body;
-        header = new FFHeaderPolicy().getHeader(this);
+        header = new FFHeaderPolicy().getHeader(this, getServiceCode());
         body = new byte[0];
 
         body = addAll(body, TwoBytesWrapper.get(qrQty));
         body = addAll(body, TwoBytesWrapper.get(encryptedContent.length));
-        body = add(body, moduleOffset);
 
-        body = addAll(body, challengeParam.getBytes());
-        body = add(body, interruptionCounter);
-        body = addAll(body, interruptionBytes);
         initialQr = addAll(header, body);
         initialQr = hmacKeyPolicy.apply(initialQr);
         /* /firstQr */
@@ -145,14 +136,6 @@ public class UpdateFirmwareService extends AbstractService implements AesCrypted
         logger.trace("iv = {}", Hex.encodeHexString(iv));
         logger.trace("content = {}", Hex.encodeHexString(content));
     }
-
-    public void setModuleOffset(byte moduleOffset) { this.moduleOffset = moduleOffset; }
-
-    public void setChallenge(String challenge) { this.challengeParam = challenge; }
-
-    public void setInterruptionCount(byte interruptionStuff) { this.interruptionCounter = interruptionStuff; }
-
-    public void setInterruptionBytes(byte[] interruptionBytes) { this.interruptionBytes = interruptionBytes; }
 
     @Override
     public void setAesKey(byte[] key) {
