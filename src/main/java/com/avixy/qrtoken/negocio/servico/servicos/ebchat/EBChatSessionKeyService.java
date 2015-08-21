@@ -13,7 +13,7 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.ChallengeParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyParam;
 import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;

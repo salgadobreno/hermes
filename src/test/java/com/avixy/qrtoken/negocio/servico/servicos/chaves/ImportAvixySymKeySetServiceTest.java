@@ -3,7 +3,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.chaves;
 import com.avixy.qrtoken.core.extensions.binary.BinaryMsg;
 import com.avixy.qrtoken.negocio.qrcode.QrSetup;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 

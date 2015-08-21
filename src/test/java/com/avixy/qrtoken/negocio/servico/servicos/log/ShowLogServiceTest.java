@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.negocio.servico.servicos.log;
 
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;

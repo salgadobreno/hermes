@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.gui.controllers;
 
-import com.avixy.qrtoken.core.extensions.components.HexField;
-import com.avixy.qrtoken.core.extensions.components.validators.JideSimpleValidator;
-import com.avixy.qrtoken.core.extensions.components.validators.JideSizeValidator;
+import com.avixy.qrtoken.gui.components.HexField;
+import com.avixy.qrtoken.gui.components.validators.JideSimpleValidator;
+import com.avixy.qrtoken.gui.components.validators.JideSizeValidator;
 import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.AesKeyPolicy;
 import javafx.beans.binding.Bindings;

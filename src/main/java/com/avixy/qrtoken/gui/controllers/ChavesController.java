@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.controllers;
 
-import com.avixy.qrtoken.core.extensions.components.HexField;
+import com.avixy.qrtoken.gui.components.HexField;
 import com.avixy.qrtoken.negocio.servico.chaves.Chave;
 import com.avixy.qrtoken.negocio.servico.chaves.ChavesSingleton;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.KeyType;

@@ -1,6 +1,6 @@
 package com.avixy.qrtoken.gui.servicos.components.ktamper;
 
-import com.avixy.qrtoken.core.extensions.components.*;
+import com.avixy.qrtoken.gui.components.*;
 import com.avixy.qrtoken.gui.servicos.components.NoParamServiceComponent;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;

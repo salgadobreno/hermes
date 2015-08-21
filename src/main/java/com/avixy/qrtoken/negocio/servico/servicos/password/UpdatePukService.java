@@ -6,11 +6,9 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PukAble;
 import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.params.PinParam;
 import com.avixy.qrtoken.negocio.servico.params.PukParam;
-import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;

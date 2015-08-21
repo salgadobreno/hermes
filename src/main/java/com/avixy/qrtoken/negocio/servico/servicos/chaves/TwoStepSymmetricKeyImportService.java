@@ -14,7 +14,7 @@ import com.avixy.qrtoken.negocio.servico.params.BinaryWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.CrcParam;
 import com.avixy.qrtoken.negocio.servico.params.KeyLengthParam;
 import com.avixy.qrtoken.negocio.servico.servicos.PasswordOptionalAbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.ArrayUtils;
 

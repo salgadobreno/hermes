@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
+import com.avixy.qrtoken.gui.components.*;
+import com.avixy.qrtoken.gui.components.templates.TemplateSelect;
 import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.HmacFormatedMessageService;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;

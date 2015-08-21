@@ -9,7 +9,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.TimestampAble;
 import com.avixy.qrtoken.negocio.servico.params.*;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 import java.util.Date;

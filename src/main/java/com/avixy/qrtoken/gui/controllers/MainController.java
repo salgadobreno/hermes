@@ -81,7 +81,7 @@ public class MainController {
     private StringExpression qtdQrsFormat = Bindings.format("%s/%s", currentQrCodeProperty, qtdQrsProperty);
 
     /* Mapa de categorias e lista de componentes */
-    private Map<ServiceCategory, List<Class<? extends ServiceComponent>>> serviceCategoryMap = com.avixy.qrtoken.core.ServiceLoader.getServiceComponentMap();
+    private Map<ServiceCategory, List<Class<? extends ServiceComponent>>> serviceCategoryMap = ServiceLoader.getServiceComponentMap();
     /* Mapa do nome do serviço e instância do componente */
     private Map<String, ServiceComponent> serviceNameMap = new HashMap<>();
 
@@ -152,7 +152,7 @@ public class MainController {
     private void initService(ServiceComponent serviceComponent){
         resetQrView();
         content.getChildren().clear();
-        content.getChildren().add(new DecorationPane((Parent)serviceComponent.getNode()));
+        content.getChildren().add(new DecorationPane((Parent) serviceComponent.getNode()));
 
         //limpar seleção das outras listas
         current = (ListView) servicesAccordion.getExpandedPane().lookup("#listView");

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * Created on 28/08/2014
 */
 public class Chave {
-    Logger logger = LoggerFactory.getLogger(Chave.class);
+//    Logger logger = LoggerFactory.getLogger(Chave.class);
 
     private String id;
     private String valor;
@@ -43,7 +43,6 @@ public class Chave {
         try {
             return Hex.decodeHex(this.valor.toCharArray());
         } catch (DecoderException e) {
-            logger.error("Chave não é hexa.", e);
             throw new RuntimeException("Toda chave deve ser em formato hexa.");
         }
     }
@@ -63,11 +62,11 @@ public class Chave {
     public Boolean isValid(){
         byte[] bytes;
         try {
-            logger.debug("valor: {}", valor);
+//            logger.debug("valor: {}", valor);
             bytes = Hex.decodeHex(valor.toCharArray());
-            logger.debug("bytes: {}", bytes);
+//            logger.debug("bytes: {}", bytes);
         } catch (DecoderException e) {
-            logger.error("isValid Error: {}", e);
+//            logger.error("isValid Error: {}", e);
             return false;
         }
         boolean valid = bytes.length == (length / 8);
@@ -90,7 +89,7 @@ public class Chave {
     }
 
     public void setValor(String valor) {
-        logger.debug("setValor {}", valor);
+//        logger.debug("setValor {}", valor);
         this.valor = valor;
     }
 

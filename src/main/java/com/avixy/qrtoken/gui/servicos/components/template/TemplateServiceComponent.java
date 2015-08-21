@@ -1,11 +1,11 @@
 package com.avixy.qrtoken.gui.servicos.components.template;
 
-import com.avixy.qrtoken.core.extensions.components.*;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateColorPicker;
-import com.avixy.qrtoken.core.extensions.components.templates.TemplateSelect;
-import com.avixy.qrtoken.core.extensions.components.templates.TextAlignmentSelect;
-import com.avixy.qrtoken.core.extensions.components.templates.TextSizeSelect;
-import com.avixy.qrtoken.core.extensions.customControls.PopOver;
+import com.avixy.qrtoken.gui.components.*;
+import com.avixy.qrtoken.gui.components.templates.TemplateColorPicker;
+import com.avixy.qrtoken.gui.components.templates.TemplateSelect;
+import com.avixy.qrtoken.gui.components.templates.TextAlignmentSelect;
+import com.avixy.qrtoken.gui.components.templates.TextSizeSelect;
+import com.avixy.qrtoken.gui.components.customControls.PopOver;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.Token;

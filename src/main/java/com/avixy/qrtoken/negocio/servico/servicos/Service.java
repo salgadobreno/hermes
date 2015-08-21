@@ -20,7 +20,7 @@ public interface Service extends MessageAble {
 
     ServiceCode getServiceCode();
 
-    List<QrTokenCode> getQrs(QrSetup setup) throws Exception;
+    List<QrTokenCode> getQrs(QrSetup qrSetup) throws Exception;
 
     byte[] getMessage();
 }

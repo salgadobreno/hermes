@@ -6,7 +6,7 @@ import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.HuffmanEncodedParam;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import org.apache.commons.lang.text.StrSubstitutor;
 

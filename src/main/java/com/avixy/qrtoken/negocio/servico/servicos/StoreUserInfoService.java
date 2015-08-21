@@ -7,7 +7,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.HmacAble;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.AesCryptedMessagePolicy;
 import com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 
 /**

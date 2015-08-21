@@ -1,17 +1,14 @@
 package com.avixy.qrtoken.gui.servicos.components;
 
-import com.avixy.qrtoken.core.extensions.components.RestrictiveTextField;
-import com.avixy.qrtoken.core.extensions.components.SerialNumberField;
-import com.avixy.qrtoken.core.extensions.components.TextFieldLimited;
+import com.avixy.qrtoken.gui.components.RestrictiveTextField;
+import com.avixy.qrtoken.gui.components.SerialNumberField;
+import com.avixy.qrtoken.gui.components.TextFieldLimited;
 import com.avixy.qrtoken.negocio.servico.chaves.ClientKeyConfiguration;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
 import com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService;
 import com.google.inject.Inject;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Font;
 import org.tbee.javafx.scene.layout.MigPane;
 
