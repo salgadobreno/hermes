@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.servico.operations;
 
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 
 import javax.annotation.Nullable;
 

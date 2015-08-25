@@ -4,8 +4,8 @@ import com.avixy.qrtoken.negocio.servico.operations.RandomGenerator;
 import com.avixy.qrtoken.negocio.servico.operations.RandomProxy;
 import com.avixy.qrtoken.negocio.servico.operations.SettableTimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import com.google.inject.AbstractModule;
 
 /**

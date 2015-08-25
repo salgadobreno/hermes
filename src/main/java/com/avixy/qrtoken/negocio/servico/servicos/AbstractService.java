@@ -5,9 +5,7 @@ import com.avixy.qrtoken.negocio.qrcode.QrTokenCode;
 import com.avixy.qrtoken.negocio.servico.ServiceAssembler;
 import com.avixy.qrtoken.negocio.servico.chaves.crypto.HmacKeyPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.*;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import java.util.List;
  * Created on 03/09/2014
  */
 public abstract class AbstractService implements Service {
-    static Logger log = LoggerFactory.getLogger(AbstractService.class);
 
     private ServiceAssembler serviceAssembler = new ServiceAssembler();
 

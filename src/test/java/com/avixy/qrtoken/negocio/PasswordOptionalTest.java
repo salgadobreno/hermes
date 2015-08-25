@@ -6,7 +6,7 @@ import com.avixy.qrtoken.negocio.servico.behaviors.PasswordOptional;
 import com.avixy.qrtoken.negocio.servico.behaviors.PinAble;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import org.junit.Before;
 import org.junit.Test;
 

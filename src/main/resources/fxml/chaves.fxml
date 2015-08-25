@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.avixy.qrtoken.core.extensions.components.HexField?>
+<?import com.avixy.qrtoken.gui.components.HexField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>

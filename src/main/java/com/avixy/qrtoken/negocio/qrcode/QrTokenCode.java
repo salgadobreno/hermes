@@ -2,6 +2,7 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.sun.istack.internal.Nullable;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -21,9 +22,13 @@ public class QrTokenCode {
      * @param dados QR Code data
      * @param setup QR Code configuration
      */
-    public QrTokenCode(byte[] dados, QrSetup setup) {
+    public QrTokenCode(byte[] dados, @Nullable QrSetup setup) {
         this.dados = dados;
-        this.ecLevel = setup.getEcLevel();
+        if (setup != null) {
+            this.ecLevel = setup.getEcLevel();
+        } else {
+            this.ecLevel = ErrorCorrectionLevel.L;
+        }
     }
 
     public QrTokenCode(byte[] dados, QrSetup setup, int length) {

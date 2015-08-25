@@ -2,7 +2,7 @@ package com.avixy.qrtoken.gui.servicos.components;
 
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.QrtHeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.QrtHeaderPolicy;
 import com.google.inject.Inject;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

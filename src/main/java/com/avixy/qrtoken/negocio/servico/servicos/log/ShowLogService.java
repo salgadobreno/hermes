@@ -2,7 +2,7 @@ package com.avixy.qrtoken.negocio.servico.servicos.log;
 
 import com.avixy.qrtoken.negocio.servico.ServiceCode;
 import com.avixy.qrtoken.negocio.servico.servicos.AbstractService;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import com.google.inject.Inject;
 
 /**

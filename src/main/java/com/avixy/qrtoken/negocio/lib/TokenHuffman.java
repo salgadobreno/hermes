@@ -1,8 +1,5 @@
 package com.avixy.qrtoken.negocio.lib;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
 
 /**
@@ -13,7 +10,7 @@ import java.util.*;
  * @author Breno Salgado <breno.salgado@avixy.com>
  */
 public class TokenHuffman {
-    private Logger logger = LoggerFactory.getLogger(TokenHuffman.class);
+//    private Logger logger = LoggerFactory.getLogger(TokenHuffman.class);
 
     public enum Mode {
         STREAM, // tudo junto
@@ -71,19 +68,19 @@ public class TokenHuffman {
      * @return String de '0' e '1' representando o resultado em binário
      */
     public String encode(String text){
-        logger.trace("text = {}", text);
+//        logger.trace("text = {}", text);
         String encoded = "";
 //        String encodedText = "";
         //varrendo o input
         for (int i = 0; i < text.length(); i++) {
-            logger.trace("i = {}", i);
+//            logger.trace("i = {}", i);
             char c = text.charAt(i);
-            logger.trace("char = {}", c);
+//            logger.trace("char = {}", c);
             //varrer o set pra pegar os elementos que iniciam com `c`
             List<String> potentialMatches = new ArrayList<>();
             for (String s : alphabetSortedDict) {
                 if (s.charAt(0) == c) {
-                    logger.trace("Dict Matching = {}", s);
+//                    logger.trace("Dict Matching = {}", s);
                     //o elemento começa com `c`, vai pro inverseLengthSortedDict
                     potentialMatches.add(s);
                 }
@@ -94,7 +91,7 @@ public class TokenHuffman {
                 if (i + s.length() > text.length()) { continue; }
                 String subText = text.substring(i, i + s.length());
                 if (subText.equals(s)) { //match
-                    logger.trace("match = {}", subText);
+//                    logger.trace("match = {}", subText);
                     encoded += dictionaryCode.get(s);
                     if (this.mode == Mode.SPLIT) { encoded += "\n"; }
 //                    encodedText += s;
@@ -102,7 +99,7 @@ public class TokenHuffman {
                     break;
                 }
             }
-            logger.trace("encoded = {}", encoded);
+//            logger.trace("encoded = {}", encoded);
         }
         return encoded;
     }

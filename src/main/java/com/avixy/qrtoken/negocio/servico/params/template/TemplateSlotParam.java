@@ -14,5 +14,4 @@ public class TemplateSlotParam extends FiveBitParam {
             throw new IllegalArgumentException("Template value must be between 0 and 17.");
         }
     }
-
 }

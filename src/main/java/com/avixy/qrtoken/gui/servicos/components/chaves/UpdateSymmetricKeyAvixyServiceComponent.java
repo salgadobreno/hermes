@@ -1,8 +1,8 @@
 package com.avixy.qrtoken.gui.servicos.components.chaves;
 
-import com.avixy.qrtoken.core.extensions.components.AvixyKeyProfileSelect;
-import com.avixy.qrtoken.core.extensions.components.SerialNumberField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.gui.components.AvixyKeyProfileSelect;
+import com.avixy.qrtoken.gui.components.SerialNumberField;
+import com.avixy.qrtoken.gui.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.chaves.AvixyKeyConfiguration;

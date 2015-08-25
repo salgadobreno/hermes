@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.avixy.qrtoken.core.extensions.components.AesKeySelect?>
-<?import com.avixy.qrtoken.core.extensions.components.HmacKeySelect?>
-<?import com.avixy.qrtoken.core.extensions.components.QrVersionSelect?>
+<?import com.avixy.qrtoken.gui.components.AesKeySelect?>
+<?import com.avixy.qrtoken.gui.components.HmacKeySelect?>
+<?import com.avixy.qrtoken.gui.components.QrVersionSelect?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>

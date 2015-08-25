@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased][unreleased]
+### Changed
+- Some classes and packages have been reorganized in a move to have better separation between what is AQRT API and what
+is the GUI application
+- Loggers were commented out of the application for the moment so they don't become a dependency to API usage
+- QrSetup parameter in QrTokenCode creation was made @Nullable, defaulting to Error Correction Level L
+- Updated README
+
+### Added
+- A new 'API' profile was included to the POM that will create a JAR that excludes all the GUI packages so it can be added
+to a new application, add flag -Papi to 'mvn package' to generate this JAR
+- Added a ServiceFactory class to aid in Service creation when used as API
+
 ##[0.2.0-ebchat] 2015-07-08
 ### Changed
 - HexField has getValue() that returns byte[] value
@@ -10,7 +23,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Templates max size is now 220 bytes for all templates
 - Some services PIN usage is now optional
 - Improved Text boundaries in template editor
-- UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented protocol wasn't up to date)
+- UpdateFirmwareServiceComponent was commented out since it's not in current QR Token iteration(plus the implemented
+protocol wasn't up to date)
 - GenerateKTamper also stores PIN/PUK and sets RTC
 - Reviewed and stripped down services
 - The order of displayed categories at the left was changed so they follow a common usage logic
@@ -38,4 +52,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.0 - 30/03/2015
 ### Added
 - Added changelog
-- Hermes alpha: QR Token protocol implementation, various services, cryptographic key management, RAD-like template editor and management.
+- Hermes alpha: QR Token protocol implementation, various services, cryptographic key management, RAD-like template
+ editor and management.

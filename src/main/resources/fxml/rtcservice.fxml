@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.avixy.qrtoken.core.extensions.components.HmacKeySelect?>
-<?import com.avixy.qrtoken.core.extensions.components.TimestampField?>
+<?import com.avixy.qrtoken.gui.components.HmacKeySelect?>
+<?import com.avixy.qrtoken.gui.components.TimestampField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>

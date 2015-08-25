@@ -1,7 +1,7 @@
 package com.avixy.qrtoken.gui.servicos.components.password;
 
-import com.avixy.qrtoken.core.extensions.components.PasswordField;
-import com.avixy.qrtoken.core.extensions.components.TimestampField;
+import com.avixy.qrtoken.gui.components.PasswordField;
+import com.avixy.qrtoken.gui.components.TimestampField;
 import com.avixy.qrtoken.gui.servicos.components.ServiceCategory;
 import com.avixy.qrtoken.gui.servicos.components.ServiceComponent;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;

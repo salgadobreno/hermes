@@ -12,7 +12,7 @@ import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.params.StringWrapperParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateParam;
 import com.avixy.qrtoken.negocio.servico.params.template.TemplateSlotParam;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 import com.avixy.qrtoken.negocio.template.Template;
 import com.avixy.qrtoken.negocio.template.TemplateSize;
 import com.google.inject.Inject;

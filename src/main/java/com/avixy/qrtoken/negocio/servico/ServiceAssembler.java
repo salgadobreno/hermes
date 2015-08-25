@@ -7,7 +7,7 @@ import com.avixy.qrtoken.negocio.servico.operations.MessagePolicy;
 import com.avixy.qrtoken.negocio.servico.operations.PasswordPolicy;
 import com.avixy.qrtoken.negocio.servico.operations.TimestampPolicy;
 import com.avixy.qrtoken.negocio.servico.servicos.Service;
-import com.avixy.qrtoken.negocio.servico.servicos.header.HeaderPolicy;
+import com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy;
 
 import static org.apache.commons.lang.ArrayUtils.addAll;
 

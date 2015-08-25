@@ -43,10 +43,10 @@ public abstract class ServiceComponent extends VBox {
         this.controller = controller;
     }
 
-    public List<QrTokenCode> getQrs(QrSetup setup) throws Exception {
+    public List<QrTokenCode> getQrs(QrSetup qrSetup) throws Exception {
         Service service = getService();
         if (service != null) {
-            return getService().getQrs(setup); //TODO
+            return getService().getQrs(qrSetup); //TODO
         } else {
             return new ArrayList<>();
         }
