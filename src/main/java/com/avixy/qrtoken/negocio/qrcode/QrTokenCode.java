@@ -2,8 +2,8 @@ package com.avixy.qrtoken.negocio.qrcode;
 
 import com.avixy.qrtoken.core.QrUtils;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 

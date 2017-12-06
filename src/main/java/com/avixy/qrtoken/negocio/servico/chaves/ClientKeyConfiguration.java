@@ -148,7 +148,7 @@ public class ClientKeyConfiguration {
 
     public byte[] getHmacKey(String serialNumber) throws CryptoException, GeneralSecurityException, ClientKeyNotConfigured {
         if (serialNumber.length() < 10) {
-            throw new IllegalArgumentException("O número de série deve conter 10 digitos");
+            throw new IllegalArgumentException("O numero de serie deve conter 10 digitos");
         }
         try {
             return keyDerivator.getHmacKey(serialNumber);
@@ -159,7 +159,7 @@ public class ClientKeyConfiguration {
 
     public byte[] getAesKey(String serialNumber) throws CryptoException, GeneralSecurityException, ClientKeyNotConfigured {
         if (serialNumber.length() < 10) {
-            throw new IllegalArgumentException("O número de série deve conter 10 digitos");
+            throw new IllegalArgumentException("O numero de serie deve conter 10 digitos");
         }
         try {
             return keyDerivator.getAesKey(serialNumber);
