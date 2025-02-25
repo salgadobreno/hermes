@@ -1,0 +1,11 @@
+<map id="com.avixy.qrtoken.gui.components.RestrictiveTextField" name="com.avixy.qrtoken.gui.components.RestrictiveTextField">
+<area shape="rect" id="Node000001" title="A text field, which restricts the user&#39;s input." alt="" coords="129,69,373,109"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1ChallengeField.html" title="Created on 26/01/2015." alt="" coords="421,5,665,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="356,64,451,43,452,48,357,69"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1HexField.html" title="A TextField that only accepts Hexadecimal characters." alt="" coords="421,69,665,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="387,87,421,87,421,92,387,92"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1NumberField.html" title="A TextField that only accepts numbers." alt="" coords="421,133,665,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="357,110,452,131,451,136,356,115"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,77,81,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,87,129,87,129,92,95,92"/>
+</map>

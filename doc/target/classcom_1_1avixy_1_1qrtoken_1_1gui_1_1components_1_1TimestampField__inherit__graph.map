@@ -1,0 +1,5 @@
+<map id="com.avixy.qrtoken.gui.components.TimestampField" name="com.avixy.qrtoken.gui.components.TimestampField">
+<area shape="rect" id="Node000001" title="Encapsulates input of Date + Hour/Minutes." alt="" coords="5,79,249,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="87,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,44,130,79,125,79,125,44"/>
+</map>

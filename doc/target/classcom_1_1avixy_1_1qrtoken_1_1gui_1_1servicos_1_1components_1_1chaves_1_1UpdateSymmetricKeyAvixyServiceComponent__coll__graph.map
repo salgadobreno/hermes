@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.gui.servicos.components.chaves.UpdateSymmetricKeyAvixyServiceComponent" name="com.avixy.qrtoken.gui.servicos.components.chaves.UpdateSymmetricKeyAvixyServiceComponent">
+<area shape="rect" id="Node000001" title="Created on 29/01/2015." alt="" coords="5,167,349,207"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ServiceComponent.html" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="28,79,327,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,133,180,166,175,166,175,133"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="150,5,205,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="180,44,180,79,175,79,175,44"/>
+</map>

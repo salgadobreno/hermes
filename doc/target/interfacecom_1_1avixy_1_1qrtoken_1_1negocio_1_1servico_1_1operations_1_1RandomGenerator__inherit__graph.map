@@ -1,0 +1,5 @@
+<map id="com.avixy.qrtoken.negocio.servico.operations.RandomGenerator" name="com.avixy.qrtoken.negocio.servico.operations.RandomGenerator">
+<area shape="rect" id="Node000001" title="A kind of wrapper on java.util.Random This is so functions with randomness can be tested." alt="" coords="5,5,316,45"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1RandomProxy.html" title="Created on 03/02/2015." alt="" coords="5,93,316,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,59,163,93,158,93,158,59"/>
+</map>

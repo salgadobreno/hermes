@@ -1,0 +1,9 @@
+<map id="com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam" name="com.avixy.qrtoken.negocio.servico.params.StringWithLengthParam">
+<area shape="rect" id="Node000001" title="Created on 01/10/2014." alt="" coords="344,37,635,77"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1params_1_1ChallengeParam.html" title="Created on 17/10/2014." alt="" coords="683,5,973,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="648,40,682,36,683,42,649,45"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1params_1_1SerialNumberParam.html" title="Created by Breno on 15/05/2015." alt="" coords="683,69,973,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="649,70,683,73,682,78,648,75"/>
+<area shape="rect" id="Node000002" href="$interfacecom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1params_1_1Param.html" title="Represents a parameter to be sent to QR Token in a QR Code." alt="" coords="5,37,296,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,55,344,55,344,60,310,60"/>
+</map>

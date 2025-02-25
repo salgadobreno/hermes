@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,77,61,102"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1hacks_1_1CustomColorDialog.html" title=" " alt="" coords="123,5,406,45"/>
+<area shape="poly" id="edge146_Node000000_Node000001" title=" " alt="" coords="72,69,109,55,153,43,154,48,110,60,74,74"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1hacks_1_1CustomColorPopOver.html" title=" " alt="" coords="123,69,406,109"/>
+<area shape="poly" id="edge147_Node000000_Node000002" title=" " alt="" coords="75,87,123,87,123,92,75,92"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TemplateTextTextField.html" title="Created on 06/03/2015." alt="" coords="109,133,420,173"/>
+<area shape="poly" id="edge148_Node000000_Node000003" title=" " alt="" coords="74,105,110,119,154,131,153,136,109,124,72,110"/>
+</map>

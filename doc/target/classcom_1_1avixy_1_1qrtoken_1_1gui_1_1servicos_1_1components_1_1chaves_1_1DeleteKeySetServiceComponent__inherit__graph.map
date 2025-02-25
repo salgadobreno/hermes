@@ -1,0 +1,9 @@
+<map id="com.avixy.qrtoken.gui.servicos.components.chaves.DeleteKeySetServiceComponent" name="com.avixy.qrtoken.gui.servicos.components.chaves.DeleteKeySetServiceComponent">
+<area shape="rect" id="Node000001" title="Created by Italo on 1/15/2015." alt="" coords="455,5,799,45"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1DeleteKeySetClientServiceComponent.html" title="Created on 30/01/2015." alt="" coords="847,5,1191,45"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="812,23,846,23,846,28,812,28"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ServiceComponent.html" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="108,5,407,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="420,23,454,23,454,28,420,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,23,108,23,108,28,74,28"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$interfacecom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1RandomGenerator.html" title="A kind of wrapper on java.util.Random This is so functions with randomness can be tested." alt="" coords="5,5,316,45"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1RandomProxy.html" title="Created on 03/02/2015." alt="" coords="364,5,675,45"/>
+<area shape="poly" id="edge90_Node000000_Node000001" title=" " alt="" coords="329,23,364,23,364,28,329,28"/>
+</map>

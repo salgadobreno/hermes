@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.negocio.servico.operations.MessagePolicy" name="com.avixy.qrtoken.negocio.servico.operations.MessagePolicy">
+<area shape="rect" id="Node000001" title="Created on 05/11/2014." alt="" coords="5,37,316,77"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1AesCryptedMessagePolicy.html" title="Created on 05/11/2014." alt="" coords="364,5,675,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,40,363,37,364,42,330,45"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1DefaultMessagePolicy.html" title=" " alt="" coords="364,69,675,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="330,70,364,73,363,78,329,75"/>
+</map>

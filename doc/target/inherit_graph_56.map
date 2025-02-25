@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$interfacecom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1TemplateObj.html" title="An element that can be rendered by QR Token and com.avixy.qrtoken.negocio.template...." alt="" coords="5,127,259,167"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Footer.html" title="Created on 12/02/2015." alt="" coords="320,5,573,45"/>
+<area shape="poly" id="edge121_Node000000_Node000001" title=" " alt="" coords="177,117,237,85,306,55,344,43,346,48,308,60,239,90,179,122"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Header.html" title="Created on 12/02/2015." alt="" coords="320,69,573,109"/>
+<area shape="poly" id="edge122_Node000000_Node000002" title=" " alt="" coords="255,122,336,107,337,112,256,127"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Rect.html" title="Created on 12/02/2015." alt="" coords="307,134,587,159"/>
+<area shape="poly" id="edge123_Node000000_Node000003" title=" " alt="" coords="272,144,306,144,306,149,272,149"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Text.html" title="Created on 12/02/2015." alt="" coords="308,183,585,209"/>
+<area shape="poly" id="edge125_Node000000_Node000005" title=" " alt="" coords="273,166,365,181,364,186,272,171"/>
+<area shape="rect" id="Node000006" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1WaitForButton.html" title="Created on 11/03/2015." alt="" coords="320,233,573,273"/>
+<area shape="poly" id="edge126_Node000000_Node000006" title=" " alt="" coords="189,170,246,194,308,217,353,231,352,236,306,223,244,199,187,175"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Stripe.html" title="Created on 12/02/2015." alt="" coords="635,127,888,167"/>
+<area shape="poly" id="edge124_Node000003_Node000004" title=" " alt="" coords="600,144,634,144,634,149,600,149"/>
+</map>

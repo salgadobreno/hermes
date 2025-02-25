@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.gui.servicos.components.banking.LoginServiceComponent" name="com.avixy.qrtoken.gui.servicos.components.banking.LoginServiceComponent">
+<area shape="rect" id="Node000001" title="Created on 23/10/2014." alt="" coords="5,167,356,207"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ServiceComponent.html" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="31,79,330,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,133,183,166,178,166,178,133"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="153,5,208,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="183,44,183,79,178,79,178,44"/>
+</map>

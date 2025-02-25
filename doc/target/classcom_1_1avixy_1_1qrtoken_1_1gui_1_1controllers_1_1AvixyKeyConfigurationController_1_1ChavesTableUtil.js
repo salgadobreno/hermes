@@ -1,0 +1,4 @@
+var classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil =
+[
+    [ "AvxConfigDeleteCell", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil_1_1AvxConfigDeleteCell.html", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil_1_1AvxConfigDeleteCell" ]
+];

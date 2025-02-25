@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,109,83,134"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1validators_1_1ExactSizeValidator.html" title="Created on 30/04/2015." alt="" coords="131,5,439,45"/>
+<area shape="poly" id="edge164_Node000000_Node000001" title=" " alt="" coords="67,97,96,75,130,55,162,43,163,48,132,60,99,79,70,101"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1validators_1_1JideMaxValueValidator.html" title="Created by Breno on 21/05/2015." alt="" coords="131,69,439,109"/>
+<area shape="poly" id="edge165_Node000000_Node000002" title=" " alt="" coords="96,112,134,107,135,112,97,117"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1validators_1_1JideSimpleValidator.html" title="Created on 06/05/2015." alt="" coords="131,133,439,173"/>
+<area shape="poly" id="edge166_Node000000_Node000003" title=" " alt="" coords="97,126,135,131,134,136,96,131"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1validators_1_1SizeValidator.html" title="Created on 30/04/2015." alt="" coords="131,197,439,237"/>
+<area shape="poly" id="edge168_Node000000_Node000005" title=" " alt="" coords="70,141,99,163,132,183,163,195,162,200,130,188,96,168,67,145"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1validators_1_1JideSizeValidator.html" title="Created on 06/05/2015." alt="" coords="487,133,795,173"/>
+<area shape="poly" id="edge167_Node000003_Node000004" title=" " alt="" coords="453,151,486,151,486,156,453,156"/>
+</map>

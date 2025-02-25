@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,99,81,124"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil_1_1AvxConfigDeleteCell.html" title="Célula com botão para deletar uma Chave." alt="" coords="131,5,397,60"/>
+<area shape="poly" id="edge154_Node000000_Node000001" title=" " alt="" coords="80,90,128,69,161,58,163,63,130,74,82,95"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1ChavesController_1_1ChavesTableUtil_1_1ChaveDeleteCell.html" title="Célula com botão para deletar uma Chave." alt="" coords="131,84,397,139"/>
+<area shape="poly" id="edge155_Node000000_Node000002" title=" " alt="" coords="95,109,131,109,131,114,95,114"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1ClientKeyConfigurationController_1_1Chavesf3a888080b8c8ef6e0732c0a16dd80d6.html" title="Célula com botão para deletar uma Chave." alt="" coords="129,163,399,217"/>
+<area shape="poly" id="edge156_Node000000_Node000003" title=" " alt="" coords="83,127,130,148,167,160,165,165,128,152,81,132"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.gui.components.ChallengeField" name="com.avixy.qrtoken.gui.components.ChallengeField">
+<area shape="rect" id="Node000001" title="Created on 26/01/2015." alt="" coords="5,167,249,207"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1RestrictiveTextField.html" title="A text field, which restricts the user&#39;s input." alt="" coords="5,79,249,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,133,130,166,125,166,125,133"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="89,5,165,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="130,44,130,79,125,79,125,44"/>
+</map>

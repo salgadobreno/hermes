@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy" name="com.avixy.qrtoken.negocio.servico.operations.RangedTimestampPolicy">
+<area shape="rect" id="Node000001" title="Created by Avixy on 5/5/2015." alt="" coords="5,181,316,221"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1SettableTimestampPolicy.html" title="Created on 05/11/2014." alt="" coords="5,93,316,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,147,163,181,158,181,158,147"/>
+<area shape="rect" id="Node000003" href="$interfacecom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1TimestampPolicy.html" title=" " alt="" coords="5,5,316,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="163,59,163,93,158,93,158,59"/>
+</map>

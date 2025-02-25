@@ -1,0 +1,7 @@
+<map id="com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy" name="com.avixy.qrtoken.negocio.servico.operations.header.HeaderPolicy">
+<area shape="rect" id="Node000001" title="Encapsula a lógica de gerar um header." alt="" coords="5,37,363,77"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1header_1_1FFHeaderPolicy.html" title="Header especial usado na atualização de firmware Created on 03/11/2014." alt="" coords="411,5,768,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="376,39,410,37,410,42,377,45"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1operations_1_1header_1_1QrtHeaderPolicy.html" title="Header &#39;básico&#39;." alt="" coords="411,69,768,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="377,70,410,73,410,78,376,75"/>
+</map>

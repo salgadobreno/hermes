@@ -1,0 +1,9 @@
+<map id="com.avixy.qrtoken.gui.servicos.components.ktamper.GenerateKtamperServiceComponent" name="com.avixy.qrtoken.gui.servicos.components.ktamper.GenerateKtamperServiceComponent">
+<area shape="rect" id="Node000001" title="Created on 15/09/2014." alt="" coords="5,255,357,295"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1NoParamServiceComponent.html" title="Created on 28/10/2014." alt="" coords="32,167,331,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,221,184,254,179,254,179,221"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ServiceComponent.html" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="32,79,331,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="184,133,184,166,179,166,179,133"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="154,5,209,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="184,44,184,79,179,79,179,44"/>
+</map>

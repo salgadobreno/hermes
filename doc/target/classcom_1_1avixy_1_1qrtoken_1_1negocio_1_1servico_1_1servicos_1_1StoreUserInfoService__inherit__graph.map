@@ -1,0 +1,13 @@
+<map id="com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService" name="com.avixy.qrtoken.negocio.servico.servicos.StoreUserInfoService">
+<area shape="rect" id="Node000001" title="Created on 01/10/2014." alt="" coords="224,255,519,295"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1servicos_1_1AbstractService.html" title=" " alt="" coords="5,167,300,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,209,324,252,322,257,213,214"/>
+<area shape="rect" id="Node000003" href="$interfacecom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1servicos_1_1Service.html" title="A service that QR Token supports." alt="" coords="5,79,300,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,133,155,166,150,166,150,133"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="100,5,205,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="155,44,155,79,150,79,150,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="324,174,419,199"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="374,213,374,254,369,254,369,213"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="443,174,529,199"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="461,210,398,257,395,252,458,205"/>
+</map>

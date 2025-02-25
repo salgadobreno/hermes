@@ -1,0 +1,4 @@
+var classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil_1_1AvxConfigDeleteCell =
+[
+    [ "updateItem", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1controllers_1_1AvixyKeyConfigurationController_1_1ChavesTableUtil_1_1AvxConfigDeleteCell.html#ad4fc10d24cb73c157a35b203fc2da3db", null ]
+];

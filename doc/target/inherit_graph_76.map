@@ -1,0 +1,57 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,493,60,518"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1OptionalPasswordField.html" title="Created on 14/04/2015." alt="" coords="141,389,385,429"/>
+<area shape="poly" id="edge169_Node000000_Node000001" title=" " alt="" coords="53,480,77,458,107,439,140,426,142,431,109,444,80,463,56,484"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1RangedTimestampField.html" title="A TimestampField that has an option of setting up a time range." alt="" coords="141,453,385,493"/>
+<area shape="poly" id="edge170_Node000000_Node000002" title=" " alt="" coords="73,497,140,488,141,493,74,502"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TemplateTextTextArea.html" title="Created on 06/03/2015." alt="" coords="108,517,419,557"/>
+<area shape="poly" id="edge171_Node000000_Node000003" title=" " alt="" coords="74,508,119,515,119,520,73,514"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ServiceComponent.html" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="114,581,413,621"/>
+<area shape="poly" id="edge172_Node000000_Node000004" title=" " alt="" coords="56,526,80,548,109,567,138,579,136,584,107,572,77,552,53,530"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1AvixyHmacRtcServiceComponent.html" title=" " alt="" coords="497,5,796,45"/>
+<area shape="poly" id="edge173_Node000004_Node000005" title=" " alt="" coords="414,571,417,568,429,549,437,526,445,465,444,392,440,313,435,234,435,161,443,99,452,75,465,55,495,33,499,37,469,59,457,77,448,101,440,161,440,234,445,313,450,392,450,465,442,527,433,552,421,571,418,574"/>
+<area shape="rect" id="Node000006" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1HmacFormatedMessageServiceComponent.html" title="Created on 03/03/2015." alt="" coords="497,69,796,109"/>
+<area shape="poly" id="edge174_Node000004_Node000006" title=" " alt="" coords="414,571,417,568,438,540,451,513,459,485,461,457,454,402,439,345,424,289,418,232,420,204,428,176,443,147,465,119,496,97,499,101,469,123,447,150,433,178,426,205,423,232,430,288,444,344,460,401,466,457,464,486,456,514,442,543,421,571,417,574"/>
+<area shape="rect" id="Node000007" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1NoParamServiceComponent.html" title="Created on 28/10/2014." alt="" coords="497,133,796,173"/>
+<area shape="poly" id="edge175_Node000004_Node000007" title=" " alt="" coords="414,571,417,568,435,544,447,521,454,497,456,474,451,426,439,377,428,329,423,280,426,256,433,231,446,207,465,183,495,162,498,166,469,187,450,210,438,233,431,257,428,280,433,328,445,376,457,425,461,474,459,498,452,523,439,547,421,571,417,574"/>
+<area shape="rect" id="Node000011" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1StoreUserInfoServiceComponent.html" title="Created on 01/10/2014." alt="" coords="497,197,796,237"/>
+<area shape="poly" id="edge179_Node000004_Node000011" title=" " alt="" coords="414,571,417,568,432,548,442,529,451,490,448,450,440,409,431,369,428,328,437,287,448,267,465,247,496,226,499,230,468,251,453,270,442,289,433,328,436,368,445,408,453,449,456,490,447,531,437,551,421,571,417,574"/>
+<area shape="rect" id="Node000012" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1UpdateTemplateServiceComponent.html" title="Created on 03/03/2015." alt="" coords="497,261,796,301"/>
+<area shape="poly" id="edge180_Node000004_Node000012" title=" " alt="" coords="413,571,417,568,438,537,446,506,445,474,440,441,434,409,433,376,442,343,465,311,496,290,499,295,469,315,447,345,439,376,439,408,445,440,450,473,451,506,443,539,421,571,417,575"/>
+<area shape="rect" id="Node000013" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1banking_1_1AutorizarTransferenciaBancariaServiceComponent.html" title=" " alt="" coords="471,325,822,365"/>
+<area shape="poly" id="edge181_Node000004_Node000013" title=" " alt="" coords="412,571,417,568,434,545,441,522,442,498,440,473,437,448,438,424,446,399,465,375,480,363,484,368,469,379,451,402,444,425,443,448,445,473,447,498,447,523,439,547,421,571,416,575"/>
+<area shape="rect" id="Node000014" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1banking_1_1LoginServiceComponent.html" title="Created on 23/10/2014." alt="" coords="471,389,822,429"/>
+<area shape="poly" id="edge182_Node000004_Node000014" title=" " alt="" coords="411,572,417,567,430,553,436,537,440,505,443,471,451,455,465,439,482,427,485,432,468,443,455,458,449,473,445,505,442,539,434,556,421,571,415,576"/>
+<area shape="rect" id="Node000015" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1DeleteKeySetServiceComponent.html" title="Created by Italo on 1/15/2015." alt="" coords="475,453,819,493"/>
+<area shape="poly" id="edge183_Node000004_Node000015" title=" " alt="" coords="406,573,417,567,432,552,440,536,448,519,465,503,489,491,491,496,468,508,453,522,445,538,437,555,420,571,409,578"/>
+<area shape="rect" id="Node000017" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1EBChatShowSessionKeyServiceComponent.html" title="Created on 16/04/2015." alt="" coords="475,517,819,557"/>
+<area shape="poly" id="edge185_Node000004_Node000017" title=" " alt="" coords="397,576,526,555,527,560,398,582"/>
+<area shape="rect" id="Node000018" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1ImportAvixySymKeyServiceComponent.html" title="Created on 30/01/2015." alt="" coords="475,581,819,621"/>
+<area shape="poly" id="edge186_Node000004_Node000018" title=" " alt="" coords="427,599,474,599,474,604,427,604"/>
+<area shape="rect" id="Node000019" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1ImportClientSymKeyServiceComponent.html" title="Created on 30/01/2015." alt="" coords="475,645,819,685"/>
+<area shape="poly" id="edge187_Node000004_Node000019" title=" " alt="" coords="398,621,527,643,526,648,397,626"/>
+<area shape="rect" id="Node000020" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1TwoStepSymmetricKeyImportServiceComponent.html" title="Created on 03/02/2015." alt="" coords="475,709,819,749"/>
+<area shape="poly" id="edge188_Node000004_Node000020" title=" " alt="" coords="313,626,384,662,468,695,512,707,511,712,466,700,382,667,310,630"/>
+<area shape="rect" id="Node000021" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1UpdateSymmetricKeyAvixyServiceComponent.html" title="Created on 29/01/2015." alt="" coords="475,773,819,813"/>
+<area shape="poly" id="edge189_Node000004_Node000021" title=" " alt="" coords="294,629,368,696,416,730,468,759,500,771,498,776,466,764,413,735,365,700,291,633"/>
+<area shape="rect" id="Node000022" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1UpdateSymmetricKeyClientServiceComponent.html" title="Created on 29/01/2015." alt="" coords="475,837,819,877"/>
+<area shape="poly" id="edge190_Node000004_Node000022" title=" " alt="" coords="286,632,316,676,357,729,409,781,437,803,468,823,494,835,492,840,465,828,434,808,405,785,353,732,311,679,281,635"/>
+<area shape="rect" id="Node000023" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ktamper_1_1EraseKtamperServiceComponent.html" title="Created on 15/09/2014." alt="" coords="471,901,823,941"/>
+<area shape="poly" id="edge191_Node000004_Node000023" title=" " alt="" coords="280,633,306,690,347,759,401,830,433,861,468,887,491,899,488,904,465,892,429,865,397,833,342,762,302,692,275,635"/>
+<area shape="rect" id="Node000024" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1password_1_1OverridePinServiceComponent.html" title="Created on 20/11/2014." alt="" coords="467,965,827,1005"/>
+<area shape="poly" id="edge192_Node000004_Node000024" title=" " alt="" coords="276,634,299,702,337,789,363,835,393,878,428,918,468,951,489,963,486,968,465,956,425,921,389,881,358,837,333,792,294,704,271,636"/>
+<area shape="rect" id="Node000025" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1password_1_1UpdatePinServiceComponent.html" title="Created on 20/11/2014." alt="" coords="467,1029,827,1069"/>
+<area shape="poly" id="edge193_Node000004_Node000025" title=" " alt="" coords="273,634,292,714,328,818,354,873,386,926,424,974,468,1015,487,1027,484,1031,465,1019,420,978,381,929,349,876,323,820,287,716,268,636"/>
+<area shape="rect" id="Node000026" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1password_1_1UpdatePukServiceComponent.html" title="Created on 20/11/2014." alt="" coords="467,1093,827,1133"/>
+<area shape="poly" id="edge194_Node000004_Node000026" title=" " alt="" coords="271,635,286,725,300,784,319,847,345,911,378,973,419,1031,468,1079,486,1091,483,1096,465,1083,415,1034,373,976,340,913,314,849,295,785,281,726,265,636"/>
+<area shape="rect" id="Node000027" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1template_1_1TemplateServiceComponent.html" title="Created on 16/03/2015." alt="" coords="467,1157,826,1197"/>
+<area shape="poly" id="edge195_Node000004_Node000027" title=" " alt="" coords="269,635,280,736,292,802,311,875,336,949,370,1021,414,1087,440,1116,468,1143,485,1155,482,1159,465,1147,436,1120,410,1090,366,1023,331,951,305,876,287,804,275,737,264,635"/>
+<area shape="rect" id="Node000008" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1PingServiceComponent.html" title=" " alt="" coords="901,69,1200,109"/>
+<area shape="poly" id="edge176_Node000007_Node000008" title=" " alt="" coords="787,128,923,107,924,112,788,134"/>
+<area shape="rect" id="Node000009" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1TesteServiceComponent.html" title=" " alt="" coords="901,133,1200,173"/>
+<area shape="poly" id="edge177_Node000007_Node000009" title=" " alt="" coords="810,151,901,151,901,156,810,156"/>
+<area shape="rect" id="Node000010" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1ktamper_1_1GenerateKtamperServiceComponent.html" title="Created on 15/09/2014." alt="" coords="875,197,1227,237"/>
+<area shape="poly" id="edge178_Node000007_Node000010" title=" " alt="" coords="788,173,924,195,923,200,787,178"/>
+<area shape="rect" id="Node000016" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1chaves_1_1DeleteKeySetClientServiceComponent.html" title="Created on 30/01/2015." alt="" coords="879,453,1223,493"/>
+<area shape="poly" id="edge184_Node000015_Node000016" title=" " alt="" coords="832,471,878,471,878,476,832,476"/>
+</map>

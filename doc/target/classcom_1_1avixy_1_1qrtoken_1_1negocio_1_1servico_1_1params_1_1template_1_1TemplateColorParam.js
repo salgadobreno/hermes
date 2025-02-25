@@ -1,0 +1,4 @@
+var classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1params_1_1template_1_1TemplateColorParam =
+[
+    [ "toBinaryString", "classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1servico_1_1params_1_1template_1_1TemplateColorParam.html#a771ff1dfa998d6ca7b6d56e4f4e71931", null ]
+];

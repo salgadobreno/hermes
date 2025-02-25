@@ -1,0 +1,5 @@
+<map id="com.avixy.qrtoken.gui.servicos.components.ServiceComponent" name="com.avixy.qrtoken.gui.servicos.components.ServiceComponent">
+<area shape="rect" id="Node000001" title="Graphic component for a com.avixy.qrtoken.negocio.servico.servicos.Service implementation." alt="" coords="5,79,304,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="127,5,182,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,44,157,79,152,79,152,44"/>
+</map>

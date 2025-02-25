@@ -1,0 +1,4 @@
+var classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1password_1_1UpdatePinServiceComponent =
+[
+    [ "UpdatePinServiceComponent", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1password_1_1UpdatePinServiceComponent.html#a248d47102a323658d20895dd72a8d281", null ]
+];

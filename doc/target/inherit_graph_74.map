@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,173,81,198"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1RestrictiveTextField.html" title="A text field, which restricts the user&#39;s input." alt="" coords="129,101,373,141"/>
+<area shape="poly" id="edge157_Node000000_Node000001" title=" " alt="" coords="93,167,185,139,187,144,95,172"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1TextFieldLimited.html" title="A TextField which limits the input size." alt="" coords="129,197,373,237"/>
+<area shape="poly" id="edge161_Node000000_Node000005" title=" " alt="" coords="95,191,130,196,129,201,94,196"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1ChallengeField.html" title="Created on 26/01/2015." alt="" coords="421,5,665,45"/>
+<area shape="poly" id="edge158_Node000001_Node000002" title=" " alt="" coords="313,94,420,55,461,43,463,48,422,60,315,99"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1HexField.html" title="A TextField that only accepts Hexadecimal characters." alt="" coords="421,69,665,109"/>
+<area shape="poly" id="edge159_Node000001_Node000003" title=" " alt="" coords="387,104,421,100,421,105,387,109"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1NumberField.html" title="A TextField that only accepts numbers." alt="" coords="421,133,665,173"/>
+<area shape="poly" id="edge160_Node000001_Node000004" title=" " alt="" coords="387,134,421,137,421,143,387,139"/>
+<area shape="rect" id="Node000006" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1PasswordField.html" title="PIN/PUK TextField, limited to 16 characters." alt="" coords="421,197,665,237"/>
+<area shape="poly" id="edge162_Node000005_Node000006" title=" " alt="" coords="387,215,421,215,421,220,387,220"/>
+<area shape="rect" id="Node000007" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1SerialNumberField.html" title="Created on 06/05/2015." alt="" coords="421,261,665,301"/>
+<area shape="poly" id="edge163_Node000005_Node000007" title=" " alt="" coords="357,238,452,259,451,264,356,243"/>
+</map>

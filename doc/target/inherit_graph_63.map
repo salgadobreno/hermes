@@ -1,0 +1,29 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,397,96,422"/>
+<area shape="rect" id="Node000001" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1AesKeySelect.html" title="AES com.avixy.qrtoken.negocio.servico.chaves.Chave ComboBox" alt="" coords="177,5,421,45"/>
+<area shape="poly" id="edge127_Node000000_Node000001" title=" " alt="" coords="53,382,64,307,83,209,109,116,125,80,142,55,176,34,178,39,146,59,129,83,114,118,88,210,69,308,58,383"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1AvixyKeyProfileSelect.html" title="Created by Breno on 19/05/2015." alt="" coords="177,69,421,109"/>
+<area shape="poly" id="edge128_Node000000_Node000002" title=" " alt="" coords="49,383,54,328,67,256,79,219,95,182,116,149,142,119,176,99,179,103,146,123,120,152,100,185,84,221,72,258,59,328,55,383"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1ChaveSelect.html" title="Created on 27/01/2015." alt="" coords="177,133,421,173"/>
+<area shape="poly" id="edge129_Node000000_Node000003" title=" " alt="" coords="52,382,60,339,76,285,103,230,121,205,142,183,176,164,178,169,146,187,125,208,107,232,81,286,66,340,58,383"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1ClientKeyProfileSelect.html" title="Created by Breno on 19/05/2015." alt="" coords="177,197,421,237"/>
+<area shape="poly" id="edge130_Node000000_Node000004" title=" " alt="" coords="57,382,69,351,86,314,111,278,142,247,176,230,179,234,146,251,115,281,91,317,74,353,62,384"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1HmacKeySelect.html" title="HMAC com.avixy.qrtoken.negocio.servico.chaves.Chave ComboBox" alt="" coords="177,261,421,301"/>
+<area shape="poly" id="edge131_Node000000_Node000005" title=" " alt="" coords="66,383,99,346,119,327,143,311,176,297,178,301,145,316,123,331,102,349,70,387"/>
+<area shape="rect" id="Node000006" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1KeySetSelect.html" title="Created on 1/15/2015." alt="" coords="177,325,421,365"/>
+<area shape="poly" id="edge132_Node000000_Node000006" title=" " alt="" coords="97,389,143,375,192,363,193,368,145,380,99,395"/>
+<area shape="rect" id="Node000007" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1QrVersionSelect.html" title="QR Version ComboBox selection field." alt="" coords="177,389,421,429"/>
+<area shape="poly" id="edge133_Node000000_Node000007" title=" " alt="" coords="110,407,177,407,177,412,110,412"/>
+<area shape="rect" id="Node000008" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1TemplateSlotSelect.html" title="Created on 19/03/2015." alt="" coords="177,453,421,493"/>
+<area shape="poly" id="edge134_Node000000_Node000008" title=" " alt="" coords="99,424,145,439,193,451,192,456,143,444,97,429"/>
+<area shape="rect" id="Node000009" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1TimeZoneField.html" title="Created on 23/03/2015." alt="" coords="177,517,421,557"/>
+<area shape="poly" id="edge135_Node000000_Node000009" title=" " alt="" coords="70,432,102,469,123,488,145,503,178,517,176,522,143,508,119,492,99,473,66,435"/>
+<area shape="rect" id="Node000010" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TemplateColorPicker.html" title="Created on 23/02/2015." alt="" coords="144,581,455,621"/>
+<area shape="poly" id="edge136_Node000000_Node000010" title=" " alt="" coords="62,434,74,466,91,502,115,538,146,567,166,579,163,584,142,571,111,541,86,505,69,468,57,436"/>
+<area shape="rect" id="Node000011" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TemplateSelect.html" title="Combobox de seleção de Template." alt="" coords="144,645,455,685"/>
+<area shape="poly" id="edge137_Node000000_Node000011" title=" " alt="" coords="58,435,66,479,81,532,107,586,125,610,146,631,163,643,160,647,142,635,121,614,103,589,76,534,60,480,52,436"/>
+<area shape="rect" id="Node000012" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TextAlignmentSelect.html" title="Created on 17/03/2015." alt="" coords="144,709,455,749"/>
+<area shape="poly" id="edge138_Node000000_Node000012" title=" " alt="" coords="55,435,59,490,72,561,84,598,100,634,120,667,146,695,162,707,159,711,142,699,116,670,95,636,79,600,67,562,54,491,49,436"/>
+<area shape="rect" id="Node000013" href="$classcom_1_1avixy_1_1qrtoken_1_1gui_1_1components_1_1templates_1_1TextSizeSelect.html" title="Created on 17/03/2015." alt="" coords="144,773,455,813"/>
+<area shape="poly" id="edge139_Node000000_Node000013" title=" " alt="" coords="58,435,69,511,88,609,114,701,129,736,146,759,161,771,158,775,142,763,125,739,109,703,83,610,64,512,53,436"/>
+</map>

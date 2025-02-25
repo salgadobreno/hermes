@@ -1,0 +1,17 @@
+<map id="com.avixy.qrtoken.negocio.template.TemplateObj" name="com.avixy.qrtoken.negocio.template.TemplateObj">
+<area shape="rect" id="Node000001" title="An element that can be rendered by QR Token and com.avixy.qrtoken.negocio.template...." alt="" coords="5,127,259,167"/>
+<area shape="rect" id="Node000002" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Footer.html" title="Created on 12/02/2015." alt="" coords="320,5,573,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,117,237,85,306,55,344,43,346,48,308,60,239,90,179,122"/>
+<area shape="rect" id="Node000003" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Header.html" title="Created on 12/02/2015." alt="" coords="320,69,573,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,122,336,107,337,112,256,127"/>
+<area shape="rect" id="Node000004" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Rect.html" title="Created on 12/02/2015." alt="" coords="307,134,587,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="272,144,306,144,306,149,272,149"/>
+<area shape="rect" id="Node000006" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Text.html" title="Created on 12/02/2015." alt="" coords="308,183,585,209"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="273,166,365,181,364,186,272,171"/>
+<area shape="rect" id="Node000008" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1WaitForButton.html" title="Created on 11/03/2015." alt="" coords="320,233,573,273"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="188,170,245,195,308,219,349,231,347,236,306,224,243,200,186,175"/>
+<area shape="rect" id="Node000005" href="$classcom_1_1avixy_1_1qrtoken_1_1negocio_1_1template_1_1Stripe.html" title="Created on 12/02/2015." alt="" coords="635,119,888,159"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="600,140,634,139,635,145,601,145"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="635,183,888,223"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="599,197,634,197,634,203,599,202"/>
+</map>

@@ -1,0 +1,4 @@
+var classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1UpdateTemplateServiceComponent =
+[
+    [ "UpdateTemplateServiceComponent", "classcom_1_1avixy_1_1qrtoken_1_1gui_1_1servicos_1_1components_1_1UpdateTemplateServiceComponent.html#a7e8d275d914307618c4102e17539026a", null ]
+];
